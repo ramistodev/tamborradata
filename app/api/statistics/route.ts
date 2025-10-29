@@ -1,5 +1,5 @@
 import { getStatistics } from '@/app/logic/statistics/getStatistics';
-import { groupBy } from '@/scripts/logic/helpers';
+import { groupBy } from '@/app/logic/helpers/groupBy';
 import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {

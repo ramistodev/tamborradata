@@ -1,7 +1,15 @@
 // import { generateSummary } from './AI/generateSummary';
 import { log } from '../helpers';
 import { generateSummary } from './AI/generateSummary';
-import { sysPromptGlobal, sysPromptYearly, userPromptGlobal, userPromptYearly } from './AI/prompt';
+import {
+  sysPromptGlobal,
+  sysPromptIntro,
+  sysPromptOutro,
+  sysPromptYearly,
+  userPromptGlobal,
+  userPromptYearly,
+  promptOutro,
+} from './AI/prompt';
 import { statEntry, summariesEntry } from './statTypes';
 
 // Función para crear resúmenes estadísticos a partir de los datos recopilados
@@ -115,6 +123,48 @@ export async function makeSummaries(results: statEntry[]) {
         summary: summaryText,
       });
     }
+  }
+
+  // Obtener todos los años únicos de los resúmenes generados
+  const allSummaryYears = new Set<string>();
+  for (const summary of allSummaries) {
+    allSummaryYears.add(summary.year);
+  }
+
+  // Generar intros y outros para cada año y global
+  for (const year of allSummaryYears) {
+    log(`Generando 'Intro' y 'Outro' para el año: ${year}`, 'info');
+
+    await new Promise((res) => setTimeout(res, 3500)); // 3.5 s entre llamadas para no sobrepasar límites de tokens de OpenAi
+
+    // Obtener todos los resúmenes del año actual
+    const summaries = allSummaries.filter((s) => s.year === year).map((s) => s.summary);
+
+    // Generar el resumen introductorio
+    const intro = await generateSummary(
+      sysPromptIntro,
+      ' Generate an introductory paragraph for the statistics of the year: ' + year + '.'
+    );
+
+    await new Promise((res) => setTimeout(res, 3500)); // 3.5 s entre llamadas para no sobrepasar límites de tokens de OpenAi
+
+    // Generar el resumen conclusivo
+    const outro = await generateSummary(sysPromptOutro, promptOutro(Number(year), summaries));
+
+    // Guardar los resúmenes generados
+    allSummaries.push({
+      category: 'intro',
+      scope: year === 'global' ? 'global' : 'yearly',
+      year: year.toString(),
+      summary: intro,
+    });
+
+    allSummaries.push({
+      category: 'outro',
+      scope: year === 'global' ? 'global' : 'yearly',
+      year: year.toString(),
+      summary: outro,
+    });
   }
 
   return allSummaries;

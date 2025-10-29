@@ -11,10 +11,8 @@ export function Years() {
       <li>
         <Link
           href="/statistics/global"
-          className={`px-4 py-2 border text-[#1e1e1e] font-semibold rounded dark:text-[#f2f5fa] hover:opacity-90 ${
-            params.year
-              ? 'border-[#bebebe] dark:border-[#2c3e66]'
-              : 'bg-[#789cff] dark:bg-[#0f47af] border-transparent'
+          className={`px-4 py-2 border text-(--color-text) font-semibold rounded hover:opacity-90 ${
+            params.year ? 'border-(--color-border)' : 'bg-(--color-primary) border-transparent'
           }`}
         >
           Globales
@@ -27,10 +25,10 @@ export function Years() {
           <li key={year}>
             <Link
               href={`/statistics/${year}`}
-              className={`px-2 py-1 rounded hover:bg-[#d9e2f5] dark:hover:bg-[#2c3e66] ${
+              className={`px-2 py-1 rounded ${
                 params.year === String(year)
-                  ? 'bg-[#789cff] text-[#1e1e1e] font-semibold dark:bg-[#0f47af] dark:text-[#f2f5fa]'
-                  : ''
+                  ? 'bg-(--color-primary) text-(--color-text) font-semibold '
+                  : 'hover:bg-(--color-loading)'
               }`}
             >
               {year}

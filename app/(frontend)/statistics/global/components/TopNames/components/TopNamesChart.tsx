@@ -1,11 +1,11 @@
-'use client';
 import { ResponsiveBar } from '@nivo/bar';
+import { useTopNames } from '../hooks/useTopNames';
 
-export function TopNamesChart({ data }: { data: { name: string; count: number }[] }) {
+export function TopNamesChart({ stats }: ReturnType<typeof useTopNames>) {
   return (
-    <div className="w-full h-[400px] bg-white rounded-2xl p-3">
+    <div className="w-full h-[400px] bg-white rounded-2xl p-3 select-none">
       <ResponsiveBar
-        data={data}
+        data={stats[0].public_data?.slice(0, 15).map((item) => ({ ...item })) || []}
         keys={['count']}
         indexBy="name"
         margin={{ top: 20, right: 30, bottom: 50, left: 60 }}

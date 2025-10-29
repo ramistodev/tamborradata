@@ -1,11 +1,9 @@
-import { GlobalStats } from '../types/types';
-
-export async function fetchStatistics(year: string): Promise<GlobalStats> {
+export async function fetchStatistics<T>(year: string): Promise<T> {
   try {
     const response = await fetch(`/api/statistics?year=${year}`);
     const data = await response.json();
 
-    return data.statistics as GlobalStats;
+    return data.statistics as T;
   } catch (error) {
     console.error('Error fetching statistics:', error);
     throw new Error('Failed to fetch statistics');

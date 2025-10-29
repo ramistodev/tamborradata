@@ -1,6 +1,6 @@
 export interface Category {
   stats:
-    | SchoolEvolution[]
+    | SchoolsEvolution[]
     | MostConstantSchool[]
     | CommonNameBySchool[]
     | TopName[]
@@ -19,7 +19,9 @@ export interface Statistics {
 }
 
 export interface GlobalStats {
-  schoolsEvolution: SchoolEvolution[];
+  outro: Outro[];
+  intro: Intro[];
+  schoolsEvolution: SchoolsEvolution[];
   mostConstantSchools: MostConstantSchool[];
   commonNameBySchool: CommonNameBySchool[];
   topNames: TopName[];
@@ -32,13 +34,25 @@ export interface GlobalStats {
   namesDiversity: NamesDiversity[];
 }
 
-export interface SchoolEvolution {
+export interface Outro {
   category: string;
-  public_data: PublicDaum[];
+  public_data: any;
   summary: string;
 }
 
-export interface PublicDaum {
+export interface Intro {
+  category: string;
+  public_data: any;
+  summary: string;
+}
+
+export interface SchoolsEvolution {
+  category: string;
+  public_data: SchoolsEvolutionData[];
+  summary: string;
+}
+
+export interface SchoolsEvolutionData {
   total: number;
   years: Year[];
   school: string;
@@ -51,11 +65,11 @@ export interface Year {
 
 export interface MostConstantSchool {
   category: string;
-  public_data: PublicDaum2[];
+  public_data: MostConstantSchoolData[];
   summary: string;
 }
 
-export interface PublicDaum2 {
+export interface MostConstantSchoolData {
   school: string;
   yearsActive: YearsActive[];
 }
@@ -67,44 +81,44 @@ export interface YearsActive {
 
 export interface CommonNameBySchool {
   category: string;
-  public_data: PublicDaum3[];
+  public_data: CommonNameBySchoolData[];
   summary: string;
 }
 
-export interface PublicDaum3 {
+export interface CommonNameBySchoolData {
   name: string;
   school: string;
 }
 
 export interface TopName {
   category: string;
-  public_data: PublicDaum4[];
+  public_data: TopNameData[];
   summary: string;
 }
 
-export interface PublicDaum4 {
+export interface TopNameData {
   name: string;
   count: number;
 }
 
 export interface TopSchool {
   category: string;
-  public_data: PublicDaum5[];
+  public_data: TopSchoolData[];
   summary: string;
 }
 
-export interface PublicDaum5 {
+export interface TopSchoolData {
   count: number;
   school: string;
 }
 
 export interface TopSurname {
   category: string;
-  public_data: PublicDaum6[];
+  public_data: TopSurnameData[];
   summary: string;
 }
 
-export interface PublicDaum6 {
+export interface TopSurnameData {
   count: number;
   surname: string;
 }
@@ -123,11 +137,11 @@ export interface LongestName {
 
 export interface TotalParticipant {
   category: string;
-  public_data: PublicDaum7[];
+  public_data: TotalParticipantData[];
   summary: string;
 }
 
-export interface PublicDaum7 {
+export interface TotalParticipantData {
   year: number;
   count: number;
 }

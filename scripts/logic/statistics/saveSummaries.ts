@@ -14,22 +14,45 @@ export async function saveSummaries(summaries: summariesEntry[]) {
   // Guardar cada resumen
   for (const summary of summaries) {
     try {
-      // Guardar el resumen en la base de datos
-      const { error } = await supabase
-        .from('statistics')
-        .update({
-          summary: summary.summary,
-        })
-        .eq('category', summary.category)
-        .eq('scope', summary.scope)
-        .eq('year', summary.year);
-
-      // Manejar errores
-      if (error) {
-        log(
-          `Error guardando resumen ${summary.category} (${summary.scope} - ${summary.year}): ${error.message}`,
-          'error'
+      if (summary.category === 'outro' || summary.category === 'intro') {
+        // Usar upsert para evitar duplicados en ejecuciones repetidas
+        const { error } = await supabase.from('statistics').upsert(
+          {
+            category: summary.category,
+            scope: summary.scope,
+            year: summary.year,
+            summary: summary.summary,
+          },
+          {
+            onConflict: 'category,scope,year',
+          }
         );
+
+        // Manejar errores
+        if (error) {
+          log(
+            `Error guardando resumen ${summary.category} (${summary.scope} - ${summary.year}): ${error.message}`,
+            'error'
+          );
+        }
+      } else {
+        // Guardar el resumen en la base de datos
+        const { error } = await supabase
+          .from('statistics')
+          .update({
+            summary: summary.summary,
+          })
+          .eq('category', summary.category)
+          .eq('scope', summary.scope)
+          .eq('year', summary.year);
+
+        // Manejar errores
+        if (error) {
+          log(
+            `Error guardando resumen ${summary.category} (${summary.scope} - ${summary.year}): ${error.message}`,
+            'error'
+          );
+        }
       }
     } catch (error) {
       // Manejar errores generales

@@ -1,12 +1,14 @@
 import { useRef, useState } from 'react';
-import { MostConstantSchool } from '../../../types/types';
-import { fetchCategory } from '../../../logic/fetchCategory';
+import { MostConstantSchoolData } from '../../../types/types';
+import { fetchCategory } from '../../../../logic/fetchCategory';
+import { useGlobalContext } from '../../../context/useGlobalContext';
 
-export function useMostConstantsSchools(initialStats: MostConstantSchool[]) {
-  const [stats, setStats] = useState<MostConstantSchool[]>(initialStats);
+export function useMostConstantsSchools() {
+  const { statistics } = useGlobalContext();
+  const [stats, setStats] = useState(statistics?.mostConstantSchools || []);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const cacheRef = useRef<MostConstantSchool[] | null>(null);
+  const cacheRef = useRef<MostConstantSchoolData[] | null>(null);
   const tableRef = useRef<HTMLTableElement | null>(null);
 
   function showMore() {
@@ -18,20 +20,20 @@ export function useMostConstantsSchools(initialStats: MostConstantSchool[]) {
       const data = cacheRef.current;
       setStats((prev) => {
         if (prev.length === 0) return prev;
-        const updatedFirst = { ...prev[0], public_data: data as any };
+        const updatedFirst = { ...prev[0], public_data: data as MostConstantSchoolData[] };
         return [updatedFirst, ...prev.slice(1)];
       });
       setLoading(false);
       return;
     } else {
       // Si no hay cache, haz el fetch
-      fetchCategory<MostConstantSchool>(stats[0].category, 'global')
+      fetchCategory<MostConstantSchoolData>(stats[0].category, 'global')
         .then((newData) => {
           if (newData) {
             cacheRef.current = newData; // Guarda los datos de public_data en cache
             setStats((prev) => {
               if (prev.length === 0) return prev;
-              const updatedFirst = { ...prev[0], public_data: newData as any };
+              const updatedFirst = { ...prev[0], public_data: newData as MostConstantSchoolData[] };
               return [updatedFirst, ...prev.slice(1)];
             });
           }
@@ -56,9 +58,8 @@ export function useMostConstantsSchools(initialStats: MostConstantSchool[]) {
       const headerHeight = header ? header.getBoundingClientRect().height : 0;
       const rect = el.getBoundingClientRect();
       const absoluteTop = window.scrollY + rect.top;
-      // ajusta 120px de separación respecto al header
       window.scrollTo({ top: Math.max(0, absoluteTop - headerHeight - 120), behavior: 'smooth' });
-    }, 60);
+    }, 0);
 
     setHasMore(true);
   }

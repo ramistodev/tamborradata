@@ -8,7 +8,7 @@ export function LoadingTable({ rows }: { rows: number }) {
         >
           {Array.from({ length: rows }, (_, cellIndex) => (
             <td key={`loading-cell-${cellIndex}`} className="p-2 text-sm">
-              <div className="animate-pulse bg-[#d9e2f5] dark:bg-[#2c3e66] h-4 rounded w-full"></div>
+              <div className="animate-pulse bg-(--color-loading) h-4 rounded w-full"></div>
             </td>
           ))}
         </tr>

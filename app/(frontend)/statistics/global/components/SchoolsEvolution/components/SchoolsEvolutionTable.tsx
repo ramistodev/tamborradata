@@ -1,49 +1,34 @@
 import { ArrowDown, ArrowUp } from '@/app/(frontend)/icons/icons';
-import { LoadingTable } from '@/app/(frontend)/components/LoadingTable';
+import { LoadingTable } from '@/app/(frontend)/loaders/LoadingTable';
 import { useSchoolsEvolution } from '../hooks/useSchoolsEvolution';
-import { SchoolEvolution, Year } from '../../../types/types';
 
 export function SchoolsEvolutionTable({
-  data,
+  stats,
+  hasMore,
+  loading,
+  tableRef,
+  years,
+  showMore,
+  showLess,
   showChart,
-}: {
-  data: SchoolEvolution[];
-  showChart: (data: Year[]) => void;
-}) {
-  const { stats, hasMore, loading, tableRef, years, showMore, showLess } =
-    useSchoolsEvolution(data);
-
-  if (!stats || stats.length === 0 || !Array.isArray(stats[0].public_data)) {
-    return null;
-  }
-
+}: ReturnType<typeof useSchoolsEvolution>) {
   return (
     <>
       <div className="w-full overflow-x-auto hide-scrollbar">
-        <table
-          ref={tableRef}
-          className="w-[650px] xl:w-[720px] border border-[#bebebe] dark:border-[#2c3e66]"
-        >
+        <table ref={tableRef} className="w-[650px] xl:w-[720px] border border-(--color-border)">
           <thead>
             <tr>
-              <th className="text-sm border-b border-[#bebebe] dark:border-[#2c3e66] text-center p-2 sm:text-md">
+              <th className="text-sm border-b border-(--color-border) text-center p-2 sm:text-md">
                 #
               </th>
-              <th className="text-sm border-b border-[#bebebe] dark:border-[#2c3e66] text-left p-2">
-                Colegio
-              </th>
+              <th className="text-sm border-b border-(--color-border) text-left p-2">Colegio</th>
               {years.map((year) => (
-                <th
-                  key={year}
-                  className="text-sm border-b border-[#bebebe] dark:border-[#2c3e66] text-left p-2"
-                >
+                <th key={year} className="text-sm border-b border-(--color-border) text-left p-2">
                   {year}
                 </th>
               ))}
-              <th className="text-sm border-b border-[#bebebe] dark:border-[#2c3e66] text-left p-2">
-                Total
-              </th>
-              <th className="text-sm border-b border-[#bebebe] dark:border-[#2c3e66] text-left p-2 xl:block hidden">
+              <th className="text-sm border-b border-(--color-border) text-left p-2">Total</th>
+              <th className="text-sm border-b border-(--color-border) text-left p-2 xl:table-cell hidden">
                 Ver graficas
               </th>
             </tr>
@@ -69,7 +54,7 @@ export function SchoolsEvolutionTable({
                   <td className="p-2 text-sm text-center hidden xl:block">
                     <span
                       onClick={() => showChart(stat.years)}
-                      className="w-[90px] p-1 rounded bg-[#2c3e66] dark:bg-[#d9e2f5] text-white dark:text-black cursor-pointer hover:opacity-80"
+                      className="w-[90px] p-1 rounded bg-(--color-primary) cursor-pointer hover:opacity-80"
                     >
                       Ver grafica
                     </span>
@@ -82,14 +67,14 @@ export function SchoolsEvolutionTable({
       </div>
       {hasMore ? (
         <span
-          className="flex items-center justify-center gap-2 cursor-pointer my-1 text-[#4f4f4f] dark:text-[#b1b1b1]"
+          className="flex items-center justify-center gap-2 cursor-pointer my-1 text-(--color-text-secondary)"
           onClick={showMore}
         >
           <ArrowDown /> mostrar más
         </span>
       ) : (
         <span
-          className="flex items-center justify-center gap-2 cursor-pointer my-1 text-[#4f4f4f] dark:text-[#b1b1b1]"
+          className="flex items-center justify-center gap-2 cursor-pointer my-1 text-(--color-text-secondary)"
           onClick={showLess}
         >
           <ArrowUp /> mostrar menos

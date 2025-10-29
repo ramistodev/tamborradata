@@ -1,20 +1,24 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
-import { fetchStatistics } from '../logic/fetchStatistics';
+import { fetchStatistics } from '../../logic/fetchStatistics';
 import { GlobalStats } from '../types/types';
+import { useGlobalContext } from '../context/useGlobalContext';
 
 export function useGlobal() {
-  const [stats, setStats] = useState<GlobalStats | null>(null);
+  const { setStatistics } = useGlobalContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetchStatistics('global').then((stats) => {
-      setStats(stats);
-      setIsLoading(false);
-    });
+    fetchStatistics<GlobalStats>('global')
+      .then((stats) => {
+        setStatistics(stats);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   return {
-    stats,
     isLoading,
   };
 }

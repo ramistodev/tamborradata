@@ -1,11 +1,15 @@
 import { ArrowDown, ArrowUp } from '@/app/(frontend)/icons/icons';
-import { LoadingTable } from '@/app/(frontend)/components/LoadingTable';
+import { LoadingTable } from '@/app/(frontend)/loaders/LoadingTable';
 import { useTopSchools } from '../hooks/useTopShools';
-import { TopSchool } from '../../../types/types';
 
-export function TopSchoolsTable({ data }: { data: TopSchool[] }) {
-  const { stats, hasMore, loading, tableRef, showMore, showLess } = useTopSchools(data);
-
+export function TopSchoolsTable({
+  stats,
+  hasMore,
+  loading,
+  tableRef,
+  showMore,
+  showLess,
+}: ReturnType<typeof useTopSchools>) {
   if (!stats || stats.length === 0 || !Array.isArray(stats[0].public_data)) {
     return null;
   }
@@ -14,17 +18,15 @@ export function TopSchoolsTable({ data }: { data: TopSchool[] }) {
     <>
       <table
         ref={tableRef}
-        className="w-full sm:w-[400px] md:w-[450px] xl:w-[650px] border border-[#bebebe] dark:border-[#2c3e66]"
+        className="w-full sm:w-[400px] md:w-[450px] xl:w-[650px] border border-(--color-border)"
       >
         <thead>
           <tr>
-            <th className="text-sm border-b border-[#bebebe] dark:border-[#2c3e66] text-center p-2 sm:text-md">
+            <th className="text-sm border-b border-(--color-border) text-center p-2 sm:text-md">
               #
             </th>
-            <th className="text-sm border-b border-[#bebebe] dark:border-[#2c3e66] text-left p-2">
-              Colegio
-            </th>
-            <th className="text-sm border-b border-[#bebebe] dark:border-[#2c3e66] text-left p-2">
+            <th className="text-sm border-b border-(--color-border) text-left p-2">Colegio</th>
+            <th className="text-sm border-b border-(--color-border) text-left p-2">
               Participantes Totales
             </th>
           </tr>
@@ -46,14 +48,14 @@ export function TopSchoolsTable({ data }: { data: TopSchool[] }) {
       </table>
       {hasMore ? (
         <span
-          className="flex items-center justify-center gap-2 cursor-pointer my-1 text-[#4f4f4f] dark:text-[#b1b1b1]"
+          className="flex items-center justify-center gap-2 cursor-pointer my-1 text-(--color-text-secondary)"
           onClick={showMore}
         >
           <ArrowDown /> mostrar más
         </span>
       ) : (
         <span
-          className="flex items-center justify-center gap-2 cursor-pointer my-1 text-[#4f4f4f] dark:text-[#b1b1b1]"
+          className="flex items-center justify-center gap-2 cursor-pointer my-1 text-(--color-text-secondary)"
           onClick={showLess}
         >
           <ArrowUp /> mostrar menos

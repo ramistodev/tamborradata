@@ -36,7 +36,7 @@ export type commonNameBySchool = {
   name: string;
 };
 
-export interface schoolEvolution {
+export interface schoolsEvolution {
   school: string;
   years: schoolEvolutionYear[];
   total: number;

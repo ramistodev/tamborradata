@@ -1,9 +1,9 @@
-import { schoolEvolution, topSchools } from '../statTypes';
+import { schoolsEvolution, topSchools } from '../statTypes';
 
 // Generar la evolución de las escuelas a lo largo de los años
 export function generateSchoolsEvolution(
   topSchoolsByYear: Record<number, topSchools[]>
-): schoolEvolution[] {
+): schoolsEvolution[] {
   // Agrupar resultados por escuela
   const schoolMap = new Map<string, { years: { year: number; count: number }[]; total: number }>();
 
@@ -26,15 +26,15 @@ export function generateSchoolsEvolution(
     }
   }
 
-  // Convertir Map a array de schoolEvolution y ordenar
-  const results: schoolEvolution[] = Array.from(schoolMap.entries()).map(([school, data]) => ({
+  // Convertir Map a array de schoolsEvolution y ordenar
+  const results: schoolsEvolution[] = Array.from(schoolMap.entries()).map(([school, data]) => ({
     school,
-    years: data.years.sort((a, b) => a.year - b.year), // Ordenar por año ascendente
+    years: data.years,
     total: data.total,
   }));
 
   // Ordenar por total descendente
-  const schoolEvolution = results.sort((a, b) => b.total - a.total);
+  const schoolsEvolution = results.sort((a, b) => b.total - a.total);
 
-  return schoolEvolution;
+  return schoolsEvolution;
 }

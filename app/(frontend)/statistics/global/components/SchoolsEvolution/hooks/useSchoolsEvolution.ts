@@ -1,14 +1,16 @@
-import { useRef, useState } from 'react';
-import { SchoolEvolution, Year } from '../../../types/types';
-import { fetchCategory } from '../../../logic/fetchCategory';
+import { useMemo, useRef, useState } from 'react';
+import { SchoolsEvolutionData, Year } from '../../../types/types';
+import { fetchCategory } from '../../../../logic/fetchCategory';
+import { useGlobalContext } from '../../../context/useGlobalContext';
 
-export function useSchoolsEvolution(initialStats: SchoolEvolution[]) {
-  const [stats, setStats] = useState<SchoolEvolution[]>(initialStats);
+export function useSchoolsEvolution() {
+  const { statistics } = useGlobalContext();
+  const [stats, setStats] = useState(statistics?.schoolsEvolution || []);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [chart, setChart] = useState(false);
   const [chartData, setChartData] = useState<Year[] | null>(null);
-  const cacheRef = useRef<SchoolEvolution[] | null>(null);
+  const cacheRef = useRef<SchoolsEvolutionData[] | null>(null);
   const tableRef = useRef<HTMLTableElement | null>(null);
 
   function showMore() {
@@ -16,24 +18,24 @@ export function useSchoolsEvolution(initialStats: SchoolEvolution[]) {
     setHasMore(false);
 
     if (cacheRef.current) {
-      // Si hay datos en cache, úsalos sin hacer fetch
+      // Si hay datos en cache no se hace el fetch
       const data = cacheRef.current;
       setStats((prev) => {
         if (prev.length === 0) return prev;
-        const updatedFirst = { ...prev[0], public_data: data as any };
+        const updatedFirst = { ...prev[0], public_data: data as SchoolsEvolutionData[] };
         return [updatedFirst, ...prev.slice(1)];
       });
       setLoading(false);
       return;
     } else {
-      // Si no hay cache, haz el fetch
-      fetchCategory<SchoolEvolution>(stats[0].category, 'global')
+      // Si no hay cache, se hace el fetch
+      fetchCategory<SchoolsEvolutionData>(stats[0].category, 'global')
         .then((newData) => {
           if (newData) {
             cacheRef.current = newData; // Guarda los datos de public_data en cache
             setStats((prev) => {
               if (prev.length === 0) return prev;
-              const updatedFirst = { ...prev[0], public_data: newData as any };
+              const updatedFirst = { ...prev[0], public_data: newData as SchoolsEvolutionData[] };
               return [updatedFirst, ...prev.slice(1)];
             });
           }
@@ -58,19 +60,19 @@ export function useSchoolsEvolution(initialStats: SchoolEvolution[]) {
       const headerHeight = header ? header.getBoundingClientRect().height : 0;
       const rect = el.getBoundingClientRect();
       const absoluteTop = window.scrollY + rect.top;
-      // ajusta 120px de separación respecto al header
       window.scrollTo({ top: Math.max(0, absoluteTop - headerHeight - 120), behavior: 'smooth' });
-    }, 60);
+    }, 0);
 
     setHasMore(true);
   }
 
-  const yearsSet = new Set<number>();
-  stats[0].public_data.forEach((school) => {
-    school.years?.forEach((y) => yearsSet.add(y.year));
-  });
+  const years = useMemo(() => {
+    const allYears = new Set<number>();
 
-  const years = Array.from(yearsSet).sort((a, b) => b - a);
+    stats[0]?.public_data.forEach((school) => school.years?.forEach((y) => allYears.add(y.year)));
+
+    return Array.from(allYears).sort((a, b) => b - a);
+  }, [stats]);
 
   function showChart(data?: Year[]) {
     setChart((prev) => !prev);
