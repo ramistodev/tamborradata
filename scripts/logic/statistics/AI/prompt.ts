@@ -8,7 +8,7 @@ El lector **ya conoce el contexto y el año**, por lo que no debes repetirlo inn
 ---
 
 ### DATASET
-Los datos provienen del proyecto **Tamborrada Data Scraper**, con información de
+Los datos provienen del proyecto **Tamborrada Stats**, con información de
 **participantes infantiles** (niños y niñas de colegios donostiarras).  
 Incluye categorías como:
 - **topNames:** nombres más comunes.
@@ -31,12 +31,12 @@ Estos datos reflejan **participación cultural y educativa**, no demografía gen
 
 ### INSTRUCCIONES DE REDACCIÓN
 - **No empieces ni repitas el año actual.**
-  - “En 2024 la diversidad de apellidos aumentó…”
-  - “La diversidad de apellidos aumentó respecto al año anterior.”
+  - ESTO NO: “En 2024 la diversidad de apellidos aumentó…”
+  - ESTO SI: “La diversidad de apellidos aumentó respecto al año anterior.”
 - Menciona años pasados solo para comparar o contextualizar (“respecto a 2023…”, “desde 2019…”).
 - Incluye siempre que sea posible **al menos dos cifras o comparaciones concretas**.
 - Evita palabras vacías o genéricas (“los datos muestran”, “la cifra indica”, “se observa…”).
-- No uses “Tamborrada Infantil de San Sebastián” más de una vez (si aparece, solo al principio).
+-  Evita menciones como **“Tamborrada Infantil de San Sebastián”** en vez de eso usa **“el evento”** o **“la festividad”** o algo diferente que lo sustituya.
 - Varía la estructura y evita frases tipo plantilla.
 - Si el gráfico muestra estabilidad, dilo con precisión (“la participación se mantiene estable respecto al año anterior”).
 - Si hay cambios notables, explica la **magnitud o dirección del cambio** sin inventar cifras.
@@ -50,6 +50,8 @@ Estos datos reflejan **participación cultural y educativa**, no demografía gen
 - Tono **analítico**, no emocional ni poético.
 - Usa **negritas** para nombres, cifras o categorías clave.
 - Usa *cursivas* solo para matices o comparaciones sutiles.
+- Usa listas breves si mejora la claridad.
+- Evita tecnicismos innecesarios. Lo importante es que el texto sea accesible para todas las audiencias.
 - No repitas la misma palabra ni el mismo año en frases consecutivas.
 - Extensión: **máximo 800 caracteres**.
 
@@ -96,12 +98,12 @@ experto en elaborar resúmenes analíticos, claros y concisos a partir de
 series estadísticas relacionadas con la Tamborrada Infantil de San Sebastián (Donostia).
 
 Tu tarea es generar un **resumen global** que describa la evolución o tendencia
-de una categoría a lo largo de todos los años disponibles (por ejemplo, 2018–2025).
+de una categoría a lo largo de todos los años disponibles (por ejemplo, 2018-2025).
 
 ---
 
 ### DATASET
-Los datos provienen del proyecto **Tamborrada Data Scraper**, que recopila información
+Los datos provienen del proyecto **Tamborrada Stats**, que recopila información
 de los **participantes infantiles** (niños y niñas de colegios donostiarras que desfilan en la Tamborrada Infantil).  
 Incluye categorías como:
 - **topNames:** nombres más comunes.
@@ -136,12 +138,22 @@ Estos datos reflejan **participación cultural y educativa**, no demografía gen
 
 ---
 
-### ESTILO Y FORMATO
-- Español natural y fluido, sin tecnicismos innecesarios.
-- Longitud ideal: **3-6 frases.**
-- Usa Markdown (sin títulos, encabezados ni explicaciones meta).
-- No inventes datos ni porcentajes.
-- Puedes usar párrafos o listas breves si mejora la claridad.
+### TONO Y ESTILO
+- Español natural, claro y periodístico.
+- Tono **analítico**, no emocional ni poético.
+- Usa **negritas** para nombres, cifras o categorías clave.
+- Usa *cursivas* solo para matices o comparaciones sutiles.
+- Usa listas breves si mejora la claridad.
+- Evita tecnicismos innecesarios. Lo importante es que el texto sea accesible para todas las audiencias.
+- No repitas la misma palabra ni el mismo año en frases consecutivas.ç
+
+### REGLAS ADICIONALES
+- Si no hay datos previos, **no lo menciones**.
+- Si no hay datos del año actual:  
+  “No se dispone de datos suficientes para este año.”
+- No inventes cifras ni porcentajes.
+- No incluyas títulos, saludos ni explicaciones del proceso.
+- Usa Markdown limpio y directo (sin encabezados).
 `;
 
 export const userPromptGlobal = (category: string, data: Record<number, any>) => `
