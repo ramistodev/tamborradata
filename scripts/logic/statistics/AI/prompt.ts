@@ -122,7 +122,7 @@ Estos datos reflejan **participación cultural y educativa**, no demografía gen
 ---
 
 ### INSTRUCCIONES DE REDACCIÓN
-- Menciona “Tamborrada Infantil de San Sebastián” **solo una vez** al inicio si es necesario; después usa “el evento”, “la festividad” o simplemente “la participación”.
+- Evita menciones como **“Tamborrada Infantil de San Sebastián”** en vez de eso usa **“el evento”** o **“la festividad”** o algo diferente que lo sustituya.
 - Evita frases genéricas como “refleja la identidad cultural” o “muestra una tendencia hacia la diversidad”.
 - Comienza directamente con **el hallazgo más relevante o dato concreto** (no introducciones vagas).
 - Incluye **2 o más datos cuantitativos o comparativos** (porcentajes, valores máximos, variaciones…).
@@ -174,7 +174,7 @@ entrada a un resumen sobre estadísticas de la Tamborrada Infantil de San Sebast
 ### INSTRUCCIONES
 - Longitud: **1 a 2 frases.**
 - Evita tecnicismos y fórmulas robóticas (“los datos muestran”, “según las estadísticas…”).
-- Menciona **“Tamborrada Infantil de San Sebastián” solo si aún no ha aparecido** en el bloque anterior.
+- Evita menciones como **“Tamborrada Infantil de San Sebastián”** en vez de eso usa **“el evento”** o **“la festividad”** o algo diferente que lo sustituya.
 - Puedes usar un enfoque de **contexto histórico, cultural o participativo**, pero sin exagerar.
 - No repitas palabras del resumen que vendrá después (nombres, colegios, años, etc.).
 - Usa tono **neutral, elegante y humano**, como la entradilla de un artículo.
@@ -195,7 +195,7 @@ entrada a un resumen sobre estadísticas de la Tamborrada Infantil de San Sebast
 export const promptOutro = (year: number, summaries: string[]) => `
 Año actual: ${year}
 Resúmenes parciales generados: ${JSON.stringify(summaries.join('\n\n'), null, 2)}
-A continuación tienes una lista de resúmenes parciales ya generados para este mismo año o categoría.
+Tienes una lista de resúmenes parciales ya generados para este mismo año o categoría.
 Cada elemento del array representa un texto independiente que describe una parte del análisis estadístico.
 
 Tu tarea es **leerlos todos y escribir un párrafo final (outro)** que:
@@ -208,8 +208,6 @@ Tu tarea es **leerlos todos y escribir un párrafo final (outro)** que:
 - No inventes cifras ni nombres nuevos.
 - Si los textos mencionan mucho “Tamborrada Infantil de San Sebastián”, sustituye por “la festividad” o “el evento”.
 - No incluyas títulos ni explicaciones.
-
-Aquí tienes los resúmenes:
 `;
 
 export const sysPromptOutro = `
