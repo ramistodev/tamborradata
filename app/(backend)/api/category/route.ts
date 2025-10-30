@@ -1,4 +1,4 @@
-import { getFullStatistics } from '@/app/logic/statistics/getFullStatistics';
+import { getFullStatistics } from '@/app/(backend)/logic/statistics/getFullStatistics';
 import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {

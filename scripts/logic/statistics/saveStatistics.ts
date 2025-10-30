@@ -1,5 +1,5 @@
 import { statEntry } from './statTypes';
-import { supabase } from '@/app/lib/db/supabase';
+import { supabase } from '@/app/(backend)/db/supabase';
 import { log } from '../helpers';
 
 // Función para guardar las estadísticas en la base de datos

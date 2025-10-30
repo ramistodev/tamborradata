@@ -1,6 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import { hasData } from '@/app/(frontend)/helpers/hasData';
-import { useLongestNames } from './hook/useLongestNames';
+import { useLongestNames } from './hooks/useLongestNames';
 import { LongestNamesTable } from './components/LongestNamesTable';
 
 export function LongestNames() {

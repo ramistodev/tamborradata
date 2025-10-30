@@ -1,8 +1,24 @@
 'use client';
-import { useParams } from 'next/navigation';
+import { NotFound } from '../../404';
+import { useYearContext } from './context/useYearContext';
+import { YearProvider } from './context/YearProvider';
+import { useYear } from './hook/useYear';
 
 export default function YearPage() {
-  const { year } = useParams();
+  return (
+    <YearProvider>
+      <YearPageContent />
+    </YearProvider>
+  );
+}
+
+function YearPageContent() {
+  const { statistics } = useYearContext();
+  const { year, isLoading } = useYear();
+
+  if (!statistics || !isLoading) {
+    return <NotFound />;
+  }
 
   return (
     <main className="flex flex-col items-center justify-center w-full h-full">

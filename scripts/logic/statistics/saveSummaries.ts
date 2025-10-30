@@ -1,4 +1,4 @@
-import { supabase } from '@/app/lib/db/supabase';
+import { supabase } from '@/app/(backend)/db/supabase';
 import { summariesEntry } from './statTypes';
 import { log } from '../helpers';
 

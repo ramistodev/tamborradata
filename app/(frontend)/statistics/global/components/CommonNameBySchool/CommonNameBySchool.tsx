@@ -1,6 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import { hasData } from '@/app/(frontend)/helpers/hasData';
-import { useCommonNameBySchool } from './hook/useCommonNameBySchool';
+import { useCommonNameBySchool } from './hooks/useCommonNameBySchool';
 import { CommonNameBySchoolTable } from './components/CommonNameBySchoolTable';
 
 export function CommonNameBySchool() {

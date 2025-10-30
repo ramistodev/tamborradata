@@ -1,4 +1,4 @@
-import { useTotalParticipants } from '../hook/useTotalParticipants';
+import { useTotalParticipants } from '../hooks/useTotalParticipants';
 
 export function TotalParticipantsTable({
   stats,

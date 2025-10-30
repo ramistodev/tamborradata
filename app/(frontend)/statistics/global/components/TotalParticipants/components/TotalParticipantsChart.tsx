@@ -1,5 +1,5 @@
 import { ResponsiveLine } from '@nivo/line';
-import { useTotalParticipants } from '../hook/useTotalParticipants';
+import { useTotalParticipants } from '../hooks/useTotalParticipants';
 import { useMemo } from 'react';
 
 export function TotalParticipantsChart({ stats }: ReturnType<typeof useTotalParticipants>) {

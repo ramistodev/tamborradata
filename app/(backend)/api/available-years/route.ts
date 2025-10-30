@@ -1,4 +1,4 @@
-import { getAvailableYears } from '@/app/logic/years/getAvailableYears';
+import { getAvailableYears } from '@/app/(backend)/logic/years/getAvailableYears';
 import { NextResponse } from 'next/server';
 
 export async function GET() {

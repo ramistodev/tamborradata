@@ -1,4 +1,4 @@
-import { supabase } from '@/app/lib/db/supabase';
+import { supabase } from '@/app/(backend)/db/supabase';
 import { log } from '../helpers';
 
 // Función para obtener todos los años únicos de los artículos scrapeados

@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUp } from '@/app/(frontend)/icons/icons';
-import { useCommonNameBySchool } from '../hook/useCommonNameBySchool';
+import { useCommonNameBySchool } from '../hooks/useCommonNameBySchool';
 import { LoadingTable } from '@/app/(frontend)/loaders/LoadingTable';
 
 export function CommonNameBySchoolTable({

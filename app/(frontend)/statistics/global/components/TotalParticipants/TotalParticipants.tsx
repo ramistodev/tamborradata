@@ -1,5 +1,5 @@
 import ReactMarkdown from 'react-markdown';
-import { useTotalParticipants } from './hook/useTotalParticipants';
+import { useTotalParticipants } from './hooks/useTotalParticipants';
 import { hasData } from '@/app/(frontend)/helpers/hasData';
 import { TotalParticipantsTable } from './components/TotalParticipantsTable';
 import dynamic from 'next/dynamic';

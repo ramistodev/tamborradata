@@ -2,15 +2,23 @@
 import { useEffect, useState } from 'react';
 import { fetchStatistics } from '../../logic/fetchStatistics';
 import { GlobalStats } from '../types/types';
-import { useGlobalContext } from '../context/useGlobalContext';
+import { useYearContext } from '../context/useYearContext';
+import { useParams } from 'next/navigation';
 
-export function useGlobal() {
-  const { setStatistics } = useGlobalContext();
+export function useYear() {
+  const { setStatistics } = useYearContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { year } = useParams();
 
   useEffect(() => {
+    if (!year) {
+      setStatistics(null);
+      setIsLoading(false);
+      return;
+    }
+
     setIsLoading(true);
-    fetchStatistics<GlobalStats>('global')
+    fetchStatistics<GlobalStats>(year.toString())
       .then((stats) => {
         if (!stats) {
           setStatistics(null);
@@ -23,7 +31,5 @@ export function useGlobal() {
       });
   }, []);
 
-  return {
-    isLoading,
-  };
+  return { year, isLoading };
 }

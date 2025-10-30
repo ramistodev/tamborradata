@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUp } from '@/app/(frontend)/icons/icons';
-import { useLongestNames } from '../hook/useLongestNames';
+import { useLongestNames } from '../hooks/useLongestNames';
 import { LoadingTable } from '@/app/(frontend)/loaders/LoadingTable';
 
 export function LongestNamesTable({
