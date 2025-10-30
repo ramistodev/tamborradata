@@ -22,7 +22,7 @@ export function MostConstantSchoolTable({
       >
         <thead>
           <tr>
-            <th className="text-sm border-b border-(--color-border) text-center p-2 sm:text-md">
+            <th className="w-12 text-sm border-b border-(--color-border) text-center p-2 sm:text-md">
               #
             </th>
             <th className="text-sm border-b border-(--color-border) text-left p-2">Colegio</th>
@@ -33,10 +33,7 @@ export function MostConstantSchoolTable({
         <tbody>
           {Array.isArray(stats[0].public_data) &&
             stats[0].public_data.map((stat, index) => (
-              <tr
-                key={stat.school}
-                className={index % 2 === 0 ? 'bg-[#f9f9f9] dark:bg-[#1e2b44]' : ''}
-              >
+              <tr key={stat.school} className={index % 2 === 0 ? 'bg-(--color-table)' : ''}>
                 <td className="p-2 text-center text-sm">{index + 1}</td>
                 <td className="p-2 text-sm">{stat.school}</td>
                 <td className="p-2 text-sm">

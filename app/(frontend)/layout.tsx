@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className="h-screen m-0 p-5 flex flex-col items-center justify-between">
+      <body className="min-h-screen m-0 p-5 flex flex-col items-center justify-between">
         {children}
         <footer className="w-full text-center text-sm text-(--color-text-secondary) py-2 mt-8">
           <span>© {new Date().getFullYear()} Tamborrada Stats. All rights reserved.</span>

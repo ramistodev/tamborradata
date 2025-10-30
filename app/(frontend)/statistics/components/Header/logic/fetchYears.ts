@@ -4,7 +4,8 @@ export async function fetchYears() {
     const response = await fetch('/api/available-years');
     const data = await response.json();
     if (!data.years) {
-      throw new Error('No years data found');
+      console.error('No years data found');
+      return [];
     }
 
     return data.years;

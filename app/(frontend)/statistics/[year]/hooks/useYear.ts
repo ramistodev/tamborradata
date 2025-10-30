@@ -11,7 +11,7 @@ export function useYear() {
   const { year } = useParams();
 
   useEffect(() => {
-    if (!year) {
+    if (!year || isNaN(Number(year))) {
       setStatistics(null);
       setIsLoading(false);
       return;

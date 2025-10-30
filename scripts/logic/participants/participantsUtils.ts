@@ -2,26 +2,26 @@
 export function cleanSchoolName(input: string): string {
   if (!input) return '';
 
-  let name = input.trim();
+  let school = input.trim();
 
   const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
   // Eliminaciones y normalizaciones iniciales (insensible a mayúsculas)
-  name = name.replace(/\btamborrada\s*(infantil)?\s*(de)?\b/gi, '');
-  name = name.replace(/\binfantil\s*tamborrada\b/gi, '');
-  name = name.replace(/\b\d{4}\b/g, '');
-  name = name.replace(/\s{2,}/g, ' ').trim();
-  name = name.replace(/^\d+\s*/, '');
-  name = name.replace(/,\s+/g, ' ');
-  name = name.replace(/^\s*Santo Tomas Lizeoa Ikastola\s*$/i, 'Santo Tomas Lizeoa');
-  name = name.replace(/\\s+/g, ' ');
-  name = name.replace(/-/g, ' ');
+  school = school.replace(/\btamborrada\s*(infantil)?\s*(de)?\b/gi, '');
+  school = school.replace(/\binfantil\s*tamborrada\b/gi, '');
+  school = school.replace(/\b\d{4}\b/g, '');
+  school = school.replace(/\s{2,}/g, ' ').trim();
+  school = school.replace(/^\d+\s*/, '');
+  school = school.replace(/,\s+/g, ' ');
+  school = school.replace(/^\s*Santo Tomas Lizeoa Ikastola\s*$/i, 'Santo Tomas Lizeoa');
+  school = school.replace(/\\s+/g, ' ');
+  school = school.replace(/-/g, ' ');
 
   // Normalizar acentos y quitar diacríticos
-  name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  school = school.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
   // Quitar cualquier caracter no ASCII residual
-  name = name.replace(/[^\x00-\x7F]/g, '');
+  school = school.replace(/[^\x00-\x7F]/g, '');
 
   // Correcciones puntuales de texto (insensibles a mayúsculas)
   const fixes: Array<[RegExp, string]> = [
@@ -31,7 +31,7 @@ export function cleanSchoolName(input: string): string {
     [/\bHarri Berri\b/gi, 'Harri Beri'],
   ];
   for (const [rx, replacement] of fixes) {
-    name = name.replace(rx, replacement);
+    school = school.replace(rx, replacement);
   }
 
   // Lista de palabras a eliminar (blacklist) - coincidencia insensible y con word boundary cuando aplica
@@ -56,7 +56,7 @@ export function cleanSchoolName(input: string): string {
   // Aplicar blacklist para quitar palabras no deseadas
   for (const item of blackList) {
     const rx = new RegExp(`\\b${escapeRegExp(item)}\\b`, 'gi');
-    name = name.replace(rx, '').trim();
+    school = school.replace(rx, '').trim();
   }
 
   // Excepciones específicas (busca la clave en lowercase dentro del nombre y reemplaza entero)
@@ -79,12 +79,12 @@ export function cleanSchoolName(input: string): string {
     Mundaiz: 'Sagrado Corazon Mundaiz',
     Eskibel: 'Erain-Eskibel Ikastetxea',
     Zuhaizti: 'Biteri Zuhaizti Publikoa',
-    Jesuitas: 'San Ignacio de Loyola Jesuitas',
+    Jesuitas: 'Jesuitas San Ignacio',
     Aldapeta: 'Aldapeta María Ikastetxea',
     Jesuitinas: 'ElaiEnea Ikastetxea',
     'Intxaurrondo Katekes': 'Intxaurrondo KateKesia',
     Claret: 'Claret Ikastola',
-    'San Ignacio De Loyola': 'San Ignacio De Loyola Jesuitas',
+    'San Ignacio De Loyola': 'Jesuitas San Ignacio',
     Altza: 'Altza Herri Ikastetxea',
     'Manuel De Larramendi': 'Larramendi',
   };
@@ -105,10 +105,10 @@ export function cleanSchoolName(input: string): string {
   ];
 
   // Aplicar excepciones
-  const lower = name.toLowerCase();
+  const lower = school.toLowerCase();
   for (const [k, v] of Object.entries(exceptions)) {
     if (lower.includes(k.toLowerCase())) {
-      name = v;
+      school = v;
       break;
     }
   }
@@ -116,20 +116,20 @@ export function cleanSchoolName(input: string): string {
   // Agrupar otras compañías bajo "Otras Compañias"
   for (const company of otherCompanies) {
     if (lower.includes(company.toLowerCase())) {
-      name = 'Otras Compañias';
+      school = 'Otras Compañias';
       break;
     }
   }
 
   // Casos especiales para "La Salle"
-  if (/La Salle/i.test(name) && /San Luis/i.test(name)) {
-    name = 'La Salle San Luis';
-  } else if (/La Salle/i.test(name)) {
-    name = 'La Salle Ikastetxea';
+  if (/La Salle/i.test(school) && /San Luis/i.test(school)) {
+    school = 'La Salle San Luis';
+  } else if (/La Salle/i.test(school)) {
+    school = 'La Salle Ikastetxea';
   }
 
   // Limpiar espacios duplicados finales
-  name = name.replace(/\s{2,}/g, ' ').trim();
+  school = school.replace(/\s{2,}/g, ' ').trim();
 
   // Title case simple
   const titleCase = (s: string) =>
@@ -140,7 +140,7 @@ export function cleanSchoolName(input: string): string {
       .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
       .join(' ');
 
-  return titleCase(name).trim();
+  return titleCase(school).trim();
 }
 
 // Validar si es un nombre válido de participante
@@ -266,3 +266,10 @@ export function isValidName(text: string): boolean {
 
   return true;
 }
+
+export const cleanNames = (name: string): string => {
+  if (!name) return '';
+
+  name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Normalizar y quitar acentos
+  return name;
+};

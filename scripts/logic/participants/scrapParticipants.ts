@@ -1,7 +1,7 @@
 import { log } from '../helpers';
 import fetch from 'node-fetch';
 import { load } from 'cheerio'; // ...existing code...
-import { cleanSchoolName, isValidName } from './participantsUtils';
+import { cleanSchoolName, isValidName, cleanNames } from './participantsUtils';
 import * as chrono from 'chrono-node';
 import { allParticipants, pageParticipants, updateUrls } from '../types';
 import { takeUrls } from './takeUrls';
@@ -104,7 +104,9 @@ async function scrapePage(url: string): Promise<pageParticipants[]> {
 
     // Procesamos cada párrafo para extraer nombres válidos
     for (const p of paragraphs) {
-      const text = $(p).text().trim();
+      // Limpiamos el texto del párrafo quitando tildes y otros caracteres
+      const text = cleanNames($(p).text().trim());
+
       // Verificamos que el texto tenga al menos 3 caracteres y que la primera palabra tenga más de 2 caracteres
       if (text.length < 3) continue;
       const firstWord = text.split(' ')[0];

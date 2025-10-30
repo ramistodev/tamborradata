@@ -1,8 +1,22 @@
 'use client';
-import { NotFound } from '../../404';
+import Markdown from 'react-markdown';
+import { notFound } from 'next/navigation';
+import { LoadingPage } from '../../loaders/LoadingPage';
 import { useYearContext } from './context/useYearContext';
 import { YearProvider } from './context/YearProvider';
-import { useYear } from './hook/useYear';
+import { useYear } from './hooks/useYear';
+import {
+  TopNames,
+  TopSurnames,
+  TopSchools,
+  TotalParticipants,
+  NewSchools,
+  UniqueNames,
+  CommonNamesBySchool,
+  NamesSurnamesDiversity,
+} from './components';
+import Link from 'next/link';
+import { InfoIcon } from '../../icons/icons';
 
 export default function YearPage() {
   return (
@@ -16,13 +30,39 @@ function YearPageContent() {
   const { statistics } = useYearContext();
   const { year, isLoading } = useYear();
 
-  if (!statistics || !isLoading) {
-    return <NotFound />;
+  if (!statistics && !isLoading) {
+    return notFound();
   }
 
+  if (isLoading || !statistics) return <LoadingPage />;
+
   return (
-    <main className="flex flex-col items-center justify-center w-full h-full">
-      <h1>Estadísticas de {year}</h1>
-    </main>
+    <>
+      <h1 className="text-3xl font-bold">Tamborrada Infantil — {year}</h1>
+
+      <Markdown>{statistics.intro[0].summary}</Markdown>
+
+      <span className="w-full border border-(--color-border)"></span>
+
+      <TopNames />
+      <TopSurnames />
+      <UniqueNames />
+      <NamesSurnamesDiversity />
+      <TopSchools />
+      <NewSchools />
+      <CommonNamesBySchool />
+      <TotalParticipants />
+
+      <span className="w-full border border-(--color-border)"></span>
+
+      <Markdown>{statistics.outro[0].summary}</Markdown>
+
+      <Link
+        href="./info"
+        className="fixed w-12 h-12 rounded-full flex items-center justify-center bottom-5 right-5 lg:bottom-10 lg:right-10"
+      >
+        <InfoIcon />
+      </Link>
+    </>
   );
 }

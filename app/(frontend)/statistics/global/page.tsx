@@ -1,18 +1,22 @@
 'use client';
 import Markdown from 'react-markdown';
-import { CommonNameBySchool } from './components/CommonNameBySchool/CommonNameBySchool';
-import { LongestNames } from './components/LongestNames/LongestNames';
-import { MostConstantsSchools } from './components/MostConstantsSchools/MostConstantsSchools';
-import { NamesSurnamesDiversity } from './components/NameSurnameDiversity/NameSurnameDiversity';
-import { SchoolsEvolution } from './components/SchoolsEvolution/SchoolsEvolution';
-import { TopNames } from './components/TopNames/TopNames';
-import { TopSchools } from './components/TopSchools/TopSchools';
-import { TopSurnames } from './components/TopSurnames/TopSurnames';
-import { TotalParticipants } from './components/TotalParticipants/TotalParticipants';
+import {
+  CommonNameBySchool,
+  LongestNames,
+  MostConstantsSchools,
+  NamesSurnamesDiversity,
+  SchoolsEvolution,
+  TopNames,
+  TopSchools,
+  TopSurnames,
+  TotalParticipants,
+} from './components';
 import { GlobalProvider } from './context/GlobalProvider';
 import { useGlobalContext } from './context/useGlobalContext';
 import { useGlobal } from './hooks/useGlobal';
 import { LoadingPage } from '@/app/(frontend)/loaders/LoadingPage';
+import { InfoIcon } from '../../icons/icons';
+import Link from 'next/dist/client/link';
 
 export default function GlobalPage() {
   return (
@@ -31,10 +35,13 @@ function GlobalPageContent() {
   }
 
   return (
-    <main className="w-full max-w-6xl flex flex-col items-start justify-start gap-6 p-4 sm:px-15 md:px-30 rounded-2xl border border-(--color-border)">
+    <>
       <h1 className="text-3xl font-bold">Tamborrada Infantil — Estadísticas Globales</h1>
-      <Markdown>{statistics.intro[0].summary}</Markdown>
+
+      <Markdown>{statistics.intro[0]?.summary}</Markdown>
+
       <span className="w-full border border-(--color-border)"></span>
+
       <TopNames />
       <TopSurnames />
       <NamesSurnamesDiversity />
@@ -44,8 +51,17 @@ function GlobalPageContent() {
       <SchoolsEvolution />
       <CommonNameBySchool />
       <TotalParticipants />
+
       <span className="w-full border border-(--color-border)"></span>
-      <Markdown>{statistics.outro[0].summary}</Markdown>
-    </main>
+
+      <Markdown>{statistics.outro[0]?.summary}</Markdown>
+
+      <Link
+        href="./info"
+        className="fixed w-12 h-12 rounded-full flex items-center justify-center bottom-5 right-5 lg:bottom-10 lg:right-10"
+      >
+        <InfoIcon />
+      </Link>
+    </>
   );
 }

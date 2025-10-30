@@ -12,7 +12,7 @@ export function MostConstantsSchools() {
   return (
     <section className="w-full">
       <h2 className="text-lg md:text-2xl font-bold">
-        Colegios Más Activos —{' '}
+        Colegios más activos —{' '}
         <span className="text-sm rounded p-1 bg-(--color-primary)">{stats[0].category}</span>
       </h2>
       <article className="flex flex-col items-start justify-center py-5 relative">

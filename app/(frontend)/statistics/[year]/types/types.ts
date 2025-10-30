@@ -7,13 +7,13 @@ export interface Statistics {
 export interface GlobalStats {
   intro: Intro[];
   outro: Outro[];
-  topNamesByYear: TopNames[];
+  topNamesByYear: TopName[];
   commonNameBySchoolByYear: CommonNameBySchool[];
-  topSchoolsByYear: TopSchools[];
-  topSurnamesByYear: TopSurnames[];
-  uniqueNamesByYear: UniqueNames[];
-  newSchoolsByYear: NewSchools[];
-  totalParticipantsByYear: TotalParticipants[];
+  topSchoolsByYear: TopSchool[];
+  topSurnamesByYear: TopSurname[];
+  uniqueNamesByYear: UniqueName[];
+  newSchoolsByYear: NewSchool[];
+  totalParticipantsByYear: TotalParticipant[];
   surnamesDiversityByYear: SurnamesDiversity[];
   namesDiversityByYear: NamesDiversity[];
 }
@@ -30,13 +30,13 @@ export interface Outro {
   summary: string;
 }
 
-export interface TopNames {
+export interface TopName {
   category: string;
-  public_data: TopNamesData[];
+  public_data: TopNameData[];
   summary: string;
 }
 
-export interface TopNamesData {
+export interface TopNameData {
   name: string;
   count: number;
 }
@@ -52,51 +52,51 @@ export interface CommonNameBySchoolData {
   school: string;
 }
 
-export interface TopSchools {
+export interface TopSchool {
   category: string;
-  public_data: TopSchoolsData[];
+  public_data: TopSchoolData[];
   summary: string;
 }
 
-export interface TopSchoolsData {
+export interface TopSchoolData {
   count: number;
   school: string;
 }
 
-export interface TopSurnames {
+export interface TopSurname {
   category: string;
-  public_data: TopSurnamesData[];
+  public_data: TopSurnameData[];
   summary: string;
 }
 
-export interface TopSurnamesData {
+export interface TopSurnameData {
   count: number;
   surname: string;
 }
 
-export interface UniqueNames {
+export interface UniqueName {
   category: string;
   public_data: string[];
   summary: string;
 }
 
-export interface NewSchools {
+export interface NewSchool {
   category: string;
-  public_data: NewSchoolsData[];
+  public_data: NewSchoolData[];
   summary: string;
 }
 
-export interface NewSchoolsData {
+export interface NewSchoolData {
   school: string;
 }
 
-export interface TotalParticipants {
+export interface TotalParticipant {
   category: string;
-  public_data: TotalParticipantsData[];
+  public_data: TotalParticipantData[];
   summary: string;
 }
 
-export interface TotalParticipantsData {
+export interface TotalParticipantData {
   year: number;
   count: number;
 }

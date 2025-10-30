@@ -1,6 +1,6 @@
 export function LoadingPage() {
   return (
-    <main className="w-full max-w-6xl flex flex-col items-start justify-start gap-6 p-4 sm:px-15 md:px-30 rounded-2xl border border-(--color-border)">
+    <>
       {/* Título skeleton */}
       <div className="w-full md:w-3/4 h-9 bg-(--color-loading) animate-pulse rounded"></div>
 
@@ -65,6 +65,6 @@ export function LoadingPage() {
         <div className="w-5/6 h-4 bg-(--color-loading) animate-pulse rounded"></div>
         <div className="w-3/4 h-4 bg-(--color-loading) animate-pulse rounded"></div>
       </div>
-    </main>
+    </>
   );
 }

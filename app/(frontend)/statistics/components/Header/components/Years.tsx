@@ -2,10 +2,14 @@ import Link from 'next/link';
 import { useHeader } from '../hooks/useHeader';
 import { YearsLoading } from './YearsLoading';
 import { useParams } from 'next/navigation';
+import { hasData } from '@/app/(frontend)/helpers/hasData';
 
 export function Years() {
   const { years, isLoading } = useHeader();
   const params = useParams();
+
+  if (!hasData(years)) return null;
+
   return (
     <>
       <li>
