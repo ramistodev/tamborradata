@@ -95,7 +95,7 @@ export async function makeStatistics(): Promise<statEntry[]> {
       school: school.school,
       yearsActive: school.years,
     }))
-    .slice(0, 25);
+    .slice(0, 250);
 
   const newSchoolsByYear: Record<number, { school: string }[]> = {}; // Nuevas escuelas por año
 

@@ -26,7 +26,7 @@ export function LoadingPage() {
           {/* Tabla/contenido skeleton */}
           <div className="w-full border border-(--color-border) rounded overflow-hidden">
             {/* Header de tabla */}
-            <div className="flex gap-2 p-3 border-b border-(--color-border) bg-(--color-bg-secondary)">
+            <div className="flex gap-2 p-3 border-b border-(--color-border) bg-(--color-bg)">
               <div className="w-12 h-4 bg-(--color-loading) animate-pulse rounded"></div>
               <div className="w-32 h-4 bg-(--color-loading) animate-pulse rounded"></div>
               <div className="w-24 h-4 bg-(--color-loading) animate-pulse rounded"></div>

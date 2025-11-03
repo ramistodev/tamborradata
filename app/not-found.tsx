@@ -1,5 +1,4 @@
 'use client';
-
 import './(frontend)/globals.css';
 import { motion } from 'framer-motion';
 import Link from 'next/link';

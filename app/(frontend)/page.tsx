@@ -1,12 +1,13 @@
-import Link from 'next/dist/client/link';
+import { ExploreStatistics } from './components/ExploreStatistics/ExploreStatistics';
+import { FAQs } from './components/FAQs/FAQs';
+import { Intro } from './components/Intro/Intro';
 
 export default function Home() {
   return (
-    <main className="flex items-center justify-center w-full h-full">
-      <h1>Tamborradata - Home</h1>
-      <p>
-        <Link href="/statistics/global">Ver estadísticas globales</Link>
-      </p>
+    <main className="flex flex-col items-center justify-center w-full h-full">
+      <Intro />
+      <ExploreStatistics />
+      <FAQs />
     </main>
   );
 }

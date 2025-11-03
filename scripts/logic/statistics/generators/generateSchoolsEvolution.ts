@@ -34,7 +34,7 @@ export function generateSchoolsEvolution(
   }));
 
   // Ordenar por total descendente
-  const schoolsEvolution = results.sort((a, b) => b.total - a.total);
+  const schoolsEvolution = results.sort((a, b) => b.total - a.total).slice(0, 250);
 
   return schoolsEvolution;
 }

@@ -2,7 +2,7 @@
 
 :root {
   --color-bg: #ffffff;
-  --color-bg-secondary: #f5f7fb;
+  --color-bg-secondary: #c6d9ff;
   --color-bg-thirdary: #6a9bff;
   --color-primary: #789cff;
   --color-text: #1e1e1e;
@@ -11,13 +11,16 @@
   --color-border: #bebebe;
   --color-loading: #d8d8d8;
   --color-table: #f9f9f9;
+
+  /* GLOBAL STYLES */
+  --eye-catching-text: #09f;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #0c1a33;
+    --color-bg: #051023;
     --color-bg-secondary: #16294d;
-    --color-bg-thirdary: #001234;
+    --color-bg-thirdary: #1549aa;
     --color-primary: #0f47af;
     --color-text: #f2f5fa;
     --color-text-secondary: #b1b1b1;
