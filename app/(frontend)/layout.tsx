@@ -86,6 +86,9 @@ export const metadata: Metadata = {
       'Análisis completo de la Tamborrada Infantil de San Sebastián: datos, colegios, nombres y tendencias con inteligencia artificial.',
     images: ['/assets/og-image.png'],
   },
+  alternates: {
+    canonical: 'https://tamborradata.com',
+  },
   metadataBase: new URL('https://tamborradata.com'),
 };
 
