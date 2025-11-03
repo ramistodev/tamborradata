@@ -3,22 +3,35 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
+
+  // Solo aplicamos el middleware a rutas /api
   if (!pathname.startsWith('/api')) return NextResponse.next();
 
   const origin = req.headers.get('origin') || '';
   const secret = req.headers.get('x-app-secret');
 
-  const allowedOrigin = process.env.ALLOWED_ORIGIN!;
-  const allowedSecret = process.env.APP_SECRET_KEY!;
+  const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://tamborradata.com';
+  const allowedSecret = process.env.APP_SECRET_KEY;
 
-  console.log('Middleware - Origin: ' + origin);
+  console.log('[Middleware] Origin recibido:', origin);
 
-  if (!origin || origin === allowedOrigin || origin === 'http://localhost:3000')
-    return NextResponse.next();
+  // --- Permitir peticiones del frontend oficial ---
+  const isFromAllowedOrigin =
+    origin === allowedOrigin ||
+    origin === 'https://www.tamborradata.com' || // por si usas www
+    origin === 'http://localhost:3000'; // para desarrollo local
 
-  if (secret && secret === allowedSecret) return NextResponse.next();
+  // --- Permitir peticiones internas autenticadas (por backend scripts) ---
+  const isFromAuthorizedBackend = secret && secret === allowedSecret;
 
-  return new NextResponse('Not found', { status: 404 });
+  // --- Si ninguna de las dos condiciones se cumple, bloquear ---
+  if (!isFromAllowedOrigin && !isFromAuthorizedBackend) {
+    console.warn('[Middleware] Acceso denegado desde:', origin);
+    return new NextResponse('Not found', { status: 404 });
+  }
+
+  // Todo correcto -> continuar
+  return NextResponse.next();
 }
 
 export const config = {
