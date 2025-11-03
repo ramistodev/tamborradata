@@ -2,6 +2,7 @@
 import { useIntro } from './hooks/useIntro';
 import { ArrowRight } from '../../icons/icons';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 export function Intro() {
   const { randomPhrase } = useIntro();
@@ -32,7 +33,7 @@ export function Intro() {
         >
           {randomPhrase}
         </motion.p>
-        <motion.a
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{
             opacity: 1,
@@ -42,11 +43,12 @@ export function Intro() {
           }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          href="/statistics/global"
-          className="text-lg sm:text-2xl mt-16 py-3 px-5 rounded bg-(--eye-catching-text) cursor-pointer hover:opacity-80 flex items-center gap-2 text-center"
+          className="text-lg sm:text-2xl mt-16 rounded bg-(--eye-catching-text) cursor-pointer hover:opacity-80 flex items-center gap-2 text-center"
         >
-          Explora las estadísticas <ArrowRight />
-        </motion.a>
+          <Link href="/statistics/global" className="flex items-center gap-2 py-3 px-5">
+            Explora las estadísticas <ArrowRight />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

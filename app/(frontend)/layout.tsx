@@ -2,41 +2,91 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Tamborradata',
-  description: 'Análisis de la Tamborrada Infantil de San Sebastián',
-
-  // Favicon (navegador)
-  icons: {
-    icon: [{ url: '/assets/logo-big.webp', sizes: '16x16', type: 'image/webp' }],
-    apple: [{ url: '/assets/logo-big.webp', sizes: '16x16', type: 'image/webp' }],
-    shortcut: '/assets/logo-big.webp',
+  title: {
+    default: 'Tamborradata | Estadísticas y Datos de la Tamborrada Infantil',
+    template: '%s | Tamborradata',
   },
-
-  // Open Graph (Facebook, WhatsApp, LinkedIn)
+  description:
+    'Explora las estadísticas, nombres y colegios de la Tamborrada Infantil de San Sebastián. Análisis de datos desde 2018 con IA y visualizaciones interactivas.',
+  keywords: [
+    'tamborrada',
+    'datos tamborrada',
+    'estadísticas tamborrada infantil',
+    'donostia',
+    'san sebastián',
+    'nombres tamborrada',
+    'colegios tamborrada',
+    'participantes tamborrada',
+    'tamborradata',
+    'tamborrada datos',
+    'tamborrada estadísticas',
+    'tamborrada infantil san sebastián',
+    'tamborrada donostia',
+    'gipuzkoa tamborrada',
+    'euskadi tamborrada',
+    'país vasco tamborrada',
+    'tradición donostiarra',
+    'cultura vasca',
+    'fiestas san sebastián',
+    'enero donostia',
+    'santo tomás',
+    'tamborrada escuelas',
+    'tamborrada colegios',
+    'niños tamborrada',
+    'infantil donostia',
+    'análisis datos tamborrada',
+    'inteligencia artificial tamborrada',
+    'big data euskadi',
+    'visualización datos',
+    'estadísticas culturales',
+    'open data donostia',
+    'datos abiertos',
+    'machine learning cultura',
+    'AI análisis cultural',
+    'tambor donostia',
+    'barrica tamborrada',
+    'txistulari',
+    'danborrada',
+    'atabal',
+    'diario vasco tamborrada',
+    'listados tamborrada',
+    'participación tamborrada',
+    'evolución tamborrada',
+    'tendencias culturales',
+    'patrimonio cultural vasco',
+  ],
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/favicon.ico', sizes: '16x16' },
+    ],
+    apple: '/favicon.ico',
+  },
   openGraph: {
-    title: 'Tamborradata',
-    description: 'Análisis de la Tamborrada Infantil de San Sebastián',
+    title: 'Tamborradata | Datos y Estadísticas de la Tamborrada Infantil',
+    description:
+      'Descubre cómo ha evolucionado la Tamborrada Infantil de San Sebastián: nombres más comunes, colegios participantes y tendencias desde 2018.',
     url: 'https://tamborradata.com',
     siteName: 'Tamborradata',
     images: [
       {
-        url: '/assets/logo-big.webp', // ← Este se mostrará al compartir
+        url: '/assets/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Tamborradata - Análisis de la Tamborrada Infantil',
+        alt: 'Tamborradata | Estadísticas de la Tamborrada Infantil',
       },
     ],
     locale: 'es_ES',
     type: 'website',
   },
-
-  // Twitter Card
   twitter: {
     card: 'summary_large_image',
-    title: 'Tamborradata',
-    description: 'Análisis de la Tamborrada Infantil de San Sebastián',
-    images: ['/assets/logo-big.webp'], // ← También para Twitter
+    title: 'Tamborradata | Estadísticas de la Tamborrada Infantil',
+    description:
+      'Análisis completo de la Tamborrada Infantil de San Sebastián: datos, colegios, nombres y tendencias con inteligencia artificial.',
+    images: ['/assets/og-image.png'],
   },
+  metadataBase: new URL('https://tamborradata.com'),
 };
 
 export default function RootLayout({
@@ -52,6 +102,20 @@ export default function RootLayout({
           <span>© {new Date().getFullYear()} Tamborradata · Todos los derechos reservados.</span>
         </footer>
       </body>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'Tamborradata',
+            url: 'https://tamborradata.com',
+            logo: 'https://tamborradata.com/favicon.ico',
+            description:
+              'Proyecto de análisis de datos sobre la Tamborrada Infantil de San Sebastián.',
+          }),
+        }}
+      />
     </html>
   );
 }
