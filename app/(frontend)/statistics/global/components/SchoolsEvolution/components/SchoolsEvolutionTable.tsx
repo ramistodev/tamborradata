@@ -21,7 +21,9 @@ export function SchoolsEvolutionTable({
               <th className="w-12 text-sm border-b border-(--color-border) text-center p-2 sm:text-md">
                 #
               </th>
-              <th className="text-sm border-b border-(--color-border) text-left p-2">Colegio</th>
+              <th className="w-49 text-sm border-b border-(--color-border) text-left p-2">
+                Colegio
+              </th>
               {years.map((year) => (
                 <th key={year} className="text-sm border-b border-(--color-border) text-left p-2">
                   {year}
@@ -48,7 +50,7 @@ export function SchoolsEvolutionTable({
                     );
                   })}
                   <td className="p-2 text-sm">{stat.total}</td>
-                  <td className="p-2 text-sm text-center hidden xl:block">
+                  <td className="p-2 text-sm text-center hidden xl:table-cell">
                     <span
                       onClick={() => showChart(stat.years)}
                       className="w-[90px] p-1 rounded bg-(--color-primary) cursor-pointer hover:opacity-80"

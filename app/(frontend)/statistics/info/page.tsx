@@ -11,7 +11,7 @@ export default function InfoPage() {
 
       <h2 className="text-2xl md:text-3xl font-semibold mt-5">Origen de los Datos</h2>
       <p className="text-base md:text-lg">
-        Todos los datos y estadísticas mostrados en <strong>Tamborrada Stats</strong> proceden de
+        Todos los datos y estadísticas mostrados en <strong>Tamborradata</strong> proceden de
         artículos públicos publicados por el periódico <em>El Diario Vasco</em>, en sus coberturas
         anuales sobre la <strong>Tamborrada Infantil de San Sebastián</strong>. Cada año, el medio
         publica listados de participantes organizados por colegios, lo que permite obtener de forma
@@ -72,7 +72,7 @@ export default function InfoPage() {
 
       <h2 className="text-2xl md:text-3xl font-semibold mt-5">Finalidad del Proyecto</h2>
       <p className="text-base md:text-lg">
-        <strong>Tamborrada Stats</strong> es un proyecto de carácter{' '}
+        <strong>Tamborradata</strong> es un proyecto de carácter{' '}
         <em>cultural, histórico y educativo</em> que busca preservar y visualizar la evolución de
         una de las tradiciones más emblemáticas de Donostia / San Sebastián. A través del análisis
         de datos, se pretende ofrecer una nueva forma de entender la magnitud y diversidad de la

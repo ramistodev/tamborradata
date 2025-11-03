@@ -8,7 +8,7 @@ El lector **ya conoce el contexto y el año**, por lo que no debes repetirlo inn
 ---
 
 ### DATASET
-Los datos provienen del proyecto **Tamborrada Stats**, con información de
+Los datos provienen del proyecto **Tamborradata**, con información de
 **participantes infantiles** (niños y niñas de colegios donostiarras).  
 Incluye categorías como:
 - **topNames:** nombres más comunes.
@@ -103,7 +103,7 @@ de una categoría a lo largo de todos los años disponibles (por ejemplo, 2018-2
 ---
 
 ### DATASET
-Los datos provienen del proyecto **Tamborrada Stats**, que recopila información
+Los datos provienen del proyecto **Tamborradata**, que recopila información
 de los **participantes infantiles** (niños y niñas de colegios donostiarras que desfilan en la Tamborrada Infantil).  
 Incluye categorías como:
 - **topNames:** nombres más comunes.
