@@ -10,6 +10,7 @@ export function middleware(req: NextRequest) {
   const origin = req.headers.get('origin');
   const referer = req.headers.get('referer');
   const host = req.headers.get('host');
+  const userAgent = req.headers.get('user-agent') || '';
 
   console.log('[Middleware] Origin:', origin, '| Referer:', referer, '| Host:', host);
 
@@ -18,7 +19,7 @@ export function middleware(req: NextRequest) {
   const isProduction = host?.includes('tamborradata.com');
   const isVercel = host?.includes('vercel.app');
 
-  // Orígenes permitidos
+  // Orígenes permitidos para peticiones CORS
   const allowedOrigins = [
     'https://tamborradata.com',
     'https://www.tamborradata.com',
@@ -26,26 +27,22 @@ export function middleware(req: NextRequest) {
     'https://localhost:3000',
   ];
 
-  // Verificar si es una petición válida
+  // Detectar si es un navegador accediendo directamente
+  const isDirectBrowserAccess = !origin && !referer && userAgent.includes('Mozilla');
+
+  // Verificar si es una petición válida del frontend
   const isValidOrigin = origin && allowedOrigins.includes(origin);
   const isValidReferer = referer && allowedOrigins.some((allowed) => referer.startsWith(allowed));
-  const isDirectAccess = !origin && !referer; // Acceso directo desde el navegador
 
-  // Permitir si:
-  // 1. Es localhost (desarrollo)
-  // 2. Es el dominio de producción
-  // 3. Tiene origen válido
-  // 4. Tiene referer válido
-  // 5. Es acceso directo desde navegador
-  if (
-    isLocalhost ||
-    isProduction ||
-    isVercel ||
-    isValidOrigin ||
-    isValidReferer ||
-    isDirectAccess
-  ) {
-    console.log('[Middleware] ✅ Acceso permitido');
+  // BLOQUEAR acceso directo desde navegador
+  if (isDirectBrowserAccess) {
+    console.warn('[Middleware] ❌ Acceso directo desde navegador bloqueado');
+    return new NextResponse('Not found', { status: 404 });
+  }
+
+  // PERMITIR solo si viene del frontend
+  if ((isLocalhost || isProduction || isVercel) && (isValidOrigin || isValidReferer)) {
+    console.log('[Middleware] ✅ Acceso permitido desde frontend');
     return NextResponse.next();
   }
 
