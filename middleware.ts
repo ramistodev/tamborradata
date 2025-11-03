@@ -12,8 +12,6 @@ export function middleware(req: NextRequest) {
   const host = req.headers.get('host');
   const userAgent = req.headers.get('user-agent') || '';
 
-  console.log('[Middleware] Origin:', origin, '| Referer:', referer, '| Host:', host);
-
   // Entornos permitidos
   const isLocalhost = host?.includes('localhost') || host?.includes('127.0.0.1');
   const isProduction = host?.includes('tamborradata.com');
@@ -36,17 +34,14 @@ export function middleware(req: NextRequest) {
 
   // BLOQUEAR acceso directo desde navegador
   if (isDirectBrowserAccess) {
-    console.warn('[Middleware] ❌ Acceso directo desde navegador bloqueado');
     return new NextResponse('Not found', { status: 404 });
   }
 
   // PERMITIR solo si viene del frontend
   if ((isLocalhost || isProduction || isVercel) && (isValidOrigin || isValidReferer)) {
-    console.log('[Middleware] ✅ Acceso permitido desde frontend');
+    console.log('[Middleware] Acceso permitido desde frontend');
     return NextResponse.next();
   }
-
-  console.warn('[Middleware] ❌ Acceso bloqueado desde:', origin || referer || host);
   return new NextResponse('Not found', { status: 404 });
 }
 
