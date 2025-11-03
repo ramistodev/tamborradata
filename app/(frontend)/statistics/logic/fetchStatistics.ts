@@ -7,7 +7,6 @@ export async function fetchStatistics<T>(year: string): Promise<T | null> {
 
     data.statistics.year = data.year; // Añadir el año a los datos obtenidos
 
-    console.log(data);
     return data.statistics as T;
   } catch (error) {
     console.error('Error fetching statistics:', error);

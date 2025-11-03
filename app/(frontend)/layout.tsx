@@ -99,26 +99,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Tamborradata',
+              url: 'https://tamborradata.com',
+              logo: 'https://tamborradata.com/favicon.ico',
+              description:
+                'Proyecto de análisis de datos sobre la Tamborrada Infantil de San Sebastián.',
+            }),
+          }}
+        />
+      </head>
       <body className="min-h-screen m-0 px-5 flex flex-col items-center justify-between">
         {children}
         <footer className="w-full text-center text-sm text-(--color-text-secondary) py-2 mt-8">
           <span>© {new Date().getFullYear()} Tamborradata · Todos los derechos reservados.</span>
         </footer>
       </body>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Organization',
-            name: 'Tamborradata',
-            url: 'https://tamborradata.com',
-            logo: 'https://tamborradata.com/favicon.ico',
-            description:
-              'Proyecto de análisis de datos sobre la Tamborrada Infantil de San Sebastián.',
-          }),
-        }}
-      />
     </html>
   );
 }
