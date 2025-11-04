@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: '📈 Tamborrada Infantil — Dashboard Global de Estadísticas',
+    title: 'Tamborrada Infantil — Dashboard Global de Estadísticas',
     description:
       'Evolución histórica completa: nombres, colegios y tendencias de la Tamborrada Infantil desde 2018. Análisis con IA y visualizaciones interactivas.',
     images: ['/og-image.png'],
