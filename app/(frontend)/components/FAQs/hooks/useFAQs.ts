@@ -52,7 +52,7 @@ export function useFAQs() {
       id: 'item7',
       question: '¿Quién está detrás de Tamborradata?',
       answer:
-        'Tamborradata es un proyecto independiente desarrollado por Julen Ramos, con el objetivo de conservar y analizar la historia reciente de la Tamborrada Infantil de San Sebastián a través de los datos.',
+        'Tamborradata es un proyecto independiente desarrollado por Ramistodev, con el objetivo de conservar y analizar la historia reciente de la Tamborrada Infantil de San Sebastián a través de los datos.',
     },
   ];
 

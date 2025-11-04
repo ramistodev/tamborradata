@@ -143,18 +143,22 @@ export function cleanSchoolName(input: string): string {
   return titleCase(school).trim();
 }
 
-// Validar si es un nombre válido de participante
+// ✅ Validar si es un nombre válido de participante
 export function isValidName(text: string): boolean {
   if (!text) return false;
 
-  // Eliminar comas, puntos y caracteres raros antes de validar
-  const cleaned = text.trim().replace(/,/g, '').replace(/\./g, '');
+  // Eliminar comas, puntos y caracteres raros antes de validar (pero mantener guiones)
+  const cleaned = text.trim().replace(/[.,]/g, '');
 
-  // Patrón de nombres (admite nombres con mayúscula inicial, artículos, preposiciones, iniciales)
+  // Patrón más flexible:
+  // - Permite letras acentuadas, ñ, guiones y apóstrofos
+  // - Permite partículas "de la", "del", "de los", etc.
+  // - Soporta nombres internacionales
+  // - Hasta 6 palabras
   const pattern =
-    /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s(?:[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+|de|del|la|los|las|y|M\.|D\.|De|Del|De La|De Los)){0,4}$/u;
+    /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ\-']*(?:\s(?:[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ\-']*|de|del|la|los|las|y|De|Del|De la|De los)){0,6}$/u;
 
-  // Palabras que invalidan automáticamente el nombre
+  // Palabras que invalidan automáticamente el nombre (protección contra ruido del artículo)
   const blacklist = [
     'Tamborrada',
     'Newsletters',
@@ -179,7 +183,6 @@ export function isValidName(text: string): boolean {
     'Centro',
     'Niños',
     'Niñas',
-    'Dan',
     'Colegio',
     'Colegi',
     'Schule',
@@ -188,20 +191,8 @@ export function isValidName(text: string): boolean {
     'Ikas',
     'Eskola',
     'Asociación',
-    'Mas',
-    'Lustre',
-    'Alberto',
-    'Libros',
-    'Inmejorable',
-    'Preludio',
-    'Remo',
-    'Ciclismo',
-    'Bidasoa',
-    'Jazzaldia',
-    'Tolosa Goierri',
-    'Gipuzkoa',
-    'Guipuzcoana',
     'Empresa',
+    'Mas',
     'Euskadi',
     'España',
     'Spain',
@@ -211,65 +202,47 @@ export function isValidName(text: string): boolean {
     'Futbol',
     'Football',
     'Soccer',
-    'Nuevos',
-    'Descuentos',
-    'Ofertas',
-    'Idiomas',
-    'Languages',
-    'Calle de la Memoria',
-    'Semana Grande',
-    'Language',
     'Donostia',
-    'Kirolean Errespetuz',
     'San Sebastian',
     'Sansebastian',
-    'Empresa Guipuzcoana',
-    'Barril Mayor',
-    'Diego Mansoa Tolosa',
-    'Alto',
-    'Bajo Deba',
-    'Salida',
-    'Kirolean',
-    'Errespetuz',
-    'Herri Ametsa',
-    'Berkshagai',
-    'nPlaza',
-    'Costa Urola',
+    'Gipuzkoa',
+    'Guipuzcoana',
+    'Tolosa Goierri',
     'Urola Costa',
+    'Costa Urola',
+    'Semana Grande',
+    'Barril Mayor',
+    'Language',
+    'Languages',
   ];
 
   // No debe contener números
-  if (/\d/.test(cleaned)) {
-    return false;
-  }
+  if (/\d/.test(cleaned)) return false;
 
-  // No debe tener más de 5 palabras (normalmente nombres tienen 2-4)
-  if (cleaned.split(/\s+/).length > 5) {
-    return false;
-  }
+  // No debe tener más de 6 palabras (normalmente nombres tienen 2–5)
+  if (cleaned.split(/\s+/).length > 6) return false;
 
-  // No debe contener palabras de la blacklist (insensible a mayúsculas)
+  // No debe contener palabras de la blacklist
   const lowerText = cleaned.toLowerCase();
-  if (blacklist.some((b) => lowerText.includes(b.toLowerCase()))) {
-    return false;
-  }
+  if (blacklist.some((b) => lowerText.includes(b.toLowerCase()))) return false;
 
   // Debe coincidir con el patrón de nombre
-  if (!pattern.test(cleaned)) {
-    return false;
-  }
+  if (!pattern.test(cleaned)) return false;
 
   // Debe contener al menos un espacio (nombre y apellido)
-  if (!cleaned.includes(' ')) {
-    return false;
-  }
+  if (!cleaned.includes(' ')) return false;
 
   return true;
 }
 
+// Limpieza y normalización del nombre antes de guardarlo en BD
 export const cleanNames = (name: string): string => {
   if (!name) return '';
 
-  name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Normalizar y quitar acentos
-  return name;
+  // Normalizar acentos, conservar guiones, quitar espacios duplicados
+  return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // quitar tildes
+    .replace(/\s+/g, ' ') // colapsar espacios
+    .trim();
 };
