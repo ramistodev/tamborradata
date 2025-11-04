@@ -4,16 +4,6 @@ import type { NextRequest } from 'next/server';
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  if (
-    pathname.startsWith('/_next') ||
-    pathname.startsWith('/assets') ||
-    pathname.startsWith('/favicon') ||
-    pathname.startsWith('/icon') ||
-    pathname.startsWith('/manifest')
-  ) {
-    return NextResponse.next();
-  }
-
   if (req.nextUrl.pathname.includes('wp-admin') || pathname.includes('wp')) {
     return new NextResponse('Forbidden', { status: 403 });
   }
