@@ -36,8 +36,6 @@ export const metadata: Metadata = {
     images: [
       {
         url: 'https://tamborradata.com/og-image.webp',
-        width: 600,
-        height: 600,
         alt: 'Tamborradata | Estadísticas Globales e Históricas de la Tamborrada Infantil',
       },
     ],

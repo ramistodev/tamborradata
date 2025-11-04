@@ -55,8 +55,6 @@ export async function generateMetadata({ params }: YearPageProps): Promise<Metad
       images: [
         {
           url: 'https://tamborradata.com/og-image.webp',
-          width: 600,
-          height: 600,
           alt: `Tamborradata | Estadísticas de la Tamborrada Infantil ${year}`,
         },
       ],
