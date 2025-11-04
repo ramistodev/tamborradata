@@ -35,9 +35,9 @@ export const metadata: Metadata = {
     modifiedTime: new Date().toISOString(), // Última actualización de datos
     images: [
       {
-        url: '/og-image.png',
-        width: 800,
-        height: 800,
+        url: 'https://tamborradata.com/og-image.png',
+        width: 1200,
+        height: 630,
         alt: 'Estadísticas Globales Tamborrada Infantil - Análisis Histórico Tamborradata',
       },
     ],

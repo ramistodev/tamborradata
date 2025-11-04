@@ -66,14 +66,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Tamborradata | Datos y Estadísticas de la Tamborrada Infantil',
     description:
-      'Descubre cómo ha evolucionado la Tamborrada Infantil de San Sebastián: nombres más comunes, colegios participantes y tendencias desde 2018.',
+      'Visita tamborradata.com y descubre las estadísticas de la Tamborrada Infantil de San Sebastián: nombres más comunes, colegios participantes y tendencias desde 2018.',
     url: 'https://tamborradata.com',
     siteName: 'Tamborradata',
     images: [
       {
-        url: '/og-image.png',
-        width: 800,
-        height: 800,
+        url: 'https://tamborradata.com/og-image.png',
+        width: 1200,
+        height: 630,
         alt: 'Tamborradata | Estadísticas de la Tamborrada Infantil',
       },
     ],
@@ -85,7 +85,9 @@ export const metadata: Metadata = {
     title: 'Tamborradata | Estadísticas de la Tamborrada Infantil',
     description:
       'Análisis completo de la Tamborrada Infantil de San Sebastián: datos, colegios, nombres, tendencias y más.',
-    images: ['/assets/og-image.png'],
+    images: ['https://tamborradata.com/og-image.png'],
+    creator: '@tamborradata',
+    site: '@tamborradata',
   },
   alternates: {
     canonical: 'https://tamborradata.com',
