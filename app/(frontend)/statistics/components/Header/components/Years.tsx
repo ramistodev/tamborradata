@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useHeader } from '../hooks/useHeader';
-import { YearsLoading } from '@/app/(frontend)/loaders/YearsLoading';
+import { LoadingYears } from '@/app/(frontend)/loaders/LoadingYears';
 import { useParams, usePathname } from 'next/navigation';
 import { hasData } from '@/app/(frontend)/helpers/hasData';
 
@@ -9,7 +9,7 @@ export function Years() {
   const params = useParams();
   const pathname = usePathname();
 
-  if (!hasData(years)) return null;
+  if (!hasData(years) && !isLoading) return null;
 
   return (
     <>
@@ -34,7 +34,7 @@ export function Years() {
         </Link>
       </li>
       {isLoading ? (
-        <YearsLoading />
+        <LoadingYears />
       ) : (
         years?.map((year) => (
           <li key={year}>

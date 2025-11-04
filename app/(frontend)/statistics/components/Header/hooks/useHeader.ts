@@ -6,10 +6,14 @@ export function useHeader() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetchYears().then((fetchedYears) => {
-      setYears(fetchedYears);
-      setIsLoading(false);
-    });
+    setIsLoading(true);
+    fetchYears()
+      .then((fetchedYears) => {
+        setYears(fetchedYears);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   return {
