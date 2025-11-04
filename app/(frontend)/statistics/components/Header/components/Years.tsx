@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { useHeader } from '../hooks/useHeader';
 import { YearsLoading } from '@/app/(frontend)/loaders/YearsLoading';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { hasData } from '@/app/(frontend)/helpers/hasData';
 
 export function Years() {
   const { years, isLoading } = useHeader();
   const params = useParams();
+  const pathname = usePathname();
 
   if (!hasData(years)) return null;
 
@@ -24,9 +25,9 @@ export function Years() {
         <Link
           href={`/statistics/global`}
           className={`px-2 py-1 rounded font-semibold ${
-            params.year
-              ? 'hover:bg-(--color-loading)'
-              : 'bg-(--color-primary) text-(--color-text) cursor-default'
+            pathname === '/statistics/global'
+              ? 'bg-(--color-primary) text-(--color-text) cursor-default'
+              : 'hover:bg-(--color-loading)'
           }`}
         >
           Global

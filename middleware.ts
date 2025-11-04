@@ -7,42 +7,38 @@ export function middleware(req: NextRequest) {
   // Solo aplicamos el middleware a rutas /api
   if (!pathname.startsWith('/api')) return NextResponse.next();
 
-  const origin = req.headers.get('origin');
   const referer = req.headers.get('referer');
   const host = req.headers.get('host');
-  const userAgent = req.headers.get('user-agent') || '';
 
   // Entornos permitidos
   const isLocalhost = host?.includes('localhost') || host?.includes('127.0.0.1');
   const isProduction = host?.includes('tamborradata.com');
   const isVercel = host?.includes('vercel.app');
 
-  // Orígenes permitidos para peticiones CORS
-  const allowedOrigins = [
-    'https://tamborradata.com',
-    'https://www.tamborradata.com',
-    'http://localhost:3000',
-    'https://localhost:3000',
-  ];
+  // En entorno de desarrollo (localhost), permitir todas las peticiones
+  if (isLocalhost) {
+    return NextResponse.next();
+  }
 
-  // Detectar si es un navegador accediendo directamente
-  const isDirectBrowserAccess = !origin && !referer && userAgent.includes('Mozilla');
+  // En producción y Vercel, verificar que venga del mismo dominio
+  if (isProduction || isVercel) {
+    // Si no hay referer, es acceso directo desde navegador - BLOQUEAR
+    if (!referer) {
+      return new NextResponse('Not found', { status: 404 });
+    }
 
-  // Verificar si es una petición válida del frontend
-  const isValidOrigin = origin && allowedOrigins.includes(origin);
-  const isValidReferer = referer && allowedOrigins.some((allowed) => referer.startsWith(allowed));
+    // Verificar que el referer sea del mismo dominio
+    const refererHost = new URL(referer).host;
+    if (refererHost === host) {
+      return NextResponse.next();
+    }
 
-  // BLOQUEAR acceso directo desde navegador
-  if (isDirectBrowserAccess) {
+    // Bloquear si viene de otro dominio
     return new NextResponse('Not found', { status: 404 });
   }
 
-  // PERMITIR solo si viene del frontend
-  if ((isLocalhost || isProduction || isVercel) && (isValidOrigin || isValidReferer)) {
-    console.log('[Middleware] Acceso permitido desde frontend');
-    return NextResponse.next();
-  }
-  return new NextResponse('Not found', { status: 404 });
+  // Por defecto, permitir
+  return NextResponse.next();
 }
 
 export const config = {

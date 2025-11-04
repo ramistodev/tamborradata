@@ -1,8 +1,12 @@
 export async function fetchCategory<T>(category: string, year: string): Promise<T[] | null> {
   try {
     const response = await fetch(`/api/category?category=${category}&year=${year}`);
+
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      console.error(
+        `Error fetching statistics for year ${year}: ${response.status} ${response.statusText}`
+      );
+      return null;
     }
 
     const data = await response.json();
