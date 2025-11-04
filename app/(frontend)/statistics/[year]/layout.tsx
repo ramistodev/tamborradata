@@ -54,9 +54,9 @@ export async function generateMetadata({ params }: YearPageProps): Promise<Metad
       url: `https://tamborradata.com/statistics/${year}`,
       images: [
         {
-          url: 'https://tamborradata.com/og-image.png',
-          width: 1200,
-          height: 630,
+          url: 'https://tamborradata.com/og-image.webp',
+          width: 600,
+          height: 600,
           alt: `Tamborradata | Estadísticas de la Tamborrada Infantil ${year}`,
         },
       ],
@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: YearPageProps): Promise<Metad
       card: 'summary_large_image',
       title: `Tamborradata | Estadísticas de la Tamborrada Infantil ${year}`,
       description: `Nombres, colegios y tendencias de la Tamborrada Infantil ${year}. Análisis completo con visualizaciones interactivas.`,
-      images: ['https://tamborradata.com/og-image.png'],
+      images: ['https://tamborradata.com/og-image.webp'],
       creator: '@tamborradata',
       site: '@tamborradata',
     },
