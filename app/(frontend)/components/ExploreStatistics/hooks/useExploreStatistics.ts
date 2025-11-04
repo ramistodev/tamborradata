@@ -5,7 +5,7 @@ export function useExploreStatistics() {
   const [newData, setNewData] = useState(false);
   const [comingData, setComingData] = useState(false);
   const [isNewData, setIsNewData] = useState(true);
-  const years = new Date().getFullYear() - 2018 - 1;
+  const years = new Date().getFullYear() - 2018;
   const currentYear = new Date().getFullYear();
 
   const headerRef = useRef(null);

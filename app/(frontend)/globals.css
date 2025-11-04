@@ -36,13 +36,3 @@ body {
   color: var(--color-text);
   font-family: Arial, Helvetica, sans-serif;
 }
-
-/* Animations for loaders */
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
