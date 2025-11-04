@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useExploreStatistics } from './hooks/useExploreStatistics';
 import { motion } from 'framer-motion';
-import { ArrowRight } from '../../icons/icons';
+import { ArrowRight, CheckIcon, ClockIcon, ChartIcon, CalendarIcon } from '../../icons/icons';
 
 export function ExploreStatistics() {
   const {
@@ -11,23 +11,24 @@ export function ExploreStatistics() {
     comingData,
     years,
     currentYear,
-    isHeaderInView,
     isNotificationsInView,
-    isCardsInView,
+    isHeaderInView,
+    isGlobalCardInView,
+    isYearlyCardInView,
     isStatsInView,
-    headerRef,
     notificationsRef,
-    cardsRef,
+    headerRef,
+    globalCardRef,
+    yearlyCardRef,
     statsRef,
   } = useExploreStatistics();
 
   return (
-    <section className="w-full min-h-screen max-w-6xl mx-auto px-4 py-16 flex flex-col items-center justify-center gap-8">
-      {/* Header */}
+    <section className="w-full min-h-screen max-w-6xl mx-auto px-4 py-16 flex flex-col items-center justify-center gap-4 md:gap-8">
       <motion.div
         ref={headerRef}
-        initial={{ opacity: 0, y: 30 }}
-        animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        initial={{ opacity: 0 }}
+        animate={isHeaderInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.6 }}
         className="text-center mb-8"
       >
@@ -40,134 +41,121 @@ export function ExploreStatistics() {
         </p>
       </motion.div>
 
-      {/* Notificaciones dinámicas */}
+      {/* Notificaciones discretas */}
       {(newData || comingData) && (
         <motion.div
           ref={notificationsRef}
-          initial={{ opacity: 0, y: -20 }}
-          animate={isNotificationsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-4xl"
+          initial={{ opacity: 0 }}
+          animate={isNotificationsInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.6 }}
+          className="w-full max-w-3xl select-none"
         >
           {newData && (
-            <motion.div
-              ref={notificationsRef}
-              initial={{ scale: 0.5 }}
-              animate={isNotificationsInView ? { scale: 1 } : { scale: 0.5 }}
-              transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-              className="relative overflow-hidden bg-(--eye-catching-text) text-white p-6 rounded-2xl shadow-lg mb-4"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
-              <div className="relative z-10 flex items-center gap-4">
-                <div className="text-4xl">🎉</div>
-                <div>
-                  <h3 className="text-xl font-bold">¡Nuevos datos disponibles!</h3>
-                  <p className="text-white/80">
-                    Los datos de {currentYear} ya están listos para explorar
-                  </p>
-                </div>
+            <div className="bg-(--color-bg-secondary) border border-(--color-border) text-(--color-text) px-4 py-3 rounded-lg mb-3 flex items-center gap-3">
+              <div className="text-(--eye-catching-text)">
+                <CheckIcon />
               </div>
-            </motion.div>
+              <div className="flex items-start justify-center md:items-center md:justify-start flex-col md:flex-row md:gap-3">
+                <span className="font-medium">
+                  Explora los nuevos datos de {currentYear} disponibles
+                </span>
+                <span className="text-(--color-text-secondary) text-sm">
+                  Actualizado recientemente
+                </span>
+              </div>
+            </div>
           )}
 
           {comingData && (
-            <motion.div
-              ref={notificationsRef}
-              initial={{ scale: 0.5 }}
-              animate={isNotificationsInView ? { scale: 1 } : { scale: 0.5 }}
-              transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
-              className="relative overflow-hidden bg-(--color-bg-thirdary) text-white p-6 rounded-2xl shadow-lg mb-4"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
-              <div className="relative z-10 flex items-center gap-4">
-                <div className="text-4xl">⏳</div>
-                <div>
-                  <h3 className="text-xl font-bold">Próximamente {currentYear}</h3>
-                  <p className="text-white/80">
-                    Las estadísticas del próximo año estarán disponibles el 20 de enero
-                  </p>
-                </div>
+            <div className="bg-(--color-bg-secondary) border border-(--color-border) text-(--color-text) px-4 py-3 rounded-lg mb-3 flex items-center gap-3">
+              <div className="text-(--eye-catching-text)">
+                <ClockIcon />
               </div>
-            </motion.div>
+              <div className="flex items-start justify-center md:items-center md:justify-start flex-col md:flex-row md:gap-3">
+                <span className="font-medium">Proximamente {currentYear}</span>
+                <span className="text-(--color-text-secondary) text-sm">
+                  Esperando la recopilación de datos
+                </span>
+              </div>
+            </div>
           )}
         </motion.div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 mt-4 md:mt-8 w-full max-w-5xl">
-        {/* Card Estadísticas Globales */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 w-full max-w-5xl">
         <motion.div
-          ref={cardsRef}
-          whileHover={{ scale: 1.02, y: -5 }}
+          ref={globalCardRef}
+          whileHover={{ scale: 1.02, y: -8 }}
           whileTap={{ scale: 0.98 }}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isCardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          initial={{ opacity: 0 }}
+          animate={isGlobalCardInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 1, type: 'spring', stiffness: 300, damping: 20 }}
         >
           <Link
             href="/statistics/global"
-            className="block p-8 bg-(--color-bg-secondary) rounded-2xl hover:bg-(--color-bg-thirdary) transition-all duration-300 shadow-lg group border border-(--color-border)"
+            className="block p-8 rounded-2xl transition-all duration-500 shadow-xl group border-0 relative overflow-hidden bg-linear-to-br from-(--color-bg-secondary) via-(--color-bg-thirdary) to-(--color-primary)"
           >
-            <div className="flex items-start gap-4">
-              <div className="text-5xl group-hover:scale-110 transition-transform duration-300">
-                📊
-              </div>
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold mb-3 text-(--color-text) group-hover:text-(--eye-catching-text) transition-colors">
-                  Estadísticas globales
+            <div className="flex flex-col items-start justify-center gap-4 relative z-10">
+              <div>
+                <h3 className="flex gap-2 items-center text-xl  md:text-2xl font-bold mb-3 group-hover:scale-105 transition-transform duration-300">
+                  <ChartIcon /> Estadísticas globales
                 </h3>
-                <p className="text-(--color-text-secondary) text-lg leading-relaxed">
+                <p className="text-lg leading-relaxed drop-shadow-sm">
                   Un vistazo general a todos los años de la Tamborrada Infantil. Tendencias,
                   evolución y datos históricos.
                 </p>
-                <div className="mt-4 flex items-center text-(--eye-catching-text) font-semibold">
-                  Ver estadísticas globales
-                  <ArrowRight />
-                </div>
+              </div>
+              <div className="mt-4 flex items-center font-semibold group-hover:translate-x-4 transition-transform duration-300">
+                Ver estadísticas globales
+                <ArrowRight />
               </div>
             </div>
           </Link>
         </motion.div>
 
         <motion.div
-          ref={cardsRef}
-          whileHover={{ scale: 1.02, y: -5 }}
+          ref={yearlyCardRef}
+          whileHover={{ scale: 1.02, y: -8 }}
           whileTap={{ scale: 0.98 }}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isCardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          initial={{ opacity: 0 }}
+          animate={isYearlyCardInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 1, type: 'spring', stiffness: 300, damping: 20 }}
         >
           <Link
             href={`/statistics/${isNewData ? currentYear : currentYear - 1}`}
-            className="block p-8 bg-(--color-bg-secondary) rounded-2xl hover:bg-(--color-bg-thirdary) transition-all duration-300 shadow-lg group border border-(--color-border) relative overflow-hidden"
+            className={`block p-8 rounded-2xl transition-all duration-500 group border-0 relative overflow-hidden
+              ${newData ? 'bg-linear-to-br from-(--eye-catching-text) via-(--color-primary) to-(--color-bg-thirdary) shadow-[0_0px_20px_0px_var(--eye-catching-text),0_0_0_2px_var(--eye-catching-text)]' : 'bg-linear-to-br from-(--color-bg-secondary) via-(--color-bg-thirdary) to-(--color-primary)'}`}
           >
             {newData && (
-              <div className="absolute top-4 right-4 bg-(--eye-catching-text) text-white text-xs font-bold px-3 py-1 rounded-full">
-                NUEVO
-              </div>
+              <>
+                <div className="absolute top-2 right-2 bg-white text-(--eye-catching-text) text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                  NUEVO!
+                </div>
+              </>
             )}
-            <div className="flex items-start gap-4">
-              <div className="text-5xl group-hover:scale-110 transition-transform duration-300">
-                📅
-              </div>
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold mb-3 text-(--color-text) group-hover:text-(--eye-catching-text) transition-colors">
+            <div className="flex flex-col items-start justify-center gap-4 relative z-10">
+              <div>
+                <h3 className="flex gap-2 items-center text-xl  md:text-2xl font-bold mb-3 group-hover:scale-105 transition-transform duration-300">
+                  <span>
+                    <CalendarIcon />
+                  </span>
                   Últimas estadísticas ({isNewData ? currentYear : currentYear - 1})
                 </h3>
-                <p className="text-(--color-text-secondary) text-lg leading-relaxed">
+                <p className="text-lg leading-relaxed drop-shadow-sm">
                   Mira los datos más recientes: colegios, nombres y apellidos más comunes del último
                   año.
                 </p>
-                <div className="mt-4 flex items-center text-(--eye-catching-text) font-semibold">
-                  Ver datos de {isNewData ? currentYear : currentYear - 1}
-                  <ArrowRight />
-                </div>
+              </div>
+              <div className="mt-4 flex items-center font-semibold group-hover:translate-x-4 transition-transform duration-300">
+                Ver datos de {isNewData ? currentYear : currentYear - 1}
+                <ArrowRight />
               </div>
             </div>
           </Link>
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 w-full max-w-4xl">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 w-full max-w-4xl">
         <motion.div
           ref={statsRef}
           initial={{ opacity: 0, y: 30 }}

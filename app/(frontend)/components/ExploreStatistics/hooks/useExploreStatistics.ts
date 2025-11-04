@@ -10,7 +10,8 @@ export function useExploreStatistics() {
 
   const headerRef = useRef(null);
   const notificationsRef = useRef(null);
-  const cardsRef = useRef(null);
+  const globalCardRef = useRef(null);
+  const yearlyCardRef = useRef(null);
   const statsRef = useRef(null);
 
   // Detectar si están en vista
@@ -18,17 +19,25 @@ export function useExploreStatistics() {
     once: true,
     amount: 1.0,
   });
+
   const isNotificationsInView = useInView(notificationsRef, {
     once: true,
     amount: 1.0,
   });
-  const isCardsInView = useInView(cardsRef, {
+
+  const isGlobalCardInView = useInView(globalCardRef, {
     once: true,
-    amount: 0.6,
+    amount: 0.4,
   });
+
+  const isYearlyCardInView = useInView(yearlyCardRef, {
+    once: true,
+    amount: 0.4,
+  });
+
   const isStatsInView = useInView(statsRef, {
     once: true,
-    amount: 1.0,
+    amount: 0.8,
   });
 
   useEffect(() => {
@@ -59,11 +68,13 @@ export function useExploreStatistics() {
     currentYear,
     isHeaderInView,
     isNotificationsInView,
-    isCardsInView,
+    isGlobalCardInView,
+    isYearlyCardInView,
     isStatsInView,
     headerRef,
     notificationsRef,
-    cardsRef,
+    globalCardRef,
+    yearlyCardRef,
     statsRef,
   };
 }
