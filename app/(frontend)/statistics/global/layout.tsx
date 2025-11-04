@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     modifiedTime: new Date().toISOString(), // Última actualización de datos
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://tamborradata.com/assets/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Tamborradata | Estadísticas Globales e Históricas de la Tamborrada Infantil',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     title: 'Tamborradata | Estadísticas Globales e Históricas de la Tamborrada Infantil',
     description:
       'Evolución histórica completa: nombres, colegios y tendencias de la Tamborrada Infantil desde 2018. Análisis con IA y visualizaciones interactivas.',
-    images: ['/og-image.png'],
+    images: ['https://tamborradata.com/assets/og-image.png'],
   },
   alternates: {
     canonical: 'https://tamborradata.com/statistics/global',
