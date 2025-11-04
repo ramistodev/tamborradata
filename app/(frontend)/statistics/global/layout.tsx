@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Tamborrada Infantil — Estadísticas Globales e Históricas | Tamborradata',
+  title: 'Tamborradata | Estadísticas Globales e Históricas de la Tamborrada Infantil',
   description:
     'Análisis completo de la Tamborrada Infantil desde 2018: evolución histórica de colegios, nombres más populares, participación total y tendencias con inteligencia artificial. Datos procesados del Diario Vasco.',
   keywords: [
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
     modifiedTime: new Date().toISOString(), // Última actualización de datos
     images: [
       {
-        url: '/assets/og-image.png',
-        width: 1200,
-        height: 630,
+        url: '/og-image.png',
+        width: 800,
+        height: 800,
         alt: 'Estadísticas Globales Tamborrada Infantil - Análisis Histórico Tamborradata',
       },
     ],
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     title: '📈 Tamborrada Infantil — Dashboard Global de Estadísticas',
     description:
       'Evolución histórica completa: nombres, colegios y tendencias de la Tamborrada Infantil desde 2018. Análisis con IA y visualizaciones interactivas.',
-    images: ['/assets/og-image.png'],
+    images: ['/og-image.png'],
   },
   alternates: {
     canonical: 'https://tamborradata.com/statistics/global',
