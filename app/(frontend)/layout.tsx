@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     siteName: 'Tamborradata',
     images: [
       {
-        url: 'https://tamborradata.com/og-image.png',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Tamborradata | Estadísticas de la Tamborrada Infantil',
@@ -85,7 +85,7 @@ export const metadata: Metadata = {
     title: 'Tamborradata | Estadísticas de la Tamborrada Infantil',
     description:
       'Análisis completo de la Tamborrada Infantil de San Sebastián: datos, colegios, nombres, tendencias y más.',
-    images: ['https://tamborradata.com/og-image.png'],
+    images: ['/og-image.png'],
     creator: '@tamborradata',
     site: '@tamborradata',
   },

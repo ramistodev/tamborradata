@@ -49,15 +49,15 @@ export async function generateMetadata({ params }: YearPageProps): Promise<Metad
       `patrimonio cultural ${year}`,
     ],
     openGraph: {
-      title: `Tamborrada Infantil ${year} — Análisis y Estadísticas Completas`,
+      title: `Tamborradata | Estadísticas de la Tamborrada Infantil ${year}`,
       description: `Descubre los nombres más populares, colegios destacados y evolución de la Tamborrada Infantil ${year} en San Sebastián. Datos procesados con IA.`,
       url: `https://tamborradata.com/statistics/${year}`,
       images: [
         {
-          url: 'https://tamborradata.com/og-image.png',
+          url: '/og-image.png',
           width: 1200,
           height: 630,
-          alt: `Estadísticas Tamborrada Infantil ${year} - Tamborradata`,
+          alt: `Tamborradata | Estadísticas de la Tamborrada Infantil ${year}`,
         },
       ],
       type: 'article',
@@ -65,9 +65,11 @@ export async function generateMetadata({ params }: YearPageProps): Promise<Metad
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Tamborrada Infantil ${year} — Datos y Análisis`,
+      title: `Tamborradata | Estadísticas de la Tamborrada Infantil ${year}`,
       description: `Nombres, colegios y tendencias de la Tamborrada Infantil ${year}. Análisis completo con visualizaciones interactivas.`,
       images: ['/og-image.png'],
+      creator: '@tamborradata',
+      site: '@tamborradata',
     },
     alternates: {
       canonical: `https://tamborradata.com/statistics/${year}`,

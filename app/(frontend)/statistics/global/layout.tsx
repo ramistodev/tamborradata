@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     'open data san sebastián',
   ],
   openGraph: {
-    title: 'Tamborrada Infantil — Análisis Global y Tendencias Históricas',
+    title: 'Tamborradata | Estadísticas Globales e Históricas de la Tamborrada Infantil',
     description:
       'Descubre la evolución completa de la Tamborrada Infantil de San Sebastián: nombres más populares por década, colegios destacados y análisis de tendencias desde 2018 con IA.',
     url: 'https://tamborradata.com/statistics/global',
@@ -35,10 +35,10 @@ export const metadata: Metadata = {
     modifiedTime: new Date().toISOString(), // Última actualización de datos
     images: [
       {
-        url: 'https://tamborradata.com/og-image.png',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Estadísticas Globales Tamborrada Infantil - Análisis Histórico Tamborradata',
+        alt: 'Tamborradata | Estadísticas Globales e Históricas de la Tamborrada Infantil',
       },
     ],
     type: 'article',
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tamborrada Infantil — Dashboard Global de Estadísticas',
+    title: 'Tamborradata | Estadísticas Globales e Históricas de la Tamborrada Infantil',
     description:
       'Evolución histórica completa: nombres, colegios y tendencias de la Tamborrada Infantil desde 2018. Análisis con IA y visualizaciones interactivas.',
     images: ['/og-image.png'],
