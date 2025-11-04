@@ -13,7 +13,7 @@ export function FAQs() {
       </h2>
       {faqs.map((faq) => {
         return (
-          <motion.div
+          <div
             key={faq.id}
             className="w-full bg-(--color-bg-thirdary) overflow-hidden rounded-md cursor-pointer"
             onClick={() => toggleItem(faq.id)}
@@ -51,7 +51,7 @@ export function FAQs() {
                 </motion.div>
               )}
             </AnimatePresence>
-          </motion.div>
+          </div>
         );
       })}
     </section>
