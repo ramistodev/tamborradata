@@ -3,7 +3,7 @@ name: Update Stats Yearly
 
 on:
   schedule:
-    - cron: '0 18 5 11 *' # 5 de noviembre a las 17:10 UTC (18:10 Madrid)
+    - cron: '10 18 5 11 *' # 5 de noviembre a las 18:10 UTC (19:10 Madrid)
   workflow_dispatch: # Permite lanzarlo manualmente también
 
 jobs:
@@ -26,7 +26,7 @@ jobs:
 
       - name: Run pipeline
         run: npx tsx scripts/updateStats.ts
-        
+
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
