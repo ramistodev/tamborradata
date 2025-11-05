@@ -1,4 +1,3 @@
-// import { generateSummary } from './AI/generateSummary';
 import { log } from '../helpers';
 import { generateSummary } from './AI/generateSummary';
 import {
@@ -8,64 +7,61 @@ import {
   sysPromptYearly,
   userPromptGlobal,
   userPromptYearly,
-  promptOutro,
+  userPromptOutro,
+  userPromptIntro,
 } from './AI/prompt';
 import { statEntry, summariesEntry } from './statTypes';
 
 // Función para crear resúmenes estadísticos a partir de los datos recopilados
-export async function makeSummaries(results: statEntry[]) {
-  // Guardamos los resumenes generados por tipo
-  const yearlySummaries = results.filter((entry) => entry.scope === 'yearly');
-  const globalSummaries = results.filter((entry) => entry.scope === 'global');
-
+export async function makeSummaries(statistics: statEntry[]) {
   // Array para almacenar todos los resúmenes generados
   const allSummaries: summariesEntry[] = [];
 
-  // Procesar cada summary
-  for (const summary of [...yearlySummaries, ...globalSummaries]) {
-    // Procesar resúmenes por año
-    if (summary.scope === 'yearly') {
-      const dataContext: Record<number, any[]> = {}; // Inicializar contexto para cada summary
+  // Obtener años ordenados de cada stats
+  const years = Object.keys(statistics[0].data)
+    .map(Number)
+    .sort((a, b) => a - b);
 
-      // Obtener años ordenados de cada summary
-      const years = Object.keys(summary.data)
-        .map(Number)
-        .sort((a, b) => a - b);
+  // Procesar cada summary
+  for (const stats of statistics) {
+    // Procesar resúmenes por año
+    if (stats.scope === 'yearly') {
+      const dataContext: Record<number, any[]> = {}; // Inicializar contexto para cada stats
 
       // Procesar cada año de forma ordenada de menos a más reciente
       for (const year of years) {
         await new Promise((res) => setTimeout(res, 3500)); // 3.5 s entre llamadas para no sobrepasar límites de tokens de OpenAi
 
         // Obtener datos del año actual
-        const data = summary.data[year];
+        const data = stats.data[year];
 
-        log(
-          '🧠 Procesando ' +
-            summary.category +
-            ' - Año ' +
-            year +
-            ' (contexto total: ' +
-            Object.keys(dataContext).length +
-            ' años)',
-          'info'
-        );
+        log('🧠 Procesando ' + stats.category + ' - Año ' + year, 'info');
+
+        // Filtrar resúmenes por año para tener contexto de los resúmenes previos
+        const summaryContext = allSummaries.filter((summary) => summary.year === year.toString());
 
         // Generar el prompt de usuario con el contexto actual
-        const userPrompt = userPromptYearly(year, summary.category, data, dataContext);
+        const userPrompt = userPromptYearly(
+          year,
+          stats.category,
+          data,
+          dataContext,
+          summaryContext
+        );
 
         // Generar el resumen usando el prompt del sistema y el del usuario
         const summaryText = await generateSummary(sysPromptYearly, userPrompt);
 
         // Si no se generó texto, saltar
         if (!summaryText) {
-          log(`No se generó texto para ${summary.category} (${year})`, 'warn');
+          log(`No se generó texto para ${stats.category} (${year})`, 'warn');
           continue;
         }
 
         // Guardar el resumen generado
         allSummaries.push({
-          category: summary.category,
-          scope: summary.scope,
+          category: stats.category,
+          scope: stats.scope,
           year: year.toString(),
           summary: summaryText,
         });
@@ -86,8 +82,8 @@ export async function makeSummaries(results: statEntry[]) {
             return 0;
           });
 
-          // Guardar solo los 10 primeros elementos para no sobrecargar el prompt
-          contextData = contextData.slice(0, 10);
+          // Guardar solo los 15 primeros elementos para no sobrecargar el prompt
+          contextData = contextData.slice(0, 15);
         }
 
         // Añadimos el contexto del año actual (puede ser array o primitivo)
@@ -95,30 +91,35 @@ export async function makeSummaries(results: statEntry[]) {
       }
     }
 
-    if (summary.scope === 'global') {
+    if (stats.scope === 'global') {
       await new Promise((res) => setTimeout(res, 3500)); // 3.5 s entre llamadas para no sobrepasar límites de tokens de OpenAi
 
       // Obtener datos globales
-      const data = summary.data;
+      const data = stats.data;
 
-      log(`🧠 Procesando ${summary.category} - Resumen global`, 'info');
+      log(`🧠 Procesando ${stats.category} - Resumen global`, 'info');
+
+      // Filtrar resúmenes por año 'global' para tener contexto de los resúmenes previos
+      const summaryContext = allSummaries.filter((summary) => summary.year === 'global');
+
+      const yearRange = `${years[0]}-${years[years.length - 1]}`;
 
       // Generar el prompt de usuario para resumen global
-      const userPrompt = userPromptGlobal(summary.category, data);
+      const userPrompt = userPromptGlobal(stats.category, yearRange, data, summaryContext);
 
       // Generar el resumen usando el prompt del sistema y el del usuario
       const summaryText = await generateSummary(sysPromptGlobal, userPrompt);
 
       // Si no se generó texto, saltar
       if (!summaryText) {
-        log(`No se generó texto para ${summary.category} (global)`, 'warn');
+        log(`No se generó texto para ${stats.category} (global)`, 'warn');
         continue;
       }
 
       // Guardar el resumen generado
       allSummaries.push({
-        category: summary.category,
-        scope: summary.scope,
+        category: stats.category,
+        scope: stats.scope,
         year: 'global',
         summary: summaryText,
       });
@@ -131,25 +132,22 @@ export async function makeSummaries(results: statEntry[]) {
     allSummaryYears.add(summary.year);
   }
 
-  // Generar intros y outros para cada año y global
+  // Generar INTRO y OUTRO para cada año y global
   for (const year of allSummaryYears) {
     log(`Generando 'Intro' y 'Outro' para el año: ${year}`, 'info');
 
     await new Promise((res) => setTimeout(res, 3500)); // 3.5 s entre llamadas para no sobrepasar límites de tokens de OpenAi
 
     // Obtener todos los resúmenes del año actual
-    const summaries = allSummaries.filter((s) => s.year === year).map((s) => s.summary);
+    const summariesContext = allSummaries.filter((s) => s.year === year);
 
     // Generar el resumen introductorio
-    const intro = await generateSummary(
-      sysPromptIntro,
-      ' Generate an introductory paragraph for the statistics of the year: ' + year + '.'
-    );
+    const intro = await generateSummary(sysPromptIntro, userPromptIntro(year, summariesContext));
 
     await new Promise((res) => setTimeout(res, 3500)); // 3.5 s entre llamadas para no sobrepasar límites de tokens de OpenAi
 
     // Generar el resumen conclusivo
-    const outro = await generateSummary(sysPromptOutro, promptOutro(Number(year), summaries));
+    const outro = await generateSummary(sysPromptOutro, userPromptOutro(year, summariesContext));
 
     // Guardar los resúmenes generados
     allSummaries.push({

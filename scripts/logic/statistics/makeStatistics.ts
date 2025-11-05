@@ -131,7 +131,7 @@ export async function makeStatistics(): Promise<statEntry[]> {
   log('Generación de estadísticas completada.\n', 'info');
 
   // Compilar todas las estadísticas en un solo array para posterior almacenamiento
-  const results: statEntry[] = [
+  const statistics: statEntry[] = [
     { category: 'topNamesByYear', scope: 'yearly', data: topNamesByYear },
     { category: 'namesDiversityByYear', scope: 'yearly', data: namesDiversityByYear },
     { category: 'topNames', scope: 'global', data: topNames },
@@ -154,5 +154,5 @@ export async function makeStatistics(): Promise<statEntry[]> {
     { category: 'mostRepeatedNameOverall', scope: 'global', data: mostRepeatedNameOverall },
   ];
 
-  return results;
+  return statistics;
 }

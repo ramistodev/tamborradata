@@ -9,12 +9,12 @@ import { statEntry } from './statTypes';
 export async function collectStatistics() {
   log('Iniciando la recopilación de estadísticas...\n', 'info');
   // Generar estadísticas
-  const results: statEntry[] = await makeStatistics();
+  const statistics: statEntry[] = await makeStatistics();
 
   // Guardar estadísticas en la base de datos
-  await saveStatistics(results);
+  await saveStatistics(statistics);
 
-  const allSummaries = await makeSummaries(results);
+  const allSummaries = await makeSummaries(statistics);
 
   await saveSummaries(allSummaries);
 

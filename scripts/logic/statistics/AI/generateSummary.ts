@@ -25,7 +25,7 @@ export async function generateSummary(
           content: userPrompt,
         },
       ],
-      maxOutputTokens: 500, // Límite de tokens del resumen (suficiente para 4–6 frases)
+      maxOutputTokens: 1000, // Límite de tokens del resumen
     });
     return text;
   } catch (error) {
