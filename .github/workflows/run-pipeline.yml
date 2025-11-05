@@ -3,7 +3,7 @@ name: Update Stats Yearly
 
 on:
   schedule:
-    - cron: '10 17 5 11 *' # 5 de noviembre a las 17:10 UTC (18:10 Madrid)
+    - cron: '25 17 5 11 *' # 5 de noviembre a las 17:10 UTC (18:10 Madrid)
   workflow_dispatch: # Permite lanzarlo manualmente también
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
           node-version: '20'
 
       - name: Install deps
-        run: npm ci
+        run: npm install
 
       - name: Run pipeline
         run: npx tsx scripts/updateStats.ts
