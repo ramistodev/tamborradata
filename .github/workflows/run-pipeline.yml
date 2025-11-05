@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Debug env vars
-        run: echo "Supabase URL: $SUPABASE_URL"
+        run: echo "Supabase URL $SUPABASE_URL"
 
       - name: Run pipeline
         run: npx tsx scripts/updateStats.ts
