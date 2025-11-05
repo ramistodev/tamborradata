@@ -1,6 +1,6 @@
 import { log } from '../helpers';
 import fetch from 'node-fetch';
-import { load } from 'cheerio'; // ...existing code...
+import { load } from 'cheerio';
 import { cleanSchoolName, isValidName, cleanNames } from './participantsUtils';
 import * as chrono from 'chrono-node';
 import { allParticipants, pageParticipants, updateUrls } from '../types';

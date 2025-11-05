@@ -53,7 +53,7 @@ en la Tamborrada por año y categoría. Incluyen:
   → Tipo: \`{ surname: string; count: number; }\`
 - **topSchoolsByYear:** colegios con mayor número de tamborreros/as.  
   → Tipo: \`{ school: string; count: number; }\`
-- **namesDiversityByYear / surnamesDiversityByYear / uniqueNamesByYear:** número de nombres o apellidos distintos.  
+- **namesDiversityByYear / surnamesDiversityByYear / newNamesByYear:** número de nombres o apellidos distintos y los nuevos nombres que aparecen por primera vez.  
   → Tipo: \`{ total: number; }\`
 - **totalParticipantsByYear:** cantidad total de participantes infantiles.  
   → Tipo: \`{ year: number; count: number; }\`

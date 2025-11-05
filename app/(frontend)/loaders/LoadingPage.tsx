@@ -37,7 +37,7 @@ export function LoadingPage() {
               <div
                 key={`row-${rowIndex}`}
                 className={`flex gap-2 p-3 border-b border-(--color-border) ${
-                  rowIndex % 2 === 0 ? 'bg-[#f9f9f9] dark:bg-[#1e2b44]' : ''
+                  rowIndex % 2 === 0 ? 'bg-(--color-bg-secondary)' : ''
                 }`}
               >
                 <div className="w-12 h-4 bg-(--color-loading) animate-pulse rounded"></div>
