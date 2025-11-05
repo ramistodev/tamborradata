@@ -15,8 +15,8 @@ import { generateTotalParticipants } from './generators/generateTotalParticipant
 import { generateCommonNameBySchool } from './generators/generateCommonNameBySchool';
 import { allParticipants } from '../types';
 import { generateSchoolsEvolution } from './generators/generateSchoolsEvolution';
-import { generateUniqueNamesByYear } from './generators/generateUniqueNamesByYear';
 import { takeAllParticipants } from './takeAllParticipants';
+import { generateNewNamesByYear } from './generators/generateNewNamesByYear';
 
 // Función principal para generar todas las estadísticas
 export async function makeStatistics(): Promise<statEntry[]> {
@@ -111,7 +111,7 @@ export async function makeStatistics(): Promise<statEntry[]> {
 
   const commonNameBySchool = generateCommonNameBySchool(allParticipants); // Nombre más común por escuela globalmente
 
-  const uniqueNamesByYear = generateUniqueNamesByYear(allParticipants, firstYear); // Nombres únicos por año
+  const newNamesByYear = generateNewNamesByYear(allParticipants, firstYear); // Nombres únicos por año
 
   // Los nombres mas largos
   const longestNames = Array.from(new Set(allParticipants.map((p) => p.name.split(' ')[0])))
@@ -146,7 +146,7 @@ export async function makeStatistics(): Promise<statEntry[]> {
     { category: 'totalParticipants', scope: 'global', data: totalParticipants },
     { category: 'commonNameBySchoolByYear', scope: 'yearly', data: commonNameBySchoolByYear },
     { category: 'newSchoolsByYear', scope: 'yearly', data: newSchoolsByYear },
-    { category: 'uniqueNamesByYear', scope: 'yearly', data: uniqueNamesByYear },
+    { category: 'newNamesByYear', scope: 'yearly', data: newNamesByYear },
     { category: 'commonNameBySchool', scope: 'global', data: commonNameBySchool },
     { category: 'schoolsEvolution', scope: 'global', data: schoolsEvolution },
     { category: 'mostConstantSchools', scope: 'global', data: mostConstantSchools },

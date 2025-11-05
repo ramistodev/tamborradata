@@ -11,7 +11,7 @@ import {
   TopSchools,
   TotalParticipants,
   NewSchools,
-  UniqueNames,
+  NewNames,
   CommonNamesBySchool,
   NamesSurnamesDiversity,
 } from './components';
@@ -46,7 +46,7 @@ function YearPageContent() {
 
       <TopNames />
       <TopSurnames />
-      <UniqueNames />
+      <NewNames />
       <NamesSurnamesDiversity />
       <TopSchools />
       <NewSchools />

@@ -3,9 +3,9 @@ import { fetchCategory } from '../../../../logic/fetchCategory';
 import { useYearContext } from '../../../context/useYearContext';
 import { useParams } from 'next/navigation';
 
-export function useUniqueNames() {
+export function useNewNames() {
   const { statistics } = useYearContext();
-  const [stats, setStats] = useState(statistics?.uniqueNamesByYear || []);
+  const [stats, setStats] = useState(statistics?.newNamesByYear || []);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const cacheRef = useRef<string[] | null>(null);

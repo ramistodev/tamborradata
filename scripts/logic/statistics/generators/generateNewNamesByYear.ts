@@ -1,7 +1,7 @@
 import { allParticipants } from '../../types';
 
 // Generar los nombres que salen por primera vez cada año
-export function generateUniqueNamesByYear(
+export function generateNewNamesByYear(
   participants: allParticipants[],
   firstYear: number
 ): Record<number, string[]> {

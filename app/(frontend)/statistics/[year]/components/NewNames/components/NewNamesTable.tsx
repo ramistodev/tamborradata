@@ -1,15 +1,15 @@
 import { ArrowDown, ArrowUp } from '@/app/(frontend)/icons/icons';
-import { useUniqueNames } from '../hooks/useUniqueNames';
+import { useNewNames } from '../hooks/useNewNames';
 import { LoadingTable } from '@/app/(frontend)/loaders/LoadingTable';
 
-export function UniqueNamesTable({
+export function NewNamesTable({
   stats,
   hasMore,
   loading,
   tableRef,
   showMore,
   showLess,
-}: ReturnType<typeof useUniqueNames>) {
+}: ReturnType<typeof useNewNames>) {
   return (
     <>
       <table
@@ -32,7 +32,7 @@ export function UniqueNamesTable({
                 <td className="p-2 text-sm">{name}</td>
               </tr>
             ))}
-          {loading && <LoadingTable rows={3} />}
+          {loading && <LoadingTable rows={2} />}
         </tbody>
       </table>
       {hasMore ? (

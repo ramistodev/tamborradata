@@ -11,7 +11,7 @@ export interface GlobalStats {
   commonNameBySchoolByYear: CommonNameBySchool[];
   topSchoolsByYear: TopSchool[];
   topSurnamesByYear: TopSurname[];
-  uniqueNamesByYear: UniqueName[];
+  newNamesByYear: NewName[];
   newSchoolsByYear: NewSchool[];
   totalParticipantsByYear: TotalParticipant[];
   surnamesDiversityByYear: SurnamesDiversity[];
@@ -74,7 +74,7 @@ export interface TopSurnameData {
   surname: string;
 }
 
-export interface UniqueName {
+export interface NewName {
   category: string;
   public_data: string[];
   summary: string;
