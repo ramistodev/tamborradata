@@ -28,7 +28,7 @@ const nextConfig: NextConfig = {
               value: 'tamborradata.vercel.app',
             },
           ],
-          destination: 'https://tamborradata.com/$1',
+          destination: 'https://tamborradata.com/',
           permanent: true,
         }
       );
