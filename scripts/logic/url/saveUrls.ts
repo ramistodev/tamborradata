@@ -1,4 +1,4 @@
-import { supabase } from '@/app/(backend)/db/supabase';
+import { supabase } from '@/scripts/db/supabase';
 import { log } from '../helpers';
 
 // Guardar las nuevas URLs en la base de datos Supabase

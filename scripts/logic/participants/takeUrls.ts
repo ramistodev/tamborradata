@@ -1,4 +1,4 @@
-import { supabase } from '@/app/(backend)/db/supabase';
+import { supabase } from '@/scripts/db/supabase';
 import { log } from '../helpers';
 
 // Lógica para tomar las URLs no scrapeadas de la base de datos Supabase
