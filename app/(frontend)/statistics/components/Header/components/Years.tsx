@@ -15,14 +15,6 @@ export function Years() {
     <>
       <li>
         <Link
-          href="/"
-          className="px-4 py-2 border text-(--color-text) font-semibold rounded hover:opacity-90 border-(--color-border) hover:border-transparent transition-all hover:bg-(--color-primary)"
-        >
-          Tamborradata
-        </Link>
-      </li>
-      <li>
-        <Link
           href={`/statistics/global`}
           className={`px-2 py-1 rounded font-semibold ${
             pathname === '/statistics/global'
