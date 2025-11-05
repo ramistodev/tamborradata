@@ -214,6 +214,11 @@ export function isValidName(text: string): boolean {
     'Barril Mayor',
     'Language',
     'Languages',
+    'Calle de la',
+    'Aula de Cultura',
+    'Cultura',
+    'Aula',
+    'Ayuntamiento',
   ];
 
   // No debe contener números
