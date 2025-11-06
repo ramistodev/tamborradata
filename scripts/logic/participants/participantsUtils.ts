@@ -102,6 +102,7 @@ export function cleanSchoolName(input: string): string {
     'Escuadron Txiki Real Sociedad Hipica',
     'Escuadron Lanceros Real Sociedad Hipica',
     'Caballitos De La Real Sociedad Hipica De',
+    'Escuadra Txiki Real Sociedad Hipica',
     'Nuevas Companias De Adultos',
     'La En Imagenes',
     'Imagenes',
@@ -116,11 +117,8 @@ export function cleanSchoolName(input: string): string {
     'Katalina De Erauso Txiki',
     'Katalina',
     'Kresala Txiki Cierra El Preludio',
-    'Txiki',
     'Las Mejores Imagenes De La',
     'Revive De Principio A Fin La Del Dia De',
-    'Txikis',
-    'Txiki',
     'Los Peques De Gaztelubide Se Unen A La Fiesta',
   ];
 
