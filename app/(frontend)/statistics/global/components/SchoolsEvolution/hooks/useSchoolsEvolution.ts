@@ -9,7 +9,7 @@ export function useSchoolsEvolution() {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [chart, setChart] = useState(false);
-  const [chartData, setChartData] = useState<Year[] | null>(null);
+  const [chartData, setChartData] = useState<SchoolsEvolutionData | null>(null);
   const cacheRef = useRef<SchoolsEvolutionData[] | null>(null);
   const tableRef = useRef<HTMLTableElement | null>(null);
 
@@ -74,16 +74,9 @@ export function useSchoolsEvolution() {
     return Array.from(allYears).sort((a, b) => b - a);
   }, [stats]);
 
-  function showChart(data?: Year[]) {
+  function showChart(data?: SchoolsEvolutionData) {
     setChart((prev) => !prev);
-
-    if (data) {
-      const chartData = years.map((year) => {
-        const found = data.find((d) => d.year === year);
-        return found ? { year, count: found.count } : { year, count: 0 };
-      });
-      setChartData(chartData.sort((a, b) => a.year - b.year));
-    }
+    setChartData(data || null);
   }
 
   return {

@@ -3,25 +3,42 @@ import { ResponsiveLine } from '@nivo/line';
 import { motion } from 'framer-motion';
 import { CloseIcon } from '@/app/(frontend)/icons/icons';
 import { useSchoolsEvolution } from '../hooks/useSchoolsEvolution';
+import { Year } from '../../../types/types';
 
 export function SchoolsEvolutionChart({
   chartData,
   showChart,
+  years,
 }: ReturnType<typeof useSchoolsEvolution>) {
   // Normalizar a la forma que espera ResponsiveLine
-  const fromatedData = useMemo(
-    () => [
+
+  const yearsData: Year[] | null = useMemo(() => {
+    if (chartData) {
+      const data = years.map((year) => {
+        const found = chartData.years.find((d) => d.year === year);
+        return found ? { year, count: found.count } : { year, count: 0 };
+      });
+      return data.sort((a, b) => a.year - b.year);
+    }
+
+    return null;
+  }, [chartData, years]);
+
+  const fromatedData = useMemo(() => {
+    if (!yearsData) return null;
+
+    return [
       {
         id: 'count',
-        data: chartData?.map((d) => ({ x: String(d.year), y: Number(d.count ?? 0) })) || [],
+        data: yearsData.map((d) => ({ x: d.year.toString(), y: d.count })),
       },
-    ],
-    [chartData]
-  );
+    ];
+  }, [yearsData]);
 
   // Calcula min/max del eje Y con padding
   const { yMin, yMax, tickValues } = useMemo(() => {
-    const values: number[] = fromatedData[0].data?.map((d) => Number(d.y)) || [];
+    const values: number[] =
+      fromatedData?.flatMap((item) => item.data.map((point) => Number(point.y))) || [];
     const max = Math.max(0, ...values);
     const pad = Math.max(20, Math.ceil(max * 0.1));
     const min = 0;
@@ -45,8 +62,11 @@ export function SchoolsEvolutionChart({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-[800px] h-[400px] bg-white rounded-2xl px-3 py-10 select-none"
+        className="relative w-[850px] h-[420px] bg-white rounded-2xl px-3 pt-15 pb-5 select-none"
       >
+        <h4 className="absolute top-5 left-1/2 transform -translate-x-1/2 text-lg text-black">
+          {chartData?.school}
+        </h4>
         <button
           className="absolute top-2 right-2 p-2 bg-blue-400 hover:opacity-80 rounded-lg cursor-pointer"
           onClick={() => showChart()}
