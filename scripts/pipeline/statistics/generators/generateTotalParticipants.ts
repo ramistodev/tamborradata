@@ -1,4 +1,4 @@
-import { allParticipants } from '../../types';
+import { allParticipants } from '../../../pipeline/types';
 import { totalParticipants } from '../statTypes';
 
 // Generar el total de participantes por año

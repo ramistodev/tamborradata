@@ -52,7 +52,7 @@ export function SchoolsEvolutionTable({
                   <td className="p-2 text-sm">{stat.total}</td>
                   <td className="p-2 text-sm text-center hidden xl:table-cell">
                     <span
-                      onClick={() => showChart(stat.years)}
+                      onClick={() => showChart(stat)}
                       className="w-[90px] p-1 rounded bg-(--color-primary) cursor-pointer hover:opacity-80"
                     >
                       Ver grafica

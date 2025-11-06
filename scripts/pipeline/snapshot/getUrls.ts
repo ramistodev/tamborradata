@@ -2,7 +2,7 @@ import { supabase } from '@/scripts/db/supabase';
 import { log } from '../helpers';
 
 // Lógica para tomar las URLs no scrapeadas de la base de datos Supabase
-export async function takeUrls(): Promise<{ id: string; url: string }[]> {
+export async function getUrls(): Promise<{ id: string; url: string }[]> {
   // Configuracion de paginación
   const BATCH_SIZE = 100; // Número de URLs a recuperar por lote
   let from = 0;
@@ -18,7 +18,7 @@ export async function takeUrls(): Promise<{ id: string; url: string }[]> {
       const { data: urlsBatch, error } = await supabase
         .from('scraped_urls')
         .select('id, url')
-        .eq('is_scraped', false)
+        .eq('snapshot_taken', false)
         .range(from, to);
 
       if (error) {

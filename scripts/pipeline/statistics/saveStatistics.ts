@@ -1,6 +1,6 @@
 import { statEntry } from './statTypes';
 import { supabase } from '@/scripts/db/supabase';
-import { log } from '../helpers';
+import { log } from '../../pipeline/helpers';
 
 // Función para guardar las estadísticas en la base de datos
 export async function saveStatistics(statistics: statEntry[]) {

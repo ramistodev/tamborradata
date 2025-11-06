@@ -1,6 +1,6 @@
 import { supabase } from '@/scripts/db/supabase';
 import { summariesEntry } from './statTypes';
-import { log } from '../helpers';
+import { log } from '../../pipeline/helpers';
 
 export async function saveSummaries(summaries: summariesEntry[]) {
   // Si no hay resúmenes, salir

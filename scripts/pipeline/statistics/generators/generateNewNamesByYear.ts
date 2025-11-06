@@ -1,4 +1,4 @@
-import { allParticipants } from '../../types';
+import { allParticipants } from '../../../pipeline/types';
 
 // Generar los nombres que salen por primera vez cada año
 export function generateNewNamesByYear(

@@ -56,9 +56,7 @@ export function ExploreStatistics() {
                 <CheckIcon />
               </div>
               <div className="flex items-start justify-center md:items-center md:justify-start flex-col md:flex-row md:gap-3">
-                <span className="font-medium">
-                  Explora los nuevos datos de {currentYear} disponibles
-                </span>
+                <span className="font-medium">Explora los nuevos datos de {currentYear}</span>
                 <span className="text-(--color-text-secondary) text-sm">
                   Actualizado recientemente
                 </span>
@@ -74,7 +72,7 @@ export function ExploreStatistics() {
               <div className="flex items-start justify-center md:items-center md:justify-start flex-col md:flex-row md:gap-3">
                 <span className="font-medium">Proximamente {currentYear}</span>
                 <span className="text-(--color-text-secondary) text-sm">
-                  Esperando la recopilación de datos
+                  Disponible el 20 de enero
                 </span>
               </div>
             </div>
@@ -82,7 +80,7 @@ export function ExploreStatistics() {
         </motion.div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 w-full max-w-5xl">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-8 w-full max-w-5xl">
         <motion.div
           ref={globalCardRef}
           whileHover={{ scale: 1.02, y: -8 }}
@@ -93,7 +91,7 @@ export function ExploreStatistics() {
         >
           <Link
             href="/statistics/global"
-            className="block p-8 rounded-2xl transition-all duration-500 shadow-xl group border-0 relative overflow-hidden bg-linear-to-br from-(--color-bg-secondary) via-(--color-bg-thirdary) to-(--color-primary)"
+            className="block p-8 rounded-2xl transition-all duration-500 shadow-xl group border-0 relative overflow-hidden bg-linear-to-br from-(--eye-catching-text) via-(--color-primary) to-(--color-bg-thirdary)"
           >
             <div className="flex flex-col items-start justify-center gap-4 relative z-10">
               <div>
@@ -115,7 +113,7 @@ export function ExploreStatistics() {
 
         <motion.div
           ref={yearlyCardRef}
-          whileHover={{ scale: 1.02, y: -8 }}
+          whileHover={newData ? { scale: 1.03, y: -20 } : { scale: 1.02, y: -8 }}
           whileTap={{ scale: 0.98 }}
           initial={{ opacity: 0 }}
           animate={isYearlyCardInView ? { opacity: 1 } : { opacity: 0 }}
@@ -123,13 +121,20 @@ export function ExploreStatistics() {
         >
           <Link
             href={`/statistics/${isNewData ? currentYear : currentYear - 1}`}
-            className={`block p-8 rounded-2xl transition-all duration-500 group border-0 relative overflow-hidden
-              ${newData ? 'bg-linear-to-br from-(--eye-catching-text) via-(--color-primary) to-(--color-bg-thirdary) shadow-[0_0px_20px_0px_var(--eye-catching-text),0_0_0_2px_var(--eye-catching-text)]' : 'bg-linear-to-br from-(--color-bg-secondary) via-(--color-bg-thirdary) to-(--color-primary)'}`}
+            className={`block p-8 rounded-2xl transition-all duration-500 group border-0 relative overflow-hidden group:
+              ${newData ? 'bg-linear-to-br from-(--eye-catching-text) to-(--color-bg-thirdary) shadow-[0_0px_50px_0px_var(--caption-color),0_0_0_2px_var(--eye-catching-text)]' : 'bg-linear-to-br from-(--eye-catching-text) via-(--color-primary) to-(--color-bg-thirdary)'}`}
           >
             {newData && (
               <>
-                <div className="absolute top-2 right-2 bg-white text-(--eye-catching-text) text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                <div className="absolute top-2 right-2 bg-white text-(--eye-catching-text) text-xs font-bold px-3 py-1 rounded-full shadow-lg group-hover:scale-115 transition-transform duration-300">
                   NUEVO!
+                </div>
+              </>
+            )}
+            {comingData && (
+              <>
+                <div className="absolute top-2 right-2 bg-white text-(--eye-catching-text) text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                  Proximamente {currentYear}!
                 </div>
               </>
             )}

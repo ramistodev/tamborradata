@@ -3,7 +3,7 @@ import { allParticipants } from '../types';
 import { log } from '../helpers';
 
 // Función para obtener todos los participantes de la base de datos en lotes
-export async function takeAllParticipants(): Promise<allParticipants[]> {
+export async function getAllParticipants(): Promise<allParticipants[]> {
   const BATCH_SIZE = 250; // Número de participantes a recuperar por lote
   let from = 0;
   let to = BATCH_SIZE - 1;

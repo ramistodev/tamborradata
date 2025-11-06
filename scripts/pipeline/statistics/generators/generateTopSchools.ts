@@ -1,4 +1,4 @@
-import { allParticipants } from '../../types';
+import { allParticipants } from '../../../pipeline/types';
 import { topSchools } from '../statTypes';
 
 // Generar las escuelas más comunes

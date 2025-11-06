@@ -1,4 +1,4 @@
-import { allParticipants } from '../../types';
+import { allParticipants } from '../../../pipeline/types';
 import { topSurnames } from '../statTypes';
 
 // Generar los apellidos más comunes

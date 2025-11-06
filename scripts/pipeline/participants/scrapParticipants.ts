@@ -4,7 +4,7 @@ import { load } from 'cheerio';
 import { cleanSchoolName, isValidName, cleanNames } from './participantsUtils';
 import * as chrono from 'chrono-node';
 import { allParticipants, pageParticipants, updateUrls } from '../types';
-import { takeUrls } from './takeUrls';
+import { getUrls } from './getUrls';
 
 // Lógica para recoger los participantes desde las URLs scrapeandolas
 export async function scrapParticipants(): Promise<{
@@ -12,7 +12,7 @@ export async function scrapParticipants(): Promise<{
   scrapedUrls: Set<updateUrls>;
 }> {
   // Recuperamos las URLs no scrapeadas para procesarlas
-  const urlsData = await takeUrls();
+  const urlsData = await getUrls();
 
   // Si no hay URLs, devolvemos sets vacíos
   if (!urlsData || urlsData.length === 0) {

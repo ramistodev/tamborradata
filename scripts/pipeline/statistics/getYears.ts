@@ -2,7 +2,7 @@ import { supabase } from '@/scripts/db/supabase';
 import { log } from '../helpers';
 
 // Función para obtener todos los años únicos de los artículos scrapeados
-export async function takeYears(): Promise<number[]> {
+export async function getYears(): Promise<number[]> {
   try {
     // Obtener todas las fechas de los artículos desde la tabla scraped_urls
     const { data, error } = await supabase.from('scraped_urls').select('article_date');

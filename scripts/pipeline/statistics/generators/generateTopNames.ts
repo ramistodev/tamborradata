@@ -1,4 +1,4 @@
-import { allParticipants } from '../../types';
+import { allParticipants } from '../../../pipeline/types';
 import { topNames } from '../statTypes';
 
 // Generar los nombres más comunes

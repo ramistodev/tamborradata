@@ -11,6 +11,7 @@
   --color-border: #bebebe;
   --color-loading: #d8d8d8;
   --color-table: #f9f9f9;
+  --caption-color: #008cff;
 
   /* GLOBAL STYLES */
   --eye-catching-text: #09f;
@@ -28,6 +29,7 @@
     --color-border: #394868;
     --color-loading: #254384;
     --color-table: #1e2b44;
+    --caption-color: #56bcff;
   }
 }
 

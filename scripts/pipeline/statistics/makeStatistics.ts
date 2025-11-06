@@ -1,7 +1,14 @@
-import { groupBy, log } from '../helpers';
-import { takeYears } from './takeYears';
+import { groupBy, log } from '../../pipeline/helpers';
+import { getYears } from './getYears';
+import { getAllParticipants } from './getAllParticipants';
 import { generateTopNames } from './generators/generateTopNames';
 import { generateTopSurnames } from './generators/generateTopSurnames';
+import { generateTopSchools } from './generators/generateTopSchools';
+import { generateTotalParticipants } from './generators/generateTotalParticipants';
+import { generateCommonNameBySchool } from './generators/generateCommonNameBySchool';
+import { allParticipants } from '../../pipeline/types';
+import { generateSchoolsEvolution } from './generators/generateSchoolsEvolution';
+import { generateNewNamesByYear } from './generators/generateNewNamesByYear';
 import type {
   commonNameBySchool,
   totalParticipants,
@@ -10,18 +17,11 @@ import type {
   topSurnames,
   statEntry,
 } from './statTypes';
-import { generateTopSchools } from './generators/generateTopSchools';
-import { generateTotalParticipants } from './generators/generateTotalParticipants';
-import { generateCommonNameBySchool } from './generators/generateCommonNameBySchool';
-import { allParticipants } from '../types';
-import { generateSchoolsEvolution } from './generators/generateSchoolsEvolution';
-import { takeAllParticipants } from './takeAllParticipants';
-import { generateNewNamesByYear } from './generators/generateNewNamesByYear';
 
 // Función principal para generar todas las estadísticas
 export async function makeStatistics(): Promise<statEntry[]> {
   // Obtener años disponibles
-  const availableYears = await takeYears();
+  const availableYears = await getYears();
   const firstYear = availableYears[0];
 
   // Si no hay años, retornar vacío
@@ -33,7 +33,7 @@ export async function makeStatistics(): Promise<statEntry[]> {
   log(`Años disponibles para estadísticas: ${availableYears.join(', ')}`, 'info');
 
   // Obtener todos los participantes
-  const allParticipants: allParticipants[] = await takeAllParticipants();
+  const allParticipants: allParticipants[] = await getAllParticipants();
   // Agrupar participantes por año
   const yearGroups = groupBy(allParticipants, 'year');
 
