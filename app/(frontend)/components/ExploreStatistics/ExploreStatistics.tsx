@@ -81,7 +81,7 @@ export function ExploreStatistics() {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-8 w-full max-w-5xl">
-        <motion.div
+        <motion.article
           ref={globalCardRef}
           whileHover={{ scale: 1.02, y: -8 }}
           whileTap={{ scale: 0.98 }}
@@ -109,9 +109,9 @@ export function ExploreStatistics() {
               </div>
             </div>
           </Link>
-        </motion.div>
+        </motion.article>
 
-        <motion.div
+        <motion.article
           ref={yearlyCardRef}
           whileHover={newData ? { scale: 1.03, y: -20 } : { scale: 1.02, y: -8 }}
           whileTap={{ scale: 0.98 }}
@@ -157,7 +157,7 @@ export function ExploreStatistics() {
               </div>
             </div>
           </Link>
-        </motion.div>
+        </motion.article>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 w-full max-w-4xl">

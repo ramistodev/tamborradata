@@ -25,10 +25,27 @@ const nextConfig: NextConfig = {
           has: [
             {
               type: 'host' as const,
-              value: 'tamborradata.vercel.app',
+              value: 'tamborradata-2dbzsxi5p-ramistodevs-projects.vercel.app',
             },
           ],
           destination: 'https://tamborradata.com/',
+          permanent: true,
+        },
+        {
+          source: '/(.*)',
+          has: [
+            {
+              type: 'host' as const,
+              value: 'tamborradata-git-main-ramistodevs-projects.vercel.app',
+            },
+          ],
+          destination: 'https://tamborradata.com/',
+          permanent: true,
+        },
+        // Redirigir HTTP a HTTPS
+        {
+          source: '/(.*)',
+          destination: 'https://tamborradata.com/:path*',
           permanent: true,
         }
       );
