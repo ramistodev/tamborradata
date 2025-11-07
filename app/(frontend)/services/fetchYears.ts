@@ -1,4 +1,4 @@
-export async function fetchYears() {
+export async function fetchYears(): Promise<string[]> {
   // Saber los años disponibles desde la API
   try {
     const response = await fetch('/api/available-years');

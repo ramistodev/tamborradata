@@ -105,6 +105,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="apple-touch-icon" href="/favicon.ico" />
+        <link rel="canonical" href="https://tamborradata.com/" />
         <meta name="theme-color" content="#ffffff" />
 
         <script
