@@ -44,7 +44,9 @@ function GlobalPageContent() {
     <>
       <h1 className="text-3xl font-bold">Tamborrada Infantil — Estadísticas Globales</h1>
 
-      <Markdown>{statistics?.intro[0]?.summary}</Markdown>
+      <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
+        <Markdown>{statistics?.intro[0]?.summary}</Markdown>
+      </div>
 
       <span className="w-full border border-(--color-border)"></span>
 
@@ -60,7 +62,9 @@ function GlobalPageContent() {
 
       <span className="w-full border border-(--color-border)"></span>
 
-      <Markdown>{statistics?.outro[0]?.summary}</Markdown>
+      <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
+        <Markdown>{statistics?.outro[0]?.summary}</Markdown>
+      </div>
 
       <Link
         href="./info"
