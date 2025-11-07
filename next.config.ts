@@ -41,13 +41,13 @@ const nextConfig: NextConfig = {
           ],
           destination: 'https://tamborradata.com/',
           permanent: true,
-        },
-        // Redirigir HTTP a HTTPS
-        {
-          source: '/(.*)',
-          destination: 'https://tamborradata.com/',
-          permanent: true,
         }
+        // Redirigir HTTP a HTTPS
+        // {
+        //   source: '/(.*)',
+        //   destination: 'https://tamborradata.com/',
+        //   permanent: true,
+        // }
       );
     }
 
