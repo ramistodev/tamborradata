@@ -45,7 +45,7 @@ const nextConfig: NextConfig = {
         // Redirigir HTTP a HTTPS
         {
           source: '/(.*)',
-          destination: 'https://tamborradata.com/:path*',
+          destination: 'https://tamborradata.com/',
           permanent: true,
         }
       );
