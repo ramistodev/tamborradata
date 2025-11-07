@@ -1,20 +1,22 @@
+import { fetchYears } from '@/app/(frontend)/services/fetchYears';
 import { useInView } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
 export function useExploreStatistics() {
   const [newData, setNewData] = useState(false);
   const [comingData, setComingData] = useState(false);
-  const [isNewData, setIsNewData] = useState(true);
   const years = new Date().getFullYear() - 2018;
   const currentYear = new Date().getFullYear();
+  const lastStatYear = useRef(currentYear);
 
+  // Refs para los elementos a observar
   const headerRef = useRef(null);
   const notificationsRef = useRef(null);
   const globalCardRef = useRef(null);
   const yearlyCardRef = useRef(null);
   const statsRef = useRef(null);
 
-  // Detectar si están en vista
+  // Detectar si están en vista los elementos para animaciones
   const isHeaderInView = useInView(headerRef, {
     once: true,
     amount: 1.0,
@@ -42,30 +44,29 @@ export function useExploreStatistics() {
 
   useEffect(() => {
     const dateNow = new Date();
-    const currentMonth = dateNow.getMonth(); // Enero es 0, Febrero es 1, etc.
+    const month = dateNow.getMonth();
     const day = dateNow.getDate();
 
-    if (currentMonth === 0 && day > 20) {
-      setComingData(true);
-    }
-
-    if ((currentMonth === 0 && day >= 20) || (currentMonth === 1 && day <= 20)) {
-      setNewData(true);
-    }
-
-    if ((currentMonth >= 0 && day >= 20) || currentMonth !== 0) {
-      setIsNewData(true);
-    } else {
-      setIsNewData(false);
+    // Comprobar si hay nuevos datos disponibles (o van a estarlo pronto)
+    if (month === 0 || (month === 1 && day <= 20)) {
+      fetchYears().then((fetchedYears) => {
+        if (fetchedYears.includes(currentYear)) {
+          setNewData(true);
+          setComingData(false);
+        } else if (month === 0) {
+          setComingData(true);
+          lastStatYear.current = currentYear - 1;
+        }
+      });
     }
   }, []);
 
   return {
-    isNewData,
+    lastStatYear,
+    currentYear,
     newData,
     comingData,
     years,
-    currentYear,
     isHeaderInView,
     isNotificationsInView,
     isGlobalCardInView,

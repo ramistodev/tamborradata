@@ -5,6 +5,8 @@ import { LoadingPage } from '../../loaders/LoadingPage';
 import { useYearContext } from './context/useYearContext';
 import { YearProvider } from './context/YearProvider';
 import { useYear } from './hooks/useYear';
+import { InfoIcon } from '../../icons/icons';
+import Link from 'next/link';
 import {
   TopNames,
   TopSurnames,
@@ -15,8 +17,6 @@ import {
   CommonNamesBySchool,
   NamesSurnamesDiversity,
 } from './components';
-import Link from 'next/link';
-import { InfoIcon } from '../../icons/icons';
 
 export default function YearPage() {
   return (
@@ -28,11 +28,17 @@ export default function YearPage() {
 
 function YearPageContent() {
   const { statistics } = useYearContext();
-  const { year, isLoading } = useYear();
+  const { year, isLoading, isUpdating } = useYear();
 
-  if (!statistics && !isLoading) {
-    return notFound();
+  if (isUpdating) {
+    return (
+      <div className="w-full min-h-screen flex flex-col items-center justify-center px-4 py-16">
+        <h2 className="text-xl font-bold">Updating...</h2>
+      </div>
+    );
   }
+
+  if (!statistics && !isLoading) return notFound();
 
   if (isLoading || !statistics) return <LoadingPage />;
 
@@ -40,7 +46,7 @@ function YearPageContent() {
     <>
       <h1 className="text-3xl font-bold">Tamborrada Infantil — {year}</h1>
 
-      <Markdown>{statistics.intro[0].summary}</Markdown>
+      <Markdown>{statistics.intro[0]?.summary}</Markdown>
 
       <span className="w-full border border-(--color-border)"></span>
 
@@ -55,7 +61,7 @@ function YearPageContent() {
 
       <span className="w-full border border-(--color-border)"></span>
 
-      <Markdown>{statistics.outro[0].summary}</Markdown>
+      <Markdown>{statistics.outro[0]?.summary}</Markdown>
 
       <Link
         href="./info"

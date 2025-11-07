@@ -3,8 +3,8 @@ import { log } from '../helpers/log';
 
 export async function getAvailableYears() {
   try {
-    // Obtener todos los años de los artículos desde la tabla statistics
-    const { data, error } = await supabase.from('statistics').select('year');
+    // Obtener todos los años de los artículos desde la tabla available_years
+    const { data, error } = await supabase.from('available_years').select('year');
 
     // Manejar errores
     if (error) {
@@ -19,16 +19,9 @@ export async function getAvailableYears() {
     }
 
     // Filtrar para solo tener años válidos (excluir 'global')
-    const onlyYears = data.filter((item) => item.year !== 'global');
-
-    // Extraer años únicos de las fechas obtenidas
-    const years = new Set<number>();
-
-    // Recorrer los datos y extraer el año de cada fecha
-    for (let i = 0; i < onlyYears.length; i++) {
-      const year = parseInt(onlyYears[i].year);
-      if (!isNaN(year)) years.add(year);
-    }
+    const years = data
+      .filter((item) => item.year !== 'global')
+      .map((item) => parseInt(item.year, 10));
 
     // Retornar los años como un array ordenado descendente
     return Array.from(years).sort((a, b) => b - a);
