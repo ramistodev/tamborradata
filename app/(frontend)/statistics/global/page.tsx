@@ -42,7 +42,9 @@ function GlobalPageContent() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold">Tamborrada Infantil — Estadísticas Globales</h1>
+      <h1 className="text-2xl md:text-3xl font-bold">
+        Tamborrada Infantil — Estadísticas Globales
+      </h1>
 
       <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
         <Markdown>{statistics?.intro[0]?.summary}</Markdown>
