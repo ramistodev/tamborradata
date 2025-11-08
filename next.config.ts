@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next';
 
+// Configuración de Next.js
 const nextConfig: NextConfig = {
   async redirects() {
     const redirects = [];
