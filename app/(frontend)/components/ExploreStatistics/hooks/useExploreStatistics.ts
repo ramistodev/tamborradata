@@ -50,7 +50,8 @@ export function useExploreStatistics() {
     // Comprobar si hay nuevos datos disponibles (o van a estarlo pronto)
     if (month === 0 || (month === 1 && day <= 20)) {
       fetchYears().then((fetchedYears) => {
-        if (fetchedYears.includes(currentYear)) {
+        const yearsNumbers = fetchedYears.map((year) => Number(year));
+        if (yearsNumbers.includes(currentYear)) {
           setNewData(true);
           setComingData(false);
         } else if (month === 0) {
