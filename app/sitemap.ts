@@ -34,7 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/statistics/info`,
       lastModified: new Date('2025-11-01'),
       changeFrequency: 'monthly',
-      priority: 0.8,
+      priority: 0.5,
     },
     ...yearUrls,
   ];
