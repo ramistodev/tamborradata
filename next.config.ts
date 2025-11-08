@@ -1,32 +1,60 @@
 import type { NextConfig } from 'next';
 
-// Configuración de Next.js
 const nextConfig: NextConfig = {
   async redirects() {
     const redirects = [];
 
-    // Solo en producción
+    // Solo hacer redirecciones en producción
     if (process.env.NODE_ENV === 'production') {
       redirects.push(
-        // Forzar dominio sin www
+        // Redirigir www a dominio principal
         {
-          source: '/:path*',
+          source: '/(.*)',
           has: [
             {
               type: 'host' as const,
               value: 'www.tamborradata.com',
             },
           ],
-          destination: 'https://tamborradata.com/:path*',
+          destination: 'https://tamborradata.com/$1',
+          permanent: true,
+        },
+        // Redirigir Vercel URL a dominio principal
+        {
+          source: '/(.*)',
+          has: [
+            {
+              type: 'host' as const,
+              value: 'tamborradata-2dbzsxi5p-ramistodevs-projects.vercel.app',
+            },
+          ],
+          destination: 'https://tamborradata.com/',
+          permanent: true,
+        },
+        {
+          source: '/(.*)',
+          has: [
+            {
+              type: 'host' as const,
+              value: 'tamborradata-git-main-ramistodevs-projects.vercel.app',
+            },
+          ],
+          destination: 'https://tamborradata.com/',
           permanent: true,
         }
+        // Redirigir HTTP a HTTPS
+        // {
+        //   source: '/(.*)',
+        //   destination: 'https://tamborradata.com/',
+        //   permanent: true,
+        // }
       );
     }
 
     return redirects;
   },
 
-  // Seguridad y rendimiento
+  // Otras configuraciones
   poweredByHeader: false,
   compress: true,
 
@@ -36,14 +64,25 @@ const nextConfig: NextConfig = {
       {
         source: '/(.*)',
         headers: [
-          { key: 'X-DNS-Prefetch-Control', value: 'on' },
-          { key: 'X-XSS-Protection', value: '1; mode=block' },
-          { key: 'X-Frame-Options', value: 'DENY' },
-          { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
           {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload',
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
           },
         ],
       },
