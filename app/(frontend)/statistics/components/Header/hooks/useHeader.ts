@@ -9,7 +9,8 @@ export function useHeader() {
     setIsLoading(true);
     fetchYears()
       .then((fetchedYears) => {
-        setYears(fetchedYears);
+        const yearsNumbers = fetchedYears.filter((y) => y !== 'global').map((year) => Number(year));
+        setYears(yearsNumbers);
       })
       .finally(() => {
         setIsLoading(false);
