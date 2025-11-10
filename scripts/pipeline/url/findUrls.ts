@@ -1,5 +1,5 @@
 import 'dotenv/config';
-// import { fromSerpApi } from './findUrls/fromSerpApi';
+import { fromSerpApi } from './findUrls/fromSerpApi';
 import { fromWaybackApi } from './findUrls/fromWaybackApi';
 import { fromDiarioVasco } from './findUrls/fromDiarioVasco';
 
@@ -14,9 +14,7 @@ export async function findUrls(): Promise<{
   const diarioVascoUrls = await fromDiarioVasco();
 
   // Lógica para scrapear URLs usando SerpAPI
-  // const serpApiUrls = await fromSerpApi();
-
-  const serpApiUrls: string[] = []; // Placeholder until fromSerpApi is fixed
+  const serpApiUrls = await fromSerpApi();
 
   // Lógica para scrapear URLs usando Wayback Machine
   const waybackUrls = await fromWaybackApi();

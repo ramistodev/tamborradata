@@ -6,11 +6,11 @@ import { fetchSysStatus } from '@/app/(frontend)/services/fetchSysStatus';
 
 export function useGlobal() {
   const { setStatistics } = useGlobalContext();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsLoading(true);
+    // setIsLoading(true);
     const month = new Date().getMonth();
     const day = new Date().getDate();
 
@@ -37,6 +37,7 @@ export function useGlobal() {
             setIsLoading(false); // Sistema actualizándose, no cargar datos
           } else {
             setIsUpdating(false);
+            setIsLoading(true);
             loadData(); // Sistema OK, cargar datos
           }
         })

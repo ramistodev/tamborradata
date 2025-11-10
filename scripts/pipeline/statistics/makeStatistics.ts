@@ -119,15 +119,6 @@ export async function makeStatistics(): Promise<statEntry[]> {
     .sort((a, b) => b.length - a.length)
     .slice(0, 50);
 
-  // Nombres con mas participaciones totales con al menos dos apellidos
-  const nameMap = new Map<string, number>();
-  for (const { name } of allParticipants) {
-    if ((name.match(/\s/g) || []).length >= 2) {
-      nameMap.set(name, (nameMap.get(name) || 0) + 1);
-    }
-  }
-  const mostRepeatedNameOverall = [...nameMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 100); // Aqui van los nombres mas repetidos
-
   log('Generación de estadísticas completada.\n', 'info');
 
   // Compilar todas las estadísticas en un solo array para posterior almacenamiento
@@ -151,7 +142,6 @@ export async function makeStatistics(): Promise<statEntry[]> {
     { category: 'schoolsEvolution', scope: 'global', data: schoolsEvolution },
     { category: 'mostConstantSchools', scope: 'global', data: mostConstantSchools },
     { category: 'longestNames', scope: 'global', data: longestNames },
-    { category: 'mostRepeatedNameOverall', scope: 'global', data: mostRepeatedNameOverall },
   ];
 
   return statistics;
