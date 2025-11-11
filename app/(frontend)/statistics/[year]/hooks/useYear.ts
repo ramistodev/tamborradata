@@ -36,20 +36,20 @@ export function useYear() {
         });
     };
 
-    if (month === 0 || (month === 1 && day <= 20)) {
+    if (month === 10 || (month === 1 && day <= 20)) {
       // Primero verificar el sistema
       fetchSysStatus()
         .then((status) => {
           if (status && status.is_updating) {
             setIsUpdating(true);
-            setIsLoading(false); // Sistema actualizándose, no cargar datos
+            setIsLoading(false);
           } else {
             setIsUpdating(false);
-            loadData(); // Sistema OK, cargar datos
+            loadData();
           }
         })
         .catch(() => {
-          // Error al verificar, asumir que está OK
+          // Error al verificar, asumir que no está actualizando
           setIsUpdating(false);
           loadData();
         });

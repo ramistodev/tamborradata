@@ -6,13 +6,16 @@ import { makeUrlsSnapshot } from './pipeline/snapshot/makeUrlsSnapshot';
 export async function updateStats() {
   // Lógica para actualizar las estadísticas de la Tamborrada, esto se ejecutara cada cierto tiempo
 
-  // Conseguir URLs
+  // Encontrar URLs
   await collectUrls();
 
+  // Sacar participantes
   await collectParticipants();
 
+  // Generar estadísticas
   await collectStatistics();
 
+  // Hacer snapshot de URLs
   await makeUrlsSnapshot();
 }
 

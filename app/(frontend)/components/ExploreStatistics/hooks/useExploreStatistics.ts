@@ -48,13 +48,13 @@ export function useExploreStatistics() {
     const day = dateNow.getDate();
 
     // Comprobar si hay nuevos datos disponibles (o van a estarlo pronto)
-    if (month === 0 || (month === 1 && day <= 20)) {
+    if (month === 10 || (month === 1 && day <= 20)) {
       fetchYears().then((fetchedYears) => {
         const yearsNumbers = fetchedYears.filter((y) => y !== 'global').map((year) => Number(year));
         if (yearsNumbers.includes(currentYear)) {
           setNewData(true);
           setComingData(false);
-        } else if (month === 0) {
+        } else if (month >= 0) {
           setComingData(true);
           lastStatYear.current = currentYear - 1;
         }

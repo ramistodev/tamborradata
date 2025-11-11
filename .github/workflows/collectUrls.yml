@@ -1,15 +1,14 @@
-# .github/workflows/run-pipeline.yml
-name: Update Stats Yearly
+name: Collect Tamborrada URLs (Pre-pipeline)
 
 on:
   schedule:
-    - cron: '10 18 5 11 *' # 5 de noviembre a las 18:10 UTC (19:10 Madrid)
-  workflow_dispatch: # Permite lanzarlo manualmente también
+    - cron: '50 14 11 11 *' # 11 de noviembre a las 14:50 UTC (15:50 Madrid)
+  workflow_dispatch:
 
 jobs:
-  build:
+  collect-urls:
     runs-on: ubuntu-latest
-    environment: Production # Define el entorno de despliegue
+    environment: Production
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -19,14 +18,12 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install deps
+      - name: Install dependencies
         run: npm install
 
-      - name: Run pipeline
-        run: npx tsx scripts/updateStats.ts
-
+      - name: Run URL collector
+        run: npx tsx scripts/pipeline/url/collectUrls.ts
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
