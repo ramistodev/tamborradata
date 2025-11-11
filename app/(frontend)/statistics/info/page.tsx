@@ -171,10 +171,6 @@ export default function InfoPage() {
         aclaración, puede ponerse en contacto con el desarrollador del proyecto mediante los canales
         de comunicación indicados en esta página web.
       </p>
-
-      <p className="mt-10 text-sm italic text-gray-500 dark:text-gray-400">
-        Última actualización: Octubre de 2025 · Proyecto desarrollado y mantenido por Ramistodev.
-      </p>
     </>
   );
 }
