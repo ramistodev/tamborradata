@@ -2,9 +2,18 @@ import { collectUrls } from './pipeline/url/collectUrls';
 import { collectParticipants } from './pipeline/participants/collectParticipants';
 import { collectStatistics } from './pipeline/statistics/collectStatistics';
 import { makeUrlsSnapshot } from './pipeline/snapshot/makeUrlsSnapshot';
+import { isUpdated } from './logic/isUpdated';
+import { log } from 'console';
 
+// Funcion principal para actualizar las estadísticas
 export async function updateStats() {
-  // Lógica para actualizar las estadísticas de la Tamborrada, esto se ejecutara cada cierto tiempo
+  // Verificar que no existan datos de este año antes de proceder
+  const isData: boolean = await isUpdated();
+
+  if (isData) {
+    log('Las estadísticas ya están actualizadas para este año.', 'info');
+    return;
+  }
 
   // Encontrar URLs
   await collectUrls();
