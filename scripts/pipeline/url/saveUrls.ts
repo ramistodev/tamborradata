@@ -12,7 +12,7 @@ export async function saveUrls(
 
   // Si hay un error, lo logueamos y devolvemos arrays vacíos
   if (error) {
-    log(`Error al obtener URLs desde Supabase: ${error}`, 'error');
+    log(`Error al obtener URLs desde Supabase: ${JSON.stringify(error)}`, 'error');
     return { newUrls: [], dbUrls: new Set<string>() };
   }
 
@@ -33,16 +33,16 @@ export async function saveUrls(
 
     // Insertar en lotes para evitar problemas con límites de tamaño
     if (insertData.length > 0) {
-      // Insertar en lotes de 50
-      for (let i = 0; i < insertData.length; i += 50) {
+      // Insertar en lotes de 25
+      for (let i = 0; i < insertData.length; i += 25) {
         try {
-          const chunkEnd = i + 50 > insertData.length ? insertData.length : i + 50;
+          const chunkEnd = i + 25 > insertData.length ? insertData.length : i + 25;
           const chunk = insertData.slice(i, chunkEnd);
-          const { error: insertError } = await supabase.from('scraped_urls').insert(chunk);
+          const { error: insertError } = await supabase.from('scraped_urls').upsert(chunk).select();
 
           // Loguear cualquier error de inserción
           if (insertError) {
-            log(`Error insertando nuevas URLs: ${insertError}`, 'error');
+            log(`Error insertando nuevas URLs: ${JSON.stringify(insertError)}`, 'error');
           }
         } catch (error) {
           log(`Error insertando nuevas URLs: ${error}`, 'error');
