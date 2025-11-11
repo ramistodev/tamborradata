@@ -2,7 +2,7 @@ name: Collect Tamborrada URLs (Pre-pipeline)
 
 on:
   schedule:
-    - cron: '50 14 11 11 *' # 11 de noviembre a las 14:50 UTC (15:50 Madrid)
+    - cron: '38 15 11 11 *' # 11 de noviembre a las 15:38 UTC (16:38 Madrid)
   workflow_dispatch:
 
 jobs:

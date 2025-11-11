@@ -3,7 +3,7 @@ name: Update Stats Yearly
 
 on:
   schedule:
-    - cron: '10 15 11 11 *' # 11 de noviembre a las 15:10 UTC (16:10 Madrid)
+    - cron: '50 15 11 11 *' # 11 de noviembre a las 15:50 UTC (16:50 Madrid)
   workflow_dispatch:
 
 jobs:

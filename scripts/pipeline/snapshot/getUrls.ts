@@ -4,7 +4,7 @@ import { log } from '../helpers';
 // Lógica para tomar las URLs no scrapeadas de la base de datos Supabase
 export async function getUrls(): Promise<{ id: string; url: string }[]> {
   // Configuracion de paginación
-  const BATCH_SIZE = 100; // Número de URLs a recuperar por lote
+  const BATCH_SIZE = 30; // Número de URLs a recuperar por lote
   let from = 0;
   let to = BATCH_SIZE - 1;
   const MAX = 2000; // Límite máximo de URLs a procesar

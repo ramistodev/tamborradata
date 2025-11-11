@@ -15,9 +15,9 @@ export async function saveParticipants(
   );
 
   // Insertar en lotes para evitar problemas con límites de tamaño
-  for (let i = 0; i < uniqueParticipantsArray.length; i += 100) {
+  for (let i = 0; i < uniqueParticipantsArray.length; i += 40) {
     try {
-      const chunkEnd = Math.min(i + 100, uniqueParticipantsArray.length);
+      const chunkEnd = Math.min(i + 40, uniqueParticipantsArray.length);
       const chunk = uniqueParticipantsArray.slice(i, chunkEnd);
       const { error: insertError } = await supabase
         .from('participants')
