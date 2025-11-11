@@ -36,7 +36,7 @@ export function useYear() {
         });
     };
 
-    if (month === 10 || (month === 1 && day <= 20)) {
+    if (month === 0 || (month === 1 && day <= 20)) {
       // Primero verificar el sistema
       fetchSysStatus()
         .then((status) => {
