@@ -38,7 +38,10 @@ export async function saveUrls(
         try {
           const chunkEnd = i + 25 > insertData.length ? insertData.length : i + 25;
           const chunk = insertData.slice(i, chunkEnd);
-          const { error: insertError } = await supabase.from('scraped_urls').upsert(chunk).select();
+          const { error: insertError } = await supabase
+            .from('scraped_urls')
+            .upsert(chunk, { onConflict: 'url' })
+            .select();
 
           // Loguear cualquier error de inserción
           if (insertError) {
