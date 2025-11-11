@@ -60,7 +60,7 @@ export function middleware(req: NextRequest) {
     });
   }
 
-  // Por defecto, no permitir ← Entorno desconocido, esto no se deberia de ejecutarse nunca
+  // Por defecto, no permitir ← Entorno desconocido, no se deberia de ejecutarse
   return new NextResponse(JSON.stringify({ error: 'Forbidden' }), {
     status: 403,
     headers: { 'Content-Type': 'application/json' },
