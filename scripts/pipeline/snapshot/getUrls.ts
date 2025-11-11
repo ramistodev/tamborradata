@@ -45,8 +45,10 @@ export async function getUrls(): Promise<{ id: string; url: string }[]> {
       to += BATCH_SIZE;
     } catch (error) {
       // Manejar errores generales
-      log(`Error fetching URLs (range ${from}-${to}): ${error}`, 'error');
-      throw new Error(`Error fetching URLs (range ${from}-${to}): ${error}`);
+      log(`Error fetching URLs (range ${from}-${to}): ${JSON.stringify(error, null, 2)}`, 'error');
+      throw new Error(
+        `Error fetching URLs (range ${from}-${to}): ${JSON.stringify(error, null, 2)}`
+      );
     }
   }
 

@@ -21,7 +21,7 @@ export async function saveInDb(statistics: statEntry[], summaries: summariesEntr
     // Indicar que el sistema se ha actualizado y pasar los años
     await updateStatus(false, years);
   } catch (error) {
-    log(`Error saving statistics in DB: ${error}`, 'error');
+    log(`Error saving statistics in DB: ${JSON.stringify(error, null, 2)}`, 'error');
     await updateStatus(false);
   }
 }

@@ -63,7 +63,7 @@ export async function saveStatistics(statistics: statEntry[]) {
       await new Promise((r) => setTimeout(r, 200));
     }
   } catch (error) {
-    log(`Error guardando estadísticas: ${error}`, 'error');
-    throw new Error(`Error guardando estadísticas: ${error}`);
+    log(`Error guardando estadísticas: ${JSON.stringify(error, null, 2)}`, 'error');
+    throw new Error(`Error guardando estadísticas: ${JSON.stringify(error, null, 2)}`);
   }
 }

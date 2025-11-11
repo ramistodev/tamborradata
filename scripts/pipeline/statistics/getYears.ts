@@ -32,7 +32,7 @@ export async function getYears(): Promise<number[]> {
     return Array.from(years).sort((a, b) => a - b);
   } catch (error) {
     // Manejar errores generales
-    log(`Error obteniendo años: ${error}`, 'error');
-    throw new Error(`Error obteniendo años: ${error}`);
+    log(`Error obteniendo años: ${JSON.stringify(error, null, 2)}`, 'error');
+    throw new Error(`Error obteniendo años: ${JSON.stringify(error, null, 2)}`);
   }
 }

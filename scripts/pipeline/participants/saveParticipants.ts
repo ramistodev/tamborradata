@@ -33,8 +33,8 @@ export async function saveParticipants(
       }
     } catch (error) {
       // Manejar errores generales
-      log(`Error insertando participantes: ${error}`, 'error');
-      throw new Error(`Error insertando participantes: ${error}`);
+      log(`Error insertando participantes: ${JSON.stringify(error, null, 2)}`, 'error');
+      throw new Error(`Error insertando participantes: ${JSON.stringify(error, null, 2)}`);
     }
   }
 
@@ -58,8 +58,8 @@ export async function saveParticipants(
       }
     } catch (error) {
       // Manejar errores generales
-      log(`Error actualizando nuevas URLs: ${error}`, 'error');
-      throw new Error(`Error actualizando nuevas URLs: ${error}`);
+      log(`Error actualizando nuevas URLs: ${JSON.stringify(error, null, 2)}`, 'error');
+      throw new Error(`Error actualizando nuevas URLs: ${JSON.stringify(error, null, 2)}`);
     }
   }
 

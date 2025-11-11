@@ -60,7 +60,7 @@ async function saveInWayback(
 
     return savedUrlsId;
   } catch (error) {
-    log(`Error al guardar en Wayback Machine: ${error}`, 'error');
+    log(`Error al guardar en Wayback Machine: ${JSON.stringify(error, null, 2)}`, 'error');
     return null;
   }
 }

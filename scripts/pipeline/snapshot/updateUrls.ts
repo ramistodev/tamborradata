@@ -18,8 +18,8 @@ export async function updateUrls(urlsToUpdateIds: Set<string>) {
       }
     } catch (error) {
       // Manejar errores generales
-      log(`Error actualizando nuevas URLs: ${error}`, 'error');
-      throw new Error(`Error actualizando nuevas URLs: ${error}`);
+      log(`Error actualizando nuevas URLs: ${JSON.stringify(error, null, 2)}`, 'error');
+      throw new Error(`Error actualizando nuevas URLs: ${JSON.stringify(error, null, 2)}`);
     }
   }
 

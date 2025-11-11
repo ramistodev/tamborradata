@@ -45,7 +45,7 @@ export async function fromWaybackApi(): Promise<string[]> {
       }
     }
   } catch (error) {
-    log(`Error fetching from Wayback Machine: ${error}`, 'error');
+    log(`Error fetching from Wayback Machine: ${JSON.stringify(error, null, 2)}`, 'error');
     return [];
   }
 

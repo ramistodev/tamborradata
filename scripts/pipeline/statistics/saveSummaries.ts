@@ -56,8 +56,8 @@ export async function saveSummaries(summaries: summariesEntry[]) {
       }
     } catch (error) {
       // Manejar errores generales
-      log(`Error guardando resúmenes: ${error}`, 'error');
-      throw new Error(`Error guardando resúmenes: ${error}`);
+      log(`Error guardando resúmenes: ${JSON.stringify(error, null, 2)}`, 'error');
+      throw new Error(`Error guardando resúmenes: ${JSON.stringify(error, null, 2)}`);
     }
   }
 }

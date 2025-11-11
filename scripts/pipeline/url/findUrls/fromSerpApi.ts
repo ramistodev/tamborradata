@@ -118,7 +118,7 @@ export async function fromSerpApi(): Promise<string[]> {
       // Esperar un poco antes de la siguiente petición para no saturar el API
       await new Promise((resolve) => setTimeout(resolve, DELAY_MS));
     } catch (error) {
-      log(`Error fetching from SerpApi: ${error}`, 'error');
+      log(`Error fetching from SerpApi: ${JSON.stringify(error, null, 2)}`, 'error');
       return [];
     }
   }

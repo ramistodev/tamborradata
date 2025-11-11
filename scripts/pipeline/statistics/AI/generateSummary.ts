@@ -30,7 +30,7 @@ export async function generateSummary(
     return text;
   } catch (error) {
     // Manejar errores generales
-    log(`Error generando resumen para: ${error}`, 'error');
-    throw new Error(`Error generando resumen para: ${error}`);
+    log(`Error generando resumen para: ${JSON.stringify(error, null, 2)}`, 'error');
+    throw new Error(`Error generando resumen para: ${JSON.stringify(error, null, 2)}`);
   }
 }

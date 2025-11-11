@@ -38,7 +38,7 @@ export async function fromDiarioVasco(): Promise<string[]> {
 
     return collectedUrls;
   } catch (error) {
-    log(`Error fetching from Diario Vasco: ${error}`, 'error');
+    log(`Error fetching from Diario Vasco: ${JSON.stringify(error, null, 2)}`, 'error');
     return [];
   }
 }

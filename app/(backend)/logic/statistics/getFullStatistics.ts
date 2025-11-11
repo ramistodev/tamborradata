@@ -17,7 +17,10 @@ export async function getFullStatistics(year: string, category: string) {
 
     return data?.full_data ?? null;
   } catch (error) {
-    log(`Error fetching full statistics for ${category} (${year}): ${error}`, 'error');
+    log(
+      `Error fetching full statistics for ${category} (${year}): ${JSON.stringify(error, null, 2)}`,
+      'error'
+    );
     return null;
   }
 }

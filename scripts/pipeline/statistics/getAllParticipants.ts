@@ -44,8 +44,13 @@ export async function getAllParticipants(): Promise<allParticipants[]> {
       to += BATCH_SIZE;
     } catch (error) {
       // Manejar errores generales
-      log(`Error fetching participants (range ${from}-${to}): ${error}`, 'error');
-      throw new Error(`Error fetching participants (range ${from}-${to}): ${error}`);
+      log(
+        `Error fetching participants (range ${from}-${to}): ${JSON.stringify(error, null, 2)}`,
+        'error'
+      );
+      throw new Error(
+        `Error fetching participants (range ${from}-${to}): ${JSON.stringify(error, null, 2)}`
+      );
     }
   }
 

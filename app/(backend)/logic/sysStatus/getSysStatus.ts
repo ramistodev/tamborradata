@@ -14,7 +14,7 @@ export async function getSysStatus(): Promise<any | null> {
 
     return data;
   } catch (error) {
-    log(`Error obteniendo estado del sistema: ${error}`, 'error');
+    log(`Error obteniendo estado del sistema: ${JSON.stringify(error, null, 2)}`, 'error');
     return null;
   }
 }

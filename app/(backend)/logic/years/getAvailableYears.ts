@@ -27,7 +27,7 @@ export async function getAvailableYears() {
     return Array.from(years).sort((a, b) => b - a);
   } catch (error) {
     // Manejar errores generales
-    log(`Error obteniendo años: ${error}`, 'error');
+    log(`Error obteniendo años: ${JSON.stringify(error, null, 2)}`, 'error');
     return null;
   }
 }

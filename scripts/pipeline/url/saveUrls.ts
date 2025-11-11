@@ -45,8 +45,8 @@ export async function saveUrls(
             log(`Error insertando nuevas URLs: ${JSON.stringify(insertError)}`, 'error');
           }
         } catch (error) {
-          log(`Error insertando nuevas URLs: ${error}`, 'error');
-          throw new Error(`Error insertando nuevas URLs: ${error}`);
+          log(`Error insertando nuevas URLs: ${JSON.stringify(error, null, 2)}`, 'error');
+          throw new Error(`Error insertando nuevas URLs: ${JSON.stringify(error, null, 2)}`);
         }
       }
     }

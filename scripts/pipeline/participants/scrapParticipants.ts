@@ -122,7 +122,7 @@ async function scrapePage(url: string): Promise<pageParticipants[]> {
 
     return allResults;
   } catch (error) {
-    log(`Error fetching URL ${url}: ${error}`, 'error');
+    log(`Error fetching URL ${url}: ${JSON.stringify(error, null, 2)}`, 'error');
     return [];
   }
 }
