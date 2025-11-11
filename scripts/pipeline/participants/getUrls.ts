@@ -1,5 +1,5 @@
 import { supabase } from '@/scripts/db/supabase';
-import { log } from '../helpers';
+import { log } from '../../logic/helpers';
 
 // Lógica para tomar las URLs no scrapeadas de la base de datos Supabase
 export async function getUrls(): Promise<{ id: string; url: string }[]> {

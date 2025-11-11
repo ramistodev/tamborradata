@@ -1,5 +1,5 @@
 import { supabase } from '@/scripts/db/supabase';
-import { log } from '../helpers';
+import { log } from '../../logic/helpers';
 
 // Función para obtener todos los años únicos de los artículos scrapeados
 export async function getYears(): Promise<number[]> {

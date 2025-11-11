@@ -1,6 +1,6 @@
 import { supabase } from '@/scripts/db/supabase';
 import { allParticipants, updateUrls } from '../types';
-import { log } from '../helpers';
+import { log } from '../../logic/helpers';
 
 // Lógica para guardar los participantes en la base de datos
 export async function saveParticipants(

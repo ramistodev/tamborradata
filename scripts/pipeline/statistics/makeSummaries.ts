@@ -1,4 +1,4 @@
-import { log } from '../../pipeline/helpers';
+import { log } from '../../logic/helpers';
 import { generateSummary } from './AI/generateSummary';
 import {
   sysPromptGlobal,

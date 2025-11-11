@@ -1,6 +1,6 @@
 import { createOpenAI } from '@ai-sdk/openai';
 import { generateText } from 'ai';
-import { log } from '../../../pipeline/helpers';
+import { log } from '../../../logic/helpers';
 
 const openai = createOpenAI({
   headers: {

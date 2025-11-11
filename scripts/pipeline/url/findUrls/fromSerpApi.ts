@@ -1,4 +1,4 @@
-import { log } from '../../../pipeline/helpers';
+import { log } from '../../../logic/helpers';
 import { serpApiParams } from '../../../pipeline/types';
 
 export async function fromSerpApi(): Promise<string[]> {

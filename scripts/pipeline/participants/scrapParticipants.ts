@@ -1,4 +1,4 @@
-import { log } from '../helpers';
+import { log } from '../../logic/helpers';
 import fetch from 'node-fetch';
 import { load } from 'cheerio';
 import { cleanSchoolName, isValidName, cleanNames } from './participantsUtils';

@@ -1,4 +1,4 @@
-import { log } from '../../../pipeline/helpers';
+import { log } from '../../../logic/helpers';
 import { waybackParams } from '../../../pipeline/types';
 
 // Función para scrapear URLs de Wayback Machine

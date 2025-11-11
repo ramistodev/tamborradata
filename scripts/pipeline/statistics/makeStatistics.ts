@@ -1,4 +1,4 @@
-import { groupBy, log } from '../../pipeline/helpers';
+import { groupBy, log } from '../../logic/helpers';
 import { getYears } from './getYears';
 import { getAllParticipants } from './getAllParticipants';
 import { generateTopNames } from './generators/generateTopNames';

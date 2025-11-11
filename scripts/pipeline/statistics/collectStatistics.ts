@@ -1,4 +1,4 @@
-import { log } from '../../pipeline/helpers';
+import { log } from '../../logic/helpers';
 import { makeStatistics } from './makeStatistics';
 import { makeSummaries } from './makeSummaries';
 import { saveInDb } from './saveInDb';

@@ -1,6 +1,6 @@
 import { allParticipants } from '../../../pipeline/types';
 import { commonNameBySchool } from '../statTypes';
-import { groupBy } from '../../../pipeline/helpers';
+import { groupBy } from '../../../logic/helpers';
 
 // Generar el nombre más común por escuela
 export function generateCommonNameBySchool(participants: allParticipants[]): commonNameBySchool[] {

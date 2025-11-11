@@ -1,5 +1,5 @@
 import { supabase } from '@/scripts/db/supabase';
-import { log } from '../helpers';
+import { log } from '../../logic/helpers';
 
 export async function updateUrls(urlsToUpdateIds: Set<string>) {
   // Actualizar las URLs como scrapeadas con la fecha del artículo

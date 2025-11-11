@@ -1,8 +1,11 @@
-import { log } from 'console';
+import { log } from './helpers';
 import { supabase } from '../db/supabase';
 
 export async function isUpdated(): Promise<boolean> {
   const year = new Date().getFullYear(); // Año actual
+
+  // En entorno de desarrollo, siempre devolver false para forzar la actualización
+  if (process.env.NODE_ENV === 'development') return false;
 
   try {
     // Consultar la tabla 'available_years' para ver qué años están disponibles
@@ -14,7 +17,7 @@ export async function isUpdated(): Promise<boolean> {
       return false;
     }
 
-    const years = data?.map((item) => item.year) || []; // Extraer los años disponibles
+    const years = data?.map((item) => item.year.toString()) || []; // Extraer los años disponibles
 
     // Retornar si el año actual está en la lista de años disponibles o no
     // si esta devuelve true, si no false

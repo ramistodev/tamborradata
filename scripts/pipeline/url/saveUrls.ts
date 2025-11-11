@@ -1,5 +1,5 @@
 import { supabase } from '@/scripts/db/supabase';
-import { log } from '../../pipeline/helpers';
+import { log } from '../../logic/helpers';
 
 // Guardar las nuevas URLs en la base de datos Supabase
 export async function saveUrls(

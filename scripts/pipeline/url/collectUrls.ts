@@ -1,4 +1,4 @@
-import { log } from '../../pipeline/helpers';
+import { log } from '../../logic/helpers';
 import { saveUrls } from './saveUrls';
 import { findUrls } from './findUrls';
 

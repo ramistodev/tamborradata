@@ -1,4 +1,4 @@
-import { log } from '../helpers';
+import { log } from '../../logic/helpers';
 import { scrapParticipants } from './scrapParticipants';
 import { saveParticipants } from './saveParticipants';
 

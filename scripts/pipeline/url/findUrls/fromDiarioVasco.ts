@@ -1,5 +1,5 @@
 import { load } from 'cheerio';
-import { log } from '../../../pipeline/helpers';
+import { log } from '../../../logic/helpers';
 
 export async function fromDiarioVasco(): Promise<string[]> {
   // URL base de Diario Vasco para las compañías infantiles de la Tamborrada

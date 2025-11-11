@@ -1,6 +1,6 @@
 import { supabase } from '@/scripts/db/supabase';
 import { allParticipants } from '../types';
-import { log } from '../helpers';
+import { log } from '../../logic/helpers';
 
 // Función para obtener todos los participantes de la base de datos en lotes
 export async function getAllParticipants(): Promise<allParticipants[]> {

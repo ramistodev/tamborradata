@@ -1,5 +1,5 @@
 import { getUrls } from '@/scripts/pipeline/participants/getUrls';
-import { log } from '../helpers';
+import { log } from '../../logic/helpers';
 import { updateUrls } from './updateUrls';
 
 export async function makeUrlsSnapshot() {
