@@ -3,7 +3,7 @@ import { collectParticipants } from './pipeline/participants/collectParticipants
 import { collectStatistics } from './pipeline/statistics/collectStatistics';
 import { makeUrlsSnapshot } from './pipeline/snapshot/makeUrlsSnapshot';
 import { isUpdated } from './logic/isUpdated';
-import { log } from 'console';
+import { log } from './logic/helpers';
 
 // Funcion principal para actualizar las estadísticas
 export async function updateStats() {
