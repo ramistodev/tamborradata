@@ -1,4 +1,3 @@
-import 'server-only';
 import { log } from 'console';
 import { saveStatistics } from './saveStatistics';
 import { saveSummaries } from './saveSummaries';

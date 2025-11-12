@@ -1,4 +1,3 @@
-import 'server-only';
 import { supabase } from '@/scripts/db/supabase';
 import { allParticipants } from '../types';
 import { log } from '../../logic/helpers';

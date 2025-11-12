@@ -1,3 +1,4 @@
+import { fetchWithRetry } from '@/scripts/utils/fetchWithRetry';
 import { log } from '../../../logic/helpers';
 import { waybackParams } from '../../../pipeline/types';
 
@@ -21,7 +22,7 @@ export async function fromWaybackApi(): Promise<string[]> {
 
   // Hacemos la petición a Wayback Machine
   try {
-    const response = await fetch(
+    const response = await fetchWithRetry(
       waybackMachineEndpoint + '?' + new URLSearchParams(params as any),
       { method: 'GET' }
     );

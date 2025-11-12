@@ -1,5 +1,6 @@
 import { load } from 'cheerio';
 import { log } from '../../../logic/helpers';
+import { fetchWithRetry } from '@/scripts/utils/fetchWithRetry';
 
 export async function fromDiarioVasco(): Promise<string[]> {
   // URL base de Diario Vasco para las compañías infantiles de la Tamborrada
@@ -7,12 +8,13 @@ export async function fromDiarioVasco(): Promise<string[]> {
 
   try {
     // Hacemos una petición fetch para verificar que la URL es accesible
-    const res = await fetch(BASEURL, {
+    const res = await fetchWithRetry(BASEURL, {
       headers: {
         'User-Agent':
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140 Safari/537.36',
         Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
       },
+      method: 'GET',
     });
 
     // Verificamos si la respuesta fue exitosa

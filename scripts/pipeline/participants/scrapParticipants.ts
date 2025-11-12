@@ -1,10 +1,10 @@
 import { log } from '../../logic/helpers';
-import fetch from 'node-fetch';
 import { load } from 'cheerio';
 import { cleanSchoolName, isValidName, cleanNames } from './participantsUtils';
 import * as chrono from 'chrono-node';
 import { allParticipants, pageParticipants, updateUrls } from '../types';
 import { getUrls } from './getUrls';
+import { fetchWithRetry } from '@/scripts/utils/fetchWithRetry';
 
 // Lógica para recoger los participantes desde las URLs scrapeandolas
 export async function scrapParticipants(): Promise<{
@@ -49,12 +49,14 @@ export async function scrapParticipants(): Promise<{
 async function scrapePage(url: string): Promise<pageParticipants[]> {
   // Hacemos la petición HTTP para obtener el HTML de la página
   try {
-    const res = await fetch(url, {
+    // Realizamos la petición con reintentos
+    const res = await fetchWithRetry(url, {
       headers: {
         'User-Agent':
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140 Safari/537.36',
         Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
       },
+      method: 'GET',
     });
 
     // Verificamos si la respuesta fue exitosa

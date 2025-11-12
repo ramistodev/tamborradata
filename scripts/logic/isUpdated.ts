@@ -1,4 +1,3 @@
-import 'server-only';
 import { log } from './helpers';
 import { supabase } from '../db/supabase';
 

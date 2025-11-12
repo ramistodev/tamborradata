@@ -1,6 +1,7 @@
 import { getUrls } from '@/scripts/pipeline/participants/getUrls';
 import { log } from '../../logic/helpers';
 import { updateUrls } from './updateUrls';
+import { fetchWithRetry } from '@/scripts/utils/fetchWithRetry';
 
 export async function makeUrlsSnapshot() {
   log('Iniciando snapshot de URLs en Wayback Machine...', 'info');
@@ -8,6 +9,11 @@ export async function makeUrlsSnapshot() {
 
   // Obtener las URLs no scrapeadas
   const urls = await getUrls();
+
+  if (!urls || urls.length === 0) {
+    log('No hay URLs pendientes para snapshot', 'info');
+    return;
+  }
 
   // Guardar las URLs en Wayback Machine
   const savedUrlsId = await saveInWayback(urls);
@@ -21,26 +27,20 @@ export async function makeUrlsSnapshot() {
 async function saveInWayback(
   urlsToSave: { id: string; url: string }[]
 ): Promise<Set<string> | null> {
-  try {
-    const savedUrlsId = new Set<string>();
+  const savedUrlsId = new Set<string>();
 
-    // Guardar cada URL en Wayback Machine con manejo de errores
-    // Limitar a 5 intentos fallidos
-    let attempts = 0;
-    for (const { id, url } of urlsToSave) {
-      log(`Guardando en Wayback Machine: ${url}`, 'info');
-      const res = await fetch('http://web.archive.org/save/' + encodeURIComponent(url), {
+  // Guardar cada URL en Wayback Machine con manejo de errores
+  for (const { id, url } of urlsToSave) {
+    try {
+      // Fetch con reintentos
+      const res = await fetchWithRetry('http://web.archive.org/save/' + encodeURIComponent(url), {
         method: 'GET',
       });
 
+      // Comprobar si la respuesta es correcta
       if (!res.ok) {
         log(`Error al guardar en Wayback Machine: ${url}`, 'error');
-        attempts++;
-      }
-
-      if (attempts >= 5) {
-        log('Demasiados errores al guardar en Wayback Machine, abortando.', 'error');
-        break;
+        continue;
       }
 
       log(`Guardado en Wayback Machine: ${url}`, 'info');
@@ -50,17 +50,19 @@ async function saveInWayback(
 
       // Esperar 1 segundo entre cada solicitud para no sobrecargar Wayback Machine
       await new Promise((r) => setTimeout(r, 1000));
+    } catch (error) {
+      log(
+        `Error al guardar en Wayback Machine: ${url} - ${JSON.stringify(error, null, 2)}`,
+        'error'
+      );
     }
+  }
 
-    // Si no se guardó ninguna URL, retornar null
-    if (savedUrlsId.size === 0) {
-      log('No se han guardado URLs nuevos en Wayback Machine.', 'warn');
-      return null;
-    }
-
-    return savedUrlsId;
-  } catch (error) {
-    log(`Error al guardar en Wayback Machine: ${JSON.stringify(error, null, 2)}`, 'error');
+  // Si no se guardó ninguna URL, retornar null
+  if (savedUrlsId.size === 0) {
+    log('No se han guardado URLs nuevos en Wayback Machine.', 'warn');
     return null;
   }
+
+  return savedUrlsId;
 }

@@ -1,3 +1,4 @@
+import { fetchWithRetry } from '@/scripts/utils/fetchWithRetry';
 import { log } from '../../../logic/helpers';
 import { serpApiParams } from '../../../pipeline/types';
 
@@ -45,9 +46,12 @@ export async function fromSerpApi(): Promise<string[]> {
 
     // Hacemos la petición a SerpApi
     try {
-      const response = await fetch(serpApiEndpoint + '?' + new URLSearchParams(params as any), {
-        method: 'GET',
-      });
+      const response = await fetchWithRetry(
+        serpApiEndpoint + '?' + new URLSearchParams(params as any),
+        {
+          method: 'GET',
+        }
+      );
 
       // Comprobar si la respuesta es correcta
       if (!response.ok) {
