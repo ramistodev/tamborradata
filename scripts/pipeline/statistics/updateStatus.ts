@@ -1,3 +1,4 @@
+import 'server-only';
 import { supabase } from '@/scripts/db/supabase';
 import { log } from 'console';
 

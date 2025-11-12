@@ -2,9 +2,23 @@ import { getSysStatus } from '../../logic/sysStatus/getSysStatus';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const sysStatus = await getSysStatus();
-  if (!sysStatus)
-    return NextResponse.json({ error: 'No se encontró información del sistema' }, { status: 404 });
+  try {
+    // Obtener el estado del sistema
+    const sysStatus = await getSysStatus();
 
-  return NextResponse.json(sysStatus);
+    // Validar si hay datos
+    if (!sysStatus) {
+      return NextResponse.json(
+        { error: 'No se encontró información del sistema' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(sysStatus);
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Error al obtener el estado del sistema', details: JSON.stringify(error) },
+      { status: 500 }
+    );
+  }
 }

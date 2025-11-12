@@ -1,9 +1,10 @@
-import { supabase } from '../../db/supabase';
+import 'server-only';
+import { supabasePublic } from '../../db/supabase';
 import { log } from '../helpers/log';
 
 export async function getSysStatus(): Promise<any | null> {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabasePublic
       .from('sys_status')
       .select('is_updating')
       .eq('id', 1)

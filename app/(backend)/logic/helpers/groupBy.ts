@@ -1,3 +1,4 @@
+import 'server-only';
 export function groupBy<T extends Record<string, any>, K extends keyof T>(
   array: T[],
   key: K

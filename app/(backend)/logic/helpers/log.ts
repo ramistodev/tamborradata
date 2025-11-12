@@ -1,3 +1,4 @@
+import 'server-only';
 export const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 // Log para centralizar y controlar los mensajes en consola

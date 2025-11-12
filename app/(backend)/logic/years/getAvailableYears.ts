@@ -1,10 +1,14 @@
-import { supabase } from '@/app/(backend)/db/supabase';
+import 'server-only';
+import { supabasePublic } from '@/app/(backend)/db/supabase';
 import { log } from '../helpers/log';
 
-export async function getAvailableYears() {
+export async function getAvailableYears(): Promise<number[] | null> {
   try {
     // Obtener todos los años de los artículos desde la tabla available_years
-    const { data, error } = await supabase.from('available_years').select('year');
+    const { data, error } = await supabasePublic
+      .from('available_years')
+      .select('year')
+      .order('year', { ascending: true });
 
     // Manejar errores
     if (error) {

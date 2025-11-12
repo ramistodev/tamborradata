@@ -1,3 +1,4 @@
+import 'server-only';
 import { supabase } from '@/app/(backend)/db/supabase';
 import { log } from '../helpers/log';
 

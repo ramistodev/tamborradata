@@ -3,7 +3,7 @@ export async function fetchYears(): Promise<string[]> {
   try {
     const response = await fetch('/api/available-years');
     const data = await response.json();
-    if (!data.years) {
+    if (!data.years || data.years.length === 0) {
       console.error('No years data found');
       return [];
     }
