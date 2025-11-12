@@ -1,0 +1,30 @@
+# .github/workflows/collectUrls.yml
+name: Find new URLs
+
+on:
+  schedule:
+    - cron: '0 22 15-19 1 *' # 15-19 enero 22:00 UTC (23:00 Madrid)
+  workflow_dispatch:
+
+jobs:
+  collect-urls:
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run URL collector
+        run: npx tsx scripts/pipeline/url/collectUrls.ts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}

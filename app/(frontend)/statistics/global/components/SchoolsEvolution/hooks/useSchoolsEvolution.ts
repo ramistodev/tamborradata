@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { SchoolsEvolutionData, Year } from '../../../types/types';
+import { SchoolsEvolutionData } from '../../../types/types';
 import { fetchCategory } from '../../../../logic/fetchCategory';
 import { useGlobalContext } from '../../../context/useGlobalContext';
 

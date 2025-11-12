@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchYears } from '../logic/fetchYears';
+import { fetchYears } from '@/app/(frontend)/services/fetchYears';
 
 export function useHeader() {
   const [years, setYears] = useState<number[]>();
@@ -9,7 +9,8 @@ export function useHeader() {
     setIsLoading(true);
     fetchYears()
       .then((fetchedYears) => {
-        setYears(fetchedYears);
+        const yearsNumbers = fetchedYears.filter((y) => y !== 'global').map((year) => Number(year));
+        setYears(yearsNumbers);
       })
       .finally(() => {
         setIsLoading(false);

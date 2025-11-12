@@ -16,7 +16,7 @@ export async function getStatistics(year: string) {
 
     return data ?? null;
   } catch (error) {
-    log(`Error fetching statistics for year ${year}: ${error}`, 'error');
+    log(`Error fetching statistics for year ${year}: ${JSON.stringify(error, null, 2)}`, 'error');
     return null;
   }
 }

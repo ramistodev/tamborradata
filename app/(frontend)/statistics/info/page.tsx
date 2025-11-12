@@ -1,3 +1,76 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Información y Transparencia de Datos | Tamborradata',
+  description:
+    'Conoce el origen de los datos, funcionamiento del sistema automatizado, medidas de privacidad y seguridad aplicadas en Tamborradata. Información detallada sobre nuestro proyecto cultural y educativo.',
+  keywords: [
+    'transparencia datos tamborradata',
+    'privacidad tamborradata',
+    'como funciona tamborradata',
+    'origen datos tamborradata',
+    'seguridad tamborradata',
+    'metodología tamborradata',
+    'sistema automatizado tamborradata',
+    'fuentes datos tamborrada infantil',
+    'el diario vasco como fuente',
+    'protección datos menores tamborradata',
+    'algoritmos estadísticos tamborradata',
+    'inteligencia artificial tamborradata',
+    'base datos segura tamborradata',
+    'política privacidad tamborradata',
+    'tratamiento ético datos tamborradata',
+    'medidas técnicas seguridad tamborradata',
+    'proyecto educativo tamborradata',
+    'finalidad cultural tamborradata',
+    'responsabilidad datos tamborradata',
+    'contacto tamborradata desarrollador',
+    'información técnica tamborradata',
+    'proceso recopilación tamborradata',
+    'almacenamiento seguro tamborradata',
+    'cumplimiento legal tamborradata',
+    'código ético tamborradata',
+  ],
+  openGraph: {
+    title: 'Información y Transparencia de Datos | Tamborradata',
+    description:
+      'Descubre cómo funciona Tamborradata: origen de los datos, sistema automatizado, medidas de privacidad y nuestro compromiso con la transparencia en el análisis de la Tamborrada Infantil.',
+    url: 'https://tamborradata.com/statistics/info',
+    siteName: 'Tamborradata',
+    images: [
+      {
+        url: 'https://tamborradata.com/og-image.webp',
+        alt: 'Tamborradata | Información y Transparencia de Datos',
+      },
+    ],
+    locale: 'es_ES',
+    type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Información y Transparencia | Tamborradata',
+    description:
+      'Conoce el funcionamiento, origen de datos y medidas de privacidad del proyecto Tamborradata. Transparencia total en el análisis de la Tamborrada Infantil.',
+    images: ['https://tamborradata.com/og-image.webp'],
+    creator: '@tamborradata',
+    site: '@tamborradata',
+  },
+  alternates: {
+    canonical: 'https://tamborradata.com/statistics/info',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+};
+
 export default function InfoPage() {
   return (
     <>
@@ -97,10 +170,6 @@ export default function InfoPage() {
         En caso de que algún interesado desee solicitar la eliminación de información, corrección o
         aclaración, puede ponerse en contacto con el desarrollador del proyecto mediante los canales
         de comunicación indicados en esta página web.
-      </p>
-
-      <p className="mt-10 text-sm italic text-gray-500 dark:text-gray-400">
-        Última actualización: Octubre de 2025 · Proyecto desarrollado y mantenido por Ramistodev.
       </p>
     </>
   );

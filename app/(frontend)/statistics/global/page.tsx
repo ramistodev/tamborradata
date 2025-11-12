@@ -28,17 +28,27 @@ export default function GlobalPage() {
 
 function GlobalPageContent() {
   const { statistics } = useGlobalContext();
-  const { isLoading } = useGlobal();
+  const { isLoading, isUpdating } = useGlobal();
 
-  if (isLoading || !statistics) {
-    return <LoadingPage />;
+  if (isUpdating) {
+    return (
+      <div className="w-full min-h-screen flex flex-col items-center justify-center px-4 py-16">
+        <h2 className="text-xl font-bold">Updating...</h2>
+      </div>
+    );
   }
+
+  if (isLoading || !statistics) return <LoadingPage />;
 
   return (
     <>
-      <h1 className="text-3xl font-bold">Tamborrada Infantil — Estadísticas Globales</h1>
+      <h1 className="text-2xl md:text-3xl font-bold">
+        Tamborrada Infantil — Estadísticas Globales
+      </h1>
 
-      <Markdown>{statistics.intro[0]?.summary}</Markdown>
+      <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
+        <Markdown>{statistics?.intro[0]?.summary}</Markdown>
+      </div>
 
       <span className="w-full border border-(--color-border)"></span>
 
@@ -54,7 +64,9 @@ function GlobalPageContent() {
 
       <span className="w-full border border-(--color-border)"></span>
 
-      <Markdown>{statistics.outro[0]?.summary}</Markdown>
+      <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
+        <Markdown>{statistics?.outro[0]?.summary}</Markdown>
+      </div>
 
       <Link
         href="./info"

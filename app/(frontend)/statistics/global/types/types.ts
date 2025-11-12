@@ -6,7 +6,6 @@ export interface Category {
     | TopName[]
     | TopSchool[]
     | TopSurname[]
-    | MostRepeatedNameOverall[]
     | LongestName[]
     | TotalParticipant[]
     | SurnamesDiversity[];
@@ -27,7 +26,6 @@ export interface GlobalStats {
   topNames: TopName[];
   topSchools: TopSchool[];
   topSurnames: TopSurname[];
-  mostRepeatedNameOverall: MostRepeatedNameOverall[];
   longestNames: LongestName[];
   totalParticipants: TotalParticipant[];
   surnamesDiversity: SurnamesDiversity[];
@@ -121,12 +119,6 @@ export interface TopSurname {
 export interface TopSurnameData {
   count: number;
   surname: string;
-}
-
-export interface MostRepeatedNameOverall {
-  category: string;
-  public_data: [string, number][];
-  summary: string;
 }
 
 export interface LongestName {

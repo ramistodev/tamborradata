@@ -5,8 +5,8 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <main className="h-screen flex flex-col items-center justify-between">
-      <div className="w-full relative flex flex-col items-center justify-center h-full overflow-hidden bg-(--color-bg)">
+    <main className="relative w-full">
+      <div className="absolute -top-1/2 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex flex-col items-center justify-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -65,20 +65,6 @@ export default function NotFound() {
             </Link>
           </motion.div>
         </motion.div>
-
-        {/* Línea decorativa inferior */}
-        <motion.div
-          initial={{ width: 0, opacity: 1 }}
-          animate={{
-            width: '100%',
-            opacity: 0,
-          }}
-          transition={{
-            width: { duration: 1.5, ease: 'easeOut', delay: 0.5 },
-            opacity: { duration: 1, ease: 'easeInOut', delay: 2 },
-          }}
-          className="absolute bottom-0 left-0 h-1 bg-linear-to-r bg-(--color-text-thirdary)"
-        />
       </div>
     </main>
   );

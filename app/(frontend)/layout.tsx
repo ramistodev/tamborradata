@@ -105,6 +105,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="apple-touch-icon" href="/favicon.ico" />
+        <link rel="canonical" href="https://tamborradata.com/" />
         <meta name="theme-color" content="#ffffff" />
 
         <script
@@ -122,9 +123,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen m-0 px-5 flex flex-col items-center justify-between">
+      <body className="relative w-full min-h-screen m-0 px-5 flex flex-col items-center justify-between">
         {children}
-        <footer className="w-full text-center text-sm text-(--color-text-secondary) py-2 mt-8">
+        <footer className="w-full text-center text-sm text-(--color-text-secondary) py-2 mt-8 mb-5 sm:mb-1">
           <span>© {new Date().getFullYear()} Tamborradata · Todos los derechos reservados.</span>
         </footer>
         <SpeedInsights /> {/* Vercel Speed Insights */}
