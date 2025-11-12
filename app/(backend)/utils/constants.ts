@@ -1,3 +1,4 @@
+import 'server-only';
 import { supabasePublic } from '../db/supabase';
 import { log } from '../logic/helpers/log';
 
