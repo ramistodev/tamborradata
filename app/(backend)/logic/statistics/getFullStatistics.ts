@@ -1,10 +1,10 @@
 import 'server-only';
-import { supabase } from '@/app/(backend)/db/supabase';
+import { supabasePublic } from '@/app/(backend)/db/supabasePublic';
 import { log } from '../helpers/log';
 
 export async function getFullStatistics(year: string, category: string) {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabasePublic
       .from('statistics')
       .select('full_data')
       .eq('year', year)

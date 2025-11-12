@@ -1,5 +1,5 @@
 import 'server-only';
-import { supabasePublic } from '../../db/supabase';
+import { supabasePublic } from '../../db/supabasePublic';
 import { log } from '../helpers/log';
 
 export async function getSysStatus(): Promise<any | null> {

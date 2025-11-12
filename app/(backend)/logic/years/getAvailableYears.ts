@@ -1,5 +1,5 @@
 import 'server-only';
-import { supabasePublic } from '@/app/(backend)/db/supabase';
+import { supabasePublic } from '@/app/(backend)/db/supabasePublic';
 import { log } from '../helpers/log';
 
 export async function getAvailableYears(): Promise<number[] | null> {
