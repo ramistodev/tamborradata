@@ -13,8 +13,9 @@ import {
 } from './components';
 import { GlobalProvider } from './context/GlobalProvider';
 import { useGlobalContext } from './context/useGlobalContext';
-import { useGlobal } from './hooks/useGlobal';
 import { LoadingPage } from '@/app/(frontend)/loaders/LoadingPage';
+import { UpdatingPage } from '../components/UpdatingPage/UpdatingPage';
+import { useGlobal } from './hooks/useGlobal';
 import { InfoIcon } from '../../icons/icons';
 import Link from 'next/dist/client/link';
 
@@ -30,13 +31,7 @@ function GlobalPageContent() {
   const { statistics } = useGlobalContext();
   const { isLoading, isUpdating } = useGlobal();
 
-  if (isUpdating) {
-    return (
-      <div className="w-full min-h-screen flex flex-col items-center justify-center px-4 py-16">
-        <h2 className="text-xl font-bold">Updating...</h2>
-      </div>
-    );
-  }
+  if (isUpdating) return <UpdatingPage />;
 
   if (isLoading || !statistics) return <LoadingPage />;
 

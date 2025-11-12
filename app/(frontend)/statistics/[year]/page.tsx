@@ -1,12 +1,5 @@
 'use client';
 import Markdown from 'react-markdown';
-import { notFound } from 'next/navigation';
-import { LoadingPage } from '../../loaders/LoadingPage';
-import { useYearContext } from './context/useYearContext';
-import { YearProvider } from './context/YearProvider';
-import { useYear } from './hooks/useYear';
-import { InfoIcon } from '../../icons/icons';
-import Link from 'next/link';
 import {
   TopNames,
   TopSurnames,
@@ -17,6 +10,14 @@ import {
   CommonNamesBySchool,
   NamesSurnamesDiversity,
 } from './components';
+import { YearProvider } from './context/YearProvider';
+import { useYearContext } from './context/useYearContext';
+import { LoadingPage } from '../../loaders/LoadingPage';
+import { UpdatingPage } from '../components/UpdatingPage/UpdatingPage';
+import { useYear } from './hooks/useYear';
+import { InfoIcon } from '../../icons/icons';
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
 
 export default function YearPage() {
   return (
@@ -30,13 +31,7 @@ function YearPageContent() {
   const { statistics } = useYearContext();
   const { year, isLoading, isUpdating } = useYear();
 
-  if (isUpdating) {
-    return (
-      <div className="w-full min-h-screen flex flex-col items-center justify-center px-4 py-16">
-        <h2 className="text-xl font-bold">Updating...</h2>
-      </div>
-    );
-  }
+  if (isUpdating) return <UpdatingPage />;
 
   if (!statistics && !isLoading) return notFound();
 
