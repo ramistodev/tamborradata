@@ -1,3 +1,4 @@
+// Para saber si se estan actualizando datos en la DB
 export async function fetchSysStatus(): Promise<{ is_updating: boolean } | null> {
   try {
     const response = await fetch('/api/sys-status');
