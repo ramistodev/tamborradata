@@ -11,6 +11,13 @@ export const metadata: Metadata = {
   description:
     'Explora las estadísticas, nombres y colegios de la Tamborrada Infantil de San Sebastián. Análisis de datos desde 2018 con IA y visualizaciones interactivas.',
   keywords: [
+    'tamborradata',
+    'tamborradata pagina principal',
+    'tamborrada infantil',
+    'donostia',
+    'san sebastián',
+    'tamborrada san sebastian',
+    'tamborrada estadisticas',
     'tamborrada',
     'datos tamborrada',
     'estadísticas tamborrada infantil',
