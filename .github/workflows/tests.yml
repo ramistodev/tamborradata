@@ -9,6 +9,7 @@ jobs:
   test:
     name: Run Vitest + Playwright
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - name: Checkout code
@@ -34,13 +35,22 @@ jobs:
 
       - name: Run unit tests (Vitest)
         run: pnpm vitest --run
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
 
       - name: Run coverage
         run: pnpm vitest --coverage
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
 
       - name: Run E2E tests (Playwright)
         run: pnpm test:e2e
         continue-on-error: false
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
 
       # Si fallan los tests E2E se guardan traces/screenshots
       - name: Upload Playwright artifacts
