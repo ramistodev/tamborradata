@@ -1,0 +1,51 @@
+name: CI - Tests & Coverage
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: Run Vitest + Playwright
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install
+
+      # Necesario para test E2E
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Run unit tests (Vitest)
+        run: pnpm vitest --run
+
+      - name: Run coverage
+        run: pnpm vitest --coverage
+
+      - name: Run E2E tests (Playwright)
+        run: pnpm test:e2e
+        continue-on-error: false
+
+      # Si fallan los tests E2E se guardan traces/screenshots
+      - name: Upload Playwright artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
