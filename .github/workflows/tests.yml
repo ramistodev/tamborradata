@@ -33,7 +33,7 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps
 
-      - name: Run unit tests (Vitest)
+      - name: Run Vitest
         run: pnpm vitest --run
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}

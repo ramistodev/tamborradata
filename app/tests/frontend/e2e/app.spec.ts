@@ -12,11 +12,11 @@ test.describe('Tamborrada Data E2E - Navegación Completa', () => {
 
     // Verificar que estamos en home y el componente ExploreStatistics está presente
     await expect(page.getByRole('heading', { name: /Explora las Estadísticas/i })).toBeVisible();
-    const globalButton = page.locator('text=Global').first();
-    await expect(globalButton).toBeVisible();
 
-    // 2. Navegar a estadísticas globales usando el botón del ExploreStatistics
-    await globalButton.click();
+    // 2. Navegar a estadísticas globales usando el link del ExploreStatistics
+    const globalLink = page.locator('a[href="/statistics/global"]').first();
+    await expect(globalLink).toBeVisible();
+    await globalLink.click();
     await page.waitForLoadState('networkidle');
 
     // Verificar que estamos en la página de estadísticas globales
@@ -109,11 +109,11 @@ test.describe('Tamborrada Data E2E - Navegación Completa', () => {
     }
 
     // 8. Volver a Global usando el header
-    const globalLink = page
+    const globalHeaderLink = page
       .locator('header nav a')
       .filter({ hasText: /Global/i })
       .first();
-    await globalLink.click();
+    await globalHeaderLink.click();
     await page.waitForLoadState('networkidle');
     await expect(page).toHaveURL(/\/statistics\/global/);
     await expect(
@@ -194,8 +194,9 @@ test.describe('Tamborrada Data E2E - Navegación Completa', () => {
       await expect(yearHeading).toBeVisible();
 
       // Capturar screenshot
-      await page.screenshot({ path: `app/tests/frontend/e2e/screenshots/10-navegacion-year-${i + 1}.png` });
+      await page.screenshot({
+        path: `app/tests/frontend/e2e/screenshots/10-navegacion-year-${i + 1}.png`,
+      });
     }
   });
 });
-
