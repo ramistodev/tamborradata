@@ -1,0 +1,75 @@
+import { useRef, useState } from 'react';
+import { TopNameData } from '../../../types/types';
+import { fetchCategory } from '../../../../logic/fetchCategory';
+import { useYearContext } from '../../../context/useYearContext';
+import { scrollToTopTable } from '../../../utils/scrollToTopTable';
+
+export function useTopNames() {
+  const { statistics, year } = useYearContext();
+  const [stats, setStats] = useState(statistics?.topNamesByYear || []);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [chart, setChart] = useState(false);
+  const cacheRef = useRef<TopNameData[] | null>(null);
+  const tableRef = useRef<HTMLTableElement | null>(null);
+
+  function showChart() {
+    setChart((prev) => !prev);
+  }
+
+  function showMore() {
+    setLoading(true);
+    setHasMore(false);
+
+    if (cacheRef.current) {
+      // Si hay datos en cache, úsalos sin hacer fetch
+      const data = cacheRef.current;
+      setStats((prev) => {
+        if (prev.length === 0) return prev;
+        const updatedFirst = { ...prev[0], public_data: data as TopNameData[] };
+        return [updatedFirst, ...prev.slice(1)];
+      });
+      setLoading(false);
+      return;
+    } else {
+      // Si no hay cache, haz el fetch
+      fetchCategory<TopNameData>(stats[0].category, year)
+        .then((newData) => {
+          if (newData) {
+            cacheRef.current = newData; // Guarda los datos de public_data en cache
+            setStats((prev) => {
+              if (prev.length === 0) return prev;
+              const updatedFirst = { ...prev[0], public_data: newData as TopNameData[] };
+              return [updatedFirst, ...prev.slice(1)];
+            });
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  }
+
+  function showLess() {
+    setStats((prev) => {
+      if (prev.length === 0) return prev;
+      const updateFirst = { ...prev[0], public_data: prev[0].public_data.slice(0, 15) };
+      return [updateFirst, ...prev.slice(1)];
+    });
+
+    setHasMore(true);
+
+    scrollToTopTable(tableRef.current);
+  }
+
+  return {
+    stats,
+    loading,
+    hasMore,
+    tableRef,
+    chart,
+    showMore,
+    showLess,
+    showChart,
+  };
+}
