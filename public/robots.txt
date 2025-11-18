@@ -1,0 +1,72 @@
+# Robots.txt for Tamborradata
+# Website: https://tamborradata.com
+# Description: Tamborrada Infantil Statistics and Data Analysis
+
+User-agent: *
+Allow: /
+
+# Block API endpoints and internal routes
+Disallow: /api/
+Disallow: /_next/
+Disallow: /_vercel/
+Disallow: /admin/
+Disallow: /.well-known/
+
+# Block sensitive or temporary files
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /temp/
+Disallow: /private/
+Disallow: /cache/
+
+# Allow important static resources
+Allow: /favicon.ico
+Allow: /assets/
+Allow: /images/
+Allow: /sitemap.xml
+Allow: /robots.txt
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://tamborradata.com/sitemap.xml
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+# Social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Block problematic bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
