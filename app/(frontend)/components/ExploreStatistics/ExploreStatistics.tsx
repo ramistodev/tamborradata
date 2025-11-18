@@ -148,8 +148,8 @@ export function ExploreStatistics() {
         >
           <Link
             href={`/statistics/${lastStatYear.current || new Date().getFullYear() - 1}`}
-            className={`block p-8 rounded-2xl transition-all duration-500 group border border-(--color-border) relative overflow-hidden group:
-              ${newData ? 'bg-linear-to-br from-(--eye-catching-text) to-(--color-bg-thirdary) shadow-[0_0px_50px_0px_var(--caption-color),0_0_0_2px_var(--eye-catching-text)]' : 'bg-linear-to-br from-(--eye-catching-text) via-(--color-primary) to-(--color-bg-thirdary)'}`}
+            className={`block p-8 rounded-2xl transition-all duration-500 group relative overflow-hidden group:
+              ${newData ? 'bg-linear-to-br from-(--eye-catching-text) to-(--color-bg-thirdary) shadow-[0_0px_50px_0px_var(--caption-color),0_0_0_2px_var(--eye-catching-text)]' : 'bg-linear-to-br from-(--eye-catching-text) via-(--color-primary) to-(--color-bg-thirdary) border border-(--color-border)'}`}
           >
             {newData && (
               <>
