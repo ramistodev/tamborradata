@@ -1,0 +1,83 @@
+Tamborradata Web Platform
+Copyright (c) 2025 RamistoDev
+
+This project is licensed under the Creative Commons Attribution-ShareAlike 4.0
+International License (CC BY-SA 4.0). You may obtain a copy of the license at:
+
+    https://creativecommons.org/licenses/by-sa/4.0/
+
+=========================================================================
+
+This NOTICE file provides attribution requirements and clarifies the rights
+and obligations when using, modifying, or redistributing this project or any
+derivative work based on it.
+
+I. Attribution
+--------------
+
+If you use, copy, modify, or distribute this project (in whole or in part),
+you MUST provide proper attribution to the original author. This includes:
+
+1. Identifying the creator:
+      "Original work by RamistoDev – https://github.com/ramistodev/tamborradata"
+
+2. Providing a link to the original repository:
+      https://github.com/ramistodev/tamborradata
+
+3. Providing a link to the CC BY-SA 4.0 license:
+      https://creativecommons.org/licenses/by-sa/4.0/
+
+4. Indicating whether any changes were made:
+      e.g., "Modifications made: yes/no (see commit history)."
+
+Attribution must be included in:
+- the documentation of derivative projects
+- the footer or docs of deployed versions (where applicable)
+- any public distribution or fork of the repository
+
+II. ShareAlike Requirement
+---------------------------
+
+Under the ShareAlike clause of the CC BY-SA 4.0 license, ANY derivative
+works based on this project MUST be distributed under the same license:
+
+    Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+
+This includes any modifications, improvements, partial reuse, or extended
+versions of the original codebase.
+
+You are NOT permitted to:
+- relicense the derivative work under a more restrictive license
+- make any derived version proprietary or closed-source
+- impose additional legal or technical restrictions on the redistributed work
+
+III. No Endorsement
+-------------------
+
+Distribution, reuse, or modification of this project **does not imply**
+endorsement by the original author. You may not imply that:
+
+- your version is officially approved by the author
+- the author collaborates with or supports your version
+- any changes made are validated by the original project
+
+IV. Third-Party Components
+--------------------------
+
+This project may contain references or small snippets of third-party code or
+libraries. Those components remain subject to their respective licenses.
+It is your responsibility to review and comply with them when redistributing
+derivative works.
+
+V. Disclaimer of Warranty
+--------------------------
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED. THE COPYRIGHT HOLDER SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES, OR
+OTHER LIABILITY IN CONNECTION WITH THE USE OF THIS PROJECT OR ANY DERIVED
+WORK.
+
+=========================================================================
+
+This NOTICE file should be included with any copy, distribution, or derivative
+work of this project, as required by the CC BY-SA 4.0 license.
