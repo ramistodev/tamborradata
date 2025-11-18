@@ -1,14 +1,14 @@
 import { MetadataRoute } from 'next';
-import { fetchYears } from './(frontend)/services/fetchYears';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://tamborradata.com';
   const currentYear = new Date().getFullYear();
 
-  const years = await fetchYears(`${baseUrl}/api/available-years`);
-
   const yearUrls = [];
-  for (const year of years?.filter((y) => y !== 'global').map((y) => Number(y)) || []) {
+
+  for (let i = 0; i <= currentYear - 2018; i++) {
+    const year = 2018 + i;
+    if (year === 2021) continue; // 2021 no tiene datos disponibles
     yearUrls.push({
       url: `${baseUrl}/statistics/${year}`,
       lastModified: year === currentYear ? new Date() : new Date(`${year}-01-20`),
