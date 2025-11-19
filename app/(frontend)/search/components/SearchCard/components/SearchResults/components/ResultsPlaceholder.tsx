@@ -1,0 +1,45 @@
+export function ResultsPlaceholder() {
+  return (
+    <div className="h-full flex flex-col justify-between gap-6">
+      <div className="flex flex-col gap-6 items-center">
+        <p className="text-center text-(--color-text-secondary) text-balance max-w-md">
+          Introduce tu nombre y selecciona tu colegio para ver tu historial completo de
+          participación en la Tamborrada Infantil.
+        </p>
+
+        <div className="w-full max-w-sm bg-(--color-bg-secondary) rounded-lg p-4 border border-(--color-border)">
+          <ul className="text-sm text-(--color-text-secondary) flex flex-col gap-2">
+            <li className="flex items-start gap-2">
+              <span className="text-(--eye-catching-text) font-bold">•</span>
+              <span>
+                Más de <span className="font-semibold text-(--color-text)">30.000 registros</span>{' '}
+                analizados
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-(--eye-catching-text) font-bold">•</span>
+              <span>
+                Datos desde <span className="font-semibold text-(--color-text)">2018</span>
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-(--eye-catching-text) font-bold">•</span>
+              <span>
+                Última actualización:{' '}
+                <span className="font-semibold text-(--color-text)">enero 2025</span>
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-(--eye-catching-text) font-bold">•</span>
+              <span>Búsqueda rápida por nombre y colegio</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <p className="text-center text-(--color-text-tertiary) text-sm italic">
+        Tu nombre también forma parte de las estadísticas.
+      </p>
+    </div>
+  );
+}
