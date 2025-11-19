@@ -12,15 +12,15 @@ export function Contact() {
       {/* HEADER */}
       <motion.div
         ref={headerRef}
-        initial={{ opacity: 0, y: 20 }}
-        animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        initial={{ opacity: 0 }}
+        animate={isHeaderInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center"
+        className="mb-8"
       >
-        <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-(--eye-catching-text)">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl text-(--eye-catching-text) text-center font-bold mb-4">
           Contacta con Tamborradata
         </h2>
-        <p className="text-base md:text-xl text-(--color-text-secondary) mt-4 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-base md:text-xl text-(--color-text-secondary) text-center max-w-3xl leading-relaxed">
           ¿Tienes una propuesta, una colaboración, preguntas sobre Tamborradata o alguna otra cosa?
           Puedes enviarme un email al siguiente correo electrónico.
         </p>

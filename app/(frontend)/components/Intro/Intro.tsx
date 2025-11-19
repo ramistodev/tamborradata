@@ -32,7 +32,7 @@ export function Intro() {
           transition={{
             opacity: { duration: 0.4, ease: 'linear', delay: 0.2 },
           }}
-          className="text-xl text-balance md:text-2xl  text-(--color-text-secondary) text-center"
+          className="text-lg text-balance md:text-2xl text-center text-(--color-text-secondary)"
         >
           {randomPhrase}
         </motion.p>
