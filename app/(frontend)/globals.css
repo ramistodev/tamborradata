@@ -3,6 +3,7 @@
 :root {
   --color-bg: #ffffff;
   --color-bg-secondary: #eeeeee;
+  --color-bg-secondary-hover: #dddddd;
   --color-bg-thirdary: #0055ff;
   --color-primary: #00bbff;
   --color-text: #1e1e1e;
@@ -12,15 +13,18 @@
   --color-loading: #d8d8d8;
   --color-table: #e7e7e7;
   --caption-color: #0011ff;
+  --select-color: #00aad5;
 
   /* GLOBAL STYLES */
   --eye-catching-text: #09f;
+  --color-error: #ff0000;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --color-bg: #051023;
     --color-bg-secondary: #16294d;
+    --color-bg-secondary-hover: #1a3260;
     --color-bg-thirdary: #1549aa;
     --color-primary: #0f47af;
     --color-text: #f2f5fa;
@@ -30,6 +34,7 @@
     --color-loading: #254384;
     --color-table: #1e2b44;
     --caption-color: #56bcff;
+    --select-color: #006078;
   }
 }
 
