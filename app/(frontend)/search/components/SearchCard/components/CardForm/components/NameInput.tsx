@@ -1,4 +1,4 @@
-export function NameInput() {
+export function NameInput({ defaultValue }: { defaultValue: string }) {
   return (
     <div className="flex flex-col w-full gap-2">
       <label htmlFor="name" className="font-semibold">
@@ -8,6 +8,9 @@ export function NameInput() {
         type="text"
         id="name"
         autoComplete="off"
+        aria-required="true"
+        autoCapitalize="words"
+        defaultValue={defaultValue}
         name="name"
         required
         className="w-full px-3 py-2 bg-(--color-bg-secondary) rounded-md outline-none"

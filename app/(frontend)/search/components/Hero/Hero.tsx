@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 export function Hero() {
   return (
     <div className="p-5 w-full max-w-[1000px] flex flex-col items-center justify-evenly gap-3 pt-20">
+      {/* HERO */}
       <motion.h1
         initial={{ opacity: 0 }}
         animate={{
@@ -15,6 +16,8 @@ export function Hero() {
       >
         Consulta tu nombre en la mayor base de datos de la Tamborrada Infantil
       </motion.h1>
+
+      {/* SUBTITLE */}
       <motion.p
         initial={{ opacity: 0 }}
         animate={{
@@ -28,6 +31,8 @@ export function Hero() {
         Busca tu nombre y descubre en qué años participaste, qué colegio representaste y tu
         presencia en la Tamborrada Infantil desde 2018.
       </motion.p>
+
+      {/* STATS */}
       <motion.p
         initial={{ opacity: 0 }}
         animate={{
@@ -38,7 +43,7 @@ export function Hero() {
         }}
         className="text-sm text-balance md:text-base  text-(--color-text-secondary) text-center italic"
       >
-        Datos desde 2018 · Más de 30.000 registros · Actualizado en enero 2025
+        Datos oficiales desde 2018 · Actualizaciones anuales cada enero
       </motion.p>
     </div>
   );

@@ -2,9 +2,12 @@ import { useSearchContext } from '@/app/(frontend)/search/context/useSearchConte
 import { SearchNotFound } from './SearchNotFound';
 import { ResultsPlaceholder } from './ResultsPlaceholder';
 import { ParticipantResultsList } from './ParticipantResultsList';
+import { ResultsLoading } from './ResultsLoading';
 
 export function Results() {
-  const { participants } = useSearchContext();
+  const { participants, isLoading } = useSearchContext();
+
+  if (isLoading) return <ResultsLoading />;
 
   if (participants === null) return <ResultsPlaceholder />;
 
