@@ -31,11 +31,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/search`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    ...yearUrls,
+    {
       url: `${baseUrl}/statistics/info`,
       lastModified: new Date('2025-11-01'),
       changeFrequency: 'monthly',
       priority: 0.5,
     },
-    ...yearUrls,
   ];
 }

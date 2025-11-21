@@ -18,9 +18,9 @@ export async function GET(req: Request) {
 
     // Normalizar nombre
     const cleanName = name
-      .normalize('NFD') // Descompone caracteres con tildes
-      .replace(/[\u0300-\u036f]/g, '') // Elimina los diacríticos (tildes)
-      .replace(/\s+/g, ' ') // Reemplaza múltiples espacios por uno solo
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, ' ')
       .trim();
 
     if (cleanName.split(' ').length < 3) {

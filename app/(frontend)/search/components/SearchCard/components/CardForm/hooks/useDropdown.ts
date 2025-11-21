@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 
-export function useDropdown() {
-  const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
+export function useDropdown(defaultValue?: string) {
+  const [selectedCompany, setSelectedCompany] = useState<string | null>(defaultValue || null);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
   // Cerrar dropdown al hacer click fuera
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
