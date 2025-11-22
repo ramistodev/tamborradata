@@ -15,12 +15,12 @@ export function OpenSource() {
         initial={{ opacity: 0 }}
         animate={isHeaderInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.6 }}
-        className="mb-8"
+        className="max-w-3xl mb-8"
       >
-        <h2 className="text-3xl sm:text-4xl md:text-5xl text-(--eye-catching-text) text-center font-bold mb-4">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl text-(--eye-catching-text) text-center text-balance font-bold mb-4 leading-tight">
           Proyecto de Código Abierto
         </h2>
-        <p className="text-base md:text-xl text-(--color-text-secondary) text-center max-w-3xl leading-relaxed">
+        <p className="text-base md:text-xl text-balance text-(--color-text-secondary) text-center leading-relaxed">
           Tamborradata es un proyecto abierto y transparente. Puedes explorar el código, aprender de
           él, contribuir con mejoras y ayudar a construir la mayor base de datos y plataforma de
           análisis sobre la Tamborrada Infantil.
