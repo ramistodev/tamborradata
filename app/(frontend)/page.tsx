@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
-import { ExploreStatistics } from './components/ExploreStatistics/ExploreStatistics';
-import { FAQs } from './components/FAQs/FAQs';
-import { Intro } from './components/Intro/Intro';
 import { HomeStructuredData } from './HomeStructuredData';
+import { Intro } from './components/Intro/Intro';
+import { SearchParticipant } from './components/SearchParticipant/SearchParticipant';
+import { ExploreStatistics } from './components/ExploreStatistics/ExploreStatistics';
 import { NextSteps } from './components/NextSteps/NextSteps';
 import { OpenSource } from './components/OpenSource/OpenSource';
 import { Contact } from './components/Contact/Contact';
+import { FAQs } from './components/FAQs/FAQs';
 
 export const metadata: Metadata = {
   title: 'Tamborradata · Datos y Estadísticas',
@@ -23,6 +24,7 @@ export default function Home() {
 
       <main className="flex flex-col items-center justify-center w-full h-full gap-4">
         <Intro />
+        <SearchParticipant />
         <ExploreStatistics />
         <NextSteps />
         <OpenSource />

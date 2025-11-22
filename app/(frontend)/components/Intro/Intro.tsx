@@ -7,7 +7,7 @@ import Link from 'next/link';
 export function Intro() {
   const { randomPhrase } = useIntro();
   return (
-    <section className="w-full h-[calc(100vh-1.25rem)] flex flex-col items-center justify-center md:p-8">
+    <section className="w-full h-screen flex flex-col items-center justify-center md:p-8">
       <div className="p-10 w-full max-w-[1000px] flex flex-col items-center justify-evenly gap-5">
         {/* HEADER */}
         <motion.h1
@@ -18,7 +18,7 @@ export function Intro() {
           transition={{
             opacity: { duration: 0.6, ease: 'linear' },
           }}
-          className="text-4xl sm:text-5xl md:text-7xl text-balance font-bold text-(--eye-catching-text) text-center leading-tight  "
+          className="text-4xl sm:text-5xl md:text-7xl text-balance font-bold text-(--eye-catching-text) text-center leading-tight"
         >
           La Tamborrada Infantil, vista desde los datos
         </motion.h1>
