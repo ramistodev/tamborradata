@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { fetchYears } from '@/app/(frontend)/services/fetchYears';
+import { usePathname } from 'next/navigation';
 
-export function useHeader() {
+export function useStatisticsY() {
+  const pathname = usePathname();
   const [years, setYears] = useState<number[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -19,6 +21,7 @@ export function useHeader() {
 
   return {
     years,
+    pathname,
     isLoading,
   };
 }

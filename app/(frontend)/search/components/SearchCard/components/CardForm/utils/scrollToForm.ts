@@ -4,7 +4,7 @@ export const scrollToForm = () => {
     if (!searchCardForm) return;
 
     const searchCardFormRect = searchCardForm.getBoundingClientRect();
-    const scrollTop = window.scrollY + searchCardFormRect.top - 50;
+    const scrollTop = window.scrollY + searchCardFormRect.top - 100;
 
     window.scrollTo({ top: scrollTop, behavior: 'smooth' });
   }, 20);
