@@ -1,6 +1,6 @@
 import { useTotalParticipants } from '../hooks/useTotalParticipants';
 
-export function TotalParticipantsTable({ stats }: ReturnType<typeof useTotalParticipants>) {
+export function TotalParticipantsTable({ tableData }: ReturnType<typeof useTotalParticipants>) {
   return (
     <>
       <table
@@ -25,8 +25,8 @@ export function TotalParticipantsTable({ stats }: ReturnType<typeof useTotalPart
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(stats[0].public_data) &&
-            stats[0].public_data.map((stat, index) => (
+          {tableData &&
+            tableData.map((stat, index) => (
               <tr key={stat.year} className={index % 2 === 0 ? 'bg-(--color-table)' : ''}>
                 <td className="p-2 text-center text-sm">{index + 1}</td>
                 <td className="p-2 text-sm">{stat.year}</td>

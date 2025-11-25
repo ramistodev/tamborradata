@@ -8,13 +8,13 @@ import { Year } from '../../../types/types';
 export function SchoolsEvolutionChart({
   chartData,
   showChart,
-  years,
+  allYears,
 }: ReturnType<typeof useSchoolsEvolution>) {
   // Normalizar a la forma que espera ResponsiveLine
 
   const yearsData: Year[] | null = useMemo(() => {
     if (chartData) {
-      const data = years.map((year) => {
+      const data = allYears.map((year) => {
         const found = chartData.years.find((d) => d.year === year);
         return found ? { year, count: found.count } : { year, count: 0 };
       });
@@ -22,7 +22,7 @@ export function SchoolsEvolutionChart({
     }
 
     return null;
-  }, [chartData, years]);
+  }, [chartData, allYears]);
 
   const fromatedData = useMemo(() => {
     if (!yearsData) return null;
