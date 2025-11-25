@@ -7,7 +7,7 @@ export function SchoolsEvolutionTable({
   hasMore,
   loading,
   tableRef,
-  years,
+  tableYears,
   showMore,
   showLess,
   showChart,
@@ -35,7 +35,7 @@ export function SchoolsEvolutionTable({
               >
                 Colegio
               </th>
-              {years.map((year) => (
+              {tableYears.map((year) => (
                 <th
                   key={year}
                   className="text-sm border-b border-(--color-border) text-left p-2"
@@ -61,7 +61,7 @@ export function SchoolsEvolutionTable({
                 <tr key={stat.school} className={index % 2 === 0 ? 'bg-(--color-table)' : ''}>
                   <td className="p-2 text-center text-sm">{index + 1}</td>
                   <td className="p-2 text-sm">{stat.school}</td>
-                  {years.map((y) => {
+                  {tableYears.map((y) => {
                     const found = stat.years.find((yearData) => yearData.year === y);
                     return (
                       <td key={y} className="p-2 text-sm">

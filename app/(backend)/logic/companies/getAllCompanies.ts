@@ -5,7 +5,7 @@ import { log } from '../helpers/log';
 export async function getAllCompanies(): Promise<string[] | null> {
   try {
     const { data, error } = await supabasePublic
-      .from('available_companies_view ')
+      .from('available_companies_view')
       .select('company_names')
       .order('company_names', { ascending: true });
 

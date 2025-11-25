@@ -59,12 +59,17 @@ export function useSchoolsEvolution() {
     scrollToTopTable(tableRef.current);
   }
 
-  const years = useMemo(() => {
+  const [tableYears, allYears] = useMemo(() => {
     const allYears = new Set<number>();
 
     stats[0]?.public_data.forEach((school) => school.years?.forEach((y) => allYears.add(y.year)));
 
-    return Array.from(allYears).sort((a, b) => b - a);
+    return [
+      Array.from(allYears)
+        .sort((a, b) => a - b)
+        .slice(allYears.size - 7, allYears.size),
+      Array.from(allYears).sort((a, b) => a - b),
+    ];
   }, [stats]);
 
   function showChart(data?: SchoolsEvolutionData) {
@@ -77,7 +82,8 @@ export function useSchoolsEvolution() {
     loading,
     hasMore,
     tableRef,
-    years,
+    tableYears,
+    allYears,
     chart,
     chartData,
     showMore,
