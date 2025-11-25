@@ -15,6 +15,9 @@
   --caption-color: #0011ff;
   --select-color: #00aad5;
 
+  /* HEADER COLORS */
+  --color-header: #ffffff;
+
   /* GLOBAL STYLES */
   --eye-catching-text: #09f;
   --color-error: #ff0000;
@@ -35,6 +38,9 @@
     --color-table: #1e2b44;
     --caption-color: #56bcff;
     --select-color: #006078;
+
+    /* HEADER COLORS */
+    --color-header: #0a1a33;
   }
 }
 

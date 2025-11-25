@@ -2,10 +2,18 @@
 import './(frontend)/globals.css';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 export default function NotFound() {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
   return (
-    <main className="relative w-full">
+    <div className="relative w-full">
       <div className="absolute -top-1/2 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex flex-col items-center justify-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -66,6 +74,6 @@ export default function NotFound() {
           </motion.div>
         </motion.div>
       </div>
-    </main>
+    </div>
   );
 }

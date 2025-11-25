@@ -22,7 +22,7 @@ export default function Home() {
     <>
       <HomeStructuredData />
 
-      <main className="flex flex-col items-center justify-center w-full h-full gap-4">
+      <div className="flex flex-col items-center justify-center w-full h-full gap-4">
         <Intro />
         <SearchParticipant />
         <ExploreStatistics />
@@ -30,7 +30,7 @@ export default function Home() {
         <OpenSource />
         <Contact />
         <FAQs />
-      </main>
+      </div>
     </>
   );
 }

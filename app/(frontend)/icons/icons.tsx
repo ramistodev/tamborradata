@@ -124,18 +124,17 @@ export function ArrowRight() {
   );
 }
 
-export function ArrowLeft() {
+export function ChevronRight() {
   return (
     <svg
-      className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform"
-      fill="currentColor"
-      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="size-7"
     >
-      <path
-        fillRule="evenodd"
-        d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-        clipRule="evenodd"
-      />
+      <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
     </svg>
   );
 }
@@ -254,6 +253,25 @@ export function SearchIcon() {
         strokeLinecap="round"
         strokeLinejoin="round"
         d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+      />
+    </svg>
+  );
+}
+
+export function HamburgerIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="size-6"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
       />
     </svg>
   );
