@@ -60,19 +60,19 @@ export function SearchParticipant() {
         </div>
       </motion.div>
 
+      {/* INFO CARDS */}
       <motion.div
         ref={cardsRef}
         initial={{ opacity: 0 }}
         animate={isCardsInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.2, delay: 0.2 }}
-        className="w-full flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4 lg:gap-8"
+        className="w-full flex flex-col md:flex-row items-center md:items-stretch justify-between gap-8 md:gap-4 lg:gap-8"
       >
         <div className="w-full max-w-sm p-4 bg-(--color-bg-secondary) border border-(--color-border) rounded-xl">
           <motion.div
             initial={{ opacity: 0 }}
             animate={isCardsInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="w-full h-full"
           >
             <h3 className="text-lg font-semibold text-balance text-(--color-text-primary) mb-2">
               Datos actualizados cada año
@@ -88,7 +88,6 @@ export function SearchParticipant() {
             initial={{ opacity: 0 }}
             animate={isCardsInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="w-full h-full"
           >
             <h3 className="text-lg font-semibold text-balance text-(--color-text-primary) mb-2">
               Historial desde 2018
@@ -103,7 +102,6 @@ export function SearchParticipant() {
             initial={{ opacity: 0 }}
             animate={isCardsInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
-            className="w-full h-full"
           >
             <h3 className="text-lg font-semibold text-balance text-(--color-text-primary) mb-2">
               Sin necesidad de registrarse
