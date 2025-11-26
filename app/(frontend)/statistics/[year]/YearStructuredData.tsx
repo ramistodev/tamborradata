@@ -1,174 +1,165 @@
+import Script from 'next/script';
+
 export function YearStructuredData({ year }: { year: string }) {
+  const pageTitle = `Estadísticas oficiales de la Tamborrada Infantil ${year}`;
+  const pageDescription = `Análisis oficial de la Tamborrada Infantil ${year}: participantes, nombres más comunes, colegios destacados y tendencias anuales.`;
+  const canonicalUrl = `https://tamborradata.com/statistics/${year}`;
+  const publicationDate = `${year}-01-20`;
+  const publicationDateISO = `${publicationDate}T00:00:00.000Z`;
+  const imageUrl = 'https://tamborradata.com/og-image.webp';
+
+  const datasetStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name: pageTitle,
+    description: `${pageDescription} Dataset detallado con participación, nombres, apellidos y colegios.`,
+    url: canonicalUrl,
+    license: 'https://creativecommons.org/licenses/by-sa/4.0/',
+    temporalCoverage: publicationDate,
+    inLanguage: 'es-ES',
+    spatialCoverage: {
+      '@type': 'Place',
+      name: 'Donostia / San Sebastián, Gipuzkoa',
+    },
+    creator: {
+      '@type': 'Person',
+      name: 'Ramistodev',
+      url: 'https://tamborradata.com',
+    },
+  };
+
+  const articleStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: pageTitle,
+    description: pageDescription,
+    author: {
+      '@type': 'Person',
+      name: 'Ramistodev',
+    },
+    datePublished: publicationDateISO,
+    dateModified: publicationDateISO,
+    mainEntityOfPage: canonicalUrl,
+    image: imageUrl,
+    inLanguage: 'es-ES',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Tamborradata',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://tamborradata.com/favicon.ico',
+      },
+    },
+  };
+
+  const webpageStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: pageTitle,
+    url: canonicalUrl,
+    description: pageDescription,
+    image: imageUrl,
+    inLanguage: 'es-ES',
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://tamborradata.com' },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Estadísticas por Año',
+          item: 'https://tamborradata.com/statistics',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: `Tamborrada Infantil ${year}`,
+          item: canonicalUrl,
+        },
+      ],
+    },
+  };
+
+  const faqStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: 'es-ES',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `¿Cuáles fueron los nombres más repetidos en la Tamborrada Infantil ${year}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Ranking de nombres más habituales de la Tamborrada Infantil ${year}, con los que lideran la clasificación anual.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `¿Qué apellidos destacaron en la Tamborrada Infantil ${year}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Listado de apellidos más frecuentes registrados en la edición ${year}.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `¿Qué colegios tuvieron mayor participación en ${year}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Colegios con mayor presencia en la Tamborrada Infantil ${year} y centros que se incorporan.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `¿Hubo nombres nuevos en la Tamborrada Infantil ${year}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Nombres que aparecen por primera vez en la Tamborrada Infantil ${year}.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `¿Cuántos participantes hubo en la Tamborrada Infantil ${year}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Participación total estimada de niños y niñas tamborreros/as en ${year}.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `¿Dónde puedo ver el resumen de la Tamborrada Infantil ${year}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: pageDescription,
+        },
+      },
+    ],
+  };
+
   return (
     <>
-      {/* DATASET DEL AÑO */}
-      <script
+      <Script
+        id="dataset-year-structured-data"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Dataset',
-            name: `Tamborrada Infantil ${year} · Dataset`,
-            description: `Datos oficiales de la Tamborrada Infantil ${year}: participación, nombres, colegios y apellidos registrados en esta edición.`,
-            url: `https://tamborradata.com/statistics/${year}`,
-            license: 'https://creativecommons.org/licenses/by-sa/4.0/',
-            temporalCoverage: `${year}-01-20`,
-            spatialCoverage: {
-              '@type': 'Place',
-              name: 'Donostia-San Sebastián, Gipuzkoa',
-            },
-            creator: {
-              '@type': 'Person',
-              name: 'Ramistodev',
-              url: 'https://tamborradata.com',
-            },
-          }),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetStructuredData) }}
       />
 
-      {/* ARTICLE DEL AÑO */}
-      <script
+      <Script
+        id="article-year-structured-data"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Article',
-            headline: `Estadísticas de la Tamborrada Infantil ${year}`,
-            description: `Resumen anual de la Tamborrada Infantil ${year}: nombres más repetidos, participación total, colegios destacados y nuevas incorporaciones.`,
-            author: {
-              '@type': 'Person',
-              name: 'Ramistodev',
-            },
-            datePublished: `${year}-01-20`,
-            dateModified: new Date().toISOString(),
-            mainEntityOfPage: `https://tamborradata.com/statistics/${year}`,
-            image: 'https://tamborradata.com/og-image.webp',
-            inLanguage: 'es-ES',
-            publisher: {
-              '@type': 'Organization',
-              name: 'Tamborradata',
-              logo: {
-                '@type': 'ImageObject',
-                url: 'https://tamborradata.com/favicon.ico',
-              },
-            },
-          }),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleStructuredData) }}
       />
 
-      {/* WEBPAGE DEL AÑO */}
-      <script
+      <Script
+        id="webpage-year-structured-data"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'WebPage',
-            name: `Tamborrada Infantil ${year} · Estadísticas`,
-            url: `https://tamborradata.com/statistics/${year}`,
-            description: `Página con los datos oficiales de la Tamborrada Infantil ${year}.`,
-            inLanguage: 'es-ES',
-            breadcrumb: {
-              '@type': 'BreadcrumbList',
-              itemListElement: [
-                {
-                  '@type': 'ListItem',
-                  position: 1,
-                  name: 'Inicio',
-                  item: 'https://tamborradata.com',
-                },
-                {
-                  '@type': 'ListItem',
-                  position: 2,
-                  name: 'Estadísticas por Año',
-                  item: 'https://tamborradata.com/statistics',
-                },
-                {
-                  '@type': 'ListItem',
-                  position: 3,
-                  name: `Año ${year}`,
-                  item: `https://tamborradata.com/statistics/${year}`,
-                },
-              ],
-            },
-          }),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webpageStructuredData) }}
       />
 
-      {/* FAQ DEL AÑO */}
-      <script
+      <Script
+        id="faq-year-structured-data"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: [
-              {
-                '@type': 'Question',
-                name: `Top nombres de la tamborrada ${year}?`,
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: `Listado de los nombres más repetidos en la Tamborrada Infantil ${year}, incluyendo los que ocuparon los primeros puestos.`,
-                },
-              },
-              {
-                '@type': 'Question',
-                name: `Top colegios de la tamborrada ${year}?`,
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: `En esta sección se identifican los colegios con mayor participación en la Tamborrada Infantil ${year}.`,
-                },
-              },
-              {
-                '@type': 'Question',
-                name: `Resumen de la tamborrada de ${year}?`,
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: `Sección que ofrece un resumen de los datos más relevantes de la Tamborrada Infantil ${year}, incluyendo participación y tendencias.`,
-                },
-              },
-              {
-                '@type': 'Question',
-                name: `¿Cuál fue el nombre más repetido en la Tamborrada Infantil ${year}?`,
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: `Esta página muestra el ranking anual de nombres más repetidos en la Tamborrada Infantil ${year}, incluyendo los que ocuparon los primeros puestos.`,
-                },
-              },
-              {
-                '@type': 'Question',
-                name: `¿Cuántos participantes hubo en la Tamborrada Infantil ${year}?`,
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: `La sección de participación total indica el número exacto de niños y niñas tamborreros/as que formaron parte del evento en ${year}.`,
-                },
-              },
-              {
-                '@type': 'Question',
-                name: `¿Qué apellidos fueron más frecuentes en la Tamborrada Infantil ${year}?`,
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: `El análisis anual identifica los apellidos más comunes registrados en la edición de ${year}.`,
-                },
-              },
-              {
-                '@type': 'Question',
-                name: `¿Qué colegios destacaron en la Tamborrada Infantil ${year}?`,
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: `La página muestra qué colegios tuvieron mayor participación en ${year} y cuáles se incorporaron como nuevos centros.`,
-                },
-              },
-              {
-                '@type': 'Question',
-                name: `¿Qué nombres fueron nuevos en la Tamborrada Infantil ${year}?`,
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: `La sección de nombres nuevos recoge aquellos que aparecieron por primera vez en la edición de ${year}.`,
-                },
-              },
-            ],
-          }),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />
     </>
   );

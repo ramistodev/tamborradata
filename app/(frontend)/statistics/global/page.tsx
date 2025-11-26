@@ -1,25 +1,34 @@
+import { Metadata } from 'next';
 import { GlobalStructuredData } from './GlobalStructuredData';
 import { GlobalProvider } from './context/GlobalProvider';
 import { GlobalPageContent } from './GlobalPageContent';
-import { Metadata } from 'next';
+
+const pageTitle = 'Estadísticas globales de la Tamborrada Infantil';
+const pageDescription =
+  'Análisis global de la Tamborrada Infantil desde 2018: evolución de nombres, colegios, participación y tendencias culturales año a año.';
+const canonicalUrl = 'https://tamborradata.com/statistics/global';
+const imageUrl = 'https://tamborradata.com/og-image.webp';
 
 export const metadata: Metadata = {
-  title: 'Estadísticas globales de la Tamborrada Infantil · Tamborradata',
-  description:
-    'Análisis global de la Tamborrada Infantil de San Sebastián desde 2018: evolución de nombres, colegios, participación y tendencias culturales a lo largo de los años.',
+  title: pageTitle,
+  description: pageDescription,
   openGraph: {
-    title: 'Estadísticas globales de la Tamborrada Infantil · Tamborradata',
-    description:
-      'Explora la evolución histórica de la Tamborrada Infantil: nombres más comunes, colegios más constantes, participación total y tendencias culturales desde 2018.',
-    url: 'https://tamborradata.com/statistics/global',
+    title: pageTitle,
+    description: pageDescription,
+    url: canonicalUrl,
+    type: 'article',
+    images: [{ url: imageUrl, alt: pageTitle }],
   },
   twitter: {
-    title: 'Estadísticas globales de la Tamborrada Infantil · Tamborradata',
-    description:
-      'Visualiza en un solo lugar la evolución completa de la Tamborrada Infantil desde 2018: nombres, colegios y participación.',
+    card: 'summary_large_image',
+    title: pageTitle,
+    description: pageDescription,
+    images: [imageUrl],
+    site: '@tamborradata',
+    creator: '@tamborradata',
   },
   alternates: {
-    canonical: 'https://tamborradata.com/statistics/global',
+    canonical: canonicalUrl,
   },
 };
 

@@ -10,28 +10,36 @@ export async function generateMetadata({
   params: Promise<{ year: string }>;
 }): Promise<Metadata> {
   const { year } = await params;
+  const pageTitle = `Estadísticas oficiales de la Tamborrada Infantil ${year}`;
+  const pageDescription = `Análisis oficial de la Tamborrada Infantil ${year}: participantes, nombres más comunes, colegios destacados y tendencias anuales.`;
+  const canonicalUrl = `https://tamborradata.com/statistics/${year}`;
+  const imageUrl = 'https://tamborradata.com/og-image.webp';
 
   return {
-    title: `Tamborrada Infantil ${year} · Estadísticas`,
-    description: `Estadísticas completas de la Tamborrada Infantil ${year}: nombres más comunes, apellidos, colegios, participación total y tendencias de este año.`,
+    title: pageTitle,
+    description: pageDescription,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
-      title: `Tamborrada Infantil ${year} · Estadísticas`,
-      description: `Descubre los datos oficiales de la Tamborrada Infantil ${year}: participación, nombres, colegios destacados y evolución anual.`,
-      url: `https://tamborradata.com/statistics/${year}`,
+      title: pageTitle,
+      description: pageDescription,
+      url: canonicalUrl,
+      type: 'article',
       images: [
         {
-          url: 'https://tamborradata.com/og-image.webp',
-          alt: `Tamborrada Infantil ${year} · Estadísticas`,
+          url: imageUrl,
+          alt: pageTitle,
         },
       ],
     },
     twitter: {
-      title: `Tamborrada Infantil ${year} · Estadísticas`,
-      description: `Resumen de datos de la Tamborrada Infantil ${year}: nombres, colegios y participación total.`,
-      images: ['https://tamborradata.com/og-image.webp'],
-    },
-    alternates: {
-      canonical: `https://tamborradata.com/statistics/${year}`,
+      card: 'summary_large_image',
+      title: pageTitle,
+      description: pageDescription,
+      images: [imageUrl],
+      site: '@tamborradata',
+      creator: '@tamborradata',
     },
   };
 }

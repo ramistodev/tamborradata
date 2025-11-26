@@ -1,18 +1,18 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Información del Proyecto · Tamborradata',
+  title: 'Información del Proyecto Tamborradata: origen de datos, privacidad y metodología',
   description:
-    'Estadísticas de la Tamborrada Infantil basadas en artículos públicos de El Diario Vasco. Sistema automatizado, datos agregados y protección de privacidad de menores.',
+    'Detalles sobre el origen de los datos de Tamborradata, cómo se procesan los listados públicos del Diario Vasco, qué medidas de privacidad se aplican y cómo funciona el sistema automatizado que genera las estadísticas oficiales de la Tamborrada Infantil.',
   openGraph: {
-    title: 'Información del Proyecto · Tamborradata',
+    title: 'Información del Proyecto Tamborradata: origen de datos, privacidad y metodología',
     description:
-      'Estadísticas culturales e históricas de la Tamborrada Infantil de San Sebastián. Datos agregados, privacidad garantizada y análisis automatizado.',
+      'Detalles sobre el origen de los datos de Tamborradata, cómo se procesan los listados públicos del Diario Vasco, qué medidas de privacidad se aplican y cómo funciona el sistema automatizado que genera las estadísticas oficiales de la Tamborrada Infantil.',
     url: 'https://tamborradata.com/statistics/info',
     images: [
       {
         url: 'https://tamborradata.com/og-image.webp',
-        alt: 'Tamborradata · Información del proyecto',
+        alt: 'Información del Proyecto Tamborradata',
       },
     ],
     locale: 'es_ES',
@@ -20,10 +20,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Información del Proyecto · Tamborradata',
+    title: 'Información del Proyecto Tamborradata: origen de datos, privacidad y metodología',
     description:
-      'Estadísticas culturales de la Tamborrada Infantil basadas en datos públicos. Sistema automatizado con privacidad garantizada.',
+      'Detalles sobre el origen de los datos de Tamborradata, cómo se procesan los listados públicos del Diario Vasco, qué medidas de privacidad se aplican y cómo funciona el sistema automatizado que genera las estadísticas oficiales de la Tamborrada Infantil.',
     images: ['https://tamborradata.com/og-image.webp'],
+    site: '@tamborradata',
+    creator: '@tamborradata',
   },
   alternates: {
     canonical: 'https://tamborradata.com/statistics/info',
@@ -36,6 +38,7 @@ export const metadata: Metadata = {
       follow: true,
       'max-image-preview': 'standard',
       'max-snippet': 150,
+      'max-video-preview': -1,
     },
   },
 };
@@ -43,7 +46,12 @@ export const metadata: Metadata = {
 export default function InfoPage() {
   return (
     <>
-      <h1 className="text-4xl font-bold">Información del Proyecto Tamborradata</h1>
+      <h1 className="text-4xl font-bold">
+        <span className="hidden md:block">
+          Información del Proyecto Tamborradata: origen de datos, privacidad y metodologías
+        </span>
+        <span className="block md:hidden">Información del Proyecto Tamborradata</span>
+      </h1>
 
       <p className="text-lg">
         Tamborradata ofrece estadísticas aproximadas, pero muy cercanas a la realidad, obtenidas
