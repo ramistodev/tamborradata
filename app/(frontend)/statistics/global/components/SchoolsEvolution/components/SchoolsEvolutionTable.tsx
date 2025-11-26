@@ -1,5 +1,5 @@
-import { ArrowDown, ArrowUp } from '@/app/(frontend)/icons/icons';
-import { LoadingTable } from '@/app/(frontend)/loaders/LoadingTable';
+import { ChevronDown, ChevronUp } from '@/app/(frontend)/icons/icons';
+import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/LoadingTable';
 import { useSchoolsEvolution } from '../hooks/useSchoolsEvolution';
 
 export function SchoolsEvolutionTable({
@@ -91,7 +91,7 @@ export function SchoolsEvolutionTable({
           onClick={showMore}
           aria-label="Mostrar más colegios"
         >
-          <ArrowDown /> mostrar más
+          <ChevronDown /> mostrar más
         </button>
       ) : (
         <button
@@ -99,7 +99,7 @@ export function SchoolsEvolutionTable({
           onClick={showLess}
           aria-label="Mostrar menos colegios"
         >
-          <ArrowUp /> mostrar menos
+          <ChevronUp /> mostrar menos
         </button>
       )}
     </>

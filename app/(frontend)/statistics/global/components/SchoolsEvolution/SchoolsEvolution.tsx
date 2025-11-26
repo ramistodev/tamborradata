@@ -4,7 +4,7 @@ import { useSchoolsEvolution } from './hooks/useSchoolsEvolution';
 import { SchoolsEvolutionTable } from './components/SchoolsEvolutionTable';
 import { hasData } from '@/app/(frontend)/helpers/hasData';
 import dynamic from 'next/dynamic';
-import { LoadingChart } from '@/app/(frontend)/loaders/LoadingChart';
+import { LoadingChart } from '@/app/(frontend)/statistics/components/loaders/LoadingChart';
 
 const SchoolsEvolutionChart = dynamic(
   () => import('./components/SchoolsEvolutionChart').then((mod) => mod.SchoolsEvolutionChart),

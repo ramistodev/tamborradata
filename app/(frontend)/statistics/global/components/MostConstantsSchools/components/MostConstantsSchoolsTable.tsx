@@ -1,6 +1,6 @@
-import { ArrowDown, ArrowUp } from '@/app/(frontend)/icons/icons';
+import { ChevronDown, ChevronUp } from '@/app/(frontend)/icons/icons';
 import { useMostConstantsSchools } from '../hooks/useMostConstantsSchools';
-import { LoadingTable } from '@/app/(frontend)/loaders/LoadingTable';
+import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/LoadingTable';
 
 export function MostConstantSchoolTable({
   stats,
@@ -62,7 +62,7 @@ export function MostConstantSchoolTable({
           onClick={showMore}
           aria-label="Mostrar más colegios constantes"
         >
-          <ArrowDown /> mostrar más
+          <ChevronDown /> mostrar más
         </button>
       ) : (
         <button
@@ -70,7 +70,7 @@ export function MostConstantSchoolTable({
           onClick={showLess}
           aria-label="Mostrar menos colegios constantes"
         >
-          <ArrowUp /> mostrar menos
+          <ChevronUp /> mostrar menos
         </button>
       )}
     </>

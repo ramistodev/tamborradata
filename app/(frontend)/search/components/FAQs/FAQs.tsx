@@ -1,5 +1,5 @@
 'use client';
-import { ArrowDown } from '@/app/(frontend)/icons/icons';
+import { ChevronDown } from '@/app/(frontend)/icons/icons';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useFAQs } from './hooks/useFAQs';
 
@@ -37,7 +37,7 @@ export function FAQs() {
                 animate={{ rotate: openItems[faq.id] ? 180 : 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <ArrowDown />
+                <ChevronDown />
               </motion.div>
             </div>
             <AnimatePresence>

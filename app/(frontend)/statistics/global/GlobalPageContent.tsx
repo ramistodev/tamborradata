@@ -14,8 +14,8 @@ import {
 } from './components';
 import Link from 'next/link';
 import { InfoIcon } from '../../icons/icons';
-import { LoadingPage } from '../../loaders/LoadingPage';
-import { UpdatingPage } from '../components/UpdatingPage/UpdatingPage';
+import { LoadingPage } from '../components/loaders/LoadingPage';
+import { UpdatingPage } from '../components/UpdatingPage';
 import { useGlobalContext } from './context/useGlobalContext';
 import { useGlobal } from './hooks/useGlobal';
 

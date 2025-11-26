@@ -1,6 +1,6 @@
-import { ArrowDown, ArrowUp } from '@/app/(frontend)/icons/icons';
+import { ChevronDown, ChevronUp } from '@/app/(frontend)/icons/icons';
 import { useCommonNamesBySchool } from '../hooks/useCommonNamesBySchool';
-import { LoadingTable } from '@/app/(frontend)/loaders/LoadingTable';
+import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/LoadingTable';
 
 export function CommonNamesBySchoolTable({
   stats,
@@ -52,7 +52,7 @@ export function CommonNamesBySchoolTable({
           onClick={showMore}
           aria-label="Mostrar más colegios"
         >
-          <ArrowDown /> mostrar más
+          <ChevronDown /> mostrar más
         </button>
       ) : (
         <button
@@ -60,7 +60,7 @@ export function CommonNamesBySchoolTable({
           onClick={showLess}
           aria-label="Mostrar menos colegios"
         >
-          <ArrowUp /> mostrar menos
+          <ChevronUp /> mostrar menos
         </button>
       )}
     </>

@@ -1,6 +1,6 @@
-import { ArrowDown, ArrowUp } from '@/app/(frontend)/icons/icons';
+import { ChevronDown, ChevronUp } from '@/app/(frontend)/icons/icons';
 import { useNewNames } from '../hooks/useNewNames';
-import { LoadingTable } from '@/app/(frontend)/loaders/LoadingTable';
+import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/LoadingTable';
 
 export function NewNamesTable({
   stats,
@@ -48,7 +48,7 @@ export function NewNamesTable({
           onClick={showMore}
           aria-label="Mostrar más nombres nuevos"
         >
-          <ArrowDown /> mostrar más
+          <ChevronDown /> mostrar más
         </button>
       ) : (
         <button
@@ -56,7 +56,7 @@ export function NewNamesTable({
           onClick={showLess}
           aria-label="Mostrar menos nombres nuevos"
         >
-          <ArrowUp /> mostrar menos
+          <ChevronUp /> mostrar menos
         </button>
       )}
     </>

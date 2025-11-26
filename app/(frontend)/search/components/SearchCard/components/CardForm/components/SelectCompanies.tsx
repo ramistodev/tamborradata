@@ -2,7 +2,7 @@
 import { scrollToForm } from '../utils/scrollToForm';
 import { useCompanies } from '../hooks/useCompanies';
 import { useDropdown } from '../hooks/useDropdown';
-import { ArrowDown } from '@/app/(frontend)/icons/icons';
+import { ChevronDown } from '@/app/(frontend)/icons/icons';
 
 export function SelectCompanies({ defaultValue }: { defaultValue?: string }) {
   const { isOpen, setIsOpen, dropdownRef, selectedCompany, handleSelectCompany } =
@@ -43,7 +43,7 @@ export function SelectCompanies({ defaultValue }: { defaultValue?: string }) {
             transform: isOpen ? 'rotate(180deg) ' : 'rotate(0deg) ',
           }}
         >
-          <ArrowDown />
+          <ChevronDown />
         </div>
 
         {/* DROP DOWN */}

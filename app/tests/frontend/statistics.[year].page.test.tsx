@@ -19,7 +19,7 @@ vi.mock('@/app/(frontend)/loaders/LoadingPage', () => ({
   },
 }));
 
-vi.mock('@/app/(frontend)/statistics/components/UpdatingPage/UpdatingPage', () => ({
+vi.mock('@/app/(frontend)/statistics/components/UpdatingPage', () => ({
   UpdatingPage: function UpdatingPage() {
     return React.createElement('div', { 'data-testid': 'updating-page' }, 'Updating...');
   },

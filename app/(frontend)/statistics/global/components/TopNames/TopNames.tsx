@@ -4,7 +4,7 @@ import { useTopNames } from './hooks/useTopNames';
 import { TopNamesTable } from './components/TopNamesTable';
 import { hasData } from '@/app/(frontend)/helpers/hasData';
 import dynamic from 'next/dynamic';
-import { LoadingChart } from '@/app/(frontend)/loaders/LoadingChart';
+import { LoadingChart } from '@/app/(frontend)/statistics/components/loaders/LoadingChart';
 
 const TopNamesChart = dynamic(
   () => import('./components/TopNamesChart').then((mod) => mod.TopNamesChart),
