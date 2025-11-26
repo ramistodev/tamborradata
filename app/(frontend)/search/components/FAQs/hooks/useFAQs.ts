@@ -24,37 +24,37 @@ export function useFAQs() {
       id: 'item1',
       question: '¿Qué información necesito para realizar una búsqueda?',
       answer:
-        'Para obtener resultados precisos debes introducir tu nombre completo (nombre y dos apellidos) y seleccionar la compañía en la que participaste.',
+        'Introduce tu nombre completo (nombre y dos apellidos) y, si lo conoces, la compañía en la que participaste para afinar el historial de participación.',
     },
     {
       id: 'item2',
       question: '¿Qué información muestran los resultados?',
       answer:
-        'Los resultados indican el nombre completo, la compañía y los años en los que esa persona ha participado en la Tamborrada Infantil.',
+        'Verás tu historial de participación oficial: años, compañía y apariciones en la Tamborrada Infantil según los resultados publicados por El Diario Vasco.',
     },
     {
       id: 'item3',
       question: '¿Desde qué año puedo buscar participantes?',
       answer:
-        'El buscador ofrece registros históricos desde 2018 hasta la actualidad, con nuevas incorporaciones cada enero.',
+        'La base de datos histórica arranca en 2018 y se amplía cada enero con el nuevo listado oficial.',
     },
     {
       id: 'item4',
       question: '¿Por qué no aparece mi nombre?',
       answer:
-        'Puede deberse a diferencias en la forma de escribir el nombre, a una compañía incorrecta o a que no haya registros disponibles para esa persona desde 2018.',
+        'Puede ser por variaciones en la escritura del nombre, selección incorrecta de compañía o porque no existan registros publicados desde 2018 para esa persona.',
     },
     {
       id: 'item5',
-      question: '¿Puedo buscar a cualquier participante?',
+      question: '¿Con qué frecuencia se actualizan los datos del buscador?',
       answer:
-        'Sí. Mientras conozcas su nombre completo y la compañía en la que estuvo, puedes consultar su historial dentro de los años disponibles.',
+        'Cada enero se actualiza automáticamente tras la publicación oficial para mantener el historial de participación al día.',
     },
     {
       id: 'item6',
-      question: '¿Con qué frecuencia se actualizan los datos del buscador?',
+      question: '¿Cómo saber si salí en la Tamborrada Infantil?',
       answer:
-        'El buscador se actualiza automáticamente cada enero con el nuevo listado oficial de participantes publicado ese año.',
+        'Introduce tu nombre completo y la compañía en el buscador; si existen registros desde 2018 verás en qué años apareces en la Tamborrada Infantil.',
     },
   ];
 

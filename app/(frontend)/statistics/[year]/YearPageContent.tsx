@@ -30,8 +30,13 @@ export function YearPageContent() {
   if (isLoading || !statistics) return <LoadingPage />;
 
   return (
-    <>
-      <h1 className="text-2xl md:text-3xl font-bold">Tamborrada Infantil {year}</h1>
+    <article className="w-full flex flex-col gap-6" aria-labelledby="year-page-title">
+      <h1 id="year-page-title" className="text-2xl md:text-3xl font-bold">
+        <span className="hidden md:block">
+          Estadísticas oficiales de la Tamborrada Infantil {year}
+        </span>
+        <span className="block md:hidden">Tamborrada Infantil {year}</span>
+      </h1>
 
       <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
         <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
@@ -39,7 +44,7 @@ export function YearPageContent() {
         </ReactMarkdown>
       </div>
 
-      <span className="w-full border border-(--color-border)"></span>
+      <hr className="w-full border border-(--color-border)" aria-hidden="true" />
 
       <TopNames />
       <TopSurnames />
@@ -50,7 +55,7 @@ export function YearPageContent() {
       <CommonNamesBySchool />
       <TotalParticipants />
 
-      <span className="w-full border border-(--color-border)"></span>
+      <hr className="w-full border border-(--color-border)" aria-hidden="true" />
 
       <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
         <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
@@ -64,6 +69,6 @@ export function YearPageContent() {
       >
         <InfoIcon />
       </Link>
-    </>
+    </article>
   );
 }

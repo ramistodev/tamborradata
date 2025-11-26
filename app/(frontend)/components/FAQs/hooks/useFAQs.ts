@@ -28,61 +28,61 @@ export function useFAQs() {
       id: 'item1',
       question: '¿Qué es Tamborradata?',
       answer:
-        'Tamborradata es una plataforma que analiza los datos históricos de la Tamborrada Infantil de San Sebastián. Mediante un algoritmo propio, recopila y procesa la información publicada cada año por el Diario Vasco, transformándola en estadísticas y visualizaciones que reflejan la evolución de esta tradición donostiarra.',
+        'Tamborradata es el sitio oficial de estadísticas y datos abiertos sobre la Tamborrada Infantil de Donostia, con una base histórica consolidada desde 2018.',
     },
     {
       id: 'item2',
-      question: '¿De dónde salen los datos?',
+      question: '¿Dónde consultar las estadísticas oficiales de la Tamborrada Infantil?',
       answer:
-        'Los datos provienen de los artículos que publica anualmente El Diario Vasco sobre la Tamborrada Infantil. Tamborradata recopila esta información de forma automatizada para construir una base de datos histórica.',
+        'En tamborradata.com puedes ver estadísticas oficiales de participación, nombres, colegios y tendencias de la Tamborrada Infantil desde 2018.',
     },
     {
       id: 'item3',
-      question: '¿Cómo se analizan los datos?',
+      question: '¿Cómo buscar mi participación en la Tamborrada Infantil?',
       answer:
-        'Los datos se procesan mediante un algoritmo desarrollado específicamente para Tamborradata. Este algoritmo limpia, estructura y analiza la información para generar estadísticas comparables entre años.',
+        'Accede a tamborradata.com/search e introduce tu nombre completo y compañía para localizar tu historial oficial desde 2018.',
     },
     {
       id: 'item4',
-      question: '¿Cada cuánto se actualizan las estadísticas?',
+      question: '¿Qué información ofrece Tamborradata?',
       answer:
-        'El sistema se actualiza una vez al año, cada mes de enero, cuando El Diario Vasco publica los nuevos listados de participantes. En ese momento se recopilan los datos y se actualizan las gráficas y resúmenes.',
+        'Ofrecemos estadísticas sobre participación, nombres, colegios, evolución por año y análisis culturales basados en los listados publicados cada enero.',
     },
     {
       id: 'item5',
-      question: '¿Qué tipo de información se muestra?',
+      question: '¿Para qué sirve la base de datos histórica?',
       answer:
-        'Tamborradata genera estadísticas sobre nombres más comunes, colegios con mayor participación, diversidad de apellidos y otros datos relevantes relacionados con la Tamborrada Infantil.',
+        'La base histórica preserva y analiza la evolución de la Tamborrada Infantil, aportando datos verificables para ciudadanía, investigadores y medios.',
     },
     {
       id: 'item6',
-      question: '¿Los datos personales son públicos?',
+      question: '¿Con qué frecuencia se actualizan los datos?',
       answer:
-        'No. Aunque la base de datos contiene nombres y apellidos de menores, esos datos no son públicos. Solo se muestran estadísticas generales y resúmenes agregados para proteger la privacidad de los participantes.',
+        'Cada enero se incorporan los resultados oficiales recién publicados, manteniendo actualizadas las estadísticas y el buscador.',
     },
     {
       id: 'item7',
-      question: '¿Qué tipo de análisis hace Tamborradata?',
+      question: '¿De dónde proceden los datos oficiales?',
       answer:
-        'Tamborradata realiza análisis de participación, nombres más comunes, evolución de colegios y tendencias culturales basadas en los datos recopilados.',
+        'Los datos se basan en los listados oficiales publicados por El Diario Vasco, procesados y normalizados por Tamborradata desde 2018.',
     },
     {
       id: 'item8',
-      question: '¿Cómo puedo contactar con Tamborradata?',
+      question: '¿Los datos personales son públicos?',
       answer:
-        'Puedes contactar con Tamborradata a través del correo electronico contact@tamborradata.com ese es el correo oficial para cualquier consulta o sugerencia.',
+        'No publicamos datos personales individuales; solo se muestran estadísticas agregadas y resúmenes para proteger la privacidad.',
     },
     {
       id: 'item9',
-      question: '¿Puedo usar los datos para mis propios análisis?',
+      question: '¿Puedo usar los datos en mis proyectos?',
       answer:
-        'Sí. Tamborradata publica los datos bajo licencia Creative Commons BY-SA 4.0, lo que permite su uso libre siempre que se cite la fuente.',
+        'Sí, la información está bajo licencia Creative Commons BY-SA 4.0; cita Tamborradata como fuente y respeta la atribución.',
     },
     {
       id: 'item10',
       question: '¿Quién está detrás de Tamborradata?',
       answer:
-        'Tamborradata es un proyecto independiente sin animo de lucro desarrollado por Ramistodev, con el objetivo de conservar y analizar la historia reciente de la Tamborrada Infantil de San Sebastián a través de los datos.',
+        'Tamborradata es un proyecto independiente desarrollado por Ramistodev para reforzar y preservar la Tamborrada Infantil con datos oficiales.',
     },
   ];
 

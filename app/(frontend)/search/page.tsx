@@ -3,23 +3,45 @@ import { SearchProvider } from './context/SearchProvider';
 import { SearchPageContent } from './SearchPageContent';
 import { SearchStructuredData } from './SearchStructuredData';
 
+const pageTitle = 'Busca tu participación en la Tamborrada Infantil';
+const pageDescription =
+  'Localiza tu historial de participación oficial en la Tamborrada Infantil: busca participantes, años, compañía y apariciones en la base de datos histórica desde 2018 con resultados publicados por El Diario Vasco.';
+const canonicalUrl = 'https://tamborradata.com/search';
+const imageUrl = 'https://tamborradata.com/og-image.webp';
+
 export const metadata: Metadata = {
-  title: 'Búsqueda de Participantes · Tamborradata',
-  description:
-    'Busca tu nombre y descubre tu historial completo de participación en la Tamborrada Infantil de San Sebastián. Consulta los años en que participaste, tu compañía y más desde 2018.',
+  title: pageTitle,
+  description: pageDescription,
   openGraph: {
-    title: 'Búsqueda de Participantes · Tamborradata',
-    description:
-      'Busca tu nombre y descubre en qué años participaste en la Tamborrada Infantil de San Sebastián. Base de datos histórica desde 2018.',
-    url: 'https://tamborradata.com/search',
+    title: pageTitle,
+    description: pageDescription,
+    url: canonicalUrl,
+    type: 'website',
+    images: [{ url: imageUrl, alt: pageTitle }],
+    locale: 'es_ES',
+    siteName: 'Tamborradata',
   },
   twitter: {
-    title: 'Búsqueda de Participantes · Tamborradata',
-    description:
-      'Busca tu nombre y descubre en qué años participaste en la Tamborrada Infantil de San Sebastián.',
+    card: 'summary_large_image',
+    title: pageTitle,
+    description: pageDescription,
+    images: [imageUrl],
+    site: '@tamborradata',
+    creator: '@tamborradata',
   },
   alternates: {
-    canonical: 'https://tamborradata.com/search',
+    canonical: canonicalUrl,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'standard',
+      'max-snippet': 150,
+      'max-video-preview': -1,
+    },
   },
 };
 

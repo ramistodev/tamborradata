@@ -13,17 +13,13 @@ export function SearchPageContent() {
         <SearchCard />
         <motion.p
           initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            opacity: { duration: 0.4, ease: 'linear', delay: 0.9 },
-          }}
+          animate={{ opacity: 1 }}
+          transition={{ opacity: { duration: 0.4, ease: 'linear', delay: 0.9 } }}
           className="text-sm sm:text-base text-center text-(--color-text-secondary) max-w-3xl leading-relaxed"
         >
-          Tu participación también forma parte de la historia reciente de la Tamborrada Infantil.
-          Aquí puedes consultar tus apariciones tal y como fueron publicadas oficialmente desde
-          2018.{' '}
+          Cada enero se publica el listado oficial para mantener el historial al día. Introduce el
+          nombre completo y la compañía para localizar participaciones y confirmar en qué años
+          desfilaste, sin exponer datos personales más allá de lo publicado.
         </motion.p>
       </section>
       <FAQs />

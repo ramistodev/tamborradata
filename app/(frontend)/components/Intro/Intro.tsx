@@ -8,27 +8,24 @@ export function Intro() {
   const { randomPhrase } = useIntro();
   return (
     <section className="w-full h-screen flex flex-col items-center justify-center md:p-8">
-      <div className="p-10 w-full max-w-[1000px] flex flex-col items-center justify-evenly gap-5">
+      <div className="w-full max-w-[1000px] flex flex-col items-center justify-evenly gap-5">
         {/* HEADER */}
         <motion.h1
           initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-          }}
+          animate={{ opacity: 1 }}
           transition={{
             opacity: { duration: 0.6, ease: 'linear' },
           }}
           className="text-4xl sm:text-5xl md:text-7xl text-balance font-bold text-(--eye-catching-text) text-center leading-tight"
         >
-          La Tamborrada Infantil, vista desde los datos
+          <span className="block md:hidden">La Tamborrada vista en datos</span>
+          <span className="hidden md:inline">La Tamborrada vista desde los datos</span>
         </motion.h1>
 
         {/* SUBHEADER */}
         <motion.p
           initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-          }}
+          animate={{ opacity: 1 }}
           transition={{
             opacity: { duration: 0.4, ease: 'linear', delay: 0.2 },
           }}
@@ -40,9 +37,7 @@ export function Intro() {
         {/* BUTTON */}
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-          }}
+          animate={{ opacity: 1 }}
           transition={{
             opacity: { duration: 0.6, ease: 'linear', delay: 0.6 },
           }}

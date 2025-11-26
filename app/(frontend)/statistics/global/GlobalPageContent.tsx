@@ -28,9 +28,10 @@ export function GlobalPageContent() {
   if (isLoading || !statistics) return <LoadingPage />;
 
   return (
-    <>
-      <h1 className="text-2xl md:text-3xl font-bold">
-        Tamborrada Infantil — Estadísticas Globales
+    <article className="w-full flex flex-col gap-6" aria-labelledby="global-page-title">
+      <h1 id="global-page-title" className="text-2xl md:text-3xl font-bold">
+        <span className="hidden md:block">Estadísticas globales de la Tamborrada Infantil</span>
+        <span className="block md:hidden">Estadísticas Globales</span>
       </h1>
 
       <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
@@ -39,7 +40,7 @@ export function GlobalPageContent() {
         </ReactMarkdown>
       </div>
 
-      <span className="w-full border border-(--color-border)"></span>
+      <hr className="w-full border border-(--color-border)" aria-hidden="true" />
 
       <TopNames />
       <TopSurnames />
@@ -51,7 +52,7 @@ export function GlobalPageContent() {
       <CommonNameBySchool />
       <TotalParticipants />
 
-      <span className="w-full border border-(--color-border)"></span>
+      <hr className="w-full border border-(--color-border)" aria-hidden="true" />
 
       <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
         <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
@@ -65,6 +66,6 @@ export function GlobalPageContent() {
       >
         <InfoIcon />
       </Link>
-    </>
+    </article>
   );
 }

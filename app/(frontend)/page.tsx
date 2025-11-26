@@ -1,36 +1,79 @@
 import { Metadata } from 'next';
 import { HomeStructuredData } from './HomeStructuredData';
-import { Intro } from './components/Intro/Intro';
-import { SearchParticipant } from './components/SearchParticipant/SearchParticipant';
-import { ExploreStatistics } from './components/ExploreStatistics/ExploreStatistics';
-import { NextSteps } from './components/NextSteps/NextSteps';
-import { OpenSource } from './components/OpenSource/OpenSource';
-import { Contact } from './components/Contact/Contact';
-import { FAQs } from './components/FAQs/FAQs';
+import { HomePageContent } from './HomePageContent';
+
+const siteUrl = 'https://tamborradata.com';
+const canonicalUrl = siteUrl;
+const imageUrl = `${siteUrl}/og-image.webp`;
+const pageTitle = 'Tamborradata | Datos y estadísticas de la Tamborrada Infantil';
+const pageDescription =
+  'Tamborradata es la página oficial para explorar datos y estadísticas verificadas de la Tamborrada Infantil en Donostia-San Sebastián: participación, nombres, colegios y tendencias desde 2018.';
 
 export const metadata: Metadata = {
-  title: 'Tamborradata · Datos y Estadísticas',
-  description:
-    'Datos oficiales de la Tamborrada Infantil desde 2018: participación, nombres más comunes, colegios y tendencias culturales de Donostia.',
+  metadataBase: new URL(siteUrl),
+  title: pageTitle,
+  description: pageDescription,
   alternates: {
-    canonical: 'https://tamborradata.com',
+    canonical: canonicalUrl,
   },
+  keywords: [
+    'Tamborradata',
+    'Tamborrada Infantil',
+    'estadísticas Tamborrada',
+    'datos oficiales Tamborrada',
+  ],
+  openGraph: {
+    title: pageTitle,
+    description: pageDescription,
+    url: canonicalUrl,
+    siteName: 'Tamborradata',
+    images: [
+      {
+        url: imageUrl,
+        alt: 'Tamborradata - datos y estadísticas de la Tamborrada Infantil',
+      },
+    ],
+    locale: 'es_ES',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: pageTitle,
+    description: pageDescription,
+    images: [
+      {
+        url: imageUrl,
+        alt: 'Tamborradata - datos y estadísticas de la Tamborrada Infantil',
+      },
+    ],
+    site: '@tamborradata',
+    creator: '@tamborradata',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  category: 'website',
 };
 
 export default function Home() {
   return (
     <>
-      <HomeStructuredData />
+      <HomeStructuredData
+        siteUrl={siteUrl}
+        pageTitle={pageTitle}
+        pageDescription={pageDescription}
+        imageUrl={imageUrl}
+      />
 
-      <div className="flex flex-col items-center justify-center w-full h-full gap-4">
-        <Intro />
-        <SearchParticipant />
-        <ExploreStatistics />
-        <NextSteps />
-        <OpenSource />
-        <Contact />
-        <FAQs />
-      </div>
+      <HomePageContent />
     </>
   );
 }
