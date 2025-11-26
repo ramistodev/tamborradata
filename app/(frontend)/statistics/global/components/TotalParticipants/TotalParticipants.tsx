@@ -4,7 +4,7 @@ import { useTotalParticipants } from './hooks/useTotalParticipants';
 import { hasData } from '@/app/(frontend)/helpers/hasData';
 import { TotalParticipantsTable } from './components/TotalParticipantsTable';
 import dynamic from 'next/dynamic';
-import { LoadingChart } from '@/app/(frontend)/loaders/LoadingChart';
+import { LoadingChart } from '@/app/(frontend)/statistics/components/loaders/LoadingChart';
 
 const TotalParticipantsChart = dynamic(
   () => import('./components/TotalParticipantsChart').then((mod) => mod.TotalParticipantsChart),

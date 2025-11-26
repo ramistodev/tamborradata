@@ -4,7 +4,7 @@ import { useTopSchools } from './hooks/useTopShools';
 import { TopSchoolsTable } from './components/TopSchoolsTable';
 import { hasData } from '@/app/(frontend)/helpers/hasData';
 import dynamic from 'next/dynamic';
-import { LoadingChart } from '@/app/(frontend)/loaders/LoadingChart';
+import { LoadingChart } from '@/app/(frontend)/statistics/components/loaders/LoadingChart';
 
 const TopSchoolsChart = dynamic(
   () => import('./components/TopSchoolsChart').then((mod) => mod.TopSchoolsChart),

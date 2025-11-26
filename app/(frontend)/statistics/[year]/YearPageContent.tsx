@@ -13,9 +13,9 @@ import {
   NewNames,
 } from './components';
 import { InfoIcon } from '../../icons/icons';
-import { LoadingPage } from '../../loaders/LoadingPage';
+import { LoadingPage } from '../components/loaders/LoadingPage';
 import { notFound } from 'next/navigation';
-import { UpdatingPage } from '../components/UpdatingPage/UpdatingPage';
+import { UpdatingPage } from '../components/UpdatingPage';
 import { useYear } from './hooks/useYear';
 import { useYearContext } from './context/useYearContext';
 

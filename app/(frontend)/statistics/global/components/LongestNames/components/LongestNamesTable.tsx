@@ -1,6 +1,6 @@
-import { ArrowDown, ArrowUp } from '@/app/(frontend)/icons/icons';
+import { ChevronDown, ChevronUp } from '@/app/(frontend)/icons/icons';
 import { useLongestNames } from '../hooks/useLongestNames';
-import { LoadingTable } from '@/app/(frontend)/loaders/LoadingTable';
+import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/LoadingTable';
 
 export function LongestNamesTable({
   stats,
@@ -52,7 +52,7 @@ export function LongestNamesTable({
           onClick={showMore}
           aria-label="Mostrar más nombres largos"
         >
-          <ArrowDown /> mostrar más
+          <ChevronDown /> mostrar más
         </button>
       ) : (
         <button
@@ -60,7 +60,7 @@ export function LongestNamesTable({
           onClick={showLess}
           aria-label="Mostrar menos nombres largos"
         >
-          <ArrowUp /> mostrar menos
+          <ChevronUp /> mostrar menos
         </button>
       )}
     </>

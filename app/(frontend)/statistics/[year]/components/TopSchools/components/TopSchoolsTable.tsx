@@ -1,5 +1,5 @@
-import { ArrowDown, ArrowUp } from '@/app/(frontend)/icons/icons';
-import { LoadingTable } from '@/app/(frontend)/loaders/LoadingTable';
+import { ChevronDown, ChevronUp } from '@/app/(frontend)/icons/icons';
+import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/LoadingTable';
 import { useTopSchools } from '../hooks/useTopShools';
 
 export function TopSchoolsTable({
@@ -56,7 +56,7 @@ export function TopSchoolsTable({
           onClick={showMore}
           aria-label="Mostrar más colegios"
         >
-          <ArrowDown /> mostrar más
+          <ChevronDown /> mostrar más
         </button>
       ) : (
         <button
@@ -64,7 +64,7 @@ export function TopSchoolsTable({
           onClick={showLess}
           aria-label="Mostrar menos colegios"
         >
-          <ArrowUp /> mostrar menos
+          <ChevronUp /> mostrar menos
         </button>
       )}
     </>

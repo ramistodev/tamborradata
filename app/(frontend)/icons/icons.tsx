@@ -93,21 +93,6 @@ export function CalendarIcon() {
   );
 }
 
-export function ArrowDown() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={2}
-      stroke="currentColor"
-      className="size-5"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-    </svg>
-  );
-}
-
 export function ArrowRight() {
   return (
     <svg
@@ -124,6 +109,36 @@ export function ArrowRight() {
   );
 }
 
+export function ChevronUp() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      className="size-5"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+    </svg>
+  );
+}
+
+export function ChevronDown() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      className="size-5"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+    </svg>
+  );
+}
+
 export function ChevronRight() {
   return (
     <svg
@@ -135,21 +150,6 @@ export function ChevronRight() {
       className="size-7"
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-    </svg>
-  );
-}
-
-export function ArrowUp() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={2}
-      stroke="currentColor"
-      className="size-5"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
     </svg>
   );
 }

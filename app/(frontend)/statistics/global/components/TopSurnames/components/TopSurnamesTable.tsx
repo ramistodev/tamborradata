@@ -1,6 +1,6 @@
-import { ArrowDown, ArrowUp } from '@/app/(frontend)/icons/icons';
+import { ChevronDown, ChevronUp } from '@/app/(frontend)/icons/icons';
 import { useTopSurnames } from '../hooks/useTopSurnames';
-import { LoadingTable } from '@/app/(frontend)/loaders/LoadingTable';
+import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/LoadingTable';
 
 export function TopSurnamesTable({
   stats,
@@ -52,7 +52,7 @@ export function TopSurnamesTable({
           onClick={showMore}
           aria-label="Mostrar más apellidos"
         >
-          <ArrowDown /> mostrar más
+          <ChevronDown /> mostrar más
         </button>
       ) : (
         <button
@@ -60,7 +60,7 @@ export function TopSurnamesTable({
           onClick={showLess}
           aria-label="Mostrar menos apellidos"
         >
-          <ArrowUp /> mostrar menos
+          <ChevronUp /> mostrar menos
         </button>
       )}
     </>
