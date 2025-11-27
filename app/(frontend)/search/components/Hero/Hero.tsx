@@ -21,8 +21,8 @@ export function Hero() {
         transition={{ opacity: { duration: 0.4, ease: 'linear', delay: 0.2 } }}
         className="text-lg text-balance md:text-2xl text-center text-(--color-text-secondary)"
       >
-        Encuentra tu historial oficial: años, compañía y apariciones en la Tamborrada Infantil,
-        basado en la base de más grande de la Tamborrada Infantil.
+        Encuentra tu historial: años, compañía y apariciones en la Tamborrada Infantil, basado en la
+        base de datos más grande de la Tamborrada Infantil.
       </motion.p>
 
       {/* STATS */}

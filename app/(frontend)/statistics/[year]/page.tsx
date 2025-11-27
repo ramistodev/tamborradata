@@ -10,8 +10,8 @@ export async function generateMetadata({
   params: Promise<{ year: string }>;
 }): Promise<Metadata> {
   const { year } = await params;
-  const pageTitle = `Estadísticas oficiales de la Tamborrada Infantil ${year}`;
-  const pageDescription = `Análisis oficial de la Tamborrada Infantil ${year}: participantes, nombres más comunes, colegios destacados y tendencias anuales.`;
+  const pageTitle = `Estadísticas de la Tamborrada Infantil ${year}`;
+  const pageDescription = `Análisis de la Tamborrada Infantil ${year}: participantes, nombres más comunes, colegios destacados y tendencias anuales.`;
   const canonicalUrl = `https://tamborradata.com/statistics/${year}`;
   const imageUrl = 'https://tamborradata.com/og-image.webp';
 

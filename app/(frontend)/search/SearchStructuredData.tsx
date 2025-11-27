@@ -3,7 +3,7 @@ import Script from 'next/script';
 export function SearchStructuredData() {
   const pageTitle = 'Busca tu participación en la Tamborrada Infantil';
   const pageDescription =
-    'Localiza tu historial de participación oficial: busca participantes, años, compañía y apariciones en la base de datos histórica desde 2018 con resultados publicados por El Diario Vasco.';
+    'Consulta tu historial de participación: años, compañía y apariciones en la Tamborrada Infantil desde 2018.';
   const canonicalUrl = 'https://tamborradata.com/search';
   const imageUrl = 'https://tamborradata.com/og-image.webp';
   const searchTarget = 'https://tamborradata.com/search?name={search_term_string}';
@@ -34,7 +34,7 @@ export function SearchStructuredData() {
       target: searchTarget,
       'query-input': 'required name=search_term_string',
       description:
-        'Busca tu nombre y consulta tu historial de participación oficial en la Tamborrada Infantil desde 2018.',
+        'Busca tu nombre y consulta tu historial de participación en la Tamborrada Infantil desde 2018.',
     },
     about: [
       'historial de participación',
@@ -45,7 +45,7 @@ export function SearchStructuredData() {
       'participación por colegio',
       'estadísticas tamborrada infantil',
       'búsqueda de niños y niñas',
-      'datos históricos oficiales',
+      'datos históricos',
     ],
     breadcrumb: {
       '@type': 'BreadcrumbList',
@@ -90,7 +90,7 @@ export function SearchStructuredData() {
         name: '¿Qué información muestran los resultados?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Verás tu historial de participación oficial: años, compañía y apariciones en la Tamborrada Infantil según los resultados publicados por El Diario Vasco.',
+          text: 'Verás tu historial de participación: años, compañía y apariciones en la Tamborrada Infantil según los resultados publicados por El Diario Vasco.',
         },
       },
       {
@@ -98,7 +98,7 @@ export function SearchStructuredData() {
         name: '¿Desde qué año puedo buscar participantes?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'La base de datos histórica arranca en 2018 y se amplía cada enero con el nuevo listado oficial.',
+          text: 'La base de datos histórica arranca en 2018 y se amplía cada enero con el nuevo listado.',
         },
       },
       {
@@ -114,7 +114,7 @@ export function SearchStructuredData() {
         name: '¿Con qué frecuencia se actualizan los datos del buscador?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Cada enero se actualiza automáticamente tras la publicación oficial para mantener el historial de participación al día.',
+          text: 'Cada enero se actualiza automáticamente tras la publicación del Diario Vasco para mantener el historial de participación al día.',
         },
       },
       {

@@ -3,11 +3,11 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Información del Proyecto Tamborradata: origen de datos, privacidad y metodología',
   description:
-    'Detalles sobre el origen de los datos de Tamborradata, cómo se procesan los listados públicos del Diario Vasco, qué medidas de privacidad se aplican y cómo funciona el sistema automatizado que genera las estadísticas oficiales de la Tamborrada Infantil.',
+    'Detalles sobre el origen de los datos de Tamborradata, cómo se procesan los listados públicos del Diario Vasco, qué medidas de privacidad se aplican y cómo funciona el sistema automatizado que genera las estadísticas de la Tamborrada Infantil.',
   openGraph: {
     title: 'Información del Proyecto Tamborradata: origen de datos, privacidad y metodología',
     description:
-      'Detalles sobre el origen de los datos de Tamborradata, cómo se procesan los listados públicos del Diario Vasco, qué medidas de privacidad se aplican y cómo funciona el sistema automatizado que genera las estadísticas oficiales de la Tamborrada Infantil.',
+      'Detalles sobre el origen de los datos de Tamborradata, cómo se procesan los listados públicos del Diario Vasco, qué medidas de privacidad se aplican y cómo funciona el sistema automatizado que genera las estadísticas de la Tamborrada Infantil.',
     url: 'https://tamborradata.com/statistics/info',
     images: [
       {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Información del Proyecto Tamborradata: origen de datos, privacidad y metodología',
     description:
-      'Detalles sobre el origen de los datos de Tamborradata, cómo se procesan los listados públicos del Diario Vasco, qué medidas de privacidad se aplican y cómo funciona el sistema automatizado que genera las estadísticas oficiales de la Tamborrada Infantil.',
+      'Detalles sobre el origen de los datos de Tamborradata, cómo se procesan los listados públicos del Diario Vasco, qué medidas de privacidad se aplican y cómo funciona el sistema automatizado que genera las estadísticas de la Tamborrada Infantil.',
     images: ['https://tamborradata.com/og-image.webp'],
     site: '@tamborradata',
     creator: '@tamborradata',

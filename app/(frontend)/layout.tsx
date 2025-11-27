@@ -7,9 +7,9 @@ import Script from 'next/script';
 
 const siteUrl = 'https://tamborradata.com';
 const imageUrl = `${siteUrl}/og-image.webp`;
-const defaultTitle = 'Tamborradata | Datos oficiales y estadísticas de la Tamborrada Infantil';
+const defaultTitle = 'Tamborradata | Datos y estadísticas de la Tamborrada Infantil';
 const defaultDescription =
-  'Explora datos y estadísticas oficiales de la Tamborrada Infantil de Donostia-San Sebastián: participación, nombres y colegios desde 2018.';
+  'Explora datos y estadísticas de la Tamborrada Infantil de Donostia-San Sebastián: participación, nombres y colegios desde 2018.';
 
 const organizationStructuredData = {
   '@context': 'https://schema.org',
@@ -21,7 +21,7 @@ const organizationStructuredData = {
   image: imageUrl,
   sameAs: ['https://x.com/tamborradata', 'https://github.com/ramistodev/tamborradata'],
   description:
-    'Proyecto oficial de datos y estadísticas sobre la Tamborrada Infantil de Donostia-San Sebastián.',
+    'Proyecto de datos y estadísticas sobre la Tamborrada Infantil de Donostia-San Sebastián.',
 };
 
 const webSiteStructuredData = {
@@ -31,8 +31,7 @@ const webSiteStructuredData = {
   url: siteUrl,
   name: 'Tamborradata',
   alternateName: 'Tamborradata Estadísticas',
-  description:
-    'Sitio oficial de Tamborradata con estadísticas y datos de la Tamborrada Infantil desde 2018.',
+  description: 'Tamborradata estadísticas y datos de la Tamborrada Infantil desde 2018.',
   inLanguage: 'es-ES',
   publisher: { '@id': `${siteUrl}#organization` },
   sameAs: ['https://x.com/tamborradata', 'https://github.com/ramistodev/tamborradata'],
@@ -61,7 +60,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: imageUrl,
-        alt: 'Tamborradata - datos oficiales de la Tamborrada Infantil',
+        alt: 'Tamborradata - datos de la Tamborrada Infantil',
       },
     ],
     locale: 'es_ES',
@@ -74,7 +73,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: imageUrl,
-        alt: 'Tamborradata - datos oficiales de la Tamborrada Infantil',
+        alt: 'Tamborradata - datos de la Tamborrada Infantil',
       },
     ],
     creator: '@tamborradata',

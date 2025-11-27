@@ -30,13 +30,13 @@ export function useFAQs() {
       id: 'item2',
       question: '¿Qué información muestran los resultados?',
       answer:
-        'Verás tu historial de participación oficial: años, compañía y apariciones en la Tamborrada Infantil según los resultados publicados por El Diario Vasco.',
+        'Verás tu historial de participación: años, compañía y apariciones en la Tamborrada Infantil según los resultados publicados por El Diario Vasco.',
     },
     {
       id: 'item3',
       question: '¿Desde qué año puedo buscar participantes?',
       answer:
-        'La base de datos histórica arranca en 2018 y se amplía cada enero con el nuevo listado oficial.',
+        'La base de datos histórica arranca en 2018 y se amplía cada enero con el nuevo listado.',
     },
     {
       id: 'item4',
@@ -48,7 +48,7 @@ export function useFAQs() {
       id: 'item5',
       question: '¿Con qué frecuencia se actualizan los datos del buscador?',
       answer:
-        'Cada enero se actualiza automáticamente tras la publicación oficial para mantener el historial de participación al día.',
+        'Cada enero se actualiza automáticamente tras la publicación del Diario Vasco para mantener el historial de participación al día.',
     },
     {
       id: 'item6',

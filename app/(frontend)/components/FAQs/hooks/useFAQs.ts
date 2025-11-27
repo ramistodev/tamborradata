@@ -28,19 +28,19 @@ export function useFAQs() {
       id: 'item1',
       question: '¿Qué es Tamborradata?',
       answer:
-        'Tamborradata es el sitio oficial de estadísticas y datos abiertos sobre la Tamborrada Infantil de Donostia, con una base histórica consolidada desde 2018.',
+        'Tamborradata es el sitio de estadísticas y datos abiertos sobre la Tamborrada Infantil de Donostia, con una base histórica consolidada desde 2018.',
     },
     {
       id: 'item2',
-      question: '¿Dónde consultar las estadísticas oficiales de la Tamborrada Infantil?',
+      question: '¿Dónde consultar las estadísticas de la Tamborrada Infantil?',
       answer:
-        'En tamborradata.com puedes ver estadísticas oficiales de participación, nombres, colegios y tendencias de la Tamborrada Infantil desde 2018.',
+        'En tamborradata.com puedes ver estadísticas de participación, nombres, colegios y tendencias de la Tamborrada Infantil desde 2018.',
     },
     {
       id: 'item3',
       question: '¿Cómo buscar mi participación en la Tamborrada Infantil?',
       answer:
-        'Accede a tamborradata.com/search e introduce tu nombre completo y compañía para localizar tu historial oficial desde 2018.',
+        'Accede a tamborradata.com/search e introduce tu nombre completo y compañía para localizar tu historial desde 2018.',
     },
     {
       id: 'item4',
@@ -58,13 +58,13 @@ export function useFAQs() {
       id: 'item6',
       question: '¿Con qué frecuencia se actualizan los datos?',
       answer:
-        'Cada enero se incorporan los resultados oficiales recién publicados, manteniendo actualizadas las estadísticas y el buscador.',
+        'Cada enero se incorporan los resultados recién publicados, manteniendo actualizadas las estadísticas y el buscador.',
     },
     {
       id: 'item7',
-      question: '¿De dónde proceden los datos oficiales?',
+      question: '¿De dónde proceden los datos?',
       answer:
-        'Los datos se basan en los listados oficiales publicados por El Diario Vasco, procesados y normalizados por Tamborradata desde 2018.',
+        'Los datos se basan en los listados publicados por El Diario Vasco, procesados y normalizados por Tamborradata desde 2018.',
     },
     {
       id: 'item8',
@@ -82,7 +82,7 @@ export function useFAQs() {
       id: 'item10',
       question: '¿Quién está detrás de Tamborradata?',
       answer:
-        'Tamborradata es un proyecto independiente desarrollado por Ramistodev para reforzar y preservar la Tamborrada Infantil con datos oficiales.',
+        'Tamborradata es un proyecto independiente desarrollado por Ramistodev para reforzar y preservar los datos de la Tamborrada Infantil.',
     },
   ];
 
