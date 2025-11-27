@@ -1,8 +1,8 @@
 import Script from 'next/script';
 
 export function YearStructuredData({ year }: { year: string }) {
-  const pageTitle = `Estadísticas oficiales de la Tamborrada Infantil ${year}`;
-  const pageDescription = `Análisis oficial de la Tamborrada Infantil ${year}: participantes, nombres más comunes, colegios destacados y tendencias anuales.`;
+  const pageTitle = `Estadísticas de la Tamborrada Infantil ${year}`;
+  const pageDescription = `Análisis de la Tamborrada Infantil ${year}: participantes, nombres más comunes, colegios destacados y tendencias anuales.`;
   const canonicalUrl = `https://tamborradata.com/statistics/${year}`;
   const publicationDate = `${year}-01-20`;
   const publicationDateISO = `${publicationDate}T00:00:00.000Z`;

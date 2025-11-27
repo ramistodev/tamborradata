@@ -32,9 +32,7 @@ export function YearPageContent() {
   return (
     <article className="w-full flex flex-col gap-6" aria-labelledby="year-page-title">
       <h1 id="year-page-title" className="text-2xl md:text-3xl font-bold">
-        <span className="hidden md:block">
-          Estadísticas oficiales de la Tamborrada Infantil {year}
-        </span>
+        <span className="hidden md:block">Estadísticas de la Tamborrada Infantil {year}</span>
         <span className="block md:hidden">Tamborrada Infantil {year}</span>
       </h1>
 

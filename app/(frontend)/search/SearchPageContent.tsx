@@ -17,9 +17,9 @@ export function SearchPageContent() {
           transition={{ opacity: { duration: 0.4, ease: 'linear', delay: 0.9 } }}
           className="text-sm sm:text-base text-center text-(--color-text-secondary) max-w-3xl leading-relaxed"
         >
-          Cada enero se publica el listado oficial para mantener el historial al día. Introduce el
-          nombre completo y la compañía para localizar participaciones y confirmar en qué años
-          desfilaste, sin exponer datos personales más allá de lo publicado.
+          Cada enero se publica el listado para mantener el historial al día. Introduce el nombre
+          completo y la compañía para localizar participaciones y confirmar en qué años desfilaste,
+          sin exponer datos personales más allá de lo publicado.
         </motion.p>
       </section>
       <FAQs />

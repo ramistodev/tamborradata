@@ -7,7 +7,7 @@ const canonicalUrl = siteUrl;
 const imageUrl = `${siteUrl}/og-image.webp`;
 const pageTitle = 'Tamborradata | Datos y estadísticas de la Tamborrada Infantil';
 const pageDescription =
-  'Tamborradata es la página oficial para explorar datos y estadísticas verificadas de la Tamborrada Infantil en Donostia-San Sebastián: participación, nombres, colegios y tendencias desde 2018.';
+  'Tamborradata es la página para explorar datos y estadísticas de la Tamborrada Infantil en Donostia-San Sebastián: participación, nombres, colegios y tendencias desde 2018.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -16,12 +16,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: canonicalUrl,
   },
-  keywords: [
-    'Tamborradata',
-    'Tamborrada Infantil',
-    'estadísticas Tamborrada',
-    'datos oficiales Tamborrada',
-  ],
+  keywords: ['Tamborradata', 'Tamborrada Infantil', 'estadísticas Tamborrada', 'datos Tamborrada'],
   openGraph: {
     title: pageTitle,
     description: pageDescription,

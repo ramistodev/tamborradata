@@ -21,7 +21,7 @@ export function HomeStructuredData({ siteUrl, pageTitle, pageDescription, imageU
     '@id': organizationId,
     name: 'Tamborradata',
     description:
-      'Proyecto oficial de datos y estadísticas sobre la Tamborrada Infantil de Donostia-San Sebastián.',
+      'Proyecto de datos y estadísticas sobre la Tamborrada Infantil de Donostia-San Sebastián.',
     url: siteUrl,
     logo: `${siteUrl}/favicon.ico`,
     image: imageUrl,
@@ -34,8 +34,7 @@ export function HomeStructuredData({ siteUrl, pageTitle, pageDescription, imageU
     '@id': websiteId,
     name: 'Tamborradata',
     alternateName: 'Tamborradata Estadísticas',
-    description:
-      'Sitio oficial de Tamborradata con estadísticas y datos de la Tamborrada Infantil desde 2018.',
+    description: 'Tamborradata estadísticas y datos de la Tamborrada Infantil desde 2018.',
     url: siteUrl,
     inLanguage: 'es-ES',
     publisher: { '@id': organizationId },
@@ -54,9 +53,9 @@ export function HomeStructuredData({ siteUrl, pageTitle, pageDescription, imageU
     '@context': 'https://schema.org',
     '@type': 'Dataset',
     '@id': datasetId,
-    name: 'Tamborradata: datos oficiales de la Tamborrada Infantil',
+    name: 'Tamborradata: datos de la Tamborrada Infantil',
     description:
-      'Dataset con estadísticas y participación oficial de la Tamborrada Infantil de Donostia-San Sebastián desde 2018: nombres, colegios y tendencias anuales.',
+      'Dataset con estadísticas y participación de la Tamborrada Infantil de Donostia-San Sebastián desde 2018: nombres, colegios y tendencias anuales.',
     url: siteUrl,
     sameAs: ['https://x.com/tamborradata', 'https://github.com/ramistodev/tamborradata'],
     isAccessibleForFree: true,
@@ -134,8 +133,7 @@ export function HomeStructuredData({ siteUrl, pageTitle, pageDescription, imageU
     '@id': `${siteUrl}#faq`,
     url: siteUrl,
     name: 'Preguntas frecuentes sobre Tamborradata',
-    description:
-      'Preguntas frecuentes sobre Tamborradata y los datos oficiales de la Tamborrada Infantil.',
+    description: 'Preguntas frecuentes sobre Tamborradata y los datos de la Tamborrada Infantil.',
     inLanguage: 'es-ES',
     datePublished: publicationDateISO,
     dateModified: lastUpdatedISO,
@@ -145,15 +143,15 @@ export function HomeStructuredData({ siteUrl, pageTitle, pageDescription, imageU
         name: '¿Qué es Tamborradata?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Tamborradata es el sitio oficial de estadísticas y datos abiertos sobre la Tamborrada Infantil de Donostia, con una base histórica consolidada desde 2018.',
+          text: 'Tamborradata es el sitio de estadísticas y datos abiertos sobre la Tamborrada Infantil de Donostia, con una base histórica consolidada desde 2018.',
         },
       },
       {
         '@type': 'Question',
-        name: '¿Dónde consultar las estadísticas oficiales de la Tamborrada Infantil?',
+        name: '¿Dónde consultar las estadísticas de la Tamborrada Infantil?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'En tamborradata.com puedes ver estadísticas oficiales de participación, nombres, colegios y tendencias de la Tamborrada Infantil desde 2018.',
+          text: 'En tamborradata.com puedes ver estadísticas de participación, nombres, colegios y tendencias de la Tamborrada Infantil desde 2018.',
         },
       },
       {
@@ -161,7 +159,7 @@ export function HomeStructuredData({ siteUrl, pageTitle, pageDescription, imageU
         name: '¿Cómo buscar mi participación en la Tamborrada Infantil?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Accede a tamborradata.com/search e introduce tu nombre completo y compañía para localizar tu historial oficial desde 2018.',
+          text: 'Accede a tamborradata.com/search e introduce tu nombre completo y compañía para localizar tu historial desde 2018.',
         },
       },
       {
@@ -185,15 +183,15 @@ export function HomeStructuredData({ siteUrl, pageTitle, pageDescription, imageU
         name: '¿Con qué frecuencia se actualizan los datos?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Cada enero se incorporan los resultados oficiales recién publicados, manteniendo actualizadas las estadísticas y el buscador.',
+          text: 'Cada enero se incorporan los resultados recién publicados, manteniendo actualizadas las estadísticas y el buscador.',
         },
       },
       {
         '@type': 'Question',
-        name: '¿De dónde proceden los datos oficiales?',
+        name: '¿De dónde proceden los datos?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Los datos se basan en los listados oficiales publicados por El Diario Vasco, procesados y normalizados por Tamborradata desde 2018.',
+          text: 'Los datos se basan en los listados publicados por El Diario Vasco, procesados y normalizados por Tamborradata desde 2018.',
         },
       },
       {
@@ -217,7 +215,7 @@ export function HomeStructuredData({ siteUrl, pageTitle, pageDescription, imageU
         name: '¿Quién está detrás de Tamborradata?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Tamborradata es un proyecto independiente desarrollado por Ramistodev para reforzar y preservar la Tamborrada Infantil con datos oficiales.',
+          text: 'Tamborradata es un proyecto independiente desarrollado por Ramistodev para reforzar y preservar los datos de la Tamborrada Infantil.',
         },
       },
     ],

@@ -31,7 +31,7 @@ export function useNextSteps() {
     {
       title: 'IA para predecir la Tamborrada',
       description:
-        'Se aplicarán modelos de inteligencia artificial para generar predicciones completas de cada próxima edición, y comparándola después con los datos oficiales.',
+        'Se aplicarán modelos de inteligencia artificial para generar predicciones completas de cada próxima edición, y comparándola después con los datos.',
       feasible: false,
     },
     {

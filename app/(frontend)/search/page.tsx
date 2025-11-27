@@ -5,7 +5,7 @@ import { SearchStructuredData } from './SearchStructuredData';
 
 const pageTitle = 'Busca tu participación en la Tamborrada Infantil';
 const pageDescription =
-  'Localiza tu historial de participación oficial en la Tamborrada Infantil: busca participantes, años, compañía y apariciones en la base de datos histórica desde 2018 con resultados publicados por El Diario Vasco.';
+  'Consulta tu historial de participación: años, compañía y apariciones en la Tamborrada Infantil desde 2018.';
 const canonicalUrl = 'https://tamborradata.com/search';
 const imageUrl = 'https://tamborradata.com/og-image.webp';
 
