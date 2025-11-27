@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(req: NextRequest) {
+  if (process.env.NODE_ENV === 'development') {
+    return NextResponse.next();
+  }
+
   const { pathname } = req.nextUrl;
   if (!pathname.startsWith('/api')) return NextResponse.next();
 

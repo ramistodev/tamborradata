@@ -12,11 +12,11 @@ export async function fetchStatistics<T>(year: string): Promise<T | null> {
 
     const data = await response.json();
 
-    if (!data.statistics) return null;
+    if (!data) return null;
 
     data.statistics.year = data.year; // Añadir el año a los datos obtenidos
 
-    return data.statistics as T;
+    return data as T;
   } catch (error) {
     console.error('Error fetching statistics:', error);
     return null;

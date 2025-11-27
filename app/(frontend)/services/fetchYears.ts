@@ -1,4 +1,4 @@
-export async function fetchYears(url: string = '/api/available-years'): Promise<string[]> {
+export async function fetchYears(url: string = '/api/years'): Promise<string[]> {
   // Saber los años disponibles desde la API
   try {
     const response = await fetch(url);

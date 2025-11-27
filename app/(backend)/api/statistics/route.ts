@@ -1,51 +1,40 @@
-import { getStatistics } from '@/app/(backend)/logic/statistics/getStatistics';
-import { groupBy } from '@/app/(backend)/logic/helpers/groupBy';
+import 'server-only';
 import { NextResponse } from 'next/server';
-import { VALID_YEARS } from '../../utils/constants';
+import { getStatistics } from './services/statistics.service';
+import { getSysStatus } from '../../shared/utils/getSysStatus';
+import { checkParams } from './dtos/statistics.schema';
 
 export async function GET(req: Request) {
   try {
     const year = new URL(req.url).searchParams.get('year');
 
-    // Validar que se hayan proporcionado los parámetros
-    if (!year) {
-      return NextResponse.json({ error: "Parametro 'year' es obligatorio" }, { status: 400 });
+    // Validar parámetro 'year'
+    const { valid, cleanYear, error: paramError } = await checkParams(year);
+
+    if (!valid) {
+      return NextResponse.json({ error: paramError }, { status: 400 });
     }
 
-    // Validar formato de year
-    if (year !== 'global' && !/^\d{4}$/.test(year)) {
-      return NextResponse.json({ error: 'Formato de año inválido' }, { status: 400 });
-    }
-
-    // Validar año
-    const validYears: string[] = await VALID_YEARS();
-    if (!validYears.includes(year)) {
-      return NextResponse.json(
-        { error: `Año inválido. Años válidos: ${validYears.slice(0, 4).join(', ')}, ...` },
-        { status: 400 }
-      );
-    }
+    // Obtener estado del sistema
+    const isUpdating: boolean = await getSysStatus();
 
     // Obtener estadísticas completas para el año especificado
-    const stats = await getStatistics(year);
+    const { statistics, error } = await getStatistics(cleanYear);
 
-    // Validar si hay datos
-    if (!stats?.length || !stats) {
-      return NextResponse.json({ message: `No hay datos ${year}` }, { status: 404 });
+    if (error && !statistics) {
+      return NextResponse.json({ error }, { status: 500 });
     }
-
-    // Agrupar estadísticas por categoría
-    const statisticsByCategory = groupBy(stats, 'category');
 
     // Devuelve JSON limpio con las estadísticas del año
     return NextResponse.json({
-      year,
-      total_categories: stats.length,
-      statistics: statisticsByCategory,
+      isUpdating,
+      year: cleanYear,
+      total_categories: statistics ? Object.keys(statistics).length : 0,
+      statistics,
     });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Error al obtener el estado del sistema', details: JSON.stringify(error) },
+      { error: 'Error al obtener el estado del sistema', details: error },
       { status: 500 }
     );
   }

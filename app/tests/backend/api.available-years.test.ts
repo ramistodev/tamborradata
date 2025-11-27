@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { GET } from '@/app/(backend)/api/available-years/route';
+import { GET } from '@/app/(backend)/oldApi/available-years/route';
 import { getAvailableYears } from '@/app/(backend)/logic/years/getAvailableYears';
 
 // Mock de la función getAvailableYears

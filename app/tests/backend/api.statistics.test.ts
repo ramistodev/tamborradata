@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { GET } from '@/app/(backend)/api/statistics/route';
+import { GET } from '@/app/(backend)/oldApi/statistics/route';
 import { getStatistics } from '@/app/(backend)/logic/statistics/getStatistics';
-import { groupBy } from '@/app/(backend)/logic/helpers/groupBy';
+import { groupBy } from '@/app/(backend)/shared/utils/groupBy';
 import { VALID_YEARS } from '@/app/(backend)/utils/constants';
 
 // Mock de las dependencias
