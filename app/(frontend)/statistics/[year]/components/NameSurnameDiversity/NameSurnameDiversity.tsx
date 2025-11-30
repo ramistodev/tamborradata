@@ -1,14 +1,14 @@
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
-import { useYearContext } from '../../context/useYearContext';
+import { useYears } from '../../hooks/useYears';
 
 export function NamesSurnamesDiversity() {
-  const { statistics } = useYearContext();
+  const { stats } = useYears();
 
-  if (!statistics) return null;
+  if (!stats) return null;
 
-  const names = statistics.namesDiversityByYear;
-  const surnames = statistics.surnamesDiversityByYear;
+  const names = stats.namesDiversityByYear;
+  const surnames = stats.surnamesDiversityByYear;
 
   if (!names || !surnames) return null;
 

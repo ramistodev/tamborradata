@@ -12,20 +12,19 @@ import {
   TopNames,
   NewNames,
 } from './components';
-import { InfoIcon } from '../../icons/icons';
-import { LoadingPage } from '../components/loaders/LoadingPage';
 import { notFound } from 'next/navigation';
+import { InfoIcon } from '../../icons/icons';
 import { UpdatingPage } from '../components/UpdatingPage';
-import { useYear } from './hooks/useYear';
-import { useYearContext } from './context/useYearContext';
+import { LoadingPage } from '../components/loaders/LoadingPage';
+
+import { useYears } from './hooks/useYears';
 
 export function YearPageContent() {
-  const { statistics } = useYearContext();
-  const { year, isLoading, isUpdating } = useYear();
+  const { statistics, stats, isLoading, isFetching, isFetched, year } = useYears();
 
-  if (isUpdating) return <UpdatingPage />;
+  if (statistics?.isUpdating) return <UpdatingPage />;
 
-  if (!statistics && !isLoading) return notFound();
+  if (isFetched && !isFetching && !statistics) return notFound();
 
   if (isLoading || !statistics) return <LoadingPage />;
 
@@ -37,9 +36,7 @@ export function YearPageContent() {
       </h1>
 
       <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
-        <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
-          {statistics.intro[0]?.summary}
-        </ReactMarkdown>
+        <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{stats.intro[0]?.summary}</ReactMarkdown>
       </div>
 
       <hr className="w-full border border-(--color-border)" aria-hidden="true" />
@@ -56,9 +53,7 @@ export function YearPageContent() {
       <hr className="w-full border border-(--color-border)" aria-hidden="true" />
 
       <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
-        <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
-          {statistics.outro[0]?.summary}
-        </ReactMarkdown>
+        <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{stats.outro[0]?.summary}</ReactMarkdown>
       </div>
 
       <Link

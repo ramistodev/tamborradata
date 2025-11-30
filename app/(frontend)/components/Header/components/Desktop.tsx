@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useStatisticsY } from '../hooks/useStatisticsY';
+import { useStatisticsY } from '../../../hooks/useStatisticsY';
 import { useHeader } from '../hooks/useHeader';
 
 export function Desktop() {

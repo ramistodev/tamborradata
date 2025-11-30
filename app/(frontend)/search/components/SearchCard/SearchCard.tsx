@@ -1,8 +1,11 @@
 import { motion } from 'framer-motion';
 import { CardForm } from './components/CardForm/CardForm';
 import { SearchResults } from './components/SearchResults/SearchResults';
+import { useState } from 'react';
 
 export function SearchCard() {
+  const [params, setParams] = useState<{ name: string; company: string } | null>(null);
+
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -21,13 +24,13 @@ export function SearchCard() {
         id="search-card-form"
         className="flex-1 w-full p-4 border border-(--color-border) sm:border-none  bg-linear-to-br from-(--eye-catching-text) via-(--color-primary) to-(--color-bg-thirdary) rounded-xl sm:rounded-none sm:bg-none"
       >
-        <CardForm />
+        <CardForm onSubmit={setParams} />
       </div>
       <span className="absolute top-0 left-1/2 transform -translate-x-1/2 h-full border border-(--color-border) shadow-[0_0_10px_var(--eye-catching-text)] invisible sm:visible"></span>
 
       {/* SEARCH RESULTS */}
       <div className="flex-1 w-full p-4 border border-(--color-border) sm:border-none bg-linear-to-br from-(--eye-catching-text) via-(--color-primary) to-(--color-bg-thirdary) rounded-xl sm:rounded-none sm:bg-none">
-        <SearchResults />
+        <SearchResults params={params} />
       </div>
     </motion.section>
   );

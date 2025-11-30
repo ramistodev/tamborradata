@@ -10,7 +10,7 @@ export function ExploreStatistics() {
     currentYear,
     newData,
     comingData,
-    years,
+    yearsAvailable,
     isNotificationsInView,
     isHeaderInView,
     isGlobalCardInView,
@@ -206,7 +206,7 @@ export function ExploreStatistics() {
           transition={{ duration: 0.3, delay: 0.1 }}
           className="text-center p-4 bg-(--color-bg-secondary) border border-(--color-border) rounded-xl"
         >
-          <div className="text-3xl font-bold text-(--eye-catching-text)">{years}+</div>
+          <div className="text-3xl font-bold text-(--eye-catching-text)">{yearsAvailable}+</div>
           <div className="text-sm text-(--color-text-secondary) mt-1">Años de datos</div>
         </motion.div>
         <motion.div

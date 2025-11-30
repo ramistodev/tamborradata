@@ -1,33 +1,12 @@
-import { useEffect, useState } from 'react';
-import { fetchStatistics } from '../../logic/fetchStatistics';
+import { useStatisticsQuery } from '@/app/(frontend)/hooks/query/useStatisticsQuery';
+import { GLOBAL_STATS_KEY } from '@/app/(frontend)/shared/constants/app';
 import { Statistics } from '../types/types';
-import { useGlobalContext } from '../context/useGlobalContext';
 
 export function useGlobal() {
-  const { setStatistics } = useGlobalContext();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isUpdating, setIsUpdating] = useState<boolean>(false);
-
-  useEffect(() => {
-    setIsLoading(true);
-
-    fetchStatistics<Statistics>('global')
-      .then((stats) => {
-        setIsUpdating(stats.isUpdating);
-
-        if (!stats.statistics) {
-          setStatistics(null);
-        } else {
-          setStatistics(stats.statistics);
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
-
-  return {
+  const {
+    data: statistics,
     isLoading,
-    isUpdating,
-  };
+    isFetching,
+  } = useStatisticsQuery<Statistics>(GLOBAL_STATS_KEY);
+  return { statistics, stats: statistics?.statistics, isLoading, isFetching };
 }

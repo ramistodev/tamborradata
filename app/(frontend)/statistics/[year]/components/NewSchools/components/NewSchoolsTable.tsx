@@ -1,6 +1,6 @@
 import { useNewSchools } from '../hooks/useNewSchools';
 
-export function NewSchoolsTable({ stats }: ReturnType<typeof useNewSchools>) {
+export function NewSchoolsTable({ newSchoolsStats }: ReturnType<typeof useNewSchools>) {
   return (
     <>
       <table
@@ -22,8 +22,8 @@ export function NewSchoolsTable({ stats }: ReturnType<typeof useNewSchools>) {
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(stats[0].public_data) &&
-            stats[0].public_data.map((stat, index) => (
+          {Array.isArray(newSchoolsStats[0].public_data) &&
+            newSchoolsStats[0].public_data.map((stat, index) => (
               <tr key={stat.school} className={index % 2 === 0 ? 'bg-(--color-table)' : ''}>
                 <td className="p-2 text-sm text-center">{index + 1}</td>
                 <td className="p-2 text-sm">{stat.school}</td>

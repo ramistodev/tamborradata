@@ -1,66 +1,41 @@
 import { useRef, useState } from 'react';
-import { TopSurnameData } from '../../../types/types';
-import { fetchCategory } from '../../../../logic/fetchCategory';
-import { useYearContext } from '../../../context/useYearContext';
-import { scrollToTopTable } from '../../../utils/scrollToTopTable';
+import { TopSurname, TopSurnameData } from '../../../types/types';
+import { useTable } from '../../../hooks/useTable';
+import { useCategory } from '../../../hooks/useCategory';
+import { useYears } from '../../../hooks/useYears';
 
 export function useTopSurnames() {
-  const { statistics, year } = useYearContext();
-  const [stats, setStats] = useState(statistics?.topSurnamesByYear || []);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const { stats, year } = useYears();
+  const { categoryData, isLoading, isFetching, refetch } = useCategory<TopSurnameData>(
+    stats?.topSurnamesByYear[0].category || '',
+    year,
+    false
+  );
+
+  const [topSurnamesStats, setTopSurnamesStats] = useState(stats?.topSurnamesByYear || []);
   const [chart, setChart] = useState(false);
-  const cacheRef = useRef<TopSurnameData[] | null>(null);
   const tableRef = useRef<HTMLTableElement | null>(null);
+
+  const { hasMore, showMore, showLess } = useTable<TopSurname, TopSurnameData>(
+    setTopSurnamesStats,
+    categoryData ?? [],
+    refetch,
+    tableRef
+  );
 
   function showChart() {
     setChart((prev) => !prev);
   }
 
-  function showMore() {
-    setLoading(true);
-    setHasMore(false);
-
-    if (cacheRef.current) {
-      // Si hay datos en cache, úsalos sin hacer fetch
-      const data = cacheRef.current;
-      setStats((prev) => {
-        if (prev.length === 0) return prev;
-        const updatedFirst = { ...prev[0], public_data: data as TopSurnameData[] };
-        return [updatedFirst, ...prev.slice(1)];
-      });
-      setLoading(false);
-      return;
-    } else {
-      // Si no hay cache, haz el fetch
-      fetchCategory<TopSurnameData>(stats[0].category, year)
-        .then((newData) => {
-          if (newData) {
-            cacheRef.current = newData; // Guarda los datos de public_data en cache
-            setStats((prev) => {
-              if (prev.length === 0) return prev;
-              const updatedFirst = { ...prev[0], public_data: newData as TopSurnameData[] };
-              return [updatedFirst, ...prev.slice(1)];
-            });
-          }
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-  }
-
-  function showLess() {
-    setStats((prev) => {
-      if (prev.length === 0) return prev;
-      const updateFirst = { ...prev[0], public_data: prev[0].public_data.slice(0, 15) };
-      return [updateFirst, ...prev.slice(1)];
-    });
-
-    setHasMore(true);
-
-    scrollToTopTable(tableRef.current);
-  }
-
-  return { stats, loading, hasMore, tableRef, chart, showMore, showLess, showChart };
+  return {
+    topSurnamesStats,
+    isLoading,
+    isFetching,
+    hasMore,
+    tableRef,
+    chart,
+    showMore,
+    showLess,
+    showChart,
+  };
 }

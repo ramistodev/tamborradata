@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { GlobalStructuredData } from './GlobalStructuredData';
-import { GlobalProvider } from './context/GlobalProvider';
 import { GlobalPageContent } from './GlobalPageContent';
 
 const pageTitle = 'Estadísticas globales de la Tamborrada Infantil';
@@ -34,9 +33,9 @@ export const metadata: Metadata = {
 
 export default function GlobalPage() {
   return (
-    <GlobalProvider>
+    <>
       <GlobalStructuredData />
       <GlobalPageContent />
-    </GlobalProvider>
+    </>
   );
 }

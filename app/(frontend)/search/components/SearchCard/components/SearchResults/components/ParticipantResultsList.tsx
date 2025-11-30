@@ -1,7 +1,6 @@
-import { useSearchContext } from '@/app/(frontend)/search/context/useSearchContext';
+import { Participants } from '@/app/(frontend)/search/types/types';
 
-export function ParticipantResultsList() {
-  const { participants } = useSearchContext();
+export function ParticipantResultsList({ participants }: { participants: Participants[] }) {
   return (
     <div aria-live="polite" className="flex flex-col gap-4">
       {/* HEADER */}

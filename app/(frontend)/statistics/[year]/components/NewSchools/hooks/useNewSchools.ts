@@ -1,10 +1,10 @@
-import { useYearContext } from '../../../context/useYearContext';
+import { useYears } from '../../../hooks/useYears';
 
 export function useNewSchools() {
-  const { statistics } = useYearContext();
-  const stats = statistics?.newSchoolsByYear || [];
+  const { stats } = useYears();
+  const newSchoolsStats = stats?.newSchoolsByYear || [];
 
   return {
-    stats,
+    newSchoolsStats,
   };
 }

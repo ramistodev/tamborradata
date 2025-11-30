@@ -1,16 +1,16 @@
-export async function fetchYears(url: string = '/api/years'): Promise<string[]> {
+export async function fetchYears(url: string = '/api/years'): Promise<number[]> {
   // Saber los años disponibles desde la API
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    if (!data.years || data.years.length === 0) {
-      console.error('No years data found');
-      return [];
-    }
+  const response = await fetch(url);
 
-    return data.years;
-  } catch (error) {
-    console.error('Error fetching years:', error);
-    return [];
+  if (!response.ok) {
+    throw new Error('Failed to fetch years');
   }
+
+  const data = await response.json();
+
+  if (data.error) {
+    throw new Error(data.error);
+  }
+
+  return data.years.map(Number);
 }

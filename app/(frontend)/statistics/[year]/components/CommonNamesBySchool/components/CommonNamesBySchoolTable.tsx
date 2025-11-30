@@ -3,9 +3,10 @@ import { useCommonNamesBySchool } from '../hooks/useCommonNamesBySchool';
 import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/LoadingTable';
 
 export function CommonNamesBySchoolTable({
-  stats,
+  commonNamesStats,
   hasMore,
-  loading,
+  isLoading,
+  isFetching,
   tableRef,
   showMore,
   showLess,
@@ -35,15 +36,15 @@ export function CommonNamesBySchoolTable({
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(stats[0].public_data) &&
-            stats[0].public_data.map((stat, index) => (
+          {Array.isArray(commonNamesStats[0].public_data) &&
+            commonNamesStats[0].public_data.map((stat, index) => (
               <tr key={stat.school} className={index % 2 === 0 ? 'bg-(--color-table)' : ''}>
                 <td className="p-2 text-center text-sm">{index + 1}</td>
                 <td className="p-2 text-sm">{stat.school}</td>
                 <td className="p-2 text-sm">{stat.name}</td>
               </tr>
             ))}
-          {loading && <LoadingTable rows={3} />}
+          {(isLoading || isFetching) && <LoadingTable rows={3} />}
         </tbody>
       </table>
       {hasMore ? (

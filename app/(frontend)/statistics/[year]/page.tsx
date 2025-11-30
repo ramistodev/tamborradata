@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { YearProvider } from './context/YearProvider';
 import { YearPageContent } from './YearPageContent';
 import { YearStructuredData } from './YearStructuredData';
 
@@ -48,9 +47,9 @@ export default async function YearPage({ params }: { params: Promise<{ year: str
   const { year } = await params;
 
   return (
-    <YearProvider year={year}>
+    <>
       <YearStructuredData year={year} />
       <YearPageContent />
-    </YearProvider>
+    </>
   );
 }

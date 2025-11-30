@@ -11,7 +11,6 @@ export function SchoolsEvolutionChart({
   allYears,
 }: ReturnType<typeof useSchoolsEvolution>) {
   // Normalizar a la forma que espera ResponsiveLine
-
   const yearsData: Year[] | null = useMemo(() => {
     if (chartData) {
       const data = allYears.map((year) => {

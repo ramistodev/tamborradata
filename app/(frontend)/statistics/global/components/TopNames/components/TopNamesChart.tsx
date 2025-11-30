@@ -1,7 +1,7 @@
 import { ResponsiveBar } from '@nivo/bar';
 import { useTopNames } from '../hooks/useTopNames';
 
-export function TopNamesChart({ stats }: ReturnType<typeof useTopNames>) {
+export function TopNamesChart({ topNamesStats }: ReturnType<typeof useTopNames>) {
   return (
     <div
       className="w-full h-[400px] bg-white rounded-2xl p-3 select-none"
@@ -9,7 +9,7 @@ export function TopNamesChart({ stats }: ReturnType<typeof useTopNames>) {
       aria-label="Gráfico de barras mostrando los 15 nombres más repetidos"
     >
       <ResponsiveBar
-        data={stats[0].public_data?.slice(0, 15).map((item) => ({ ...item })) || []}
+        data={topNamesStats[0].public_data?.slice(0, 15).map((item) => ({ ...item })) || []}
         keys={['count']}
         indexBy="name"
         margin={{ top: 20, right: 30, bottom: 50, left: 60 }}
