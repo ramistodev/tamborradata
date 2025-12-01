@@ -1,6 +1,9 @@
 'use client';
+import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
+import { InfoIcon } from '../../icons/icons';
+import { useGlobal } from './hooks/useGlobal';
 import {
   CommonNameBySchool,
   LongestNames,
@@ -12,20 +15,9 @@ import {
   TopSurnames,
   TotalParticipants,
 } from './components';
-import Link from 'next/link';
-import { InfoIcon } from '../../icons/icons';
-import { LoadingPage } from '../components/loaders/LoadingPage';
-import { UpdatingPage } from '../components/UpdatingPage';
-import { useGlobalContext } from './context/useGlobalContext';
-import { useGlobal } from './hooks/useGlobal';
 
 export function GlobalPageContent() {
-  const { statistics } = useGlobalContext();
-  const { isLoading, isUpdating } = useGlobal();
-
-  if (isUpdating) return <UpdatingPage />;
-
-  if (isLoading || !statistics) return <LoadingPage />;
+  const { stats } = useGlobal();
 
   return (
     <article className="w-full flex flex-col gap-6" aria-labelledby="global-page-title">
@@ -35,9 +27,7 @@ export function GlobalPageContent() {
       </h1>
 
       <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
-        <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
-          {statistics?.intro[0]?.summary}
-        </ReactMarkdown>
+        <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{stats?.intro[0]?.summary}</ReactMarkdown>
       </div>
 
       <hr className="w-full border border-(--color-border)" aria-hidden="true" />
@@ -55,9 +45,7 @@ export function GlobalPageContent() {
       <hr className="w-full border border-(--color-border)" aria-hidden="true" />
 
       <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
-        <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
-          {statistics?.outro[0]?.summary}
-        </ReactMarkdown>
+        <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{stats?.outro[0]?.summary}</ReactMarkdown>
       </div>
 
       <Link

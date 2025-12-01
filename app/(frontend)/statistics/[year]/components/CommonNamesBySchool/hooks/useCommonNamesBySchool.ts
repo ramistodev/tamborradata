@@ -1,65 +1,30 @@
 import { useRef, useState } from 'react';
-import { CommonNameBySchoolData } from '../../../types/types';
-import { fetchCategory } from '../../../../logic/fetchCategory';
-import { useYearContext } from '../../../context/useYearContext';
-import { scrollToTopTable } from '../../../utils/scrollToTopTable';
+import { CommonNameBySchool, CommonNameBySchoolData } from '../../../types/types';
+import { useYears } from '../../../hooks/useYears';
+import { useCategory } from '../../../hooks/useCategory';
+import { useTable } from '../../../hooks/useTable';
 
 export function useCommonNamesBySchool() {
-  const { statistics, year } = useYearContext();
-  const [stats, setStats] = useState(statistics?.commonNameBySchoolByYear || []);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const cacheRef = useRef<CommonNameBySchoolData[] | null>(null);
+  const { stats, year } = useYears();
+  const { categoryData, isLoading, refetch } = useCategory<CommonNameBySchoolData>(
+    stats?.commonNameBySchoolByYear[0].category || '',
+    year,
+    false
+  );
+
+  const [commonNamesStats, setCommonNamesStats] = useState(stats?.commonNameBySchoolByYear || []);
   const tableRef = useRef<HTMLTableElement | null>(null);
 
-  function showMore() {
-    setLoading(true);
-    setHasMore(false);
-
-    if (cacheRef.current) {
-      // Si hay datos en cache, úsalos sin hacer fetch
-      const data = cacheRef.current;
-      setStats((prev) => {
-        if (prev.length === 0) return prev;
-        const updatedFirst = { ...prev[0], public_data: data as CommonNameBySchoolData[] };
-        return [updatedFirst, ...prev.slice(1)];
-      });
-      setLoading(false);
-      return;
-    } else {
-      // Si no hay cache, haz el fetch
-      fetchCategory<CommonNameBySchoolData>(stats[0].category, year)
-        .then((newData) => {
-          if (newData) {
-            cacheRef.current = newData; // Guarda los datos de public_data en cache
-            setStats((prev) => {
-              if (prev.length === 0) return prev;
-              const updatedFirst = { ...prev[0], public_data: newData as CommonNameBySchoolData[] };
-              return [updatedFirst, ...prev.slice(1)];
-            });
-          }
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-  }
-
-  function showLess() {
-    setStats((prev) => {
-      if (prev.length === 0) return prev;
-      const updateFirst = { ...prev[0], public_data: prev[0].public_data.slice(0, 15) };
-      return [updateFirst, ...prev.slice(1)];
-    });
-
-    setHasMore(true);
-
-    scrollToTopTable(tableRef.current);
-  }
+  const { hasMore, showMore, showLess } = useTable<CommonNameBySchool, CommonNameBySchoolData>(
+    setCommonNamesStats,
+    categoryData ?? [],
+    refetch,
+    tableRef
+  );
 
   return {
-    stats,
-    loading,
+    commonNamesStats,
+    isLoading,
     hasMore,
     tableRef,
     showMore,

@@ -1,70 +1,35 @@
 import { useRef, useState } from 'react';
-import { TopSchoolData } from '../../../types/types';
-import { fetchCategory } from '../../../../logic/fetchCategory';
-import { useYearContext } from '../../../context/useYearContext';
-import { scrollToTopTable } from '../../../utils/scrollToTopTable';
+import { TopSchool, TopSchoolData } from '../../../types/types';
+import { useTable } from '../../../hooks/useTable';
+import { useYears } from '../../../hooks/useYears';
+import { useCategory } from '../../../hooks/useCategory';
 
 export function useTopSchools() {
-  const { statistics, year } = useYearContext();
-  const [stats, setStats] = useState(statistics?.topSchoolsByYear || []);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const { stats, year } = useYears();
+  const { categoryData, isLoading, refetch } = useCategory<TopSchoolData>(
+    stats?.topSchoolsByYear[0].category || '',
+    year,
+    false
+  );
+
+  const [topSchoolsStats, setTopSchoolsStats] = useState(stats?.topSchoolsByYear || []);
   const [chart, setChart] = useState(false);
-  const cacheRef = useRef<TopSchoolData[] | null>(null);
   const tableRef = useRef<HTMLTableElement | null>(null);
+
+  const { hasMore, showMore, showLess } = useTable<TopSchool, TopSchoolData>(
+    setTopSchoolsStats,
+    categoryData ?? [],
+    refetch,
+    tableRef
+  );
 
   function showChart() {
     setChart((prev) => !prev);
   }
 
-  function showMore() {
-    setLoading(true);
-    setHasMore(false);
-
-    if (cacheRef.current) {
-      // Si hay datos en cache, úsalos sin hacer fetch
-      const data = cacheRef.current;
-      setStats((prev) => {
-        if (prev.length === 0) return prev;
-        const updatedFirst = { ...prev[0], public_data: data as TopSchoolData[] };
-        return [updatedFirst, ...prev.slice(1)];
-      });
-      setLoading(false);
-      return;
-    } else {
-      // Si no hay cache, haz el fetch
-      fetchCategory<TopSchoolData>(stats[0].category, year)
-        .then((newData) => {
-          if (newData) {
-            cacheRef.current = newData; // Guarda los datos de public_data en cache
-            setStats((prev) => {
-              if (prev.length === 0) return prev;
-              const updatedFirst = { ...prev[0], public_data: newData as TopSchoolData[] };
-              return [updatedFirst, ...prev.slice(1)];
-            });
-          }
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-  }
-
-  function showLess() {
-    setStats((prev) => {
-      if (prev.length === 0) return prev;
-      const updateFirst = { ...prev[0], public_data: prev[0].public_data.slice(0, 15) };
-      return [updateFirst, ...prev.slice(1)];
-    });
-
-    setHasMore(true);
-
-    scrollToTopTable(tableRef.current);
-  }
-
   return {
-    stats,
-    loading,
+    topSchoolsStats,
+    isLoading,
     hasMore,
     tableRef,
     chart,

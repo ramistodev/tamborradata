@@ -3,9 +3,9 @@ import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/Loa
 import { useSchoolsEvolution } from '../hooks/useSchoolsEvolution';
 
 export function SchoolsEvolutionTable({
-  stats,
+  schoolsEvolution,
   hasMore,
-  loading,
+  isLoading,
   tableRef,
   tableYears,
   showMore,
@@ -56,8 +56,8 @@ export function SchoolsEvolutionTable({
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(stats[0].public_data) &&
-              stats[0].public_data.map((stat, index) => (
+            {Array.isArray(schoolsEvolution[0].public_data) &&
+              schoolsEvolution[0].public_data.map((stat, index) => (
                 <tr key={stat.school} className={index % 2 === 0 ? 'bg-(--color-table)' : ''}>
                   <td className="p-2 text-center text-sm">{index + 1}</td>
                   <td className="p-2 text-sm">{stat.school}</td>
@@ -81,7 +81,7 @@ export function SchoolsEvolutionTable({
                   </td>
                 </tr>
               ))}
-            {loading && <LoadingTable rows={11} />}
+            {isLoading && <LoadingTable rows={11} />}
           </tbody>
         </table>
       </div>

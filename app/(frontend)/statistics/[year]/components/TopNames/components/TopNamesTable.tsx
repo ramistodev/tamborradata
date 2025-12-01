@@ -3,9 +3,9 @@ import { useTopNames } from '../hooks/useTopNames';
 import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/LoadingTable';
 
 export function TopNamesTable({
-  stats,
+  topNamesStats,
   hasMore,
-  loading,
+  isLoading,
   tableRef,
   showMore,
   showLess,
@@ -35,15 +35,15 @@ export function TopNamesTable({
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(stats[0].public_data) &&
-            stats[0].public_data.map((stat, index) => (
+          {Array.isArray(topNamesStats[0].public_data) &&
+            topNamesStats[0].public_data.map((stat, index) => (
               <tr key={stat.name} className={index % 2 === 0 ? 'bg-(--color-table)' : ''}>
                 <td className="p-2 text-center text-sm">{index + 1}</td>
                 <td className="p-2 text-sm">{stat.name}</td>
                 <td className="p-2 text-sm">{stat.count}</td>
               </tr>
             ))}
-          {loading && <LoadingTable rows={3} />}
+          {isLoading && <LoadingTable rows={3} />}
         </tbody>
       </table>
       {hasMore ? (

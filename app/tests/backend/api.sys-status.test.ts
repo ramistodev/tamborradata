@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { GET } from '@/app/(backend)/api/sys-status/route';
-import { getSysStatus } from '@/app/(backend)/logic/sysStatus/getSysStatus';
+import { GET } from '@/app/(backend)/oldApi/sys-status/route';
+import { getSysStatus } from '@/app/(backend)/shared/utils/getSysStatus';
 
 // Mock de la función getSysStatus
 vi.mock('@/app/(backend)/logic/sysStatus/getSysStatus', () => ({

@@ -1,16 +1,15 @@
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
-import { useGlobalContext } from '../../context/useGlobalContext';
+import { useGlobal } from '../../hooks/useGlobal';
+import { hasData } from '@/app/(frontend)/helpers/hasData';
 
 export function NamesSurnamesDiversity() {
-  const { statistics } = useGlobalContext();
+  const { stats } = useGlobal();
 
-  if (!statistics) return null;
+  const names = stats.namesDiversity;
+  const surnames = stats.surnamesDiversity;
 
-  const names = statistics.namesDiversity;
-  const surnames = statistics.surnamesDiversity;
-
-  if (!names || !surnames) return null;
+  if (hasData(names) && hasData(surnames)) return null;
 
   return (
     <section className="w-full">

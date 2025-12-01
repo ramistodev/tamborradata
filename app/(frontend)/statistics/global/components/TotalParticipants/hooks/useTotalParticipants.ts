@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
-import { useGlobalContext } from '../../../context/useGlobalContext';
 import { TotalParticipantData } from '../../../types/types';
+import { useGlobal } from '../../../hooks/useGlobal';
 
 export function useTotalParticipants() {
-  const { statistics } = useGlobalContext();
-  const stats = statistics?.totalParticipants || [];
+  const { stats } = useGlobal();
+  const totalParticipants = stats?.totalParticipants || [];
   const [chart, setChart] = useState(false);
 
   function showChart() {
@@ -12,11 +12,11 @@ export function useTotalParticipants() {
   }
 
   const tableData: TotalParticipantData[] = useMemo(() => {
-    return Array.from(stats[0].public_data).sort((a, b) => b.year - a.year);
-  }, [stats]);
+    return Array.from(totalParticipants?.[0]?.public_data).sort((a, b) => b.year - a.year);
+  }, [totalParticipants]);
 
   return {
-    stats,
+    totalParticipants,
     chart,
     showChart,
     tableData,

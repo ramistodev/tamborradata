@@ -1,11 +1,12 @@
-import { fetchYears } from '@/app/(frontend)/services/fetchYears';
+import { useStatisticsY } from '@/app/(frontend)/hooks/useStatisticsY';
 import { useInView } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
 export function useExploreStatistics() {
   const [newData, setNewData] = useState(false);
   const [comingData, setComingData] = useState(false);
-  const years = new Date().getFullYear() - 2018;
+  const { years } = useStatisticsY();
+  const yearsAvailable = years ? years.length : new Date().getFullYear() - 2018;
   const currentYear = new Date().getFullYear();
   const lastStatYear = useRef(currentYear);
   const isDev = process.env.NODE_ENV === 'development' ? true : false;
@@ -48,27 +49,26 @@ export function useExploreStatistics() {
     const month = dateNow.getMonth();
     const day = dateNow.getDate();
 
+    if (!years) return;
+
     // Comprobar si hay nuevos datos disponibles (o van a estarlo pronto)
     if (isDev || month === 0 || (month === 1 && day <= 20)) {
-      fetchYears().then((fetchedYears) => {
-        const yearsNumbers = fetchedYears.filter((y) => y !== 'global').map((year) => Number(year));
-        if (yearsNumbers.includes(currentYear)) {
-          setNewData(true);
-          setComingData(false);
-        } else if (isDev || month === 0) {
-          setComingData(true);
-          lastStatYear.current = currentYear - 1;
-        }
-      });
+      if (years.includes(currentYear)) {
+        setNewData(true);
+        setComingData(false);
+      } else if (isDev || month === 0) {
+        setComingData(true);
+        lastStatYear.current = currentYear - 1;
+      }
     }
-  }, []);
+  }, [years]);
 
   return {
     lastStatYear,
     currentYear,
     newData,
     comingData,
-    years,
+    yearsAvailable,
     isHeaderInView,
     isNotificationsInView,
     isGlobalCardInView,

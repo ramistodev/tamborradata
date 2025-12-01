@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Results } from './components/Results';
 
-export function SearchResults() {
+export function SearchResults({ params }: { params: { name: string; company: string } | null }) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -14,7 +14,7 @@ export function SearchResults() {
       className="h-full flex flex-col justify-start gap-6"
     >
       <h2 className="text-xl md:text-2xl font-bold text-center">Resultados de la búsqueda</h2>
-      <Results />
+      <Results params={params} />
     </motion.div>
   );
 }

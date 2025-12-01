@@ -3,9 +3,9 @@ import { useNewNames } from '../hooks/useNewNames';
 import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/LoadingTable';
 
 export function NewNamesTable({
-  stats,
+  newNamesStats,
   hasMore,
-  loading,
+  isLoading,
   tableRef,
   showMore,
   showLess,
@@ -32,14 +32,14 @@ export function NewNamesTable({
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(stats[0].public_data) &&
-            stats[0].public_data.map((name, index) => (
+          {Array.isArray(newNamesStats[0].public_data) &&
+            newNamesStats[0].public_data.map((name, index) => (
               <tr key={name} className={index % 2 === 0 ? 'bg-(--color-table)' : ''}>
                 <td className="p-2 text-center text-sm">{index + 1}</td>
                 <td className="p-2 text-sm">{name}</td>
               </tr>
             ))}
-          {loading && <LoadingTable rows={2} />}
+          {isLoading && <LoadingTable rows={2} />}
         </tbody>
       </table>
       {hasMore ? (

@@ -1,11 +1,13 @@
-import { useSearchContext } from '@/app/(frontend)/search/context/useSearchContext';
-import { fetchParticipants } from '@/app/(frontend)/search/logic/fetchParticipants';
 import { scrollToForm } from '../utils/scrollToForm';
-import { useRef } from 'react';
 
-export function useForm() {
-  const { setParticipants, setIsLoading, setAlert, alert } = useSearchContext();
-  const lastSearch = useRef<string[]>([]);
+import { useState } from 'react';
+
+export function useForm({
+  onSubmit,
+}: {
+  onSubmit?: (params: { name: string; company: string }) => void;
+}) {
+  const [alert, setAlert] = useState<string | null>(null);
 
   async function formSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -14,12 +16,6 @@ export function useForm() {
     const formData = new FormData(e.target as HTMLFormElement);
     const name = formData.get('name') as string;
     const company = formData.get('company') as string;
-
-    const [lastName, lastCompany] = lastSearch.current;
-
-    if (lastName === name && lastCompany === company) {
-      return;
-    }
 
     if (!name) {
       setAlert('Por favor, ingresa un nombre');
@@ -42,21 +38,8 @@ export function useForm() {
       return;
     }
 
-    lastSearch.current = [name, company];
-
     setAlert(null);
-    setIsLoading(true);
-    const participants = await fetchParticipants(cleanName, company);
-
-    if (participants === null) {
-      setParticipants([]);
-    }
-
-    if (participants && participants.length > 0) {
-      setParticipants(participants);
-    }
-
-    setIsLoading(false);
+    onSubmit?.({ name: cleanName, company });
   }
 
   return { formSubmit, alert };

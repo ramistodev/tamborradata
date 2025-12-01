@@ -1,7 +1,7 @@
 import { ResponsiveBar } from '@nivo/bar';
 import { useTopSchools } from '../hooks/useTopShools';
 
-export function TopSchoolsChart({ stats }: ReturnType<typeof useTopSchools>) {
+export function TopSchoolsChart({ topSchoolsStats }: ReturnType<typeof useTopSchools>) {
   return (
     <div
       className="w-full h-[400px] bg-white rounded-2xl p-3 select-none"
@@ -9,7 +9,7 @@ export function TopSchoolsChart({ stats }: ReturnType<typeof useTopSchools>) {
       aria-label="Gráfico de barras mostrando los 15 colegios con más participantes"
     >
       <ResponsiveBar
-        data={stats[0].public_data.slice(0, 15).map((item) => ({ ...item })) || []}
+        data={topSchoolsStats[0].public_data.slice(0, 15).map((item) => ({ ...item })) || []}
         keys={['count']}
         indexBy="school"
         margin={{ top: 20, right: 30, bottom: 50, left: 60 }}

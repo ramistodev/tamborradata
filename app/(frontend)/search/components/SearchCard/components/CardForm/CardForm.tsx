@@ -1,21 +1,29 @@
 'use client';
 import { AnimatePresence, motion } from 'framer-motion';
 import { NameInput } from './components/NameInput';
-import { SelectCompanies } from './components/SelectCompanies';
+import { SelectCompanies } from './components/SelectCompanies/SelectCompanies';
 import { useForm } from './hooks/useForm';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
-export function CardForm() {
+export function CardForm({
+  onSubmit,
+}: {
+  onSubmit?: (params: { name: string; company: string }) => void;
+}) {
   return (
     <Suspense>
-      <CardFormInner />
+      <CardFormInner onSubmit={onSubmit} />
     </Suspense>
   );
 }
 
-export function CardFormInner() {
-  const { formSubmit, alert } = useForm();
+export function CardFormInner({
+  onSubmit,
+}: {
+  onSubmit?: (params: { name: string; company: string }) => void;
+}) {
+  const { formSubmit, alert } = useForm({ onSubmit });
   const searchParams = useSearchParams();
   const initialName = searchParams.get('name') || '';
   const initialCompany = searchParams.get('company') || '';

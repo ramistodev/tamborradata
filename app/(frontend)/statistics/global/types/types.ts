@@ -1,20 +1,8 @@
-export interface Category {
-  stats:
-    | SchoolsEvolution[]
-    | MostConstantSchool[]
-    | CommonNameBySchool[]
-    | TopName[]
-    | TopSchool[]
-    | TopSurname[]
-    | LongestName[]
-    | TotalParticipant[]
-    | SurnamesDiversity[];
-}
-
 export interface Statistics {
+  isUpdating: boolean;
   year: string;
   total_categories: number;
-  statistics: Statistics;
+  statistics: GlobalStats;
 }
 
 export interface GlobalStats {

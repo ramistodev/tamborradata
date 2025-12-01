@@ -1,64 +1,31 @@
 import { useRef, useState } from 'react';
-import { fetchCategory } from '../../../../logic/fetchCategory';
-import { useGlobalContext } from '../../../context/useGlobalContext';
-import { scrollToTopTable } from '../../../utils/scrollToTopTable';
+import { useGlobal } from '../../../hooks/useGlobal';
+import { useCategory } from '../../../hooks/useCategory';
+import { GLOBAL_STATS_KEY } from '@/app/(frontend)/shared/constants/app';
+import { useTable } from '../../../hooks/useTable';
+import { LongestName } from '../../../types/types';
 
 export function useLongestNames() {
-  const { statistics } = useGlobalContext();
-  const [stats, setStats] = useState(statistics?.longestNames || []);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const cacheRef = useRef<string[] | null>(null);
+  const { stats } = useGlobal();
+  const { categoryData, isLoading, refetch } = useCategory<string>(
+    stats?.longestNames[0].category || '',
+    GLOBAL_STATS_KEY,
+    false
+  );
+
+  const [longestNames, setLongestNames] = useState(stats?.longestNames || []);
   const tableRef = useRef<HTMLTableElement | null>(null);
 
-  function showMore() {
-    setLoading(true);
-    setHasMore(false);
-
-    if (cacheRef.current) {
-      // Si hay datos en cache, úsalos sin hacer fetch
-      const data = cacheRef.current;
-      setStats((prev) => {
-        if (prev.length === 0) return prev;
-        const updatedFirst = { ...prev[0], public_data: data as string[] };
-        return [updatedFirst, ...prev.slice(1)];
-      });
-      setLoading(false);
-      return;
-    } else {
-      // Si no hay cache, haz el fetch
-      fetchCategory<string>(stats[0].category, 'global')
-        .then((newData) => {
-          if (newData) {
-            cacheRef.current = newData; // Guarda los datos de public_data en cache
-            setStats((prev) => {
-              if (prev.length === 0) return prev;
-              const updatedFirst = { ...prev[0], public_data: newData as string[] };
-              return [updatedFirst, ...prev.slice(1)];
-            });
-          }
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-  }
-
-  function showLess() {
-    setStats((prev) => {
-      if (prev.length === 0) return prev;
-      const updateFirst = { ...prev[0], public_data: prev[0].public_data.slice(0, 15) };
-      return [updateFirst, ...prev.slice(1)];
-    });
-
-    setHasMore(true);
-
-    scrollToTopTable(tableRef.current);
-  }
+  const { hasMore, showMore, showLess } = useTable<LongestName, string>(
+    setLongestNames,
+    categoryData ?? [],
+    refetch,
+    tableRef
+  );
 
   return {
-    stats,
-    loading,
+    longestNames,
+    isLoading,
     hasMore,
     tableRef,
     showMore,

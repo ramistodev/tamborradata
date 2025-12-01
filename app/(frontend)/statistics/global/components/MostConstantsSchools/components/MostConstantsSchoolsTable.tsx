@@ -3,17 +3,13 @@ import { useMostConstantsSchools } from '../hooks/useMostConstantsSchools';
 import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/LoadingTable';
 
 export function MostConstantSchoolTable({
-  stats,
-  loading,
+  mostConstantSchools,
+  isLoading,
   hasMore,
   tableRef,
   showMore,
   showLess,
 }: ReturnType<typeof useMostConstantsSchools>) {
-  if (!stats || stats.length === 0 || !Array.isArray(stats[0].public_data)) {
-    return null;
-  }
-
   return (
     <>
       <table
@@ -42,8 +38,8 @@ export function MostConstantSchoolTable({
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(stats[0].public_data) &&
-            stats[0].public_data.map((stat, index) => (
+          {Array.isArray(mostConstantSchools[0].public_data) &&
+            mostConstantSchools[0].public_data.map((stat, index) => (
               <tr key={stat.school} className={index % 2 === 0 ? 'bg-(--color-table)' : ''}>
                 <td className="p-2 text-center text-sm">{index + 1}</td>
                 <td className="p-2 text-sm">{stat.school}</td>
@@ -53,7 +49,7 @@ export function MostConstantSchoolTable({
                 <td className="p-2 text-sm">{stat.yearsActive.map((year) => year.year).length}</td>
               </tr>
             ))}
-          {loading && <LoadingTable rows={4} />}
+          {isLoading && <LoadingTable rows={4} />}
         </tbody>
       </table>
       {hasMore ? (

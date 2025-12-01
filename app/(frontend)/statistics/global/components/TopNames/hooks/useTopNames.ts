@@ -1,70 +1,36 @@
 import { useRef, useState } from 'react';
-import { TopNameData } from '../../../types/types';
-import { fetchCategory } from '../../../../logic/fetchCategory';
-import { useGlobalContext } from '../../../context/useGlobalContext';
-import { scrollToTopTable } from '../../../utils/scrollToTopTable';
+import { GLOBAL_STATS_KEY } from '@/app/(frontend)/shared/constants/app';
+import { TopName, TopNameData } from '../../../types/types';
+import { useGlobal } from '../../../hooks/useGlobal';
+import { useCategory } from '../../../hooks/useCategory';
+import { useTable } from '../../../hooks/useTable';
 
 export function useTopNames() {
-  const { statistics } = useGlobalContext();
-  const [stats, setStats] = useState(statistics?.topNames || []);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const { stats } = useGlobal();
+  const { categoryData, isLoading, refetch } = useCategory<TopNameData>(
+    stats?.topNames[0].category || '',
+    GLOBAL_STATS_KEY,
+    false
+  );
+
+  const [topNamesStats, setTopNamesStats] = useState(stats?.topNames || []);
   const [chart, setChart] = useState(false);
-  const cacheRef = useRef<TopNameData[] | null>(null);
   const tableRef = useRef<HTMLTableElement | null>(null);
+
+  const { hasMore, showMore, showLess } = useTable<TopName, TopNameData>(
+    setTopNamesStats,
+    categoryData ?? [],
+    refetch,
+    tableRef
+  );
 
   function showChart() {
     setChart((prev) => !prev);
   }
 
-  function showMore() {
-    setLoading(true);
-    setHasMore(false);
-
-    if (cacheRef.current) {
-      // Si hay datos en cache, úsalos sin hacer fetch
-      const data = cacheRef.current;
-      setStats((prev) => {
-        if (prev.length === 0) return prev;
-        const updatedFirst = { ...prev[0], public_data: data as TopNameData[] };
-        return [updatedFirst, ...prev.slice(1)];
-      });
-      setLoading(false);
-      return;
-    } else {
-      // Si no hay cache, haz el fetch
-      fetchCategory<TopNameData>(stats[0].category, 'global')
-        .then((newData) => {
-          if (newData) {
-            cacheRef.current = newData; // Guarda los datos de public_data en cache
-            setStats((prev) => {
-              if (prev.length === 0) return prev;
-              const updatedFirst = { ...prev[0], public_data: newData as TopNameData[] };
-              return [updatedFirst, ...prev.slice(1)];
-            });
-          }
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-  }
-
-  function showLess() {
-    setStats((prev) => {
-      if (prev.length === 0) return prev;
-      const updateFirst = { ...prev[0], public_data: prev[0].public_data.slice(0, 15) };
-      return [updateFirst, ...prev.slice(1)];
-    });
-
-    setHasMore(true);
-
-    scrollToTopTable(tableRef.current);
-  }
-
   return {
-    stats,
-    loading,
+    topNamesStats,
+    isLoading,
     hasMore,
     tableRef,
     chart,

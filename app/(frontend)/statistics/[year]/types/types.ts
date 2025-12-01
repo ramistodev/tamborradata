@@ -1,4 +1,5 @@
 export interface Statistics {
+  isUpdating: boolean;
   year: string;
   total_categories: number;
   statistics: GlobalStats;

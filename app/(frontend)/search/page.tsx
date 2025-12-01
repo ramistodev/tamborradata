@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { SearchProvider } from './context/SearchProvider';
 import { SearchPageContent } from './SearchPageContent';
 import { SearchStructuredData } from './SearchStructuredData';
 
@@ -47,9 +46,9 @@ export const metadata: Metadata = {
 
 export default function SearchPage() {
   return (
-    <SearchProvider>
+    <>
       <SearchStructuredData />
       <SearchPageContent />
-    </SearchProvider>
+    </>
   );
 }

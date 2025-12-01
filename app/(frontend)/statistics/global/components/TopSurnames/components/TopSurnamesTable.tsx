@@ -3,8 +3,8 @@ import { useTopSurnames } from '../hooks/useTopSurnames';
 import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/LoadingTable';
 
 export function TopSurnamesTable({
-  stats,
-  loading,
+  topSurnamesStats,
+  isLoading,
   hasMore,
   tableRef,
   showMore,
@@ -35,15 +35,15 @@ export function TopSurnamesTable({
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(stats[0].public_data) &&
-            stats[0].public_data.map((stat, index) => (
+          {Array.isArray(topSurnamesStats[0].public_data) &&
+            topSurnamesStats[0].public_data.map((stat, index) => (
               <tr key={stat.surname} className={index % 2 === 0 ? 'bg-(--color-table)' : ''}>
                 <td className="p-2 text-center text-sm">{index + 1}</td>
                 <td className="p-2 text-sm">{stat.surname}</td>
                 <td className="p-2 text-sm">{stat.count}</td>
               </tr>
             ))}
-          {loading && <LoadingTable rows={3} />}
+          {isLoading && <LoadingTable rows={3} />}
         </tbody>
       </table>
       {hasMore ? (

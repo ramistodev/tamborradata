@@ -12,16 +12,18 @@ const TopSurnamesChart = dynamic(
 );
 
 export function TopSurnames() {
-  const TopSurnamesHook = useTopSurnames();
-  const { stats, chart, showChart } = TopSurnamesHook;
+  const topSurnamesHook = useTopSurnames();
+  const { topSurnamesStats, chart, showChart } = topSurnamesHook;
 
-  if (!hasData(stats)) return null;
+  if (!hasData(topSurnamesStats)) return null;
 
   return (
     <section className="w-full">
       <h2 className="text-lg md:text-2xl font-bold">
         Apellidos más repetidos —{' '}
-        <span className="text-sm rounded p-1 bg-(--color-primary)">{stats[0].category}</span>
+        <span className="text-sm rounded p-1 bg-(--color-primary)">
+          {topSurnamesStats[0].category}
+        </span>
       </h2>
       <article className="flex flex-col items-start justify-center py-5">
         <button
@@ -31,13 +33,15 @@ export function TopSurnames() {
           {chart ? 'Ver tabla' : 'Ver gráfico'}
         </button>
         {chart ? (
-          <TopSurnamesChart {...TopSurnamesHook} />
+          <TopSurnamesChart {...topSurnamesHook} />
         ) : (
-          <TopSurnamesTable {...TopSurnamesHook} />
+          <TopSurnamesTable {...topSurnamesHook} />
         )}
       </article>
       <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
-        <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{stats[0].summary}</ReactMarkdown>
+        <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
+          {topSurnamesStats[0].summary}
+        </ReactMarkdown>
       </div>
     </section>
   );

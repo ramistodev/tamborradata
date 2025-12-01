@@ -1,11 +1,15 @@
-'server-only';
+import 'server-only';
 import { NextResponse } from 'next/server';
-import { getAllCompanies } from '../../logic/companies/getAllCompanies';
+import { getCompanies } from './services/companies.service';
 
 export async function GET() {
   try {
     // Obtener los años disponibles
-    const companies: string[] | null = await getAllCompanies();
+    const { companies, error } = await getCompanies();
+
+    if (error) {
+      return NextResponse.json({ error }, { status: 500 });
+    }
 
     // Manejar caso de no encontrar compañías
     if (!companies) {

@@ -3,17 +3,13 @@ import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/Loa
 import { useTopSchools } from '../hooks/useTopShools';
 
 export function TopSchoolsTable({
-  stats,
+  topSchoolsStats,
   hasMore,
-  loading,
+  isLoading,
   tableRef,
   showMore,
   showLess,
 }: ReturnType<typeof useTopSchools>) {
-  if (!stats || stats.length === 0 || !Array.isArray(stats[0].public_data)) {
-    return null;
-  }
-
   return (
     <>
       <table
@@ -39,15 +35,15 @@ export function TopSchoolsTable({
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(stats[0].public_data) &&
-            stats[0].public_data.map((stat, index) => (
+          {Array.isArray(topSchoolsStats[0].public_data) &&
+            topSchoolsStats[0].public_data.map((stat, index) => (
               <tr key={stat.school} className={index % 2 === 0 ? 'bg-(--color-table)' : ''}>
                 <td className="p-2 text-center text-sm">{index + 1}</td>
                 <td className="p-2 text-sm">{stat.school}</td>
                 <td className="p-2 text-sm">{stat.count}</td>
               </tr>
             ))}
-          {loading && <LoadingTable rows={3} />}
+          {isLoading && <LoadingTable rows={3} />}
         </tbody>
       </table>
       {hasMore ? (

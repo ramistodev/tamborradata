@@ -3,9 +3,9 @@ import { useLongestNames } from '../hooks/useLongestNames';
 import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/LoadingTable';
 
 export function LongestNamesTable({
-  stats,
+  longestNames,
   hasMore,
-  loading,
+  isLoading,
   tableRef,
   showMore,
   showLess,
@@ -35,15 +35,15 @@ export function LongestNamesTable({
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(stats[0].public_data) &&
-            stats[0].public_data.map((name, index) => (
+          {Array.isArray(longestNames[0].public_data) &&
+            longestNames[0].public_data.map((name, index) => (
               <tr key={name} className={index % 2 === 0 ? 'bg-(--color-table)' : ''}>
                 <td className="p-2 text-center text-sm">{index + 1}</td>
                 <td className="p-2 text-sm">{name}</td>
                 <td className="p-2 text-sm">{name.length}</td>
               </tr>
             ))}
-          {loading && <LoadingTable rows={3} />}
+          {isLoading && <LoadingTable rows={3} />}
         </tbody>
       </table>
       {hasMore ? (

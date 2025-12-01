@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { GET } from '@/app/(backend)/api/category/route';
+import { GET } from '@/app/(backend)/oldApi/category/route';
 import { getFullStatistics } from '@/app/(backend)/logic/statistics/getFullStatistics';
 import { VALID_YEARS } from '@/app/(backend)/utils/constants';
 

@@ -3,7 +3,7 @@ import { useHeader } from '../hooks/useHeader';
 import { ChevronRight } from '@/app/(frontend)/icons/icons';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useMobileMenu } from '../hooks/useMobileMenu';
-import { useStatisticsY } from '../hooks/useStatisticsY';
+import { useStatisticsY } from '../../../hooks/useStatisticsY';
 
 export function MobileMenu(headerState: ReturnType<typeof useHeader>) {
   const { pathname, menuOpen, setMenuOpen, firstItemRef } = headerState;

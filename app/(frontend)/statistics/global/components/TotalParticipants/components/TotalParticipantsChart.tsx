@@ -2,17 +2,22 @@ import { ResponsiveLine } from '@nivo/line';
 import { useTotalParticipants } from '../hooks/useTotalParticipants';
 import { useMemo } from 'react';
 
-export function TotalParticipantsChart({ stats }: ReturnType<typeof useTotalParticipants>) {
+export function TotalParticipantsChart({
+  totalParticipants,
+}: ReturnType<typeof useTotalParticipants>) {
   // Normalizar a la forma que espera ResponsiveLine
   const fromatedData = useMemo(
     () => [
       {
         id: 'count',
         data:
-          stats[0].public_data.map((d) => ({ x: String(d.year), y: Number(d.count ?? 0) })) || [],
+          totalParticipants[0].public_data.map((d) => ({
+            x: String(d.year),
+            y: Number(d.count ?? 0),
+          })) || [],
       },
     ],
-    [stats]
+    [totalParticipants]
   );
 
   // Calcula min/max del eje Y con padding
