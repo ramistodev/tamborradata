@@ -7,7 +7,7 @@ import { useGlobal } from '../../../hooks/useGlobal';
 
 export function useTopSchools() {
   const { stats } = useGlobal();
-  const { categoryData, isLoading, isFetching, refetch } = useCategory<TopSchoolData>(
+  const { categoryData, isLoading, refetch } = useCategory<TopSchoolData>(
     stats?.topSchools[0].category || '',
     GLOBAL_STATS_KEY,
     false
@@ -31,7 +31,6 @@ export function useTopSchools() {
   return {
     topSchoolsStats,
     isLoading,
-    isFetching,
     hasMore,
     tableRef,
     chart,

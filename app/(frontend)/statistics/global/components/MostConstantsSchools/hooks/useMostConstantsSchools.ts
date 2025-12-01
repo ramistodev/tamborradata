@@ -7,7 +7,7 @@ import { useTable } from '../../../hooks/useTable';
 
 export function useMostConstantsSchools() {
   const { stats } = useGlobal();
-  const { categoryData, isLoading, isFetching, refetch } = useCategory<MostConstantSchoolData>(
+  const { categoryData, isLoading, refetch } = useCategory<MostConstantSchoolData>(
     stats?.mostConstantSchools[0].category || '',
     GLOBAL_STATS_KEY,
     false
@@ -26,7 +26,6 @@ export function useMostConstantsSchools() {
   return {
     mostConstantSchools,
     isLoading,
-    isFetching,
     hasMore,
     tableRef,
     showMore,

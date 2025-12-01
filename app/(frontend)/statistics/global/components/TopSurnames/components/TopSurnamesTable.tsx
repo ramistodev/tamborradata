@@ -5,7 +5,6 @@ import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/Loa
 export function TopSurnamesTable({
   topSurnamesStats,
   isLoading,
-  isFetching,
   hasMore,
   tableRef,
   showMore,
@@ -44,7 +43,7 @@ export function TopSurnamesTable({
                 <td className="p-2 text-sm">{stat.count}</td>
               </tr>
             ))}
-          {(isLoading || isFetching) && <LoadingTable rows={3} />}
+          {isLoading && <LoadingTable rows={3} />}
         </tbody>
       </table>
       {hasMore ? (

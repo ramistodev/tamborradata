@@ -6,7 +6,7 @@ import { NewName } from '../../../types/types';
 
 export function useNewNames() {
   const { stats, year } = useYears();
-  const { categoryData, isLoading, isFetching, refetch } = useCategory<string>(
+  const { categoryData, isLoading, refetch } = useCategory<string>(
     stats?.newNamesByYear?.[0]?.category || '',
     year,
     false
@@ -25,7 +25,6 @@ export function useNewNames() {
   return {
     newNamesStats,
     isLoading,
-    isFetching,
     hasMore,
     tableRef,
     showMore,

@@ -8,7 +8,7 @@ export function useYearsQuery() {
     queryFn: async () => fetchYears(),
     staleTime: Infinity,
     gcTime: Infinity,
-    retry: 0,
+    retry: 2,
     refetchOnWindowFocus: false,
   });
 }

@@ -6,7 +6,7 @@ import { useTable } from '../../../hooks/useTable';
 
 export function useTopNames() {
   const { stats, year } = useYears();
-  const { categoryData, isLoading, isFetching, refetch } = useCategory<TopNameData>(
+  const { categoryData, isLoading, refetch } = useCategory<TopNameData>(
     stats?.topNamesByYear[0].category || '',
     year,
     false
@@ -30,7 +30,6 @@ export function useTopNames() {
   return {
     topNamesStats,
     isLoading,
-    isFetching,
     hasMore,
     tableRef,
     chart,

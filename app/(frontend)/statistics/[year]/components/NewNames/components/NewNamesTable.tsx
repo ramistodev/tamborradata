@@ -6,7 +6,6 @@ export function NewNamesTable({
   newNamesStats,
   hasMore,
   isLoading,
-  isFetching,
   tableRef,
   showMore,
   showLess,
@@ -40,7 +39,7 @@ export function NewNamesTable({
                 <td className="p-2 text-sm">{name}</td>
               </tr>
             ))}
-          {(isLoading || isFetching) && <LoadingTable rows={2} />}
+          {isLoading && <LoadingTable rows={2} />}
         </tbody>
       </table>
       {hasMore ? (

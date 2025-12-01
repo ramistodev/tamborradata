@@ -2,7 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchStatistics } from '@/app/(frontend)/services/fetchStatistics';
 import { queryKeys } from '@/app/(frontend)/lib/queryKeys';
 
-export function useStatisticsQuery<T>(year: string) {
+type StatsResponse = { isUpdating?: boolean };
+
+export function useStatisticsQuery<T extends StatsResponse>(year: string) {
   return useQuery({
     queryKey: queryKeys.statistics(year),
     queryFn: ({ signal }) => fetchStatistics<T>(year, signal),
@@ -10,6 +12,7 @@ export function useStatisticsQuery<T>(year: string) {
     staleTime: Infinity,
     gcTime: Infinity,
     retry: 0,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: (query) => query.state.data?.isUpdating === true,
+    refetchInterval: (query) => (query.state.data?.isUpdating ? 3000 : false),
   });
 }

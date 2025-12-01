@@ -1,7 +1,9 @@
 'use client';
+import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
-import Link from 'next/link';
+import { useYears } from './hooks/useYears';
+import { InfoIcon } from '../../icons/icons';
 import {
   NamesSurnamesDiversity,
   CommonNamesBySchool,
@@ -12,21 +14,9 @@ import {
   TopNames,
   NewNames,
 } from './components';
-import { notFound } from 'next/navigation';
-import { InfoIcon } from '../../icons/icons';
-import { UpdatingPage } from '../components/UpdatingPage';
-import { LoadingPage } from '../components/loaders/LoadingPage';
-
-import { useYears } from './hooks/useYears';
 
 export function YearPageContent() {
-  const { statistics, stats, isLoading, isFetching, isFetched, year } = useYears();
-
-  if (statistics?.isUpdating) return <UpdatingPage />;
-
-  if (isFetched && !isFetching && !statistics) return notFound();
-
-  if (isLoading || !statistics) return <LoadingPage />;
+  const { stats, year } = useYears();
 
   return (
     <article className="w-full flex flex-col gap-6" aria-labelledby="year-page-title">

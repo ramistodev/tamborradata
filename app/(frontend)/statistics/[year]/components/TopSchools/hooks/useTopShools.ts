@@ -6,7 +6,7 @@ import { useCategory } from '../../../hooks/useCategory';
 
 export function useTopSchools() {
   const { stats, year } = useYears();
-  const { categoryData, isLoading, isFetching, refetch } = useCategory<TopSchoolData>(
+  const { categoryData, isLoading, refetch } = useCategory<TopSchoolData>(
     stats?.topSchoolsByYear[0].category || '',
     year,
     false
@@ -30,7 +30,6 @@ export function useTopSchools() {
   return {
     topSchoolsStats,
     isLoading,
-    isFetching,
     hasMore,
     tableRef,
     chart,

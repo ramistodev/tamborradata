@@ -1,6 +1,9 @@
 'use client';
+import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
+import { InfoIcon } from '../../icons/icons';
+import { useGlobal } from './hooks/useGlobal';
 import {
   CommonNameBySchool,
   LongestNames,
@@ -12,18 +15,9 @@ import {
   TopSurnames,
   TotalParticipants,
 } from './components';
-import Link from 'next/link';
-import { InfoIcon } from '../../icons/icons';
-import { LoadingPage } from '../components/loaders/LoadingPage';
-import { UpdatingPage } from '../components/UpdatingPage';
-import { useGlobal } from './hooks/useGlobal';
 
 export function GlobalPageContent() {
-  const { statistics, stats, isLoading, isFetching } = useGlobal();
-
-  if (statistics?.isUpdating) return <UpdatingPage />;
-
-  if (isLoading || isFetching) return <LoadingPage />;
+  const { stats } = useGlobal();
 
   return (
     <article className="w-full flex flex-col gap-6" aria-labelledby="global-page-title">

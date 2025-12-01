@@ -6,7 +6,6 @@ export function LongestNamesTable({
   longestNames,
   hasMore,
   isLoading,
-  isFetching,
   tableRef,
   showMore,
   showLess,
@@ -44,7 +43,7 @@ export function LongestNamesTable({
                 <td className="p-2 text-sm">{name.length}</td>
               </tr>
             ))}
-          {(isLoading || isFetching) && <LoadingTable rows={3} />}
+          {isLoading && <LoadingTable rows={3} />}
         </tbody>
       </table>
       {hasMore ? (

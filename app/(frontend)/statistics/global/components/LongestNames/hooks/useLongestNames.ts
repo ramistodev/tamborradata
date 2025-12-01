@@ -7,7 +7,7 @@ import { LongestName } from '../../../types/types';
 
 export function useLongestNames() {
   const { stats } = useGlobal();
-  const { categoryData, isLoading, isFetching, refetch } = useCategory<string>(
+  const { categoryData, isLoading, refetch } = useCategory<string>(
     stats?.longestNames[0].category || '',
     GLOBAL_STATS_KEY,
     false
@@ -26,7 +26,6 @@ export function useLongestNames() {
   return {
     longestNames,
     isLoading,
-    isFetching,
     hasMore,
     tableRef,
     showMore,

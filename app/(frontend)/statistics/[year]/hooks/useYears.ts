@@ -4,12 +4,15 @@ import { Statistics } from '../types/types';
 
 export function useYears() {
   const { year }: { year: string } = useParams();
-  const {
-    data: statistics,
-    isLoading,
-    isFetching,
-    isFetched,
-  } = useStatisticsQuery<Statistics>(year);
+  const { data: statistics, isLoading, isError, error } = useStatisticsQuery<Statistics>(year);
 
-  return { statistics, stats: statistics?.statistics, isLoading, isFetching, isFetched, year };
+  return {
+    year,
+    statistics,
+    stats: statistics?.statistics,
+    isLoading,
+    isError,
+    error,
+    isUpdating: statistics?.isUpdating,
+  };
 }

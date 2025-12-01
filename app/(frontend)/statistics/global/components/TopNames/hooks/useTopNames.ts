@@ -7,7 +7,7 @@ import { useTable } from '../../../hooks/useTable';
 
 export function useTopNames() {
   const { stats } = useGlobal();
-  const { categoryData, isLoading, isFetching, refetch } = useCategory<TopNameData>(
+  const { categoryData, isLoading, refetch } = useCategory<TopNameData>(
     stats?.topNames[0].category || '',
     GLOBAL_STATS_KEY,
     false
@@ -31,7 +31,6 @@ export function useTopNames() {
   return {
     topNamesStats,
     isLoading,
-    isFetching,
     hasMore,
     tableRef,
     chart,

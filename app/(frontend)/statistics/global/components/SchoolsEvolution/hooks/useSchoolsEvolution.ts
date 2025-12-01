@@ -7,7 +7,7 @@ import { GLOBAL_STATS_KEY } from '@/app/(frontend)/shared/constants/app';
 
 export function useSchoolsEvolution() {
   const { stats } = useGlobal();
-  const { categoryData, isLoading, isFetching, refetch } = useCategory<SchoolsEvolutionData>(
+  const { categoryData, isLoading, refetch } = useCategory<SchoolsEvolutionData>(
     stats?.schoolsEvolution[0].category || '',
     GLOBAL_STATS_KEY,
     false
@@ -52,7 +52,6 @@ export function useSchoolsEvolution() {
   return {
     schoolsEvolution,
     isLoading,
-    isFetching,
     hasMore,
     tableRef,
     tableYears,

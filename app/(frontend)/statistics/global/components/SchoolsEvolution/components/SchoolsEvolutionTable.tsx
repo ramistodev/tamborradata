@@ -6,7 +6,6 @@ export function SchoolsEvolutionTable({
   schoolsEvolution,
   hasMore,
   isLoading,
-  isFetching,
   tableRef,
   tableYears,
   showMore,
@@ -82,7 +81,7 @@ export function SchoolsEvolutionTable({
                   </td>
                 </tr>
               ))}
-            {(isLoading || isFetching) && <LoadingTable rows={11} />}
+            {isLoading && <LoadingTable rows={11} />}
           </tbody>
         </table>
       </div>

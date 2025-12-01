@@ -6,7 +6,7 @@ import { useYears } from '../../../hooks/useYears';
 
 export function useTopSurnames() {
   const { stats, year } = useYears();
-  const { categoryData, isLoading, isFetching, refetch } = useCategory<TopSurnameData>(
+  const { categoryData, isLoading, refetch } = useCategory<TopSurnameData>(
     stats?.topSurnamesByYear[0].category || '',
     year,
     false
@@ -30,7 +30,6 @@ export function useTopSurnames() {
   return {
     topSurnamesStats,
     isLoading,
-    isFetching,
     hasMore,
     tableRef,
     chart,

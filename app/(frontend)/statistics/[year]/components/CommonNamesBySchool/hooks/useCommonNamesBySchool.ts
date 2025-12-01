@@ -6,7 +6,7 @@ import { useTable } from '../../../hooks/useTable';
 
 export function useCommonNamesBySchool() {
   const { stats, year } = useYears();
-  const { categoryData, isLoading, isFetching, refetch } = useCategory<CommonNameBySchoolData>(
+  const { categoryData, isLoading, refetch } = useCategory<CommonNameBySchoolData>(
     stats?.commonNameBySchoolByYear[0].category || '',
     year,
     false
@@ -25,7 +25,6 @@ export function useCommonNamesBySchool() {
   return {
     commonNamesStats,
     isLoading,
-    isFetching,
     hasMore,
     tableRef,
     showMore,

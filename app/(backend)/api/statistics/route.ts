@@ -12,11 +12,16 @@ export async function GET(req: Request) {
     const { valid, cleanYear, error: paramError } = await checkParams(year);
 
     if (!valid) {
-      return NextResponse.json({ error: paramError }, { status: 400 });
+      return NextResponse.json({ error: paramError }, { status: 404 });
     }
 
     // Obtener estado del sistema
     const isUpdating: boolean = await getSysStatus();
+
+    // Si el sistema está actualizándose, devolver estado de actualización
+    if (isUpdating) {
+      return NextResponse.json({ isUpdating: true }, { status: 200 });
+    }
 
     // Obtener estadísticas completas para el año especificado
     const { statistics, error } = await getStatistics(cleanYear);

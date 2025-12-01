@@ -5,7 +5,6 @@ import { LoadingTable } from '@/app/(frontend)/statistics/components/loaders/Loa
 export function MostConstantSchoolTable({
   mostConstantSchools,
   isLoading,
-  isFetching,
   hasMore,
   tableRef,
   showMore,
@@ -50,7 +49,7 @@ export function MostConstantSchoolTable({
                 <td className="p-2 text-sm">{stat.yearsActive.map((year) => year.year).length}</td>
               </tr>
             ))}
-          {(isLoading || isFetching) && <LoadingTable rows={4} />}
+          {isLoading && <LoadingTable rows={4} />}
         </tbody>
       </table>
       {hasMore ? (
