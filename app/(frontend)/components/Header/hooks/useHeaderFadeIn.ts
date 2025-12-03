@@ -19,7 +19,7 @@ export function useHeaderFadeIn() {
     }
 
     handleScroll();
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);

@@ -15,7 +15,7 @@ export function Header() {
       animate={{ opacity: isVisible ? 1 : 0 }}
       transition={{ duration: 0.3 }}
       role="banner"
-      className="w-full fixed z-500"
+      className="w-full fixed z-500 bg-(--color-header)"
     >
       {isMobile ? <Mobile /> : <Desktop />}
     </motion.header>

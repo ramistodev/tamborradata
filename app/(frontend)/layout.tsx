@@ -1,10 +1,10 @@
-import './globals.css';
+import './(frontend)/globals.css';
 import type { Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/next';
 import Script from 'next/script';
-import { LayoutContent } from './LayoutContent';
 import { ReactQueryProvider } from './providers/ReactQueryProvider';
+import { LayoutContent } from './LayoutContent';
 
 const siteUrl = 'https://tamborradata.com';
 const imageUrl = `${siteUrl}/og-image.webp`;

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 export function Hero() {
   return (
-    <div className="w-full max-w-[1000px] flex flex-col items-center justify-evenly gap-3 pt-25">
+    <div className="w-full max-w-[1000px] flex flex-col items-center justify-evenly gap-3">
       {/* HERO */}
       <motion.h1
         initial={{ opacity: 0 }}

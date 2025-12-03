@@ -7,7 +7,7 @@ import Link from 'next/link';
 export function Intro() {
   const { randomPhrase } = useIntro();
   return (
-    <section className="w-full h-screen flex flex-col items-center justify-center md:p-8">
+    <section className="relative w-full h-screen flex flex-col items-center justify-center md:p-8">
       <div className="w-full max-w-[1000px] flex flex-col items-center justify-evenly gap-5">
         {/* HEADER */}
         <motion.h1
