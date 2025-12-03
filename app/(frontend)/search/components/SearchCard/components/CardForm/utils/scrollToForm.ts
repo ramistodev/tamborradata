@@ -1,6 +1,7 @@
-export const scrollToForm = () => {
+export const scrollToForm = (
+  searchCardForm: HTMLElement = document.getElementById('search-card-form')
+) => {
   setTimeout(() => {
-    const searchCardForm = document.getElementById('search-card-form');
     if (!searchCardForm) return;
 
     const searchCardFormRect = searchCardForm.getBoundingClientRect();

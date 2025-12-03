@@ -30,7 +30,7 @@ export function useHeader() {
   }, [menuOpen]);
 
   useEffect(() => {
-    function handleKey(e) {
+    function handleKey(e: KeyboardEvent) {
       if (e.key === 'Escape') setMenuOpen(false);
     }
 

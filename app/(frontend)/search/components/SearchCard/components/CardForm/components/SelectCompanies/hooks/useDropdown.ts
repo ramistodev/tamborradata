@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { scrollToForm } from '../../../utils/scrollToForm';
 
 export function useDropdown(defaultValue?: string) {
   const [selectedCompany, setSelectedCompany] = useState<string | null>(defaultValue || null);
@@ -21,6 +22,9 @@ export function useDropdown(defaultValue?: string) {
   const handleSelectCompany = (company: string) => {
     setSelectedCompany(company);
     setIsOpen(false);
+    setTimeout(() => {
+      scrollToForm();
+    }, 20);
   };
 
   return {

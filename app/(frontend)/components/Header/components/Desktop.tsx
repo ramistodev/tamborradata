@@ -1,10 +1,13 @@
 import Link from 'next/link';
 import { useStatisticsY } from '../../../hooks/useStatisticsY';
 import { useHeader } from '../hooks/useHeader';
+import { useDesktopMenu } from '../hooks/useDesktopMenu';
+import { motion } from 'framer-motion';
 
 export function Desktop() {
   const { pathname } = useHeader();
   const { years } = useStatisticsY();
+  const { yearsShow, toggleYearsShow } = useDesktopMenu();
 
   return (
     <>
@@ -24,36 +27,49 @@ export function Desktop() {
         {/* Statistics */}
         <div className="relative group">
           <button
-            className={`text-lg lg:text-xl transition-colors font-medium cursor-default ${pathname.includes('/statistics') ? 'text-(--eye-catching-text) cursor-default' : 'group-hover:text-(--eye-catching-text)'}`}
+            onClick={() => toggleYearsShow()}
+            className={`text-lg lg:text-xl transition-colors font-medium cursor-pointer ${(pathname.includes('/statistics') || yearsShow) && 'text-(--eye-catching-text) cursor-default'}`}
           >
             Estadísticas
           </button>
 
           {/* Years */}
-          <div className="absolute top-full opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-opacity z-999">
-            <ul className="grid grid-cols-[repeat(auto-fit,minmax(70px,1fr))] gap-2 bg-(--color-header) border border-(--color-border) rounded-lg mt-2 py-2 px-4 shadow-[0_0_15px_0px_var(--color-border)] w-[500px]">
-              <li>
-                <Link
-                  href="/statistics/global"
-                  aria-current={pathname.includes('/statistics/global') ? 'page' : undefined}
-                  className={`text-lg block px-4 py-2 hover:text-(--eye-catching-text) transition-colors ${pathname === '/statistics/global' ? 'text-(--eye-catching-text)' : ''}`}
-                >
-                  Global
-                </Link>
-              </li>
-              {years?.map((year: number) => (
-                <li key={year}>
-                  <Link
-                    href={`/statistics/${year}`}
-                    aria-current={pathname.includes(`/statistics/${year}`) ? 'page' : undefined}
-                    className={`text-lg block px-4 py-2 hover:text-(--eye-catching-text) transition-colors ${pathname === `/statistics/${year}` ? 'text-(--eye-catching-text) cursor-default' : ''}`}
-                  >
-                    {year}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {yearsShow && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute top-full transition-opacity z-999"
+              >
+                <ul className="grid grid-cols-[repeat(auto-fit,minmax(70px,1fr))] gap-2 bg-(--color-header) border border-(--color-border) rounded-lg mt-2 py-4 px-6 shadow-[0_0_15px_0px_var(--color-border)] w-[500px]">
+                  <li className="flex justify-start">
+                    <Link
+                      onClick={() => toggleYearsShow()}
+                      href="/statistics/global"
+                      aria-current={pathname.includes('/statistics/global') ? 'page' : undefined}
+                      className={`text-lg block hover:text-(--eye-catching-text) transition-colors ${pathname === '/statistics/global' && 'text-(--eye-catching-text)'}`}
+                    >
+                      Global
+                    </Link>
+                  </li>
+                  {years?.map((year: number) => (
+                    <li key={year} className="flex justify-start">
+                      <Link
+                        onClick={() => toggleYearsShow()}
+                        href={`/statistics/${year}`}
+                        aria-current={pathname.includes(`/statistics/${year}`) ? 'page' : undefined}
+                        className={`text-lg block hover:text-(--eye-catching-text) transition-colors ${pathname === `/statistics/${year}` ? 'text-(--eye-catching-text) cursor-default' : ''}`}
+                      >
+                        {year}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+              <div className="fixed inset-0 z-998" onClick={() => toggleYearsShow()}></div>
+            </>
+          )}
         </div>
 
         {/* Search */}
