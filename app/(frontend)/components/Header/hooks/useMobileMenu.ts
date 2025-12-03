@@ -3,22 +3,25 @@ import { useEffect, useState } from 'react';
 
 export function useMobileMenu() {
   const pathname = usePathname();
-  const [statsShow, setStatsShow] = useState(false);
+  const [yearsShow, setYearsShow] = useState(false);
+  const [listOverflow, setListOverflow] = useState<'hidden' | 'visible'>('hidden');
 
-  function toggleStatsShow() {
-    setStatsShow((prev) => !prev);
+  function toggleYearsShow() {
+    setYearsShow((prev) => !prev);
   }
 
   useEffect(() => {
     if (pathname.includes('/statistics')) {
-      setStatsShow(true);
+      setYearsShow(true);
     } else {
-      setStatsShow(false);
+      setYearsShow(false);
     }
   }, [pathname]);
 
   return {
-    statsShow,
-    toggleStatsShow,
+    yearsShow,
+    toggleYearsShow,
+    listOverflow,
+    setListOverflow,
   };
 }

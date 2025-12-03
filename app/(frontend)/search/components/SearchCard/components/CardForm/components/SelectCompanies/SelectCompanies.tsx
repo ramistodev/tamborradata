@@ -16,7 +16,7 @@ export function SelectCompanies({ defaultValue }: { defaultValue?: string }) {
       <button
         onClick={() => {
           setIsOpen(!isOpen);
-          scrollToForm();
+          scrollToForm(dropdownRef.current);
         }}
         type="button"
         aria-label="Selector de compañías"
