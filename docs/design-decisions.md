@@ -52,9 +52,9 @@ Tamborradata sigue una **arquitectura en capas limpia** con separación estricta
 └─────────────────────────────────────────────────────────┘
                          ↓
 ┌─────────────────────────────────────────────────────────┐
-│                   DATA LAYER                             │
-│           (Repositories - Acceso a datos)                │
-│                                                          │
+│                   DATA LAYER                            │
+│           (Repositories - Acceso a datos)               │
+│                                                         │
 │  • api/*/repositories/ → Queries SQL                    │
 │  • core/db/ → Cliente Supabase                          │
 └─────────────────────────────────────────────────────────┘
