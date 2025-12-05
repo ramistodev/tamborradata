@@ -26,9 +26,9 @@ Tamborradata sigue una **arquitectura en capas limpia** con separación estricta
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                  PRESENTATION LAYER                      │
+│                  PRESENTATION LAYER                     │
 │  (Frontend - Next.js Server Components + React Query)   │
-│                                                          │
+│                                                         │
 │  • components/ → UI components                          │
 │  • hooks/query/ → React Query hooks                     │
 │  • services/ → HTTP calls                               │
@@ -36,17 +36,17 @@ Tamborradata sigue una **arquitectura en capas limpia** con separación estricta
 └─────────────────────────────────────────────────────────┘
                          ↓ HTTP
 ┌─────────────────────────────────────────────────────────┐
-│                    API LAYER                             │
-│         (Backend - Next.js API Routes)                   │
-│                                                          │
+│                    API LAYER                            │
+│         (Backend - Next.js API Routes)                  │
+│                                                         │
 │  • api/*/route.ts → HTTP handlers                       │
 │  • api/*/dtos/ → Request/Response schemas               │
 └─────────────────────────────────────────────────────────┘
                          ↓
 ┌─────────────────────────────────────────────────────────┐
-│                  BUSINESS LAYER                          │
-│              (Services - Lógica de negocio)              │
-│                                                          │
+│                  BUSINESS LAYER                         │
+│              (Services - Lógica de negocio)             │
+│                                                         │
 │  • api/*/services/ → Lógica de negocio                  │
 │  • shared/utils/ → Utilidades compartidas               │
 └─────────────────────────────────────────────────────────┘
@@ -60,8 +60,8 @@ Tamborradata sigue una **arquitectura en capas limpia** con separación estricta
 └─────────────────────────────────────────────────────────┘
                          ↓
 ┌─────────────────────────────────────────────────────────┐
-│                  DATABASE LAYER                          │
-│         (Supabase PostgreSQL + RLS)                      │
+│                  DATABASE LAYER                         │
+│         (Supabase PostgreSQL + RLS)                     │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -93,8 +93,8 @@ Una de las decisiones más importantes fue **separar el pipeline de generación 
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│         PIPELINE (Repositorio Privado)                   │
-│                                                          │
+│         PIPELINE (Repositorio Privado)                  │
+│                                                         │
 │  1. Scraping de listas oficiales                        │
 │  2. Limpieza y anonimización de datos                   │
 │  3. Generación de estadísticas agregadas                │
@@ -102,16 +102,16 @@ Una de las decisiones más importantes fue **separar el pipeline de generación 
 └─────────────────────────────────────────────────────────┘
                          ↓
 ┌─────────────────────────────────────────────────────────┐
-│              SUPABASE POSTGRESQL                         │
-│                                                          │
+│              SUPABASE POSTGRESQL                        │
+│                                                         │
 │  • participants (nombres + colegios)                    │
 │  • statistics (agregados)                               │
 │  • RLS: Solo lectura desde web                          │
 └─────────────────────────────────────────────────────────┘
                          ↓
 ┌─────────────────────────────────────────────────────────┐
-│         TAMBORRADATA WEB (Repositorio Público)           │
-│                                                          │
+│         TAMBORRADATA WEB (Repositorio Público)          │
+│                                                         │
 │  1. Consulta datos agregados (READ-ONLY)                │
 │  2. Visualización y análisis                            │
 │  3. Búsqueda de participantes (con validación)          │
@@ -212,8 +212,8 @@ Tamborradata utiliza **Next.js 16 Server Components** como estrategia por defect
 
 ### **Por qué Server Components**
 
-| Feature           | Client Component          | Server Component                |
-| ----------------- | ------------------------- | ------------------------------- |
+| Feature           | Client Component          | Server Component                 |
+| ----------------- | ------------------------- | -------------------------------- |
 | **SEO**           | ❌ Depende de hidratación | ✅ HTML completo desde servidor |
 | **Performance**   | ⚠️ Bundle JS grande       | ✅ 0 KB JS en cliente           |
 | **Data fetching** | ⚠️ Network waterfall      | ✅ Paralelo en servidor         |
@@ -317,8 +317,8 @@ USING (true);
 
 ### **Por qué RLS en vez de API middleware**
 
-| Aspecto            | Middleware API       | RLS                          |
-| ------------------ | -------------------- | ---------------------------- |
+| Aspecto            | Middleware API       | RLS                           |
+| ------------------ | -------------------- | ----------------------------- |
 | **Seguridad**      | ⚠️ Puede bypassearse | ✅ Enforced por PostgreSQL   |
 | **Performance**    | ❌ Lógica en API     | ✅ Nativo en BD              |
 | **Mantenibilidad** | ❌ Duplicar lógica   | ✅ Una sola fuente de verdad |
@@ -449,8 +449,8 @@ Tamborradata utiliza **React Query** como única fuente de estado del servidor.
 
 ### **Por qué NO usar Redux/Zustand**
 
-| Feature            | Redux/Zustand | React Query   |
-| ------------------ | ------------- | ------------- |
+| Feature            | Redux/Zustand | React Query    |
+| ------------------ | ------------- | -------------- |
 | **Server state**   | ❌ Manual     | ✅ Automático |
 | **Caching**        | ❌ Manual     | ✅ Built-in   |
 | **Loading states** | ❌ Manual     | ✅ Built-in   |
@@ -486,8 +486,8 @@ Tamborradata utiliza **React Query** como única fuente de estado del servidor.
 
 ### **Next.js 16 vs Alternativas**
 
-| Framework        | Pros                          | Contras            | ¿Por qué NO?                  |
-| ---------------- | ----------------------------- | ------------------ | ----------------------------- |
+| Framework        | Pros                          | Contras            | ¿Por qué NO?                   |
+| ---------------- | ----------------------------- | ------------------ | ------------------------------ |
 | **Next.js**      | ✅ SSR, ✅ RSC, ✅ API Routes | Bundle grande      | **ELEGIDO**                   |
 | **Remix**        | ✅ SSR, ✅ Web Standards      | Ecosistema pequeño | Menos maduro                  |
 | **Astro**        | ✅ Ligero                     | No dinámico        | No sirve para app interactiva |
@@ -506,8 +506,8 @@ Tamborradata utiliza **React Query** como única fuente de estado del servidor.
 
 ### **TailwindCSS vs Alternativas**
 
-| Opción                | Pros                              | Contras          | ¿Por qué NO?     |
-| --------------------- | --------------------------------- | ---------------- | ---------------- |
+| Opción                | Pros                              | Contras          | ¿Por qué NO?      |
+| --------------------- | --------------------------------- | ---------------- | ----------------- |
 | **TailwindCSS**       | ✅ Utility-first, ✅ Tree-shaking | Verbose          | **ELEGIDO**      |
 | **CSS Modules**       | ✅ Scoped                         | Manual           | No utility-first |
 | **Styled Components** | ✅ CSS-in-JS                      | Runtime overhead | Performance      |
@@ -515,12 +515,12 @@ Tamborradata utiliza **React Query** como única fuente de estado del servidor.
 
 ### **Supabase vs Alternativas**
 
-| Opción              | Pros                                | Contras        | ¿Por qué NO?        |
-| ------------------- | ----------------------------------- | -------------- | ------------------- |
+| Opción              | Pros                                | Contras        | ¿Por qué NO?         |
+| ------------------- | ----------------------------------- | -------------- | -------------------- |
 | **Supabase**        | ✅ PostgreSQL, ✅ RLS, ✅ Free tier | Vendor lock-in | **ELEGIDO**         |
-| **PlanetScale**     | ✅ MySQL                            | No RLS         | Menos features      |
-| **Vercel Postgres** | ✅ Integración                      | Caro           | Pricing             |
-| **Firebase**        | ✅ Real-time                        | NoSQL          | Estructura compleja |
+| **PlanetScale**     | ✅ MySQL                            | No RLS         | Menos features       |
+| **Vercel Postgres** | ✅ Integración                      | Caro           | Pricing              |
+| **Firebase**        | ✅ Real-time                        | NoSQL          | Estructura compleja  |
 
 ---
 
