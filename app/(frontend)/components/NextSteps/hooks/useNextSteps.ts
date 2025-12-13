@@ -41,9 +41,9 @@ export function useNextSteps() {
       feasible: true,
     },
     {
-      title: 'Consultar tu nombre',
+      title: 'Comparativas entre colegios o nombres',
       description:
-        'Los participantes podrán buscar su nombre para ver si aparecen en la base de datos, y ver cuantas veces han participado a lo largo de los años.',
+        'Los usuarios podrán comparar la participación entre diferentes colegios o nombres a lo largo de los años, identificando tendencias y patrones únicos.',
       feasible: true,
     },
     {
