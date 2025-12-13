@@ -107,7 +107,7 @@ export function ExploreStatistics() {
       </AnimatePresence>
 
       {/* TARJETAS */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-8 w-full max-w-5xl ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-8 w-full max-w-5xl">
         <motion.article
           ref={globalCardRef}
           whileHover={{ scale: 1.02, y: -8 }}
@@ -118,7 +118,7 @@ export function ExploreStatistics() {
         >
           <Link
             href="/statistics/global"
-            className="block p-8 rounded-2xl transition-all duration-500 shadow-xl group border border-(--color-border) relative overflow-hidden bg-linear-to-br from-(--eye-catching-text) via-(--color-primary) to-(--color-bg-thirdary)"
+            className="block h-full p-8 rounded-2xl transition-all duration-500 shadow-xl group border border-(--color-border) relative overflow-hidden bg-linear-to-br from-(--eye-catching-text) via-(--color-primary) to-(--color-bg-thirdary)"
           >
             <div className="flex flex-col items-start justify-center gap-4 relative z-10">
               <div>
@@ -148,7 +148,7 @@ export function ExploreStatistics() {
         >
           <Link
             href={`/statistics/${lastStatYear.current || new Date().getFullYear() - 1}`}
-            className={`block p-8 rounded-2xl transition-all duration-500 group border relative overflow-hidden 
+            className={`block h-full p-8 rounded-2xl transition-all duration-500 group border relative overflow-hidden 
               ${newData ? 'bg-linear-to-br from-(--eye-catching-text) to-(--color-bg-thirdary) shadow-[0_0px_50px_0px_var(--caption-color),0_0_0_2px_var(--eye-catching-text)] border-(--eye-catching-text)' : 'bg-linear-to-br from-(--eye-catching-text) via-(--color-primary) to-(--color-bg-thirdary) border-(--color-border) shadow-xl'}`}
           >
             {newData && (

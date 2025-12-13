@@ -28,7 +28,7 @@ export function Desktop() {
         <div className="relative group">
           <button
             onClick={() => toggleYearsShow()}
-            className={`text-lg lg:text-xl transition-colors font-medium cursor-pointer ${(pathname.includes('/statistics') || yearsShow) && 'text-(--eye-catching-text) cursor-default'}`}
+            className={`text-lg lg:text-xl transition-colors font-medium cursor-pointer hover:text-(--eye-catching-text) ${(pathname.includes('/statistics') || yearsShow) && 'text-(--eye-catching-text) cursor-default'}`}
           >
             Estadísticas
           </button>
@@ -42,7 +42,7 @@ export function Desktop() {
                 exit={{ opacity: 0 }}
                 className="absolute top-full transition-opacity z-999"
               >
-                <ul className="grid grid-cols-[repeat(auto-fit,minmax(70px,1fr))] gap-2 bg-(--color-header) border border-(--color-border) rounded-lg mt-2 py-4 px-6 shadow-[0_0_15px_0px_var(--color-border)] w-[500px]">
+                <ul className="grid grid-cols-[repeat(auto-fit,minmax(70px,1fr))] gap-2 bg-(--color-header) border border-(--color-border) rounded-lg mt-2 py-4 px-6 shadow-[0_0_15px_0px_var(--color-border)] w-125">
                   <li className="flex justify-start">
                     <Link
                       onClick={() => toggleYearsShow()}
