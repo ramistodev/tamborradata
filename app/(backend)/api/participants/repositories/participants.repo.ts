@@ -1,7 +1,6 @@
 import 'server-only';
-import { Participants } from '@/app/(frontend)/search/types/types';
 import { supabaseClient } from '../../../core/db/supabaseClient';
-import { ParticipantsType } from '../types';
+import { Participants, ParticipantsType } from '../types';
 import { log } from '../../../core/logger';
 
 export async function fetchParticipants(

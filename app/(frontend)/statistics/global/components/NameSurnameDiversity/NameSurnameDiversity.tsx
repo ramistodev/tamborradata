@@ -9,7 +9,7 @@ export function NamesSurnamesDiversity() {
   const names = stats.namesDiversity;
   const surnames = stats.surnamesDiversity;
 
-  if (hasData(names) && hasData(surnames)) return null;
+  if (!hasData(names) && !hasData(surnames)) return null;
 
   return (
     <section className="w-full">

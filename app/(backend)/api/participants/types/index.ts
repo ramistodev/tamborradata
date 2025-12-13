@@ -1,5 +1,5 @@
 import 'server-only';
-export type Participant = {
+export type Participants = {
   name: string;
   school: string;
   year: number;
@@ -11,7 +11,7 @@ export type ParticipantQuery = {
 };
 
 export type ParticipantsType = {
-  participants: Participant[] | null;
+  participants: Participants[] | null;
   error: string | null;
 };
 
