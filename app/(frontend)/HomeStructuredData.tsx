@@ -15,40 +15,6 @@ export function HomeStructuredData({ siteUrl, pageTitle, pageDescription, imageU
   const lastUpdatedISO = `${lastUpdatedYear}-01-20T00:00:00.000Z`;
   const temporalCoverage = `2018-01-20/${lastUpdatedYear}-01-20`;
 
-  const organizationStructuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    '@id': organizationId,
-    name: 'Tamborradata',
-    description:
-      'Proyecto de datos y estadísticas sobre la Tamborrada Infantil de Donostia-San Sebastián.',
-    url: siteUrl,
-    logo: `${siteUrl}/favicon.ico`,
-    image: imageUrl,
-    sameAs: ['https://x.com/tamborradata', 'https://github.com/ramistodev/tamborradata'],
-  };
-
-  const webSiteStructuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    '@id': websiteId,
-    name: 'Tamborradata',
-    alternateName: 'Tamborradata Estadísticas',
-    description: 'Tamborradata estadísticas y datos de la Tamborrada Infantil desde 2018.',
-    url: siteUrl,
-    inLanguage: 'es-ES',
-    publisher: { '@id': organizationId },
-    sameAs: ['https://x.com/tamborradata', 'https://github.com/ramistodev/tamborradata'],
-    datePublished: publicationDateISO,
-    dateModified: lastUpdatedISO,
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: `${siteUrl}/search?name={search_term_string}`,
-      'query-input': 'required name=search_term_string',
-      name: 'Buscar participación en la Tamborrada Infantil',
-    },
-  };
-
   const datasetStructuredData = {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
@@ -125,6 +91,7 @@ export function HomeStructuredData({ siteUrl, pageTitle, pageDescription, imageU
     },
     datePublished: publicationDateISO,
     dateModified: lastUpdatedISO,
+    hasPart: [{ '@id': `${siteUrl}#press-mentions` }],
   };
 
   const faqStructuredData = {
@@ -221,18 +188,45 @@ export function HomeStructuredData({ siteUrl, pageTitle, pageDescription, imageU
     ],
   };
 
+  const pressMentionsStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    '@id': `${siteUrl}#press-mentions`,
+    name: 'Mencionado en medios',
+    itemListOrder: 'http://schema.org/ItemListOrderDescending',
+    numberOfItems: 1,
+    mentions: [{ '@id': `${siteUrl}#organization` }],
+    mainEntityOfPage: { '@type': 'WebPage', '@id': webPageId },
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        item: {
+          '@type': 'NewsArticle',
+          url: 'https://www.diariovasco.com/tamborrada/tamborradatacom-fiesta-datos-20260116073402-nt.html',
+          headline: 'Tamborradata.com, la fiesta en datos',
+          datePublished: '2026-01-16T07:34:02+01:00',
+          publisher: {
+            '@type': 'Organization',
+            name: 'Diario Vasco',
+            url: 'https://www.diariovasco.com/',
+          },
+          author: {
+            '@type': 'Person',
+            name: 'Jorge F. Mendiola',
+            url: 'https://www.diariovasco.com/autor/jorge-f-mendiola-709.html',
+          },
+          about: [
+            { '@type': 'Thing', name: 'Tamborradata' },
+            { '@type': 'Thing', name: 'Tamborrada Infantil' },
+          ],
+        },
+      },
+    ],
+  };
+
   return (
     <>
-      <Script
-        id="organization-structured-data"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationStructuredData) }}
-      />
-      <Script
-        id="website-structured-data"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteStructuredData) }}
-      />
       <Script
         id="dataset-structured-data"
         type="application/ld+json"
@@ -247,6 +241,11 @@ export function HomeStructuredData({ siteUrl, pageTitle, pageDescription, imageU
         id="faq-structured-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
+      />
+      <Script
+        id="press-mentions-structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pressMentionsStructuredData) }}
       />
     </>
   );
