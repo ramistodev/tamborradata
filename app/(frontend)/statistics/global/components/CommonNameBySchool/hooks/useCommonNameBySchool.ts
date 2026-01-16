@@ -8,7 +8,7 @@ import { useTable } from '../../../hooks/useTable';
 export function useCommonNameBySchool() {
   const { stats } = useGlobal();
   const { categoryData, isLoading, refetch } = useCategory<CommonNameBySchoolData>(
-    stats?.mostConstantSchools[0].category || '',
+    stats?.commonNameBySchool[0].category || '',
     GLOBAL_STATS_KEY,
     false
   );
