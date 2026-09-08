@@ -1,0 +1,53 @@
+# OpenSpec configuration for Tamborradata.
+schema: spec-driven
+
+context: |
+  Tech stack: Next.js 16 App Router, React 19, TypeScript 5.9, Tailwind CSS 4.
+  Data and state: Supabase PostgreSQL/RLS and TanStack React Query 5.
+  Architecture: Route → Service → Repository → Database; frontend/backend route groups.
+  Quality: ESLint 9 with Next.js rules, TypeScript no-emit, and Prettier 3.
+  Package manager: pnpm (pnpm-lock.yaml is present).
+
+execution:
+  mode: interactive
+  artifact_store: openspec
+  chained_pr_strategy: ask-always
+  review_budget_lines: 400
+
+testing:
+  strict_tdd: false
+  reason: No test runner, test scripts, or test files were detected.
+  runner: null
+  test_command: ""
+  layers:
+    unit: false
+    integration: false
+    e2e: false
+  coverage:
+    available: false
+    command: ""
+  quality:
+    lint_command: pnpm lint
+    typecheck_command: pnpm types
+    format_command: pnpm exec prettier --check .
+
+rules:
+  proposal:
+    - Define intent, scope, non-goals, risks, and rollback plan for risky changes.
+  specs:
+    - Use RFC 2119 keywords and Given/When/Then scenarios.
+  design:
+    - Document rationale and use sequence diagrams for complex flows.
+  tasks:
+    - Group work by phase with hierarchical numbering; each task must fit one session.
+  apply:
+    - Follow existing Next.js App Router and layered backend patterns.
+    - Do not modify application code during SDD planning phases.
+    tdd: false
+    test_command: ""
+  verify:
+    test_command: ""
+    build_command: pnpm build
+    coverage_threshold: 0
+  archive:
+    - Warn before merging destructive deltas into main specs.
