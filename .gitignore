@@ -40,6 +40,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env
 
+# DB schema 
+schema.sql
+
 # vercel
 .vercel
 

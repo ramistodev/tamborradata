@@ -1,35 +1,20 @@
 import 'server-only';
-import { NextResponse } from 'next/server';
 import { checkParams } from './dtos/participants.schema';
-import { getParticipants } from './services/participants.service';
+import { participantsService } from './services/participants.service';
+import { handleError, res } from '../../lib/response';
 
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const name = searchParams.get('name');
-    const company = searchParams.get('company');
+    const schoolKey = searchParams.get('schoolKey');
 
-    const { valid, cleanName, error: paramError } = await checkParams(name, company);
+    const { cleanName, schoolKey: cleanSchoolKey } = await checkParams({ name, schoolKey });
 
-    if (!valid) {
-      return NextResponse.json({ error: paramError }, { status: 400 });
-    }
+    const participants = await participantsService(cleanName, cleanSchoolKey);
 
-    // Obtener estadísticas completas para el año y categoría especificados
-    const { participants, error: serviceError } = await getParticipants(cleanName, company);
-
-    if (serviceError && !participants) {
-      return NextResponse.json({ error: serviceError }, { status: 500 });
-    }
-
-    // Devuelve JSON limpio con las estadísticas del año
-    return NextResponse.json({
-      participants,
-    });
+    return res.ok(participants);
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Error al obtener el estado del sistema', details: error },
-      { status: 500 }
-    );
+    return handleError('GET /api/participants', error);
   }
 }
