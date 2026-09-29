@@ -49,3 +49,6 @@ schema.sql
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+.no-public/

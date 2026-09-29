@@ -51,11 +51,10 @@ export const editorialSectionCategories = {
     statisticCategories.topSchools,
     statisticCategories.schoolGrowthRate,
     statisticCategories.averageSchoolSize,
-    statisticCategories.schoolSizeDistribution,
     statisticCategories.schoolNameDiversity,
     statisticCategories.schoolSurnameDiversity,
     statisticCategories.commonNameBySchool,
-    statisticCategories.schoolsParticipantsCorrelation,
+    statisticCategories.commonSurnameBySchool,
   ],
   identityDiversity: [
     statisticCategories.namesDiversity,

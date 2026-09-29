@@ -93,7 +93,5 @@ function normalizeValueData(data: StatisticValueRaw[]): StatisticValue[] {
       item.value_boolean !== undefined && {
         valueBoolean: item.value_boolean,
       }),
-    ...(item.value_json !== null &&
-      item.value_json !== undefined && { valueJson: item.value_json }),
   }));
 }

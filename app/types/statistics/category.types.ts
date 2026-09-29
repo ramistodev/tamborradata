@@ -19,6 +19,8 @@ export const statisticCategories = {
   rareNames: 'rareNames',
   longestNames: 'longestNames',
   nameSchoolCorrelation: 'nameSchoolCorrelation',
+  topSecondNames: 'topSecondNames',
+  participantsWithMultipleNames: 'participantsWithMultipleNames',
 
   // Apellidos
   topSurnames: 'topSurnames',
@@ -46,14 +48,13 @@ export const statisticCategories = {
   schoolLongevity: 'schoolLongevity',
   schoolGrowthRate: 'schoolGrowthRate',
   averageSchoolSize: 'averageSchoolSize',
-  schoolSizeDistribution: 'schoolSizeDistribution',
   schoolNameDiversity: 'schoolNameDiversity',
   schoolSurnameDiversity: 'schoolSurnameDiversity',
   commonNameBySchool: 'commonNameBySchool',
+  commonSurnameBySchool: 'commonSurnameBySchool',
   schoolsEvolution: 'schoolsEvolution',
   mostConstantSchools: 'mostConstantSchools',
   newVsVeteranSchoolRatio: 'newVsVeteranSchoolRatio',
-  schoolsParticipantsCorrelation: 'schoolsParticipantsCorrelation',
 } as const;
 
 export const categoryFamilies = {
@@ -76,6 +77,7 @@ export interface CategoriesGroupedByFamilies extends Readonly<
 export const categoriesGroupedByFamilies = {
   names: [
     statisticCategories.topNames,
+    statisticCategories.topSecondNames,
     statisticCategories.nameTrends,
     statisticCategories.newNames,
     statisticCategories.disappearedNames,
@@ -87,6 +89,7 @@ export const categoriesGroupedByFamilies = {
     statisticCategories.nameSchoolCorrelation,
     statisticCategories.singleYearNames,
     statisticCategories.rareNames,
+    statisticCategories.participantsWithMultipleNames,
   ],
   surnames: [
     statisticCategories.topSurnames,
@@ -106,10 +109,10 @@ export const categoriesGroupedByFamilies = {
     statisticCategories.topSchools,
     statisticCategories.schoolGrowthRate,
     statisticCategories.averageSchoolSize,
-    statisticCategories.schoolSizeDistribution,
     statisticCategories.schoolNameDiversity,
     statisticCategories.schoolSurnameDiversity,
     statisticCategories.commonNameBySchool,
+    statisticCategories.commonSurnameBySchool,
   ],
   identityDiversity: [
     statisticCategories.namesDiversity,
@@ -127,26 +130,10 @@ export const categoriesGroupedByFamilies = {
     statisticCategories.schoolsEvolution,
     statisticCategories.schoolLongevity,
     statisticCategories.mostConstantSchools,
-    statisticCategories.schoolsParticipantsCorrelation,
   ],
   participationDynamics: [
     statisticCategories.totalParticipants,
     statisticCategories.participantsGrowthRate,
     statisticCategories.participationRecordYears,
   ],
-};
-
-export function categoryFamily(category: StatisticCategories): CategoryFamilies {
-  const family = (
-    Object.entries(categoriesGroupedByFamilies) as [
-      CategoryFamilies,
-      readonly StatisticCategories[],
-    ][]
-  ).find(([, categories]) => categories.includes(category))?.[0];
-
-  if (!family) {
-    throw new Error(`No category family configured for statistic category: ${category}`);
-  }
-
-  return family;
-}
+} as const satisfies CategoriesGroupedByFamilies;

@@ -12,12 +12,13 @@ export async function GET(req: Request, { params }: RouteContext) {
     const { period, category } = await params;
     const { searchParams } = new URL(req.url);
 
-    const categoryDetailParams = checkCategoryDetailParams(
+    const categoryDetailParams = checkCategoryDetailParams({
       period,
       category,
-      searchParams.get('limit'),
-      searchParams.get('afterRank')
-    );
+      limit: searchParams.get('limit'),
+      afterRank: searchParams.get('afterRank'),
+      afterEntityKey: searchParams.get('afterEntityKey'),
+    });
 
     const categoryDetail = await categoryDetailService(categoryDetailParams);
     return res.ok(categoryDetail);

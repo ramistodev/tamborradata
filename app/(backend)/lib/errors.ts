@@ -32,3 +32,10 @@ export class ConflictError extends Error {
     this.name = 'ConflictError';
   }
 }
+
+export class ServerError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ServerError';
+  }
+}

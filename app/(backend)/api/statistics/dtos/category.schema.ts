@@ -5,30 +5,48 @@ import { statisticCategories, StatisticCategories } from '../../../../types/stat
 
 const VALID_CATEGORIES = new Set<string>(Object.values(statisticCategories));
 
+/**
+ * `afterRank` (ranks) and `afterEntityKey` (name/surname series) are mutually exclusive in
+ * practice — a request only ever supplies the one matching the category's `data_shape`. That
+ * shape isn't known yet at parse time (it's read from the DB later, in the service), so this
+ * layer can't discriminate between them; grouping them under `cursor` at least keeps them
+ * together as one related concept instead of two unrelated optional fields on the params bag.
+ */
+export interface CategoryDetailCursor {
+  afterRank?: number;
+  afterEntityKey?: string;
+}
+
 export interface CategoryDetailParams {
   periodKey: string;
   category: StatisticCategories;
   limit?: number;
-  afterRank?: number;
+  cursor: CategoryDetailCursor;
 }
 
-export function checkCategoryDetailParams(
-  period: string | null,
-  category: string | null,
-  limitParam: string | null,
-  afterRankParam: string | null
-): CategoryDetailParams {
-  const periodKey = parsePeriodKey(period);
+export interface CategoryDetailQuery {
+  period: string | null;
+  category: string | null;
+  limit: string | null;
+  afterRank: string | null;
+  afterEntityKey: string | null;
+}
 
-  if (!category || !VALID_CATEGORIES.has(category)) {
+export function checkCategoryDetailParams(query: CategoryDetailQuery): CategoryDetailParams {
+  const periodKey = parsePeriodKey(query.period);
+
+  if (!query.category || !VALID_CATEGORIES.has(query.category)) {
     throw new ValidationError("The 'category' parameter must be a known statistic category");
   }
 
   return {
     periodKey,
-    category: category as StatisticCategories,
-    limit: parseOptionalInt(limitParam, 'limit', { min: 1 }),
-    afterRank: parseOptionalInt(afterRankParam, 'afterRank', { min: 0 }),
+    category: query.category as StatisticCategories,
+    limit: parseOptionalInt(query.limit, 'limit', { min: 1 }),
+    cursor: {
+      afterRank: parseOptionalInt(query.afterRank, 'afterRank', { min: 0 }),
+      afterEntityKey: query.afterEntityKey ?? undefined,
+    },
   };
 }
 

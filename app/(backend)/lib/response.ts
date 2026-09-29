@@ -1,8 +1,10 @@
+import { isDev } from '../core/config/env';
 import { log } from '../core/logger';
 import {
   ConflictError,
   ForbiddenError,
   NotFoundError,
+  ServerError,
   UnauthorizedError,
   ValidationError,
 } from './errors';
@@ -39,7 +41,8 @@ export const res = {
   conflict(message: string): Response {
     return jsonResponse({ error: message }, 409);
   },
-  serverError(message = 'Internal server error'): Response {
+  serverError(message: string = 'Internal server error'): Response {
+    message = isDev ? message : 'Internal server error';
     return jsonResponse({ error: message }, 500);
   },
 };
@@ -50,8 +53,9 @@ export function handleError(tag: string, error: unknown): Response {
   if (error instanceof ForbiddenError) return res.forbidden(error.message);
   if (error instanceof NotFoundError) return res.notFound(error.message);
   if (error instanceof ConflictError) return res.conflict(error.message);
+  if (error instanceof ServerError) return res.serverError(error.message);
   const message = error instanceof Error ? error.message : String(error);
 
   log(`[${tag}] Unhandled error: ${message}`, 'error');
-  return res.serverError(message);
+  return res.serverError();
 }

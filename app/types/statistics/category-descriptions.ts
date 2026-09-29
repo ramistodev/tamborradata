@@ -37,6 +37,10 @@ export const categoryDescriptions = {
     'Names with very low overall occurrence count across history — low frequency, unrelated to being new or disappeared.',
   longestNames: 'The given names with the most characters.',
   nameSchoolCorrelation: 'Association between given names and the schools where they occur.',
+  topSecondNames:
+    'Ranking of the most frequent second given name among resolved participants with two or more given names — distinct from topNames, which ranks only the first/primary given name.',
+  participantsWithMultipleNames:
+    'Count and rate of resolved participants who have two or more given names, out of resolved participants only.',
 
   topSurnames:
     'Ranking of the most frequent surnames in the target period — the current leaderboard, not a change signal.',
@@ -73,16 +77,15 @@ export const categoryDescriptions = {
   schoolLongevity: 'How many editions a school has participated in, in total.',
   schoolGrowthRate: "A school's year-over-year percentage change in participant count.",
   averageSchoolSize: 'Mean number of participants per school in the target period.',
-  schoolSizeDistribution:
-    'Statistical spread of school sizes — describes the shape of the distribution, not any single school.',
   schoolNameDiversity: 'Diversity measure of given names within schools.',
   schoolSurnameDiversity: 'Diversity measure of surnames within schools.',
   commonNameBySchool:
     'The most frequent given name within each individual school group. Always attribute each entry to its own school; never compare or merge across schools.',
+  commonSurnameBySchool:
+    'The most frequent surname within each individual school group. Always attribute each entry to its own school; never compare or merge across schools.',
   schoolsEvolution: 'Time series of participant counts per school across the full observed range.',
   mostConstantSchools:
     'Schools with the most consistent participation across editions (least variance), not necessarily the largest.',
   newVsVeteranSchoolRatio:
     'Ratio of newly observed schools to long-standing (veteran) schools in the period.',
-  schoolsParticipantsCorrelation: 'Association between school size and participant-level patterns.',
 } as const satisfies Record<StatisticCategories, string>;

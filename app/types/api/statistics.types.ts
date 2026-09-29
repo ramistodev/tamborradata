@@ -1,4 +1,18 @@
-import type { CategoryRendererKey, StatisticCategories, categoryDataShape } from '../statistics';
+import type { categoryDataShape, PresentationsFor, StatisticCategories } from '../statistics';
+
+export interface StatisticsResponse {
+  period: string;
+  overview: OverviewStatistic[];
+  intro: IntroOutro;
+  families: StatisticFamily[];
+  outro: IntroOutro;
+}
+
+export interface SummariesResponse {
+  period: string;
+  locale: string;
+  summaries: EditorialTemplate[];
+}
 
 export interface StatisticsParams {
   periodKey: string;
@@ -31,7 +45,14 @@ export interface StatisticValue {
   valueNumeric?: number | null;
   valueText?: string | null;
   valueBoolean?: boolean | null;
-  valueJson?: JsonValue | null;
+}
+
+export interface OverviewStatistic {
+  category: StatisticCategories;
+  metricKey: string;
+  valueNumeric?: number | null;
+  valueText?: string | null;
+  valueBoolean?: boolean | null;
 }
 
 export interface StatisticSeriesPoint {
@@ -61,16 +82,22 @@ export interface RankPageInfo {
   nextCursor: number | null;
 }
 
+export interface SeriesPageInfo {
+  hasNextPage: boolean;
+  nextCursor: string | null;
+}
+
 export interface StatisticFamily {
   family: string;
   summary: string;
   categories: StatisticCategory[];
 }
 
-interface CategoryHeaderInfo {
-  category: StatisticCategories;
-  rendererKey: CategoryRendererKey;
-}
+type CategoryHeaderInfo = {
+  [Category in StatisticCategories]: {
+    category: Category;
+  } & PresentationsFor<Category>;
+}[StatisticCategories];
 
 export type StatisticCategory =
   | (CategoryHeaderInfo & {
@@ -86,14 +113,6 @@ export type StatisticCategory =
       data: StatisticSeriesPoint[];
     });
 
-export interface StatisticsResponse {
-  period: string;
-  overview: StatisticValue[];
-  intro: IntroOutro;
-  families: StatisticFamily[];
-  outro: IntroOutro;
-}
-
 export type CategoryDetailResponse =
   | (CategoryHeaderInfo & {
       dataShape: typeof categoryDataShape.values;
@@ -102,15 +121,10 @@ export type CategoryDetailResponse =
   | (CategoryHeaderInfo & {
       dataShape: typeof categoryDataShape.series;
       data: StatisticSeriesPoint[];
+      pageInfo: SeriesPageInfo;
     })
   | (CategoryHeaderInfo & {
       dataShape: typeof categoryDataShape.ranks;
       data: StatisticRank[];
       pageInfo: RankPageInfo;
     });
-
-export interface SummariesResponse {
-  period: string;
-  locale: string;
-  summaries: EditorialTemplate[];
-}

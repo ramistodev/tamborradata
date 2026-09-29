@@ -8,7 +8,7 @@ export async function GET(req: Request) {
     const periodKey = new URL(req.url).searchParams.get('periodKey');
     const locale = new URL(req.url).searchParams.get('locale');
 
-    const statistics = await statisticsService(checkParams(periodKey, locale), locale as string);
+    const statistics = await statisticsService(checkParams(periodKey, locale));
 
     // Devuelve JSON limpio con las estadísticas del año
     return res.ok(statistics);

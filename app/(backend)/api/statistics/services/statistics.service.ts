@@ -1,51 +1,60 @@
 import 'server-only';
 import type { StatisticsResponse } from '@/app/types/api/statistics.types';
-import { buildStatisticsResponse } from './buildStatisticsResponse';
-import { loadAllSchoolsById } from '../lib/loadAllSchoolsById';
 import {
-  getAllStatisticValues,
-  getPublishedEditorialSections,
-  getPublishedPeriod,
-  getPublishedStatisticHeaders,
-  getStatisticRanks,
-  getStatisticSeries,
-} from '../repositories/statistics.repo';
-import { categoryDataShape, editorialSections } from '../../../../types/statistics';
+  buildStatisticsResponse,
+  selectFamilyStatistics,
+  selectOverviewStatistics,
+} from './buildStatisticsResponse';
+import { assertStatisticPresentation } from '../lib/assertStatisticPresentation';
+import { loadAllSchoolsById } from '../lib/loadAllSchoolsById';
+import { getPublishedPeriod } from '../repositories/period.repo';
+import { getPublishedStatisticHeaders } from '../repositories/statisticHeaders.repo';
+import { getPublishedEditorialSections } from '../repositories/editorialSections.repo';
+import { getStatisticRanks } from '../repositories/statisticRanks.repo';
+import { getStatisticSeries } from '../repositories/statisticSeries.repo';
+import { getAllStatisticValues } from '../repositories/statisticValues.repo';
+import { categoryDataShape } from '../../../../types/statistics';
 import type {
+  StatisticParams,
   StatisticRankRaw,
   StatisticSeriesPointRaw,
   StatisticsHeader,
   StatisticValueRaw,
 } from '../types';
 
-export async function statisticsService(
-  periodKey: string,
-  locale: string
-): Promise<StatisticsResponse> {
-  const { publishedRunId } = await getPublishedPeriod(periodKey);
+export async function statisticsService(params: StatisticParams): Promise<StatisticsResponse> {
+  const { periodKey, locale } = params;
+
+  const publishedPeriod = await getPublishedPeriod(periodKey); // Get published runId and their kind
   const [statistics, summaries, allSchoolsById] = await Promise.all([
-    getPublishedStatisticHeaders(publishedRunId),
-    getPublishedEditorialSections(publishedRunId, locale),
+    getPublishedStatisticHeaders(publishedPeriod.runId),
+    getPublishedEditorialSections(publishedPeriod.runId, locale),
     loadAllSchoolsById(),
   ]);
-  const categoryHeaders = summaries.flatMap((summary) => {
-    if (
-      summary.section === editorialSections.periodIntro ||
-      summary.section === editorialSections.periodOutro
-    ) {
-      return [];
-    }
 
-    return statistics.filter((statistic) => statistic.family === summary.section);
-  });
+  for (const statistic of statistics) {
+    assertStatisticPresentation(statistic, publishedPeriod.kind);
+  }
+
+  const familyStatistics = selectFamilyStatistics(statistics, summaries);
   const categoryData = await Promise.all(
-    categoryHeaders.map(async (statistic) => ({
+    familyStatistics.map(async (statistic) => ({
       statistic,
       data: await getRawStatisticData(statistic),
     }))
   );
 
-  return buildStatisticsResponse(periodKey, summaries, categoryData, allSchoolsById);
+  const overviewStatistics = selectOverviewStatistics(statistics);
+  // Crear un map con [statistic.id, data] para poder filtrarla
+  const categoryDataById = new Map(categoryData.map((entry) => [entry.statistic.id, entry]));
+
+  // Filtrar solo las estadisticas que estan en el overview y que el periodo tambien los tiene
+  const overviewData = overviewStatistics.flatMap((statistic) => {
+    const entry = categoryDataById.get(statistic.id);
+    return entry ? [{ statistic, data: entry.data as StatisticValueRaw[] }] : [];
+  });
+
+  return buildStatisticsResponse(periodKey, summaries, categoryData, overviewData, allSchoolsById);
 }
 
 async function getRawStatisticData(

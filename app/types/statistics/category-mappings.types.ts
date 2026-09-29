@@ -1,159 +1,410 @@
 import { PeriodKind, periodKind } from '../period.types';
-import { StatisticCategories } from './category.types';
+import { statisticCategories, StatisticCategories } from './category.types';
 import {
-  CategoryDataShape,
   categoryDataShape,
   CategoryRendererKey,
   categoryRendererKey,
+  statisticRendererDataShape,
 } from './data-shape.types';
 
-export const statisticCategoryDataShape = {
-  totalParticipants: categoryDataShape.values,
-  participantsGrowthRate: categoryDataShape.series,
-  participationRecordYears: categoryDataShape.values,
-  topNames: categoryDataShape.ranks,
-  namesDiversity: categoryDataShape.values,
-  nameTrends: categoryDataShape.series,
-  newNames: categoryDataShape.ranks,
-  disappearedNames: categoryDataShape.ranks,
-  perennialNames: categoryDataShape.ranks,
-  nameComebacks: categoryDataShape.ranks,
-  averageNameLength: categoryDataShape.series,
-  nameInitialDistribution: categoryDataShape.ranks,
-  nameConcentration: categoryDataShape.values,
-  singleYearNames: categoryDataShape.ranks,
-  rareNames: categoryDataShape.ranks,
-  longestNames: categoryDataShape.ranks,
-  nameSchoolCorrelation: categoryDataShape.ranks,
-  topSurnames: categoryDataShape.ranks,
-  surnamesDiversity: categoryDataShape.values,
-  surnameTrends: categoryDataShape.series,
-  newSurnames: categoryDataShape.ranks,
-  disappearedSurnames: categoryDataShape.ranks,
-  perennialSurnames: categoryDataShape.ranks,
-  surnameComebacks: categoryDataShape.ranks,
-  averageSurnameLength: categoryDataShape.series,
-  surnameInitialDistribution: categoryDataShape.ranks,
-  surnameConcentration: categoryDataShape.values,
-  singleYearSurnames: categoryDataShape.ranks,
-  rareSurnames: categoryDataShape.ranks,
-  longestSurnames: categoryDataShape.ranks,
-  surnameSchoolCorrelation: categoryDataShape.ranks,
-  nameSurnameDynasties: categoryDataShape.ranks,
-  topSchools: categoryDataShape.ranks,
-  newSchools: categoryDataShape.ranks,
-  disappearedSchools: categoryDataShape.ranks,
-  schoolLongevity: categoryDataShape.ranks,
-  schoolGrowthRate: categoryDataShape.series,
-  averageSchoolSize: categoryDataShape.series,
-  schoolSizeDistribution: categoryDataShape.values,
-  schoolNameDiversity: categoryDataShape.ranks,
-  schoolSurnameDiversity: categoryDataShape.ranks,
-  commonNameBySchool: categoryDataShape.ranks,
-  schoolsEvolution: categoryDataShape.series,
-  mostConstantSchools: categoryDataShape.ranks,
-  newVsVeteranSchoolRatio: categoryDataShape.series,
-  schoolsParticipantsCorrelation: categoryDataShape.series,
-} as const satisfies Record<StatisticCategories, CategoryDataShape>;
+export type StatisticCategoryPresentation = {
+  [RendererKey in CategoryRendererKey]: {
+    dataShape: (typeof statisticRendererDataShape)[RendererKey];
+    rendererKey: RendererKey;
+  };
+}[CategoryRendererKey];
 
-export const statisticCategoryRendererKey = {
-  totalParticipants: categoryRendererKey.metricCard,
-  participantsGrowthRate: categoryRendererKey.lineChart,
-  participationRecordYears: categoryRendererKey.metricCard,
-  topNames: categoryRendererKey.horizontalRanking,
-  namesDiversity: categoryRendererKey.metricCard,
-  nameTrends: categoryRendererKey.lineChart,
-  newNames: categoryRendererKey.horizontalRanking,
-  disappearedNames: categoryRendererKey.horizontalRanking,
-  perennialNames: categoryRendererKey.horizontalRanking,
-  nameComebacks: categoryRendererKey.horizontalRanking,
-  averageNameLength: categoryRendererKey.lineChart,
-  nameInitialDistribution: categoryRendererKey.horizontalRanking,
-  nameConcentration: categoryRendererKey.metricCard,
-  singleYearNames: categoryRendererKey.horizontalRanking,
-  rareNames: categoryRendererKey.horizontalRanking,
-  longestNames: categoryRendererKey.horizontalRanking,
-  nameSchoolCorrelation: categoryRendererKey.horizontalRanking,
-  topSurnames: categoryRendererKey.horizontalRanking,
-  surnamesDiversity: categoryRendererKey.metricCard,
-  surnameTrends: categoryRendererKey.lineChart,
-  newSurnames: categoryRendererKey.horizontalRanking,
-  disappearedSurnames: categoryRendererKey.horizontalRanking,
-  perennialSurnames: categoryRendererKey.horizontalRanking,
-  surnameComebacks: categoryRendererKey.horizontalRanking,
-  averageSurnameLength: categoryRendererKey.lineChart,
-  surnameInitialDistribution: categoryRendererKey.horizontalRanking,
-  surnameConcentration: categoryRendererKey.metricCard,
-  singleYearSurnames: categoryRendererKey.horizontalRanking,
-  rareSurnames: categoryRendererKey.horizontalRanking,
-  longestSurnames: categoryRendererKey.horizontalRanking,
-  surnameSchoolCorrelation: categoryRendererKey.horizontalRanking,
-  nameSurnameDynasties: categoryRendererKey.horizontalRanking,
-  topSchools: categoryRendererKey.horizontalRanking,
-  newSchools: categoryRendererKey.horizontalRanking,
-  disappearedSchools: categoryRendererKey.horizontalRanking,
-  schoolLongevity: categoryRendererKey.horizontalRanking,
-  schoolGrowthRate: categoryRendererKey.lineChart,
-  averageSchoolSize: categoryRendererKey.lineChart,
-  schoolSizeDistribution: categoryRendererKey.distributionChart,
-  schoolNameDiversity: categoryRendererKey.horizontalRanking,
-  schoolSurnameDiversity: categoryRendererKey.horizontalRanking,
-  commonNameBySchool: categoryRendererKey.dataTable,
-  schoolsEvolution: categoryRendererKey.lineChart,
-  mostConstantSchools: categoryRendererKey.horizontalRanking,
-  newVsVeteranSchoolRatio: categoryRendererKey.lineChart,
-  schoolsParticipantsCorrelation: categoryRendererKey.scatterPlot,
-} as const satisfies Record<StatisticCategories, CategoryRendererKey>;
+export type StatisticCategoryPeriodConfig = Readonly<
+  Record<StatisticCategories, Readonly<Partial<Record<PeriodKind, StatisticCategoryPresentation>>>>
+>;
 
-export interface StatisticCategoryPeriodKindMap extends Readonly<
-  Record<StatisticCategories, readonly PeriodKind[]>
-> {}
+export const statisticCategoryPeriodConfig = {
+  [statisticCategories.totalParticipants]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+  },
+  [statisticCategories.participantsGrowthRate]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.series,
+      rendererKey: categoryRendererKey.lineChart,
+    },
+  },
+  [statisticCategories.participationRecordYears]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+  },
+  [statisticCategories.topNames]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.namesDiversity]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+  },
+  [statisticCategories.nameTrends]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.series,
+      rendererKey: categoryRendererKey.lineChart,
+    },
+  },
+  [statisticCategories.newNames]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.disappearedNames]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.perennialNames]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.nameComebacks]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.averageNameLength]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+  },
+  [statisticCategories.nameInitialDistribution]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.series,
+      rendererKey: categoryRendererKey.lineChart,
+    },
+  },
+  [statisticCategories.nameConcentration]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+  },
+  [statisticCategories.singleYearNames]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.rareNames]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.longestNames]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.nameSchoolCorrelation]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.topSecondNames]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.participantsWithMultipleNames]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+  },
+  [statisticCategories.topSurnames]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.surnamesDiversity]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+  },
+  [statisticCategories.surnameTrends]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.series,
+      rendererKey: categoryRendererKey.lineChart,
+    },
+  },
+  [statisticCategories.newSurnames]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.disappearedSurnames]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.perennialSurnames]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.surnameComebacks]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.averageSurnameLength]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+  },
+  [statisticCategories.surnameInitialDistribution]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.series,
+      rendererKey: categoryRendererKey.lineChart,
+    },
+  },
+  [statisticCategories.surnameConcentration]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+  },
+  [statisticCategories.singleYearSurnames]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.rareSurnames]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.longestSurnames]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.surnameSchoolCorrelation]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.nameSurnameDynasties]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.topSchools]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.newSchools]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.disappearedSchools]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.schoolLongevity]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.schoolGrowthRate]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.series,
+      rendererKey: categoryRendererKey.lineChart,
+    },
+  },
+  [statisticCategories.averageSchoolSize]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+  },
+  [statisticCategories.schoolNameDiversity]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.schoolSurnameDiversity]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.commonNameBySchool]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.dataTable,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.dataTable,
+    },
+  },
+  [statisticCategories.commonSurnameBySchool]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.dataTable,
+    },
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.dataTable,
+    },
+  },
+  [statisticCategories.schoolsEvolution]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.series,
+      rendererKey: categoryRendererKey.lineChart,
+    },
+  },
+  [statisticCategories.mostConstantSchools]: {
+    [periodKind.global]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
+  },
+  [statisticCategories.newVsVeteranSchoolRatio]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.values,
+      rendererKey: categoryRendererKey.metricCard,
+    },
+  },
+} as const satisfies StatisticCategoryPeriodConfig;
 
-export const statisticCategoryPeriodKind = {
-  totalParticipants: [periodKind.year, periodKind.global],
-  participantsGrowthRate: [periodKind.year, periodKind.global],
-  participationRecordYears: [periodKind.global],
-  topNames: [periodKind.year, periodKind.global],
-  namesDiversity: [periodKind.year, periodKind.global],
-  nameTrends: [periodKind.global],
-  newNames: [periodKind.year],
-  disappearedNames: [periodKind.year],
-  perennialNames: [periodKind.global],
-  nameComebacks: [periodKind.year, periodKind.global],
-  averageNameLength: [periodKind.year],
-  nameInitialDistribution: [periodKind.year, periodKind.global],
-  nameConcentration: [periodKind.year, periodKind.global],
-  singleYearNames: [periodKind.global],
-  rareNames: [periodKind.global],
-  longestNames: [periodKind.global],
-  nameSchoolCorrelation: [periodKind.global],
-  topSurnames: [periodKind.year, periodKind.global],
-  surnamesDiversity: [periodKind.year, periodKind.global],
-  surnameTrends: [periodKind.global],
-  newSurnames: [periodKind.year],
-  disappearedSurnames: [periodKind.year],
-  perennialSurnames: [periodKind.global],
-  surnameComebacks: [periodKind.year, periodKind.global],
-  averageSurnameLength: [periodKind.year],
-  surnameInitialDistribution: [periodKind.year, periodKind.global],
-  surnameConcentration: [periodKind.year, periodKind.global],
-  singleYearSurnames: [periodKind.global],
-  rareSurnames: [periodKind.global],
-  longestSurnames: [periodKind.global],
-  surnameSchoolCorrelation: [periodKind.global],
-  nameSurnameDynasties: [periodKind.global],
-  topSchools: [periodKind.year, periodKind.global],
-  newSchools: [periodKind.year],
-  disappearedSchools: [periodKind.year],
-  schoolLongevity: [periodKind.global],
-  schoolGrowthRate: [periodKind.year],
-  averageSchoolSize: [periodKind.year],
-  schoolSizeDistribution: [periodKind.year, periodKind.global],
-  schoolNameDiversity: [periodKind.year, periodKind.global],
-  schoolSurnameDiversity: [periodKind.year, periodKind.global],
-  commonNameBySchool: [periodKind.year, periodKind.global],
-  schoolsEvolution: [periodKind.global],
-  mostConstantSchools: [periodKind.global],
-  newVsVeteranSchoolRatio: [periodKind.year],
-  schoolsParticipantsCorrelation: [periodKind.global],
-} as const satisfies StatisticCategoryPeriodKindMap;
+type PeriodConfig = typeof statisticCategoryPeriodConfig;
+
+export type PresentationsFor<C extends StatisticCategories> = C extends StatisticCategories
+  ? {
+      [K in keyof PeriodConfig[C]]: PeriodConfig[C][K] extends StatisticCategoryPresentation
+        ? PeriodConfig[C][K]
+        : never;
+    }[keyof PeriodConfig[C]]
+  : never;
+
+export type ShapesFor<C extends StatisticCategories> =
+  PresentationsFor<C> extends {
+    dataShape: infer Shape;
+  }
+    ? Shape
+    : never;
+
+export type ShapeFor<
+  C extends StatisticCategories,
+  K extends PeriodKind,
+> = K extends keyof PeriodConfig[C]
+  ? PeriodConfig[C][K] extends { dataShape: infer Shape }
+    ? Shape
+    : never
+  : never;

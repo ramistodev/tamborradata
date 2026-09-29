@@ -6,6 +6,7 @@ export const categoryDataShape = {
 
 export const categoryRendererKey = {
   metricCard: 'metricCard',
+  entityMetricList: 'entityMetricList',
   horizontalRanking: 'horizontalRanking',
   lineChart: 'lineChart',
   dataTable: 'dataTable',
@@ -20,6 +21,7 @@ export type StatisticRendererDataShape =
 
 export const statisticRendererDataShape = {
   metricCard: categoryDataShape.values,
+  entityMetricList: categoryDataShape.values,
   horizontalRanking: categoryDataShape.ranks,
   lineChart: categoryDataShape.series,
   dataTable: categoryDataShape.ranks,
