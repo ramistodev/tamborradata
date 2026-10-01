@@ -70,6 +70,12 @@ export const categoryFamilies = {
 export type StatisticCategories = (typeof statisticCategories)[keyof typeof statisticCategories];
 export type CategoryFamilies = (typeof categoryFamilies)[keyof typeof categoryFamilies];
 
+// Categorías cuyo ranking existe una vez por colegio (`group_school_id`) en lugar de una lista única.
+export const schoolGroupedRankCategories: ReadonlySet<StatisticCategories> = new Set([
+  statisticCategories.commonNameBySchool,
+  statisticCategories.commonSurnameBySchool,
+]);
+
 export interface CategoriesGroupedByFamilies extends Readonly<
   Record<CategoryFamilies, readonly StatisticCategories[]>
 > {}

@@ -1,6 +1,14 @@
 import { PeriodKind } from '../period.types';
-import { CategoryFamilies, categoriesGroupedByFamilies, StatisticCategories } from './category.types';
-import { statisticCategoryPeriodConfig, StatisticCategoryPresentation } from './category-mappings.types';
+import {
+  CategoryFamilies,
+  categoriesGroupedByFamilies,
+  StatisticCategories,
+} from './category.types';
+import {
+  statisticCategoryPeriodConfig,
+  StatisticCategoryPresentation,
+  StatisticCategoryPresentationFor,
+} from './category-mappings.types';
 import { editorialSectionCategories, EditorialSections } from './editorial-section.types';
 
 export function categoryFamily(category: StatisticCategories): CategoryFamilies {
@@ -22,7 +30,7 @@ export function getStatisticCategoryPresentation(
   category: StatisticCategories,
   periodKindValue: PeriodKind
 ): StatisticCategoryPresentation {
-  const categoryConfig = statisticCategoryPeriodConfig[category];
+  const categoryConfig: StatisticCategoryPresentationFor = statisticCategoryPeriodConfig[category];
   const presentation = categoryConfig[periodKindValue];
 
   if (!presentation) {
@@ -46,6 +54,8 @@ export function getAllowedCategories(
 ): readonly StatisticCategories[] {
   const categories: readonly StatisticCategories[] = editorialSectionCategories[section];
   return categories.filter((category: StatisticCategories) => {
-    return statisticCategoryPeriodConfig[category][kind] !== undefined;
+    const categoryConfig: StatisticCategoryPresentationFor =
+      statisticCategoryPeriodConfig[category];
+    return categoryConfig[kind] !== undefined;
   });
 }

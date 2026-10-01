@@ -14,14 +14,6 @@ export interface SummariesResponse {
   summaries: EditorialTemplate[];
 }
 
-export interface StatisticsParams {
-  periodKey: string;
-  locale: string;
-}
-
-export type JsonValue =
-  string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
-
 export interface School {
   schoolId: string;
   canonicalName: string;
@@ -29,7 +21,6 @@ export interface School {
 }
 
 export interface StatisticRank {
-  statisticId: string;
   groupSchool?: School;
   entityType: string;
   school?: School;
@@ -40,7 +31,6 @@ export interface StatisticRank {
 }
 
 export interface StatisticValue {
-  statisticId: string;
   metricKey: string;
   valueNumeric?: number | null;
   valueText?: string | null;
@@ -56,7 +46,6 @@ export interface OverviewStatistic {
 }
 
 export interface StatisticSeriesPoint {
-  statisticId: string;
   entityType?: string;
   school?: School;
   entityKey?: string;
@@ -77,13 +66,8 @@ export interface EditorialTemplate {
   summary: string;
 }
 
-export interface RankPageInfo {
-  hasNextPage: boolean;
-  nextCursor: number | null;
-}
-
-export interface SeriesPageInfo {
-  hasNextPage: boolean;
+/** `nextCursor` is an opaque token to request the next block; `null` means everything was delivered. */
+export interface PageInfo {
   nextCursor: string | null;
 }
 
@@ -107,6 +91,7 @@ export type StatisticCategory =
   | (CategoryHeaderInfo & {
       dataShape: typeof categoryDataShape.ranks;
       data: StatisticRank[];
+      pageInfo: PageInfo;
     })
   | (CategoryHeaderInfo & {
       dataShape: typeof categoryDataShape.series;
@@ -117,14 +102,15 @@ export type CategoryDetailResponse =
   | (CategoryHeaderInfo & {
       dataShape: typeof categoryDataShape.values;
       data: StatisticValue[];
+      pageInfo: PageInfo;
     })
   | (CategoryHeaderInfo & {
       dataShape: typeof categoryDataShape.series;
       data: StatisticSeriesPoint[];
-      pageInfo: SeriesPageInfo;
+      pageInfo: PageInfo;
     })
   | (CategoryHeaderInfo & {
       dataShape: typeof categoryDataShape.ranks;
       data: StatisticRank[];
-      pageInfo: RankPageInfo;
+      pageInfo: PageInfo;
     });

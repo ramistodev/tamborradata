@@ -19,7 +19,7 @@ export async function getPublishedStatisticHeaders(
   }
 
   if (!statisticHeader || statisticHeader.length === 0) {
-    throw new Error('No statistic headers were found for the given period.');
+    throw new ServerError('No statistic headers were found for the given period.');
   }
 
   return statisticHeader;

@@ -1,35 +1,24 @@
 import 'server-only';
 import { ValidationError } from '../../../lib/errors';
 import { parsePeriodKey } from '../../../lib/period';
+import { clampLimit } from '../lib/pagination';
 import { statisticCategories, StatisticCategories } from '../../../../types/statistics';
 
 const VALID_CATEGORIES = new Set<string>(Object.values(statisticCategories));
 
-/**
- * `afterRank` (ranks) and `afterEntityKey` (name/surname series) are mutually exclusive in
- * practice — a request only ever supplies the one matching the category's `data_shape`. That
- * shape isn't known yet at parse time (it's read from the DB later, in the service), so this
- * layer can't discriminate between them; grouping them under `cursor` at least keeps them
- * together as one related concept instead of two unrelated optional fields on the params bag.
- */
-export interface CategoryDetailCursor {
-  afterRank?: number;
-  afterEntityKey?: string;
-}
-
 export interface CategoryDetailParams {
   periodKey: string;
   category: StatisticCategories;
-  limit?: number;
-  cursor: CategoryDetailCursor;
+  limit: number;
+  /** Token opaco del `nextCursor` de una página anterior; su contenido depende de la forma de datos. */
+  cursor?: string;
 }
 
 export interface CategoryDetailQuery {
   period: string | null;
   category: string | null;
-  limit: string | null;
-  afterRank: string | null;
-  afterEntityKey: string | null;
+  limit: string | null | undefined;
+  cursor: string | null | undefined;
 }
 
 export function checkCategoryDetailParams(query: CategoryDetailQuery): CategoryDetailParams {
@@ -42,26 +31,19 @@ export function checkCategoryDetailParams(query: CategoryDetailQuery): CategoryD
   return {
     periodKey,
     category: query.category as StatisticCategories,
-    limit: parseOptionalInt(query.limit, 'limit', { min: 1 }),
-    cursor: {
-      afterRank: parseOptionalInt(query.afterRank, 'afterRank', { min: 0 }),
-      afterEntityKey: query.afterEntityKey ?? undefined,
-    },
+    limit: clampLimit(parseOptionalPositiveInt(query.limit, 'limit')),
+    cursor: query.cursor || undefined,
   };
 }
 
-function parseOptionalInt(
-  value: string | null,
-  paramName: string,
-  { min }: { min: number }
-): number | undefined {
+function parseOptionalPositiveInt(value: string | null, paramName: string): number | undefined {
   if (value === null || value === '') {
     return undefined;
   }
 
   const parsed = Number(value);
-  if (!Number.isInteger(parsed) || parsed < min) {
-    throw new ValidationError(`The '${paramName}' parameter must be an integer >= ${min}`);
+  if (!Number.isInteger(parsed) || parsed < 1) {
+    throw new ValidationError(`The '${paramName}' parameter must be an integer >= 1`);
   }
 
   return parsed;

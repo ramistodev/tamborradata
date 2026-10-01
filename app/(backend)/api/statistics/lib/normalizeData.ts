@@ -11,6 +11,7 @@ import {
   AllSchoolsById,
 } from '../types';
 import { resolveSchool } from './resolveSchoolId';
+import { CursorPage } from './pagination';
 
 type NormalizedStatisticData = StatisticRank[] | StatisticSeriesPoint[] | StatisticValue[];
 
@@ -44,13 +45,17 @@ export function normalizeData(
   }
 }
 
-function normalizeRankData(data: StatisticRankRaw[], allSchoolsById: AllSchoolsById): StatisticRank[] {
+function normalizeRankData(
+  data: StatisticRankRaw[],
+  allSchoolsById: AllSchoolsById
+): StatisticRank[] {
   return data.map((item) => ({
-    statisticId: item.statistic_id,
     entityType: item.entity_type,
     rank: item.rank,
     value: item.value,
-    ...(item.group_school_id && { groupSchool: resolveSchool(item.group_school_id, allSchoolsById) }),
+    ...(item.group_school_id && {
+      groupSchool: resolveSchool(item.group_school_id, allSchoolsById),
+    }),
     ...(item.school_id && { school: resolveSchool(item.school_id, allSchoolsById) }),
     ...(item.entity_key && { entityKey: item.entity_key }),
     ...(item.entity_label && { entityLabel: item.entity_label }),
@@ -64,7 +69,6 @@ function normalizeSeriesData(
   return data
     .filter((item) => item.value !== null)
     .map((item) => ({
-      statisticId: item.statistic_id,
       metricKey: item.metric_key,
       dimensionKey: item.dimension_key,
       ...(item.entity_type && { entityType: item.entity_type }),
@@ -81,7 +85,6 @@ function normalizeSeriesData(
 
 function normalizeValueData(data: StatisticValueRaw[]): StatisticValue[] {
   return data.map((item) => ({
-    statisticId: item.statistic_id,
     metricKey: item.metric_key,
     ...(item.value_numeric !== null &&
       item.value_numeric !== undefined && {

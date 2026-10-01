@@ -1,39 +1,63 @@
 import 'server-only';
 import { supabaseClient } from '../../../core/db/supabaseClient';
-import { ServerError } from '../../../lib/errors';
+import { ServerError, ValidationError } from '../../../lib/errors';
 import { tables } from '../../../../types/dbSchema';
-import { Pagination, StatisticSeriesPointRaw } from '../types';
-import {
-  CursorPage,
-  normalizeCursorPagination,
-  normalizeOffsetPagination,
-} from '../lib/pagination';
+import { StatisticSeriesPointRaw } from '../types';
+import { buildCursorPage, CursorPage, CursorPageRequest } from '../lib/pagination';
+import { PREVIEW_ENTITIES, PREVIEW_PERIODS } from '../lib/preview';
+import { decodeSeriesCursor, encodeSeriesCursor } from '../../../lib/encript';
 
 const SERIES_COLUMNS =
-  'statistic_id, entity_type, school_id, entity_key, entity_label, metric_key, dimension_key, dimension_order, value';
+  'entity_type, school_id, entity_key, entity_label, metric_key, dimension_key, dimension_order, value';
 
-export async function getStatisticSeries(
-  statisticId: string,
-  pagination: Pagination = {}
+/**
+ * Vista previa del endpoint principal de estadísticas: los últimos `PREVIEW_PERIODS` periodos de
+ * las `PREVIEW_ENTITIES` entidades principales (por valor agregado dentro de esa ventana), cada una
+ * con su línea completa dentro de la ventana. Ordenar por agregado exige agrupar todas las filas,
+ * por eso vive en la función de base de datos `get_top_statistic_series` en lugar de descargar una
+ * categoría entera como surnameTrends (~10k entidades). Una serie sin `entity_key` (agregado
+ * global, una línea por colegio) ya está acotada, así que la misma llamada solo la recorta a los
+ * últimos periodos.
+ */
+export async function getStatisticSeriesPreview(
+  statisticId: string
 ): Promise<StatisticSeriesPointRaw[]> {
-  const { limit, offset } = normalizeOffsetPagination(pagination);
-  const { data: series, error: seriesError } = await supabaseClient
-    .from(tables.statisticSeries)
-    .select(SERIES_COLUMNS)
-    .eq('statistic_id', statisticId)
-    .order('dimension_order', { ascending: true })
-    .order('dimension_key', { ascending: true })
-    .order('id', { ascending: true })
-    .range(offset, offset + limit - 1);
+  const { data, error } = await supabaseClient.rpc('get_top_statistic_series', {
+    p_statistic_id: statisticId,
+    p_limit: PREVIEW_ENTITIES,
+    p_periods: PREVIEW_PERIODS,
+  });
 
-  if (seriesError) {
-    throw new ServerError(`Failed to fetch the statistic series: ${seriesError.message}`);
+  if (error) {
+    throw new ServerError(`Failed to fetch the statistic series preview: ${error.message}`);
   }
 
-  return series ?? [];
+  return (data ?? []) as StatisticSeriesPointRaw[];
 }
 
-async function getAllStatisticSeries(statisticId: string): Promise<StatisticSeriesPointRaw[]> {
+/**
+ * Una serie es por entidad (tendencias de nombres/apellidos: miles de entidades, una línea cada
+ * una) o está acotada por naturaleza (un agregado global, o una línea por colegio: como mucho unas
+ * decenas). El endpoint de detalle pagina las primeras y devuelve las segundas completas.
+ */
+async function isEntityKeyedSeries(statisticId: string): Promise<boolean> {
+  const { data: peek, error: peekError } = await supabaseClient
+    .from(tables.statisticSeries)
+    .select('entity_type')
+    .eq('statistic_id', statisticId)
+    .limit(1)
+    .maybeSingle();
+
+  if (peekError) {
+    throw new ServerError(
+      `Failed to inspect the statistic series entity type: ${peekError.message}`
+    );
+  }
+
+  return peek?.entity_type === 'name' || peek?.entity_type === 'surname';
+}
+
+async function getFullStatisticSeries(statisticId: string): Promise<StatisticSeriesPointRaw[]> {
   const { data: series, error: seriesError } = await supabaseClient
     .from(tables.statisticSeries)
     .select(SERIES_COLUMNS)
@@ -49,102 +73,69 @@ async function getAllStatisticSeries(statisticId: string): Promise<StatisticSeri
   return series ?? [];
 }
 
-const MAX_POINTS_PER_ENTITY = 30;
-
-export interface SeriesCursorPagination {
-  limit?: number;
-  afterEntityKey?: string | null;
-}
-
-export type SeriesCursorPage = CursorPage<StatisticSeriesPointRaw>;
-
-function normalizeSeriesCursorPagination(pagination: SeriesCursorPagination): {
-  limit: number;
-  afterEntityKey: string | null;
-} {
-  const { limit, after: afterEntityKey } = normalizeCursorPagination(
-    { limit: pagination.limit, after: pagination.afterEntityKey ?? undefined },
-    null
-  );
-  return { limit, afterEntityKey };
-}
-
+/**
+ * Pagina por entidad, nunca por fila: el cursor es el último `entity_key` entregado y cada página
+ * trae todos los puntos de sus entidades, así el histórico de una entidad no se corta por el
+ * tamaño de página. Se pide una entidad extra solo para saber si existe una página siguiente.
+ */
 async function getStatisticSeriesEntityPage(
   statisticId: string,
-  pagination: SeriesCursorPagination = {}
-): Promise<SeriesCursorPage> {
-  const { limit, afterEntityKey } = normalizeSeriesCursorPagination(pagination);
+  { limit: pageSize, cursor }: CursorPageRequest
+): Promise<CursorPage<StatisticSeriesPointRaw>> {
+  const decodedCursor = cursor ? decodeSeriesCursor(cursor) : null;
 
-  let query = supabaseClient
-    .from(tables.statisticSeries)
-    .select(SERIES_COLUMNS)
-    .eq('statistic_id', statisticId)
-    .not('entity_key', 'is', null)
-    .order('entity_key', { ascending: true })
-    .order('dimension_order', { ascending: true })
-    .order('id', { ascending: true })
-    .limit((limit + 1) * MAX_POINTS_PER_ENTITY);
-
-  if (afterEntityKey) {
-    query = query.gt('entity_key', afterEntityKey);
+  if (decodedCursor && decodedCursor.statisticId !== statisticId) {
+    throw new ValidationError("The 'cursor' parameter is not valid for this category");
   }
 
-  const { data: rows, error: seriesError } = await query;
+  const { data, error } = await supabaseClient.rpc('get_statistic_series_entity_page', {
+    p_statistic_id: statisticId,
+    p_limit: pageSize + 1,
+    p_after_entity_key: decodedCursor?.lastEntityKey ?? null,
+  });
 
-  if (seriesError) {
-    throw new ServerError(`Failed to fetch the statistic series entity page: ${seriesError.message}`);
+  if (error) {
+    throw new ServerError(`Failed to fetch the statistic series entity page: ${error.message}`);
   }
 
-  const entityGroups: StatisticSeriesPointRaw[][] = [];
-  const entityIndexByKey = new Map<string, number>();
+  const points = (data ?? []) as StatisticSeriesPointRaw[];
+  const entityKeys = [
+    ...new Set(
+      points
+        .map((point) => point.entity_key)
+        .filter((entityKey): entityKey is string => typeof entityKey === 'string')
+    ),
+  ];
+  const { items: pageEntityKeys, nextCursor } = buildCursorPage(
+    entityKeys,
+    pageSize,
+    (lastEntityKey) =>
+      encodeSeriesCursor({ version: 1, statisticId, lastEntityKey })
+  );
+  const pageEntities = new Set(pageEntityKeys);
 
-  for (const row of rows ?? []) {
-    const entityKey = row.entity_key as string;
-    let groupIndex = entityIndexByKey.get(entityKey);
-
-    if (groupIndex === undefined) {
-      groupIndex = entityGroups.length;
-      entityIndexByKey.set(entityKey, groupIndex);
-      entityGroups.push([]);
-    }
-
-    entityGroups[groupIndex].push(row);
-  }
-
-  const hasNextPage = entityGroups.length > limit;
-  const pageGroups = hasNextPage ? entityGroups.slice(0, limit) : entityGroups;
-
-  return { items: pageGroups.flat(), hasNextPage };
+  return {
+    items: points.filter((point) => pageEntities.has(point.entity_key as string)),
+    nextCursor,
+  };
 }
 
 /**
- * Entry point for the category-detail endpoint: decides between the two series strategies above
- * by peeking at `entity_type` on a single row, then fetches accordingly. Statistics with no
- * `entity_key` (global aggregate or per-school series, both naturally bounded — see
- * `getAllStatisticSeries`) are returned whole with `hasNextPage: false`; name/surname trends use
- * the entity cursor.
+ * Punto de entrada del endpoint de detalle: las tendencias de nombres/apellidos (por entidad)
+ * se sirven paginadas por cursor; una serie acotada por naturaleza se devuelve completa, con todo
+ * el histórico y `nextCursor: null`.
  */
-export async function getStatisticSeriesForDetail(
+export async function getStatisticSeriesPage(
   statisticId: string,
-  pagination: SeriesCursorPagination = {}
-): Promise<SeriesCursorPage> {
-  const { data: peek, error: peekError } = await supabaseClient
-    .from(tables.statisticSeries)
-    .select('entity_type')
-    .eq('statistic_id', statisticId)
-    .limit(1)
-    .maybeSingle();
+  request: CursorPageRequest
+): Promise<CursorPage<StatisticSeriesPointRaw>> {
+  if (!(await isEntityKeyedSeries(statisticId))) {
+    if (request.cursor) {
+      throw new ValidationError("The 'cursor' parameter is not valid for this category");
+    }
 
-  if (peekError) {
-    throw new ServerError(`Failed to inspect the statistic series entity type: ${peekError.message}`);
+    return { items: await getFullStatisticSeries(statisticId), nextCursor: null };
   }
 
-  const isEntityKeyed = peek?.entity_type === 'name' || peek?.entity_type === 'surname';
-
-  if (!isEntityKeyed) {
-    const items = await getAllStatisticSeries(statisticId);
-    return { items, hasNextPage: false };
-  }
-
-  return getStatisticSeriesEntityPage(statisticId, pagination);
+  return getStatisticSeriesEntityPage(statisticId, request);
 }

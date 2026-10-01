@@ -2,6 +2,7 @@ import 'server-only';
 import { handleError, res } from '@/app/(backend)/lib/response';
 import { checkSummariesParams } from '@/app/(backend)/api/statistics/dtos/summaries.schema';
 import { summariesService } from '@/app/(backend)/api/statistics/services/summaries.service';
+import { cacheControlFor } from '../../../../lib/cache';
 
 interface RouteContext {
   params: Promise<{ period: string }>;
@@ -14,7 +15,9 @@ export async function GET(req: Request, { params }: RouteContext) {
 
     const summariesParams = checkSummariesParams(period, locale);
     const summaries = await summariesService(summariesParams);
-    return res.ok(summaries);
+
+    // Devuelve JSON limpio con los resúmenes de estadísticas del año
+    return res.ok(summaries, cacheControlFor.summaries());
   } catch (error) {
     return handleError('GET /api/statistics/[period]/summaries', error);
   }

@@ -14,6 +14,10 @@ export type StatisticCategoryPresentation = {
   };
 }[CategoryRendererKey];
 
+export type StatisticCategoryPresentationFor = Partial<
+  Record<PeriodKind, StatisticCategoryPresentation>
+>;
+
 export type StatisticCategoryPeriodConfig = Readonly<
   Record<StatisticCategories, Readonly<Partial<Record<PeriodKind, StatisticCategoryPresentation>>>>
 >;

@@ -7,7 +7,7 @@ import { StatisticValueRaw } from '../types';
 export async function getAllStatisticValues(statisticId: string): Promise<StatisticValueRaw[]> {
   const { data: values, error: valuesError } = await supabaseClient
     .from(tables.statisticValues)
-    .select('statistic_id, metric_key, value_numeric, value_text, value_boolean')
+    .select('metric_key, value_numeric, value_text, value_boolean')
     .eq('statistic_id', statisticId)
     .order('metric_key', { ascending: true })
     .order('id', { ascending: true });

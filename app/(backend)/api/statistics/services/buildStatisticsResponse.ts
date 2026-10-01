@@ -17,8 +17,10 @@ import type {
   StatisticSeriesPointRaw,
   StatisticValueRaw,
 } from '../types';
+import { CursorPage } from '../lib/pagination';
 
-type RawStatisticData = StatisticRankRaw[] | StatisticSeriesPointRaw[] | StatisticValueRaw[];
+type RawStatisticData =
+  CursorPage<StatisticRankRaw> | StatisticSeriesPointRaw[] | StatisticValueRaw[];
 
 type LoadedStatisticData = {
   statistic: StatisticsHeader;
@@ -63,7 +65,7 @@ export function resolveEditorialTemplates(
 }
 
 // Agrupa las categorías ya normalizadas dentro de su familia editorial (sección con resumen publicado).
-export function assignCategoriesToFamilies(
+function assignCategoriesToFamilies(
   categoryData: LoadedStatisticData[],
   editorialTemplates: EditorialTemplate[],
   categories: StatisticCategory[]
@@ -93,11 +95,10 @@ export function assignCategoriesToFamilies(
   });
 }
 
-// Filtra qué estadísticas pertenecen a una sección familiar con resumen publicado (la usa el service para saber qué pedir, y esta misma lógica de agrupar arriba).
 /**
- * The single predicate for "which statistics belong to a rendered family section" — shared by the
- * service (to know which categories to fetch raw data for) and this file's own grouping above, so
- * the two never drift out of sync the way a duplicated filter + positional-offset slice would.
+ * Único predicado para decidir qué estadísticas pertenecen a una sección familiar renderizada:
+ * lo comparten el service (para saber de qué categorías pedir datos) y la agrupación de arriba,
+ * así ambos nunca se desincronizan como pasaría con un filtro duplicado y un corte posicional.
  */
 export function selectFamilyStatistics(
   statistics: StatisticsHeader[],
@@ -115,12 +116,11 @@ export function selectFamilyStatistics(
   return statistics.filter((statistic) => familySections.has(statistic.family));
 }
 
-// Filtra qué estadísticas son candidatas al overview: forma "values" (escalar) y categoría listada en overviewMetrics.
 /**
- * Statistics eligible for the overview: `values`-shaped (a scalar, not a ranking or a series) and
- * present in `overviewMetrics`. A category that's `series` for this period kind (e.g.
- * `participantsGrowthRate` on `global`) is filtered out here for free — its data_shape simply
- * isn't `values`, so there's no separate per-period-kind overview list to keep in sync.
+ * Estadísticas candidatas al overview: de forma `values` (un escalar, no un ranking ni una serie)
+ * y presentes en `overviewMetrics`. Una categoría que para este tipo de periodo es `series` (por
+ * ejemplo `participantsGrowthRate` en `global`) queda filtrada sin más, porque su data_shape no es
+ * `values`; así no hay una lista de overview por tipo de periodo que mantener sincronizada.
  */
 export function selectOverviewStatistics(statistics: StatisticsHeader[]): StatisticsHeader[] {
   return statistics.filter(
@@ -149,7 +149,7 @@ function buildOverview(
     const filtered = data.filter((value) => allowedMetricKeys.includes(value.metric_key));
     const normalized = normalizeData(filtered, categoryDataShape.values, allSchoolsById);
 
-    return normalized.map(({ statisticId: _statisticId, ...value }) => ({
+    return normalized.map((value) => ({
       category: statistic.category,
       ...value,
     }));
@@ -157,7 +157,7 @@ function buildOverview(
 }
 
 // Ensambla el objeto final de respuesta: mete overview y families, y separa intro/outro del resto de secciones.
-export function createResponse(
+function createResponse(
   periodKey: string,
   editorialTemplates: EditorialTemplate[],
   families: StatisticFamily[],
@@ -189,16 +189,21 @@ function normalizeStatisticData(
   data: RawStatisticData,
   allSchoolsById: AllSchoolsById
 ): StatisticCategory {
-  // `renderer_key` is trusted from the persisted row, not re-derived from a category mapping.
-  // `assertStatisticPresentation` (called upstream, in the service) is what guarantees at
-  // runtime that `statistic.renderer_key` is the exact value this category/shape pair allows —
-  // the cast below only tells TS what that runtime guarantee already established.
+  // `renderer_key` se toma de la fila persistida y no se vuelve a derivar de un mapeo de categorías.
+  // `assertStatisticPresentation` (llamada antes, en el service) garantiza en tiempo de ejecución
+  // que `statistic.renderer_key` es exactamente el valor que permite esa combinación de categoría
+  // y forma de datos; el cast de abajo solo le indica a TS lo que esa garantía ya estableció.
   if (statistic.data_shape === categoryDataShape.ranks) {
+    const page = data as CursorPage<StatisticRankRaw>;
+
     return {
       category: statistic.category,
       dataShape: statistic.data_shape,
       rendererKey: statistic.renderer_key,
-      data: normalizeData(data as StatisticRankRaw[], statistic.data_shape, allSchoolsById),
+      pageInfo: {
+        nextCursor: page.nextCursor,
+      },
+      data: normalizeData(page.items as StatisticRankRaw[], statistic.data_shape, allSchoolsById),
     } as StatisticCategory;
   }
   if (statistic.data_shape === categoryDataShape.values) {

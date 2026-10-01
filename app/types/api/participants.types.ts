@@ -1,8 +1,8 @@
 import { School } from './statistics.types';
 
 export interface ParticipantsParams {
-  name: string;
-  schoolKey: string;
+  name: string | null;
+  schoolKey: string | null;
 }
 
 export interface ParticipantsResponse {

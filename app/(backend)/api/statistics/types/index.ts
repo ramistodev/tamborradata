@@ -14,11 +14,6 @@ export type StatisticParams = {
   locale: string;
 };
 
-export type Pagination = {
-  limit?: number;
-  offset?: number;
-};
-
 export interface PublishedPeriod {
   runId: string;
   kind: PeriodKind;
@@ -35,7 +30,7 @@ export interface StatisticsHeader {
 }
 
 export interface StatisticRankRaw {
-  statistic_id: string;
+  id: string;
   group_school_id?: string | null;
   entity_type: string;
   school_id?: string | null;
@@ -46,7 +41,6 @@ export interface StatisticRankRaw {
 }
 
 export interface StatisticValueRaw {
-  statistic_id: string;
   metric_key: string;
   value_numeric?: number | null;
   value_text?: string | null;
@@ -54,7 +48,6 @@ export interface StatisticValueRaw {
 }
 
 export interface StatisticSeriesPointRaw {
-  statistic_id: string;
   entity_type?: string | null;
   school_id?: string | null;
   entity_key?: string | null;
@@ -71,6 +64,7 @@ export interface PublishedEditorialSection {
   section: string;
   locale: string;
 }
+
 export const overviewMetrics = {
   [statisticCategories.totalParticipants]: ['participant_count'],
   [statisticCategories.namesDiversity]: ['distinct_count', 'diversity_percentage'],

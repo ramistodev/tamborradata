@@ -10,10 +10,13 @@ import { loadAllSchoolsById } from '../lib/loadAllSchoolsById';
 import { getPublishedPeriod } from '../repositories/period.repo';
 import { getPublishedStatisticHeaders } from '../repositories/statisticHeaders.repo';
 import { getPublishedEditorialSections } from '../repositories/editorialSections.repo';
-import { getStatisticRanks } from '../repositories/statisticRanks.repo';
-import { getStatisticSeries } from '../repositories/statisticSeries.repo';
+import {
+  getSchoolGroupedRanksPreview,
+  getStatisticRanksPreview,
+} from '../repositories/statisticRanks.repo';
+import { getStatisticSeriesPreview } from '../repositories/statisticSeries.repo';
 import { getAllStatisticValues } from '../repositories/statisticValues.repo';
-import { categoryDataShape } from '../../../../types/statistics';
+import { categoryDataShape, schoolGroupedRankCategories } from '../../../../types/statistics';
 import type {
   StatisticParams,
   StatisticRankRaw,
@@ -21,11 +24,12 @@ import type {
   StatisticsHeader,
   StatisticValueRaw,
 } from '../types';
+import { CursorPage } from '../lib/pagination';
 
 export async function statisticsService(params: StatisticParams): Promise<StatisticsResponse> {
   const { periodKey, locale } = params;
 
-  const publishedPeriod = await getPublishedPeriod(periodKey); // Get published runId and their kind
+  const publishedPeriod = await getPublishedPeriod(periodKey); // runId publicado y tipo de periodo
   const [statistics, summaries, allSchoolsById] = await Promise.all([
     getPublishedStatisticHeaders(publishedPeriod.runId),
     getPublishedEditorialSections(publishedPeriod.runId, locale),
@@ -59,13 +63,15 @@ export async function statisticsService(params: StatisticParams): Promise<Statis
 
 async function getRawStatisticData(
   statistic: StatisticsHeader
-): Promise<StatisticRankRaw[] | StatisticSeriesPointRaw[] | StatisticValueRaw[]> {
+): Promise<CursorPage<StatisticRankRaw> | StatisticSeriesPointRaw[] | StatisticValueRaw[]> {
   switch (statistic.data_shape) {
     case categoryDataShape.ranks:
-      return getStatisticRanks(statistic.id);
+      return schoolGroupedRankCategories.has(statistic.category)
+        ? getSchoolGroupedRanksPreview(statistic.id)
+        : getStatisticRanksPreview(statistic.id);
     case categoryDataShape.values:
       return getAllStatisticValues(statistic.id);
     case categoryDataShape.series:
-      return getStatisticSeries(statistic.id);
+      return getStatisticSeriesPreview(statistic.id);
   }
 }
