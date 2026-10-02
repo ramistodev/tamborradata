@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useHeader } from '../hooks/useHeader';
-import { ChevronRight } from '@/app/(frontend)/components/Icon';
+import { Icons } from '../../Icons';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useMobileMenu } from '../hooks/useMobileMenu';
 import { useStatisticsY } from '../../../(landing)/hooks/useStatisticsY';
@@ -35,7 +35,7 @@ export function MobileMenu(headerState: ReturnType<typeof useHeader>) {
           aria-label="Cerrar menú de navegación"
           className="absolute top-5 left-4 cursor-pointer bg-transparent border-none p-0"
         >
-          <ChevronRight />
+          <Icons.ChevronRight />
         </button>
 
         <div className="flex flex-col items-start gap-6 overflow-y-auto flex-1 pb-10 hide-scrollbar px-6">

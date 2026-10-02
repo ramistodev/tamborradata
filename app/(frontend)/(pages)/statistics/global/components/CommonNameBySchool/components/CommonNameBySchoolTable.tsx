@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp } from '@/app/(frontend)/components/Icon';
+import { Icons } from '@/app/(frontend)/components';
 import { useCommonNameBySchool } from '../hooks/useCommonNameBySchool';
 import { LoadingTable } from '@/app/(frontend)/(pages)/statistics/components/loaders/LoadingTable';
 
@@ -52,7 +52,7 @@ export function CommonNameBySchoolTable({
           onClick={showMore}
           aria-label="Mostrar más colegios"
         >
-          <ChevronDown /> mostrar más
+          <Icons.ChevronDown /> mostrar más
         </button>
       ) : (
         <button
@@ -60,7 +60,7 @@ export function CommonNameBySchoolTable({
           onClick={showLess}
           aria-label="Mostrar menos colegios"
         >
-          <ChevronUp /> mostrar menos
+          <Icons.ChevronUp /> mostrar menos
         </button>
       )}
     </>

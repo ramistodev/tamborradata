@@ -1,6 +1,6 @@
 'use client';
 import { useIntro } from './hooks/useIntro';
-import { ArrowRight } from '../../../components/Icons';
+import { Icons } from '@/app/(frontend)/components';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
@@ -49,7 +49,7 @@ export function Intro() {
             href="/statistics/global"
             className="flex text-lg sm:text-2xl items-center gap-2 py-3 px-5"
           >
-            Explora las estadísticas <ArrowRight />
+            Explora las estadísticas <Icons.ArrowRight />
           </Link>
         </motion.div>
       </div>
