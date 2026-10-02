@@ -17,8 +17,8 @@ export interface CategoryDetailParams {
 export interface CategoryDetailQuery {
   period: string | null;
   category: string | null;
-  limit: string | null | undefined;
-  cursor: string | null | undefined;
+  limit: string | null;
+  cursor: string | null;
 }
 
 export function checkCategoryDetailParams(query: CategoryDetailQuery): CategoryDetailParams {
@@ -32,13 +32,13 @@ export function checkCategoryDetailParams(query: CategoryDetailQuery): CategoryD
     periodKey,
     category: query.category as StatisticCategories,
     limit: clampLimit(parseOptionalPositiveInt(query.limit, 'limit')),
-    cursor: query.cursor || undefined,
+    cursor: query.cursor ?? undefined,
   };
 }
 
-function parseOptionalPositiveInt(value: string | null, paramName: string): number | undefined {
+function parseOptionalPositiveInt(value: string | null, paramName: string): number | null {
   if (value === null || value === '') {
-    return undefined;
+    return null;
   }
 
   const parsed = Number(value);
