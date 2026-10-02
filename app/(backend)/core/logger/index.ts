@@ -3,7 +3,7 @@ import { isDev } from '../config/env';
 
 // Log para centralizar y controlar los mensajes en consola
 export function log(message: string, type: 'info' | 'warn' | 'debug' | 'error' = 'info') {
-  if (!isDev) return; // Desactiva logs en producción
+  if (!isDev && type !== 'error') return; // Desactiva logs en producción
 
   const timestamp = new Date().toISOString();
 

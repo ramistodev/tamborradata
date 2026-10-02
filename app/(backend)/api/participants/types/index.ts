@@ -1,22 +1,15 @@
 import 'server-only';
-export type Participants = {
-  name: string;
-  school: string;
-  year: number;
-};
 
-export type ParticipantQuery = {
-  name: string;
-  company: string;
-};
-
-export type ParticipantsType = {
-  participants: Participants[] | null;
-  error: string | null;
-};
-
-export type CheckParamsType = {
-  valid: boolean;
+export type CheckParamsResponse = {
   cleanName: string;
-  error: string | null;
+  schoolKey: string;
+};
+
+export type ParticipantRow = {
+  id: string;
+  name: string;
+  name_key: string;
+  year: number;
+  school: { id: string; canonical_name: string; school_key: string };
+  scraped_url: { url: string } | null;
 };

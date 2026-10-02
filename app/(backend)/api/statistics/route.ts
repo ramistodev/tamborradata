@@ -1,46 +1,19 @@
 import 'server-only';
-import { NextResponse } from 'next/server';
-import { getStatistics } from './services/statistics.service';
-import { getSysStatus } from '../../shared/utils/getSysStatus';
 import { checkParams } from './dtos/statistics.schema';
+import { handleError, res } from '../../lib/response';
+import { statisticsService } from './services/statistics.service';
+import { cacheControlFor } from '../../lib/cache';
 
 export async function GET(req: Request) {
   try {
-    const year = new URL(req.url).searchParams.get('year');
+    const periodKey = new URL(req.url).searchParams.get('periodKey');
+    const locale = new URL(req.url).searchParams.get('locale');
 
-    // Validar parámetro 'year'
-    const { valid, cleanYear, error: paramError } = await checkParams(year);
-
-    if (!valid) {
-      return NextResponse.json({ error: paramError }, { status: 404 });
-    }
-
-    // Obtener estado del sistema
-    const isUpdating: boolean = await getSysStatus();
-
-    // Si el sistema está actualizándose, devolver estado de actualización
-    if (isUpdating) {
-      return NextResponse.json({ isUpdating: true }, { status: 200 });
-    }
-
-    // Obtener estadísticas completas para el año especificado
-    const { statistics, error } = await getStatistics(cleanYear);
-
-    if (error && !statistics) {
-      return NextResponse.json({ error }, { status: 500 });
-    }
+    const statistics = await statisticsService(checkParams(periodKey, locale));
 
     // Devuelve JSON limpio con las estadísticas del año
-    return NextResponse.json({
-      isUpdating,
-      year: cleanYear,
-      total_categories: statistics ? Object.keys(statistics).length : 0,
-      statistics,
-    });
+    return res.ok(statistics, cacheControlFor.preview());
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Error al obtener el estado del sistema', details: error },
-      { status: 500 }
-    );
+    return handleError('GET /api/statistics', error);
   }
 }
