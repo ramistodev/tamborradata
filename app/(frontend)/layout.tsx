@@ -5,7 +5,58 @@ import { Analytics } from '@vercel/analytics/next';
 import Script from 'next/script';
 import { ReactQueryProvider } from './providers/ReactQueryProvider';
 import { LayoutContent } from './LayoutContent';
+import { Orbitron, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="es"
+      className={`${orbitron.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+    >
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#1549aa" />
+        <Script
+          id="organization-structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationStructuredData) }}
+        />
+        <Script
+          id="website-structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteStructuredData) }}
+        />
+      </head>
+      <body>
+        <ReactQueryProvider>
+          <LayoutContent>{children}</LayoutContent>
+        </ReactQueryProvider>
+        <SpeedInsights /> {/* Vercel Speed Insights */}
+        <Analytics /> {/* Vercel Analytics */}
+      </body>
+    </html>
+  );
+}
+
+// Fonts
+const orbitron = Orbitron({ subsets: ['latin'], variable: '--font-orbitron', display: 'swap' });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+  display: 'swap',
+});
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+});
+
+// Metadata
 const siteUrl = 'https://tamborradata.com';
 const imageUrl = `${siteUrl}/og-image.webp`;
 const defaultTitle = 'Tamborradata | Datos y estadísticas de la Tamborrada Infantil';
@@ -81,36 +132,3 @@ export const metadata: Metadata = {
     site: '@tamborradata',
   },
 };
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="es">
-      <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#1549aa" />
-        <Script
-          id="organization-structured-data"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationStructuredData) }}
-        />
-        <Script
-          id="website-structured-data"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteStructuredData) }}
-        />
-      </head>
-      <body>
-        <ReactQueryProvider>
-          <LayoutContent>{children}</LayoutContent>
-        </ReactQueryProvider>
-        <SpeedInsights /> {/* Vercel Speed Insights */}
-        <Analytics /> {/* Vercel Analytics */}
-      </body>
-    </html>
-  );
-}
