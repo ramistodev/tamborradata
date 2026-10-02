@@ -4,7 +4,7 @@ const DEFAULT_PAGE_SIZE = 25;
 const MAX_PAGE_SIZE = 100;
 
 /** Acota el tamaño de página: sin `limit` usa el valor por defecto y nunca supera el máximo. */
-export function clampLimit(limit: number | undefined): number {
+export function clampLimit(limit: number | null): number {
   return Math.min(limit ?? DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE);
 }
 
