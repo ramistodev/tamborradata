@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useHeader } from '../hooks/useHeader';
-import { HamburgerIcon } from '@/app/(frontend)/icons/icons';
+import { HamburgerIcon } from '@/app/(frontend)/components/Icon';
 import { MobileMenu } from './MobileMenu';
 
 export function Mobile() {
