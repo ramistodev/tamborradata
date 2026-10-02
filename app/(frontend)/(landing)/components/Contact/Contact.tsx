@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { useContact } from './hooks/useContact';
-import { MailIcon } from '../../../components/Icons';
+import { Icons } from '@/app/(frontend)/components';
 import Link from 'next/link';
 
 export function Contact() {
@@ -36,7 +36,7 @@ export function Contact() {
           href="mailto:contact@tamborradata.com"
           className="flex items-center justify-center gap-3 w-full h-full"
         >
-          <MailIcon />
+          <Icons.MailIcon />
           <span>contact@tamborradata.com</span>
         </Link>
       </motion.div>

@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { useOpenSource } from './hooks/useOpenSource';
-import { GithubIcon } from '../../../components/Icons';
+import { Icons } from '@/app/(frontend)/components';
 import Link from 'next/link';
 
 export function OpenSource() {
@@ -57,7 +57,7 @@ export function OpenSource() {
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 px-5 py-3 text-(--color-text)"
             >
-              <GithubIcon />
+              <Icons.GithubIcon />
               <span className="font-semibold text-base">Ver repositorio en GitHub</span>
             </Link>
           </motion.div>

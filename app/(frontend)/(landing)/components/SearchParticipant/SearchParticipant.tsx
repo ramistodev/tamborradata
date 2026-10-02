@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { useSearchParticipant } from './hooks/useSearchParticipant';
-import { SearchIcon } from '../../../components/Icons';
+import { Icons } from '@/app/(frontend)/components';
 import { useSearchInput } from './hooks/useSearchInput';
 
 export function SearchParticipant() {
@@ -56,7 +56,7 @@ export function SearchParticipant() {
             onBlur={() => onBlur()}
             className="w-full focus:outline-none"
           />
-          <SearchIcon />
+          <Icons.SearchIcon />
         </div>
       </motion.div>
 
