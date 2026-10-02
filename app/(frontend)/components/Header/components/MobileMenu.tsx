@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { useHeader } from '../hooks/useHeader';
-import { ChevronRight } from '@/app/(frontend)/icons/icons';
+import { ChevronRight } from '@/app/(frontend)/components/Icon';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useMobileMenu } from '../hooks/useMobileMenu';
-import { useStatisticsY } from '../../../hooks/useStatisticsY';
+import { useStatisticsY } from '../../../(landing)/hooks/useStatisticsY';
 import { useState } from 'react';
 
 export function MobileMenu(headerState: ReturnType<typeof useHeader>) {

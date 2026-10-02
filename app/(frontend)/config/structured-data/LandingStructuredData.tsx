@@ -1,6 +1,16 @@
 import Script from 'next/script';
 
-export function HomeStructuredData({ siteUrl, pageTitle, pageDescription, imageUrl }) {
+export function LandingStructuredData({
+  siteUrl,
+  pageTitle,
+  pageDescription,
+  imageUrl,
+}: {
+  siteUrl: string;
+  pageTitle: string;
+  pageDescription: string;
+  imageUrl: string;
+}) {
   const organizationId = `${siteUrl}#organization`;
   const websiteId = `${siteUrl}#website`;
   const webPageId = `${siteUrl}#webpage`;

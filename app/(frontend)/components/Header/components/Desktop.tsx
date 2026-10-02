@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useStatisticsY } from '../../../hooks/useStatisticsY';
+import { useStatisticsY } from '../../../(landing)/hooks/useStatisticsY';
 import { useHeader } from '../hooks/useHeader';
 import { useDesktopMenu } from '../hooks/useDesktopMenu';
 import { motion } from 'framer-motion';
