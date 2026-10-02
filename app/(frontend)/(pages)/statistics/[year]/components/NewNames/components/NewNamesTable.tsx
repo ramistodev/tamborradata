@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp } from '@/app/(frontend)/components/Icon';
+import { Icons } from '@/app/(frontend)/components';
 import { useNewNames } from '../hooks/useNewNames';
 import { LoadingTable } from '@/app/(frontend)/(pages)/statistics/components/loaders/LoadingTable';
 
@@ -48,7 +48,7 @@ export function NewNamesTable({
           onClick={showMore}
           aria-label="Mostrar más nombres nuevos"
         >
-          <ChevronDown /> mostrar más
+          <Icons.ChevronDown /> mostrar más
         </button>
       ) : (
         <button
@@ -56,7 +56,7 @@ export function NewNamesTable({
           onClick={showLess}
           aria-label="Mostrar menos nombres nuevos"
         >
-          <ChevronUp /> mostrar menos
+          <Icons.ChevronUp /> mostrar menos
         </button>
       )}
     </>

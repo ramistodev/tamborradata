@@ -2,13 +2,7 @@
 import Link from 'next/link';
 import { useExploreStatistics } from './hooks/useExploreStatistics';
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-  ArrowRight,
-  CheckIcon,
-  ClockIcon,
-  ChartIcon,
-  CalendarIcon,
-} from '../../../components/Icons';
+import { Icons } from '@/app/(frontend)/components';
 
 export function ExploreStatistics() {
   const {
@@ -78,7 +72,7 @@ export function ExploreStatistics() {
           {newData && (
             <div className="bg-(--color-bg-secondary) border border-(--color-border) text-(--color-text) px-4 py-3 rounded-lg flex items-center gap-3">
               <div className="text-(--eye-catching-text)">
-                <CheckIcon />
+                <Icons.CheckIcon />
               </div>
               <div className="flex items-start justify-center md:items-center md:justify-start flex-col md:flex-row md:gap-3">
                 <span className="font-medium">
@@ -99,7 +93,7 @@ export function ExploreStatistics() {
               className="bg-(--color-bg-secondary) border border-(--color-border) text-(--color-text) px-4 py-3 rounded-lg flex items-center gap-3"
             >
               <div className="text-(--eye-catching-text)">
-                <ClockIcon />
+                <Icons.ClockIcon />
               </div>
               <div className="flex items-start justify-center md:items-center md:justify-start flex-col md:flex-row md:gap-3">
                 <span className="font-medium">Proximamente {currentYear}</span>
@@ -129,7 +123,7 @@ export function ExploreStatistics() {
             <div className="flex flex-col items-start justify-center gap-4 relative z-10">
               <div>
                 <h3 className="flex gap-2 items-center text-xl  md:text-2xl font-bold mb-3 group-hover:scale-105 transition-transform duration-300">
-                  <ChartIcon /> Estadísticas globales
+                  <Icons.ChartIcon /> Estadísticas globales
                 </h3>
                 <p className="text-lg leading-relaxed drop-shadow-sm">
                   Un vistazo general a todos los años de la Tamborrada Infantil. Tendencias,
@@ -138,7 +132,7 @@ export function ExploreStatistics() {
               </div>
               <div className="mt-4 flex items-center font-semibold group-hover:translate-x-4 transition-transform duration-300">
                 Ver estadísticas globales
-                <ArrowRight />
+                <Icons.ArrowRight />
               </div>
             </div>
           </Link>
@@ -175,7 +169,7 @@ export function ExploreStatistics() {
               <div>
                 <h3 className="flex gap-2 items-center text-xl  md:text-2xl font-bold mb-3 group-hover:scale-105 transition-transform duration-300">
                   <span>
-                    <CalendarIcon />
+                    <Icons.CalendarIcon />
                   </span>
                   Últimas estadísticas ({lastStatYear.current})
                 </h3>
@@ -186,7 +180,7 @@ export function ExploreStatistics() {
               </div>
               <div className="mt-4 flex items-center font-semibold group-hover:translate-x-4 transition-transform duration-300">
                 Ver datos de {lastStatYear.current}
-                <ArrowRight />
+                <Icons.ArrowRight />
               </div>
             </div>
           </Link>

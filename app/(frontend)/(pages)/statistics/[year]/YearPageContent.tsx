@@ -3,7 +3,7 @@ import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
 import { useYears } from './hooks/useYears';
-import { InfoIcon } from '../../../components/Icons';
+import { Icons } from '@/app/(frontend)/components';
 import {
   NamesSurnamesDiversity,
   CommonNamesBySchool,
@@ -50,7 +50,7 @@ export function YearPageContent() {
         href="./info"
         className="fixed w-12 h-12 rounded-full flex items-center justify-center bottom-5 right-5 lg:bottom-10 lg:right-10"
       >
-        <InfoIcon />
+        <Icons.InfoIcon />
       </Link>
     </article>
   );

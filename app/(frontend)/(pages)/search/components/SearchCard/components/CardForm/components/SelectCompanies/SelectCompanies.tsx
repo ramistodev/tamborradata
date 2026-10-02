@@ -1,7 +1,7 @@
 'use client';
 import { scrollToForm } from '../../utils/scrollToForm';
 import { useDropdown } from './hooks/useDropdown';
-import { ChevronDown } from '@/app/(frontend)/components/Icon';
+import { Icons } from '@/app/(frontend)/components';
 import { SelectOptions } from './SelectOptions';
 
 export function SelectCompanies({ defaultValue }: { defaultValue?: string }) {
@@ -42,7 +42,7 @@ export function SelectCompanies({ defaultValue }: { defaultValue?: string }) {
             transform: isOpen ? 'rotate(180deg) ' : 'rotate(0deg) ',
           }}
         >
-          <ChevronDown />
+          <Icons.ChevronDown />
         </div>
 
         {/* DROP DOWN */}

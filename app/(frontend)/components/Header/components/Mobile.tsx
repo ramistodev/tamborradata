@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useHeader } from '../hooks/useHeader';
-import { HamburgerIcon } from '@/app/(frontend)/components/Icon';
+import { Icons } from '../../../components/Icons';
 import { MobileMenu } from './MobileMenu';
 
 export function Mobile() {
@@ -28,7 +28,7 @@ export function Mobile() {
         onClick={() => setMenuOpen(true)}
         className="absolute right-0 top-1/2 -translate-x-1/2 -translate-y-1/2 p-1 border border-(--color-border) cursor-pointer rounded-md"
       >
-        <HamburgerIcon />
+        <Icons.HamburgerIcon />
       </button>
 
       {/* Mobile Menu */}

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import { motion } from 'framer-motion';
-import { CloseIcon } from '@/app/(frontend)/components/Icon';
+import { Icons } from '@/app/(frontend)/components';
 import { useSchoolsEvolution } from '../hooks/useSchoolsEvolution';
 import { Year } from '../../../types/types';
 
@@ -76,7 +76,7 @@ export function SchoolsEvolutionChart({
           onClick={() => showChart()}
           aria-label="Cerrar gráfico"
         >
-          <CloseIcon />
+          <Icons.CloseIcon />
         </button>
         <ResponsiveLine
           data={fromatedData || []}

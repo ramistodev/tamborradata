@@ -1,7 +1,7 @@
 'use client';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNextSteps } from './hooks/useNextSteps';
-import { CheckIcon, QuestionIcon } from '../../../components/Icons';
+import { Icons } from '@/app/(frontend)/components';
 
 export function NextSteps() {
   const {
@@ -77,7 +77,7 @@ export function NextSteps() {
                 </p>
               </div>
               <span className="flex items-center gap-2 text-sm md:text-base text-(--color-text) px-2 py-1 rounded bg-(--color-table)">
-                {cards[indexTurn].feasible ? <CheckIcon /> : <QuestionIcon />}{' '}
+                {cards[indexTurn].feasible ? <Icons.CheckIcon /> : <Icons.QuestionIcon />}{' '}
                 {cards[indexTurn].feasible ? 'Factible' : 'En estudio'}
               </span>
             </motion.div>
