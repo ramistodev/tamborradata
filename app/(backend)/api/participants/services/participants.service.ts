@@ -1,34 +1,32 @@
 import 'server-only';
 import { fetchParticipants } from '../repositories/participants.repo';
-import { ParticipantsType } from '../types';
-import { log } from '../../../core/logger';
+import { ParticipantRow } from '../types';
+import { NotFoundError } from '../../../lib/errors';
+import { ParticipantsResponse } from '../../../../types/api/participants.types';
 
-export async function getParticipants(
+export async function participantsService(
   cleanName: string,
-  company: string
-): Promise<ParticipantsType> {
+  schoolKey: string
+): Promise<ParticipantsResponse[]> {
   const tokens = cleanName.trim().toLowerCase().split(/\s+/);
   const partialName = tokens.slice(0, 2).join(' '); // nombre + 1er apellido
   const inputSecond = tokens[tokens.length - 1]; // 2º apellido
 
-  const { participants, error } = await fetchParticipants(partialName, company);
+  const participants = await fetchParticipants(partialName, schoolKey);
 
-  if (error || !participants) {
-    log(`Error al obtener el nombre o la compañia: ${error}`, 'error');
-    return { participants: null, error };
-  }
+  const formatedParticipants = participants.map((p) => toParticipant(p));
 
   // Agrupar por año
-  const byYear = new Map<number, typeof participants>();
-  for (const p of participants) {
+  const byYear = new Map<number, typeof formatedParticipants>();
+  for (const p of formatedParticipants) {
     const arr = byYear.get(p.year) ?? [];
     arr.push(p);
     byYear.set(p.year, arr);
   }
 
   // Filtrar según segundo apellido
-  const result = participants.filter((p) => {
-    const parts = p.name.trim().toLowerCase().split(/\s+/);
+  const result = formatedParticipants.filter((p) => {
+    const parts = p.nameKey.trim().toLowerCase().split(/\s+/); // Hace split del nombre completo en palabras
     const isFull = parts.length > 2;
 
     // Caso 1: el registro tiene segundo apellido (mas de 2 palabras),
@@ -47,12 +45,12 @@ export async function getParticipants(
     //   asumimos que ese nombre incompleto es el usuario que intenta buscarse a sí mismo porque
     //   no hay otro con el apellido que el a introducido
     const yearGroup = byYear.get(p.year) ?? [];
-    const fullsSameYear = yearGroup.filter((x) => x.name.trim().split(/\s+/).length > 2);
+    const fullsSameYear = yearGroup.filter((x) => x.nameKey.trim().split(/\s+/).length > 2);
 
     // Mirar si existe algún registro completo en ese mismo año
     // cuyo segundo apellido sea el metido por el usuario
     const anyFullMatchesInputSecond = fullsSameYear.some((x) => {
-      const xs = x.name.trim().toLowerCase().split(/\s+/);
+      const xs = x.nameKey.trim().toLowerCase().split(/\s+/);
       return xs[xs.length - 1] === inputSecond;
     });
 
@@ -61,9 +59,23 @@ export async function getParticipants(
 
   // Si no hay coincidencias se devuelve error específico
   if (inputSecond && result.length === 0) {
-    log('No se ha encontrado ningun participante coincidente (no coincide el apellido).', 'debug');
-    return { participants: null, error: 'No matching participant found (surname mismatch)' };
+    throw new NotFoundError("Don't match any participant with the second last name provided");
   }
 
-  return { participants: result, error: null };
+  return result;
+}
+
+function toParticipant(row: ParticipantRow): ParticipantsResponse {
+  return {
+    id: row.id,
+    name: row.name,
+    nameKey: row.name_key,
+    year: row.year,
+    school: {
+      schoolId: row.school.id,
+      canonicalName: row.school.canonical_name,
+      schoolKey: row.school.school_key,
+    },
+    url: row.scraped_url?.url ?? '',
+  };
 }

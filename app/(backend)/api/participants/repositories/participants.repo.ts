@@ -1,33 +1,30 @@
 import 'server-only';
 import { supabaseClient } from '../../../core/db/supabaseClient';
-import { Participants, ParticipantsType } from '../types';
-import { log } from '../../../core/logger';
+import { tables } from '../../../../types/dbSchema';
+import { NotFoundError } from '../../../lib/errors';
+import { ParticipantRow } from '../types';
 
 export async function fetchParticipants(
   partialName: string,
-  company: string
-): Promise<ParticipantsType> {
-  try {
-    const { data, error } = await supabaseClient
-      .from('participants')
-      .select('name, school, year')
-      .ilike('name', `%${partialName}%`)
-      .eq('school', company)
-      .order('year', { ascending: false });
+  schoolKey: string
+): Promise<ParticipantRow[]> {
+  const { data: participants, error } = await supabaseClient
+    .from(tables.participants)
+    .select(
+      'id, name, name_key, year, school:schools!inner(id, canonical_name, school_key), scraped_url:scraped_urls(url)'
+    )
+    .ilike('name', `%${partialName}%`)
+    .eq('school.school_key', schoolKey)
+    .order('year', { ascending: false })
+    .returns<ParticipantRow[]>();
 
-    if (error) {
-      log(`Error al obtener participantes: ${error.message}`, 'error');
-      return { participants: null, error: error.message };
-    }
-
-    if (!data || data.length === 0) {
-      log('No se encontraron participantes.', 'error');
-      return { participants: null, error: 'Error: No participants found' };
-    }
-
-    return { participants: data as Participants[], error: null };
-  } catch (error) {
-    log(`Unexpected error al obtener participantes: ${(error as Error).message}`, 'error');
-    return { participants: null, error: (error as Error).message };
+  if (error) {
+    throw new Error(`Error fetching participants: ${error.message}`);
   }
+
+  if (!participants || participants.length === 0) {
+    throw new NotFoundError('No participants found for the given name and schoolKey');
+  }
+
+  return participants;
 }

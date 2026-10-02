@@ -1,29 +1,31 @@
 import 'server-only';
-import { log } from '@/app/(backend)/core/logger';
-import { CheckParamsType } from '../types';
+import { ValidationError } from '../../../lib/errors';
+import { ParticipantsParams } from '../../../../types/api/participants.types';
+import { CheckParamsResponse } from '../types';
 
-export async function checkParams(name: string, company: string): Promise<CheckParamsType> {
+export async function checkParams(params: ParticipantsParams): Promise<CheckParamsResponse> {
+  const { name, schoolKey } = params;
   // Validar que se hayan proporcionado los parámetros
-  if (!name || !company) {
-    log("Error: Parametros 'name' y 'company' son obligatorios", 'error');
-    return { valid: false, cleanName: '', error: "Parametros 'name' y 'company' son obligatorios" };
+  if (!name || !schoolKey) {
+    throw new ValidationError("Parameters like 'name' and 'schoolKey' are required");
+  }
+
+  const cleanSchoolKey = schoolKey.trim();
+
+  if (!cleanSchoolKey) {
+    throw new ValidationError("The 'schoolKey' parameter cannot be empty");
   }
 
   // Normalizar nombre
   const cleanName = name
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[̀-ͯ]/g, '')
     .replace(/\s+/g, ' ')
     .trim();
 
   if (cleanName.split(' ').length < 3) {
-    log('Error: Por favor, proporciona al menos un nombre y dos apellidos', 'error');
-    return {
-      valid: false,
-      cleanName: '',
-      error: 'Por favor, proporciona al menos un nombre y dos apellidos',
-    };
+    throw new ValidationError("The 'name' parameter must contain at least three words");
   }
 
-  return { valid: true, cleanName, error: null };
+  return { cleanName, schoolKey: cleanSchoolKey };
 }

@@ -1,31 +1,15 @@
 import 'server-only';
-import { VALID_YEARS } from '@/app/(backend)/shared/constants/catalog';
-import { CheckParamsType } from '../types';
+import { ValidationError } from '../../../lib/errors';
+import { isLocale } from '../../../lib/locale';
+import { parsePeriodKey } from '../../../lib/period';
+import { StatisticParams } from '../types';
 
-export async function checkParams(year: string): Promise<CheckParamsType> {
-  if (!year) {
-    return { valid: false, cleanYear: null, error: "El parámetro 'year' es obligatorio" };
+export function checkParams(periodKey: string | null, locale: string | null): StatisticParams {
+  const cleanPeriodKey = parsePeriodKey(periodKey, 'periodKey');
+
+  if (!isLocale(locale)) {
+    throw new ValidationError("The 'locale' parameter is required");
   }
 
-  const cleanYear = year.trim(); // limpiar espacios en blanco
-
-  if (cleanYear !== 'global' && !/^\d{4}$/.test(cleanYear)) {
-    return {
-      valid: false,
-      cleanYear: null,
-      error: "El parámetro 'year' debe ser 'global' o un año válido de cuatro dígitos",
-    };
-  }
-
-  // Validar año
-  const validYears: string[] = await VALID_YEARS();
-  if (!validYears.includes(year)) {
-    return {
-      valid: false,
-      cleanYear: null,
-      error: `Año inválido. Años válidos: ${validYears.slice(0, 4).join(', ')}, ...`,
-    };
-  }
-
-  return { valid: true, cleanYear, error: null };
+  return { periodKey: cleanPeriodKey, locale };
 }
