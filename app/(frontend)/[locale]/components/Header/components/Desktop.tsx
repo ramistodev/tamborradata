@@ -1,6 +1,5 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/app/(frontend)/i18n/navigation';
-import { useStatisticsY } from '../../../(landing)/hooks/useStatisticsY';
 import { useHeader } from '../hooks/useHeader';
 import { useDesktopMenu } from '../hooks/useDesktopMenu';
 import { motion } from 'framer-motion';
@@ -8,7 +7,7 @@ import { motion } from 'framer-motion';
 export function Desktop() {
   const t = useTranslations('Header');
   const { pathname } = useHeader();
-  const { years } = useStatisticsY();
+  const years = [2019, 2020, 2021, 2022, 2023]; // Simulated years data
   const { yearsShow, toggleYearsShow } = useDesktopMenu();
 
   return (
