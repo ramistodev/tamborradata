@@ -4,6 +4,10 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin('./app/(frontend)/i18n/request.ts');
 
 const nextConfig: NextConfig = {
+  // Dev only: lets a phone on the same Wi-Fi (http://192.168.x.x:3000) load and hydrate the app.
+  // Next 16 blocks cross-origin dev requests by default, which leaves every button dead.
+  allowedDevOrigins: ['192.168.*.*'],
+
   async redirects() {
     const redirects = [];
 
