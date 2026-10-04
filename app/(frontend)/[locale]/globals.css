@@ -129,6 +129,9 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--ff-sans);
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
 }
 
 /* ─── Technical grid background ──────────────────────────────────────────── */
