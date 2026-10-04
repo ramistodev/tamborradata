@@ -1,11 +1,10 @@
-import { useStatisticsY } from '@/app/(frontend)/[locale]/(landing)/hooks/useStatisticsY';
 import { useInView } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
 export function useExploreStatistics() {
   const [newData, setNewData] = useState(false);
   const [comingData, setComingData] = useState(false);
-  const { years } = useStatisticsY();
+  const years = [2019, 2020, 2021, 2022, 2023]; // Simulated years data
   const yearsAvailable = years ? years.length : new Date().getFullYear() - 2018;
   const currentYear = new Date().getFullYear();
   const lastStatYear = useRef(currentYear);

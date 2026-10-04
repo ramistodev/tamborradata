@@ -4,14 +4,13 @@ import { useHeader } from '../hooks/useHeader';
 import { Icons } from '../../Icons';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useMobileMenu } from '../hooks/useMobileMenu';
-import { useStatisticsY } from '../../../(landing)/hooks/useStatisticsY';
 import { useState } from 'react';
 
 export function MobileMenu(headerState: ReturnType<typeof useHeader>) {
   const t = useTranslations('Header');
   const { pathname, menuOpen, setMenuOpen, firstItemRef } = headerState;
   const { yearsShow, toggleYearsShow } = useMobileMenu();
-  const { years } = useStatisticsY();
+  const years = [2019, 2020, 2021, 2022, 2023]; // Simulated years data
   const [listOverflow, setListOverflow] = useState<'hidden' | 'visible'>('hidden');
 
   return (
