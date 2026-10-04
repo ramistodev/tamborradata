@@ -1,107 +1,68 @@
-'use client';
-import { motion } from 'framer-motion';
-import { usePressMentions } from './hooks/usePressMentions';
-import Link from 'next/link';
 import Image from 'next/image';
+import { getTranslations } from 'next-intl/server';
+import { buttonStyles, Card, Container } from '@/app/(frontend)/[locale]/components/ui';
 
-export function PressMentions() {
-  const { headerRef, isHeaderInView, imageRef, isImageInView, pressLinkRef, isPressLinkInView } =
-    usePressMentions();
+const ARTICLE_URL =
+  'https://www.diariovasco.com/tamborrada/tamborradatacom-fiesta-datos-20260116073402-nt.html';
+const AUTHOR_URL = 'https://www.diariovasco.com/autor/jorge-f-mendiola-709.html';
+
+export async function PressMentions() {
+  const t = await getTranslations('Landing.press');
 
   return (
-    <section
-      aria-label="Menciones en medios de comunicación"
-      className="w-full max-w-6xl mx-auto px-4 py-36 flex flex-col items-center justify-center md:gap-6"
-    >
-      {/* HEADER */}
-      <motion.div
-        ref={headerRef}
-        initial={{ opacity: 0, y: 20 }}
-        animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.4 }}
-        className="max-w-3xl mb-8"
-      >
-        <h2 className="text-3xl sm:text-4xl md:text-5xl text-(--eye-catching-text) text-center text-balance font-bold mb-4 leading-tight">
-          Mencionado en medios
-        </h2>
-        <p className="text-base md:text-xl text-balance text-(--color-text-secondary) text-center leading-relaxed">
-          Una ‘memoria digital’ de la Tamborrada Infantil que ya ha sido mencionada en medios.
-        </p>
-      </motion.div>
-
-      {/* MENTION IN DIARIO VASCO */}
-      <article className="w-full max-w-2xl flex flex-col items-center justify-center gap-8 md:gap-4 py-4">
-        <motion.div
-          ref={imageRef}
-          initial={{ opacity: 0, scale: 0.8, y: 60, rotate: -10 }}
-          animate={
-            isImageInView
-              ? { opacity: 1, scale: 1, y: 0, rotate: 5 }
-              : { opacity: 0, scale: 0.8, y: 60, rotate: -10 }
-          }
-          transition={{
-            opacity: { duration: 0.8, ease: 'easeOut', delay: 0.2 },
-            scale: { duration: 0.8, ease: [0.34, 1.56, 0.64, 1], delay: 0.2 }, // spring-like
-            y: { duration: 0.8, ease: 'easeOut', delay: 0.2 },
-            rotate: { duration: 0.8, ease: [0.34, 1.56, 0.64, 1], delay: 0.2 },
-          }}
-          whileHover={{
-            rotate: 8,
-            scale: 1.06,
-            y: -4,
-            transition: { duration: 0.3, ease: 'easeOut' },
-          }}
-          className="group"
+    <section aria-labelledby="press-title" className="w-full py-24">
+      <Container>
+        <h2
+          id="press-title"
+          className="font-title text-[clamp(1.8rem,3.5vw,3rem)] font-bold tracking-[-0.03em] text-text"
         >
-          <Link
-            href={
-              'https://www.diariovasco.com/tamborrada/tamborradatacom-fiesta-datos-20260116073402-nt.html'
-            }
+          {t('title')}
+        </h2>
+        <p className="mt-2.5 mb-9 max-w-140 text-text-secondary">{t('subtitle')}</p>
+
+        <div className="grid items-start gap-6 md:grid-cols-[1.1fr_0.9fr]">
+          {/* Clipping of the article */}
+          <a
+            href={ARTICLE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Leer artículo completo en Diario Vasco (abre en nueva ventana)"
-            className="focus:outline-none focus-visible:opacity-85"
+            aria-label={`${t('readMore')} ${t('newWindow')}`}
+            className="group block overflow-hidden rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.22)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_56px_rgba(0,0,0,0.28)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent motion-reduce:transition-none"
           >
             <Image
               src="/images/landing/press-clip-diario-vasco-2026.webp"
-              alt="Artículo del Diario Vasco sobre: 'Tamborradata.com, la fiesta en datos'. Publicado el 16 de enero de 2026 por Jorge F. Mendiola"
+              alt={t('imageAlt')}
               width={600}
               height={400}
-              className="drop-shadow-[0px_10px_10px_black] group-hover:drop-shadow-[0px_10px_20px_black] transition-all duration-300"
+              className="h-auto w-full"
             />
-          </Link>
-        </motion.div>
+          </a>
 
-        {/* PRESS LINK */}
-        <motion.div
-          ref={pressLinkRef}
-          initial={{ opacity: 0, y: 20 }}
-          animate={isPressLinkInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-sm sm:text-xl text-(--color-text-secondary) text-balance text-center"
-        >
-          <Link
-            href={
-              'https://www.diariovasco.com/tamborrada/tamborradatacom-fiesta-datos-20260116073402-nt.html'
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-(--eye-catching-text) transition-colors duration-300 focus:outline-none focus-visible:underline focus-visible:text-(--eye-catching-text)"
-          >
-            Diario Vasco · 16 ene 2026 · Por
-            <span className="sr-only"> (abre en nueva ventana)</span>
-          </Link>{' '}
-          <Link
-            href={'https://www.diariovasco.com/autor/jorge-f-mendiola-709.html'}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-(--color-text) font-bold hover:text-(--eye-catching-text) transition-colors duration-300 focus:outline-none focus-visible:underline focus-visible:text-(--eye-catching-text)"
-          >
-            Jorge F. Mendiola
-            <span className="sr-only"> (abre en nueva ventana)</span>
-          </Link>
-        </motion.div>
-      </article>
+          {/* Source details */}
+          <Card title={t('source')} description={`${t('date')} · ${t('by')}`}>
+            <p className="mb-5 text-[13.5px] leading-[1.65] text-text-secondary">{t('summary')}</p>
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href={ARTICLE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonStyles({ variant: 'ghost', size: 'sm' })}
+              >
+                {t('readMore')} →<span className="sr-only"> {t('newWindow')}</span>
+              </a>
+              <a
+                href={AUTHOR_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-[11px] text-text-secondary transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                {t('by')}
+                <span className="sr-only"> {t('newWindow')}</span>
+              </a>
+            </div>
+          </Card>
+        </div>
+      </Container>
     </section>
   );
 }

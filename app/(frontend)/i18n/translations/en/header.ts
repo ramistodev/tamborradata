@@ -8,6 +8,9 @@ export default {
   openMenu: 'Open navigation menu',
   closeMenu: 'Close navigation menu',
   menuLabel: 'Navigation menu',
-  statisticsToggle: 'Show statistics options',
   statisticsOptions: 'Statistics options',
+  language: 'Language',
+  skipToContent: 'Skip to content',
+  periodsLabel: 'Available periods',
+  periodsCount: '{count, plural, one {# period} other {# periods}}',
 } satisfies typeof header;

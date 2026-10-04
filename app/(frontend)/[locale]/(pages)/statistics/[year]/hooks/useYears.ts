@@ -1,4 +1,3 @@
-import { useStatisticsQuery } from '@/app/(frontend)/[locale]/hooks/query/useStatisticsQuery';
 import { useParams } from 'next/navigation';
 import { Statistics } from '../types/types';
 

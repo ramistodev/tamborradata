@@ -13,7 +13,7 @@ const getCachedPeriods = unstable_cache(periodService, ['periods'], {
 // cache() dedupes calls within one request; unstable_cache persists across requests.
 export const getPeriods = cache(async (): Promise<PeriodResponse[]> => {
   try {
-    return await getCachedPeriods();
+    return (await getCachedPeriods()).sort((a, b) => b.periodKey.localeCompare(a.periodKey));
   } catch (error) {
     return handleServiceError(error);
   }

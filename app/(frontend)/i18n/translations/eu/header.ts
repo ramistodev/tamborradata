@@ -8,6 +8,9 @@ export default {
   openMenu: 'Nabigazio menua ireki',
   closeMenu: 'Nabigazio menua itxi',
   menuLabel: 'Nabigazio menua',
-  statisticsToggle: 'Estatistiken aukerak erakutsi',
   statisticsOptions: 'Estatistiken aukerak',
+  language: 'Hizkuntza',
+  skipToContent: 'Edukira salto egin',
+  periodsLabel: 'Eskuragarri dauden aldiak',
+  periodsCount: '{count, plural, one {# aldi} other {# aldi}}',
 } satisfies typeof header;
