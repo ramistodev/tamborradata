@@ -1,58 +1,26 @@
-'use client';
-import { useIntro } from './hooks/useIntro';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/app/(frontend)/i18n/navigation';
 import { Icons } from '@/app/(frontend)/[locale]/components';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { buttonStyles, Container } from '@/app/(frontend)/[locale]/components/ui';
 
-export function Intro() {
-  const { randomPhrase } = useIntro();
+export async function Intro() {
+  const t = await getTranslations('Landing.hero');
+
   return (
-    <section className="relative w-full h-screen flex flex-col items-center justify-center md:p-8">
-      <div className="w-full max-w-250 flex flex-col items-center justify-evenly gap-5">
-        {/* HEADER */}
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            opacity: { duration: 0.6, ease: 'linear' },
-          }}
-          className="text-4xl sm:text-5xl md:text-7xl text-balance font-bold text-(--eye-catching-text) text-center leading-tight"
-        >
-          <span className="block md:hidden">La Tamborrada vista en datos</span>
-          <span className="hidden md:inline">La Tamborrada vista desde los datos</span>
-        </motion.h1>
+    <section className="relative flex min-h-[calc(100dvh-61px)] w-full items-center py-16">
+      <Container className="flex flex-col items-start gap-6">
+        <h1 className="font-title text-[clamp(1.8rem,4.5vw,4.8rem)] leading-[1.05] font-extrabold tracking-[-0.03em] text-balance">
+          {t('titleLead')} <span className="text-accent">{t('titleAccent')}</span>
+        </h1>
 
-        {/* SUBHEADER */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            opacity: { duration: 0.4, ease: 'linear', delay: 0.2 },
-          }}
-          className="text-lg text-balance md:text-2xl text-center text-(--color-text-secondary)"
-        >
-          {randomPhrase}
-        </motion.p>
+        <p className="max-w-160 text-[clamp(0.95rem,1.6vw,1.1rem)] leading-[1.65] text-balance text-text-secondary">
+          {t('subtitle')}
+        </p>
 
-        {/* BUTTON */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            opacity: { duration: 0.6, ease: 'linear', delay: 0.6 },
-          }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="mt-16 rounded bg-(--eye-catching-text) cursor-pointer hover:opacity-80 flex items-center gap-2 text-center"
-        >
-          <Link
-            href="/statistics/global"
-            className="flex text-lg sm:text-2xl items-center gap-2 py-3 px-5"
-          >
-            Explora las estadísticas <Icons.ArrowRight />
-          </Link>
-        </motion.div>
-      </div>
+        <Link href="/statistics/global" className={buttonStyles({ className: 'mt-4' })}>
+          {t('cta')} <Icons.ArrowRight />
+        </Link>
+      </Container>
     </section>
   );
 }
