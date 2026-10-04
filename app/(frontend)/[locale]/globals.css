@@ -1,5 +1,21 @@
 @import 'tailwindcss';
 
+/* ─── Animations ─────────────────────────────────────────────────────────── */
+@theme {
+  --animate-drop-in: drop-in 0.16s ease-out;
+
+  @keyframes drop-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
 /* ─── Tailwind v4 theme tokens ──────────────────────────────────────────── */
 @theme inline {
   /* Backgrounds */
@@ -14,6 +30,10 @@
   --color-accent: var(--accent);
   --color-accent-dim: var(--accent-dim);
   --color-accent-glow: var(--accent-glow);
+
+  /* Status */
+  --color-success: var(--success);
+  --color-danger: var(--danger);
 
   /* Text */
   --color-text: var(--text);
@@ -43,6 +63,10 @@
   --accent: #0050cc;
   --accent-dim: #003e9e;
   --accent-glow: rgba(0, 80, 204, 0.08);
+
+  /* Status */
+  --success: #168a5b;
+  --danger: #c0384a;
 
   /* Text */
   --text: #08101f;
@@ -82,6 +106,10 @@
     --accent: #4d8cff;
     --accent-dim: #2c6cd9;
     --accent-glow: rgba(77, 140, 255, 0.12);
+
+    /* Status */
+    --success: #3cb884;
+    --danger: #d95a6a;
 
     /* Text */
     --text: #e8edf7;
