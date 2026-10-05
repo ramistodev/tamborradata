@@ -1,9 +1,9 @@
-import { Orbitron, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
+import { Sora, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 
 // Fonts
-export const orbitron = Orbitron({
+export const sora = Sora({
   subsets: ['latin'],
-  variable: '--font-orbitron',
+  variable: '--font-sora',
   display: 'swap',
 });
 export const spaceGrotesk = Space_Grotesk({
