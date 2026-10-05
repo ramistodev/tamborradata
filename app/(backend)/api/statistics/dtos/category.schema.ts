@@ -1,13 +1,13 @@
 import 'server-only';
 import { ValidationError } from '../../../lib/errors';
-import { parsePeriodKey } from '../../../lib/period';
+import { parsePublicSlug } from '../../../lib/period';
 import { clampLimit } from '../lib/pagination';
 import { statisticCategories, StatisticCategories } from '../../../../types/statistics';
 
 const VALID_CATEGORIES = new Set<string>(Object.values(statisticCategories));
 
 export interface CategoryDetailParams {
-  periodKey: string;
+  publicSlug: string;
   category: StatisticCategories;
   limit: number;
   /** Token opaco del `nextCursor` de una página anterior; su contenido depende de la forma de datos. */
@@ -22,14 +22,14 @@ export interface CategoryDetailQuery {
 }
 
 export function checkCategoryDetailParams(query: CategoryDetailQuery): CategoryDetailParams {
-  const periodKey = parsePeriodKey(query.period);
+  const publicSlug = parsePublicSlug(query.period, 'period');
 
   if (!query.category || !VALID_CATEGORIES.has(query.category)) {
     throw new ValidationError("The 'category' parameter must be a known statistic category");
   }
 
   return {
-    periodKey,
+    publicSlug,
     category: query.category as StatisticCategories,
     limit: clampLimit(parseOptionalPositiveInt(query.limit, 'limit')),
     cursor: query.cursor ?? undefined,

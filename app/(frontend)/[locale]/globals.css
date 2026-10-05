@@ -166,10 +166,3 @@ h5,
 h6 {
   font-family: var(--ff-title);
 }
-
-p,
-li,
-td,
-th {
-  font-family: var(--ff-sans);
-}

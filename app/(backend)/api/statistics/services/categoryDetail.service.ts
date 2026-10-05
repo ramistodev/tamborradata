@@ -23,8 +23,8 @@ import type { StatisticsHeader } from '../types';
 export async function categoryDetailService(
   params: CategoryDetailParams
 ): Promise<CategoryDetailResponse> {
-  const { periodKey, category, limit, cursor } = params;
-  const { runId, kind } = await getPublishedPeriod(periodKey);
+  const { publicSlug, category, limit, cursor } = params;
+  const { runId, kind } = await getPublishedPeriod(publicSlug);
   const [statistic, allSchoolsById] = await Promise.all([
     getPublishedStatisticByCategory(runId, category),
     loadAllSchoolsById(),

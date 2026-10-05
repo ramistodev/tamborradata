@@ -1,22 +1,38 @@
 import Script from 'next/script';
+import { getLocale, getTranslations } from 'next-intl/server';
+import { getAlternates, getLanguageTag } from '../../../i18n/seo';
 
-export function YearStructuredData({ year }: { year: string }) {
-  const pageTitle = `Estadísticas de la Tamborrada Infantil ${year}`;
-  const pageDescription = `Análisis de la Tamborrada Infantil ${year}: participantes, nombres más comunes, colegios destacados y tendencias anuales.`;
-  const canonicalUrl = `https://tamborradata.com/statistics/${year}`;
-  const publicationDate = `${year}-01-20`;
-  const publicationDateISO = `${publicationDate}T00:00:00.000Z`;
+export async function PeriodStructuredData({
+  period,
+  publishedAt,
+  updatedAt,
+}: {
+  period: string;
+  /** ISO date strings straight from the period metadata */
+  publishedAt: string;
+  updatedAt: string;
+}) {
+  const locale = await getLocale();
+  const t = await getTranslations('Statistics');
+
+  const pageTitle = t('period.title', { period });
+  const pageDescription = t('period.description', { period });
+  const canonicalUrl = getAlternates(locale, `/statistics/${period}`).canonical;
+  const statisticsUrl = getAlternates(locale, '/statistics').canonical;
+  const homeUrl = getAlternates(locale, '/').canonical;
+  const language = getLanguageTag(locale);
+  const publicationDate = `${period}-01-20`;
   const imageUrl = 'https://tamborradata.com/og-image.webp';
 
   const datasetStructuredData = {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
     name: pageTitle,
-    description: `${pageDescription} Dataset detallado con participación, nombres, apellidos y colegios.`,
+    description: t('structuredData.datasetDescription', { description: pageDescription }),
     url: canonicalUrl,
     license: 'https://creativecommons.org/licenses/by-sa/4.0/',
     temporalCoverage: publicationDate,
-    inLanguage: 'es-ES',
+    inLanguage: language,
     spatialCoverage: {
       '@type': 'Place',
       name: 'Donostia / San Sebastián, Gipuzkoa',
@@ -37,11 +53,11 @@ export function YearStructuredData({ year }: { year: string }) {
       '@type': 'Person',
       name: 'Ramistodev',
     },
-    datePublished: publicationDateISO,
-    dateModified: publicationDateISO,
+    datePublished: publishedAt,
+    dateModified: updatedAt,
     mainEntityOfPage: canonicalUrl,
     image: imageUrl,
-    inLanguage: 'es-ES',
+    inLanguage: language,
     publisher: {
       '@type': 'Organization',
       name: 'Tamborradata',
@@ -59,105 +75,72 @@ export function YearStructuredData({ year }: { year: string }) {
     url: canonicalUrl,
     description: pageDescription,
     image: imageUrl,
-    inLanguage: 'es-ES',
+    inLanguage: language,
     breadcrumb: {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://tamborradata.com' },
+        { '@type': 'ListItem', position: 1, name: t('structuredData.home'), item: homeUrl },
         {
           '@type': 'ListItem',
           position: 2,
-          name: 'Estadísticas por Año',
-          item: 'https://tamborradata.com/statistics',
+          name: t('structuredData.statistics'),
+          item: statisticsUrl,
         },
         {
           '@type': 'ListItem',
           position: 3,
-          name: `Tamborrada Infantil ${year}`,
+          name: t('structuredData.breadcrumbPeriod', { period }),
           item: canonicalUrl,
         },
       ],
     },
   };
 
+  const faqEntries = [
+    ['namesQuestion', t('structuredData.namesAnswer', { period })],
+    ['surnamesQuestion', t('structuredData.surnamesAnswer', { period })],
+    ['schoolsQuestion', t('structuredData.schoolsAnswer', { period })],
+    ['newNamesQuestion', t('structuredData.newNamesAnswer', { period })],
+    ['participantsQuestion', t('structuredData.participantsAnswer', { period })],
+    ['summaryQuestion', pageDescription],
+  ] as const;
+
   const faqStructuredData = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    inLanguage: 'es-ES',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: `¿Cuáles fueron los nombres más repetidos en la Tamborrada Infantil ${year}?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `Ranking de nombres más habituales de la Tamborrada Infantil ${year}, con los que lideran la clasificación anual.`,
-        },
+    inLanguage: language,
+    mainEntity: faqEntries.map(([question, answer]) => ({
+      '@type': 'Question',
+      name: t(`structuredData.${question}`, { period }),
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: answer,
       },
-      {
-        '@type': 'Question',
-        name: `¿Qué apellidos destacaron en la Tamborrada Infantil ${year}?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `Listado de apellidos más frecuentes registrados en la edición ${year}.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: `¿Qué colegios tuvieron mayor participación en ${year}?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `Colegios con mayor presencia en la Tamborrada Infantil ${year} y centros que se incorporan.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: `¿Hubo nombres nuevos en la Tamborrada Infantil ${year}?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `Nombres que aparecen por primera vez en la Tamborrada Infantil ${year}.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: `¿Cuántos participantes hubo en la Tamborrada Infantil ${year}?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `Participación total estimada de niños y niñas tamborreros/as en ${year}.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: `¿Dónde puedo ver el resumen de la Tamborrada Infantil ${year}?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: pageDescription,
-        },
-      },
-    ],
+    })),
   };
 
   return (
     <>
       <Script
-        id="dataset-year-structured-data"
+        id="dataset-period-structured-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetStructuredData) }}
       />
 
       <Script
-        id="article-year-structured-data"
+        id="article-period-structured-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleStructuredData) }}
       />
 
       <Script
-        id="webpage-year-structured-data"
+        id="webpage-period-structured-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webpageStructuredData) }}
       />
 
       <Script
-        id="faq-year-structured-data"
+        id="faq-period-structured-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
       />

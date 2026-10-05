@@ -2,6 +2,7 @@ import { editorialSections, categoryDataShape } from '../../../../types/statisti
 import type {
   EditorialTemplate,
   OverviewStatistic,
+  PeriodData,
   StatisticCategory,
   StatisticFamily,
   StatisticsResponse,
@@ -34,7 +35,7 @@ type LoadedValueData = {
 
 // Punto de entrada: arma la respuesta completa del período (overview, familias, intro/outro) a partir de los datos ya obtenidos.
 export function buildStatisticsResponse(
-  periodKey: string,
+  metaData: PeriodData,
   summaries: PublishedEditorialSection[],
   categoryData: LoadedStatisticData[],
   overviewData: LoadedValueData[],
@@ -46,7 +47,7 @@ export function buildStatisticsResponse(
   const editorialTemplates = resolveEditorialTemplates(summaries, allSchoolsById);
 
   return createResponse(
-    periodKey,
+    metaData,
     editorialTemplates,
     assignCategoriesToFamilies(categoryData, editorialTemplates, categories),
     buildOverview(overviewData, allSchoolsById)
@@ -158,13 +159,13 @@ function buildOverview(
 
 // Ensambla el objeto final de respuesta: mete overview y families, y separa intro/outro del resto de secciones.
 function createResponse(
-  periodKey: string,
+  metaData: PeriodData,
   editorialTemplates: EditorialTemplate[],
   families: StatisticFamily[],
   overview: OverviewStatistic[]
 ): StatisticsResponse {
   const response: StatisticsResponse = {
-    period: periodKey,
+    metaData,
     overview,
     intro: { section: '', summary: '' },
     families,

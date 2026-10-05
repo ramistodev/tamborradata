@@ -9,7 +9,7 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
       <main
         id="main-content"
         tabIndex={-1}
-        className="relative w-full flex-1 m-0 px-3 sm:px-5 flex flex-col items-center justify-between focus:outline-none"
+        className="flex-1 relative w-full flex flex-col items-center justify-between focus:outline-none"
       >
         {children}
       </main>
