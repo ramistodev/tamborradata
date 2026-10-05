@@ -1,7 +1,16 @@
+import type { PeriodKind } from '../period.types';
 import type { categoryDataShape, PresentationsFor, StatisticCategories } from '../statistics';
 
-export interface StatisticsResponse {
+export interface PeriodData {
+  /** Public slug of the period (the one used in URLs). */
   period: string;
+  periodKind: PeriodKind;
+  publishedAt: string;
+  updatedAt: string;
+}
+
+export interface StatisticsResponse {
+  metaData: PeriodData;
   overview: OverviewStatistic[];
   intro: IntroOutro;
   families: StatisticFamily[];
@@ -9,7 +18,7 @@ export interface StatisticsResponse {
 }
 
 export interface SummariesResponse {
-  period: string;
+  metaData: PeriodData;
   locale: string;
   summaries: EditorialTemplate[];
 }

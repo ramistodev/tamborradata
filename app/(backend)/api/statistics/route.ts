@@ -6,10 +6,10 @@ import { cacheControlFor } from '../../lib/cache';
 
 export async function GET(req: Request) {
   try {
-    const periodKey = new URL(req.url).searchParams.get('periodKey');
+    const publicSlug = new URL(req.url).searchParams.get('publicSlug');
     const locale = new URL(req.url).searchParams.get('locale');
 
-    const statistics = await statisticsService(checkParams(periodKey, locale));
+    const statistics = await statisticsService(checkParams(publicSlug, locale));
 
     // Devuelve JSON limpio con las estadísticas del año
     return res.ok(statistics, cacheControlFor.preview());

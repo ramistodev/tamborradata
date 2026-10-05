@@ -27,9 +27,9 @@ import type {
 import { CursorPage } from '../lib/pagination';
 
 export async function statisticsService(params: StatisticParams): Promise<StatisticsResponse> {
-  const { periodKey, locale } = params;
+  const { publicSlug, locale } = params;
 
-  const publishedPeriod = await getPublishedPeriod(periodKey); // runId publicado y tipo de periodo
+  const publishedPeriod = await getPublishedPeriod(publicSlug); // runId publicado y tipo de periodo
   const [statistics, summaries, allSchoolsById] = await Promise.all([
     getPublishedStatisticHeaders(publishedPeriod.runId),
     getPublishedEditorialSections(publishedPeriod.runId, locale),
@@ -58,7 +58,13 @@ export async function statisticsService(params: StatisticParams): Promise<Statis
     return entry ? [{ statistic, data: entry.data as StatisticValueRaw[] }] : [];
   });
 
-  return buildStatisticsResponse(periodKey, summaries, categoryData, overviewData, allSchoolsById);
+  return buildStatisticsResponse(
+    publishedPeriod.metaData,
+    summaries,
+    categoryData,
+    overviewData,
+    allSchoolsById
+  );
 }
 
 async function getRawStatisticData(

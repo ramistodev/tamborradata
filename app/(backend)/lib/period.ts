@@ -1,22 +1,18 @@
 import { ValidationError } from './errors';
-import { periodKind } from '../../types/period.types';
 
-const YEAR_PERIOD_KEY_REGEX = /^year:\d{4}$/;
+const PUBLIC_SLUG_REGEX = /^[\w-]{1,64}$/;
 
-export function parsePeriodKey(periodKey: string | null, paramName = 'period'): string {
-  if (!periodKey) {
+/** Validates the shape of a public slug. Whether it exists is decided by the DB lookup (404). */
+export function parsePublicSlug(publicSlug: string | null, paramName = 'publicSlug'): string {
+  if (!publicSlug) {
     throw new ValidationError(`The '${paramName}' parameter is required`);
   }
 
-  const cleanPeriodKey = periodKey.trim();
-  const isGlobal = cleanPeriodKey === periodKind.global;
-  const isYear = YEAR_PERIOD_KEY_REGEX.test(cleanPeriodKey);
+  const cleanPublicSlug = publicSlug.trim();
 
-  if (!isGlobal && !isYear) {
-    throw new ValidationError(
-      `The '${paramName}' parameter must be 'global' or have the format 'year:YYYY'`
-    );
+  if (!PUBLIC_SLUG_REGEX.test(cleanPublicSlug)) {
+    throw new ValidationError(`The '${paramName}' parameter is not a valid public slug`);
   }
 
-  return cleanPeriodKey;
+  return cleanPublicSlug;
 }
