@@ -25,6 +25,11 @@ export function getAlternates(locale: Locale, href: string) {
   };
 }
 
+/** BCP 47 language tag of a locale (es-ES, eu-ES, en-US), e.g. for JSON-LD `inLanguage`. */
+export function getLanguageTag(locale: Locale) {
+  return openGraphLocales[locale].replace('_', '-');
+}
+
 /** `og:locale` and `og:locale:alternate` values for a locale. */
 export function getOpenGraphLocales(locale: Locale) {
   return {
