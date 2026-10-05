@@ -7,15 +7,15 @@ import { getPublishedEditorialSections } from '../repositories/editorialSections
 import { resolveEditorialTemplates } from './buildStatisticsResponse';
 
 export async function summariesService(params: SummariesParams): Promise<SummariesResponse> {
-  const { periodKey, locale } = params;
-  const { runId } = await getPublishedPeriod(periodKey);
+  const { publicSlug, locale } = params;
+  const { runId, metaData } = await getPublishedPeriod(publicSlug);
   const [summaries, allSchoolsById] = await Promise.all([
     getPublishedEditorialSections(runId, locale),
     loadAllSchoolsById(),
   ]);
 
   return {
-    period: periodKey,
+    metaData,
     locale,
     summaries: resolveEditorialTemplates(summaries, allSchoolsById),
   };

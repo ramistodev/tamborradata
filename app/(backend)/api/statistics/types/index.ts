@@ -6,17 +6,18 @@ import {
   CategoryRendererKey,
   statisticCategories,
 } from '../../../../types/statistics';
-import type { School } from '@/app/types/api/statistics.types';
+import type { PeriodData, School } from '@/app/types/api/statistics.types';
 import { PeriodKind } from '../../../../types/period.types';
 
 export type StatisticParams = {
-  periodKey: string;
+  publicSlug: string;
   locale: string;
 };
 
 export interface PublishedPeriod {
   runId: string;
   kind: PeriodKind;
+  metaData: PeriodData;
 }
 
 export type AllSchoolsById = Map<string, School>;
