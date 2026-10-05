@@ -8,7 +8,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { StructuredData } from './config/structured-data/StructuredData';
 import { ReactQueryProvider } from './providers/ReactQueryProvider';
 import { LayoutContent } from './LayoutContent';
-import { orbitron, spaceGrotesk, jetbrainsMono } from './config/fonts';
+import { sora, spaceGrotesk, jetbrainsMono } from './config/fonts';
 import { routing } from '../i18n/routing';
 import { getOpenGraphLocales } from '../i18n/seo';
 
@@ -29,7 +29,7 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
-      className={`${orbitron.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+      className={`${sora.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <head>
         <meta charSet="UTF-8" />

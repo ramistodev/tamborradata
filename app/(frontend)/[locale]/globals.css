@@ -83,11 +83,11 @@
   --grid-opacity: 1;
 
   /* Type
-   * Orbitron       → h1, hero and main headings
+   * Sora           → h1, hero and main headings
    * Space Grotesk  → body text, navigation and general UI
    * JetBrains Mono → numbers, KPIs, rankings and data
    */
-  --ff-title: var(--font-orbitron), Arial, sans-serif;
+  --ff-title: var(--font-sora), Arial, sans-serif;
   --ff-sans: var(--font-space-grotesk), Arial, sans-serif;
   --ff-mono: var(--font-jetbrains-mono), monospace;
 }
