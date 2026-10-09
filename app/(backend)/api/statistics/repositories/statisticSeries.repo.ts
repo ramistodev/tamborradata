@@ -2,9 +2,10 @@ import 'server-only';
 import { supabaseClient } from '../../../core/db/supabaseClient';
 import { ServerError, ValidationError } from '../../../lib/errors';
 import { tables } from '../../../../types/dbSchema';
+import { entityType } from '../../../../types/statistics';
 import { StatisticSeriesPointRaw } from '../types';
 import { buildCursorPage, CursorPage, CursorPageRequest } from '../lib/pagination';
-import { PREVIEW_ENTITIES, PREVIEW_PERIODS } from '../lib/preview';
+import { PREVIEW_ENTITIES, PREVIEW_PERIODS, PREVIEW_SCHOOLS } from '../lib/preview';
 import { decodeSeriesCursor, encodeSeriesCursor } from '../../../lib/encript';
 
 const SERIES_COLUMNS =
@@ -15,9 +16,12 @@ const SERIES_COLUMNS =
  * las `PREVIEW_ENTITIES` entidades principales (por valor agregado dentro de esa ventana), cada una
  * con su línea completa dentro de la ventana. Ordenar por agregado exige agrupar todas las filas,
  * por eso vive en la función de base de datos `get_top_statistic_series` en lugar de descargar una
- * categoría entera como surnameTrends (~10k entidades). Una serie sin `entity_key` (agregado
- * global, una línea por colegio) ya está acotada, así que la misma llamada solo la recorta a los
- * últimos periodos.
+ * categoría entera como surnameTrends (~10k entidades). Un agregado global (sin entidad ni
+ * colegio) ya está acotado, así que la misma llamada solo lo recorta a los últimos periodos.
+ *
+ * Una serie por colegio (schoolsEvolution, schoolGrowthRate) devuelve los `PREVIEW_SCHOOLS`
+ * colegios que participaron en más ediciones de la ventana, los de más participantes primero, de
+ * modo que cada línea llega completa y todas las series por colegio muestran los mismos colegios.
  */
 export async function getStatisticSeriesPreview(
   statisticId: string
@@ -26,6 +30,7 @@ export async function getStatisticSeriesPreview(
     p_statistic_id: statisticId,
     p_limit: PREVIEW_ENTITIES,
     p_periods: PREVIEW_PERIODS,
+    p_school_limit: PREVIEW_SCHOOLS,
   });
 
   if (error) {
@@ -54,7 +59,7 @@ async function isEntityKeyedSeries(statisticId: string): Promise<boolean> {
     );
   }
 
-  return peek?.entity_type === 'name' || peek?.entity_type === 'surname';
+  return peek?.entity_type === entityType.name || peek?.entity_type === entityType.surname;
 }
 
 async function getFullStatisticSeries(statisticId: string): Promise<StatisticSeriesPointRaw[]> {

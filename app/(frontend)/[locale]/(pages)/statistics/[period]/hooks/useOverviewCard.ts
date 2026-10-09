@@ -1,7 +1,12 @@
 import { useFormatter, useTranslations } from 'next-intl';
 import { OverviewStatistic, PeriodData } from '@/app/types/api/statistics.types';
 import { periodKind } from '@/app/types/period.types';
-import { statisticCategories } from '@/app/types/statistics';
+import {
+  overviewMetricKey,
+  StatisticCategories,
+  OverviewMetricKey,
+  statisticCategories,
+} from '@/app/types/statistics';
 
 export type MetricSize = 'hero' | 'large' | 'normal';
 export type MetricTone = 'default' | 'accent' | 'positive' | 'negative';
@@ -31,24 +36,24 @@ export function useOverviewCard({
   const isGlobal = periodData.periodKind === periodKind.global;
 
   // ── Raw values ──────────────────────────────────────────────────────────
-  const getValue = (category: string, metricKey: string) =>
+  const getValue = (category: StatisticCategories, metricKey: OverviewMetricKey) =>
     overview.find((item) => item.category === category && item.metricKey === metricKey)
       ?.valueNumeric ?? null;
 
-  const participants = getValue(statisticCategories.totalParticipants, 'participant_count');
-  const growth = getValue(statisticCategories.participantsGrowthRate, 'growth_rate');
+  const participants = getValue(statisticCategories.totalParticipants, overviewMetricKey.participantCount);
+  const growth = getValue(statisticCategories.participantsGrowthRate, overviewMetricKey.growthRate);
   const recordCount = getValue(
     statisticCategories.participationRecordYears,
-    'record_participant_count'
+    overviewMetricKey.recordParticipantCount
   );
-  const recordYear = getValue(statisticCategories.participationRecordYears, 'record_year');
+  const recordYear = getValue(statisticCategories.participationRecordYears, overviewMetricKey.recordYear);
   const multipleNames = getValue(
     statisticCategories.participantsWithMultipleNames,
-    'participants_with_multiple_names'
+    overviewMetricKey.participantsWithMultipleNames
   );
   const multipleNamesRate = getValue(
     statisticCategories.participantsWithMultipleNames,
-    'multiple_names_rate'
+    overviewMetricKey.multipleNamesRate
   );
 
   // ── Formatting ──────────────────────────────────────────────────────────
@@ -148,13 +153,13 @@ export function useOverviewCard({
   const diversityRow = [
     diversityMetric(
       t('distinctNames'),
-      getValue(statisticCategories.namesDiversity, 'distinct_count'),
-      getValue(statisticCategories.namesDiversity, 'diversity_percentage')
+      getValue(statisticCategories.namesDiversity, overviewMetricKey.distinctCount),
+      getValue(statisticCategories.namesDiversity, overviewMetricKey.diversityPercentage)
     ),
     diversityMetric(
       t('distinctSurnames'),
-      getValue(statisticCategories.surnamesDiversity, 'distinct_count'),
-      getValue(statisticCategories.surnamesDiversity, 'diversity_percentage')
+      getValue(statisticCategories.surnamesDiversity, overviewMetricKey.distinctCount),
+      getValue(statisticCategories.surnamesDiversity, overviewMetricKey.diversityPercentage)
     ),
     multipleNamesMetric(),
   ];
