@@ -89,7 +89,7 @@ function assignCategoriesToFamilies(
     return [
       {
         family: template.section,
-        summary: template.summary,
+        template,
         categories: categoriesByFamily.get(template.section) ?? [],
       },
     ];
@@ -167,9 +167,9 @@ function createResponse(
   const response: StatisticsResponse = {
     metaData,
     overview,
-    intro: { section: '', summary: '' },
+    intro: { section: editorialSections.periodIntro, summary: '' },
     families,
-    outro: { section: '', summary: '' },
+    outro: { section: editorialSections.periodOutro, summary: '' },
   };
 
   for (const template of editorialTemplates) {

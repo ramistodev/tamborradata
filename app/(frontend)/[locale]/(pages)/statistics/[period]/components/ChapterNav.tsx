@@ -1,5 +1,4 @@
 'use client';
-
 import { useTranslations } from 'next-intl';
 import { StatisticFamily } from '../../../../../../types/api/statistics.types';
 import { useChapterNav } from '../hooks/useChapterNav';

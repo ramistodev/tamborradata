@@ -1,3 +1,5 @@
+import 'server-only';
+
 export const isDev = process.env.NODE_ENV === 'development';
 
 export const nextPublicBaseUrl = process.env.NEXT_PUBLIC_BASE_URL!;

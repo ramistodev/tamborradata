@@ -6,11 +6,12 @@ import { Link, usePathname } from '../../../../../i18n/navigation';
 import { sortPeriods } from '../../../../components/Header/utils/sortPeriods';
 import { withMissingYears } from '../utils/withMissingYears';
 import { scrollToActiveElement } from '../utils/scrollToActiveElement';
+import { DragScroll } from '../../../../components/ui';
 
 /** Horizontal list of period links; years without an edition are shown as small dots. */
 export function PeriodSelector({ periods }: { periods: PeriodResponse[] }) {
-  const activePeriod = useRef<HTMLLIElement>(null);
-  const container = useRef<HTMLUListElement>(null);
+  const container = useRef<HTMLDivElement>(null);
+  const activePeriod = useRef<HTMLSpanElement>(null);
   const t = useTranslations('Statistics.periodSelector');
   const pathname = usePathname();
   const items = withMissingYears(sortPeriods(periods));
@@ -20,14 +21,14 @@ export function PeriodSelector({ periods }: { periods: PeriodResponse[] }) {
   }, []);
 
   return (
-    <ul
+    <DragScroll
       ref={container}
       className="flex flex-nowrap items-start gap-5 overflow-x-auto scrollbar-none pb-2"
     >
       {items.map((item) => {
         if (item.type === 'missing') {
           return (
-            <li
+            <span
               key={`missing-${item.year}`}
               aria-hidden="true"
               title={t('missingEdition', { year: item.year })}
@@ -40,21 +41,22 @@ export function PeriodSelector({ periods }: { periods: PeriodResponse[] }) {
         const href = `/statistics/${period.publicSlug}`;
         const isActive = pathname === href;
         return (
-          <li
+          <span
             ref={isActive ? activePeriod : null}
             key={period.publicSlug}
-            className={`shrink-0 hover:text-text px-2 py-1 border border-border rounded-md ${pathname === href ? 'bg-accent text-text cursor-default border-accent' : 'text-text-secondary border-border'}`}
+            className={`shrink-0 hover:text-text px-2 py-1 border border-border rounded-md select-none ${pathname === href ? 'bg-accent text-text cursor-default border-accent' : 'text-text-secondary border-border'}`}
           >
             <Link
               href={href}
+              onDragStart={(event) => event.preventDefault()}
               aria-current={pathname.includes(href) ? 'page' : undefined}
               className={`font-mono text-base block text-nowrap whitespace-nowrap transition-colors rounded-sm ${pathname === href ? 'cursor-default' : ''}`}
             >
               {period.publicSlug}
             </Link>
-          </li>
+          </span>
         );
       })}
-    </ul>
+    </DragScroll>
   );
 }

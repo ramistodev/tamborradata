@@ -4,14 +4,18 @@ import {
   StatisticCategories,
   CategoryDataShape,
   CategoryRendererKey,
+  EditorialSections,
+  EntityType,
+  overviewMetricKey,
   statisticCategories,
 } from '../../../../types/statistics';
 import type { PeriodData, School } from '@/app/types/api/statistics.types';
+import { Locale } from '../../../../types/locale';
 import { PeriodKind } from '../../../../types/period.types';
 
 export type StatisticParams = {
   publicSlug: string;
-  locale: string;
+  locale: Locale;
 };
 
 export interface PublishedPeriod {
@@ -33,7 +37,7 @@ export interface StatisticsHeader {
 export interface StatisticRankRaw {
   id: string;
   group_school_id?: string | null;
-  entity_type: string;
+  entity_type: EntityType;
   school_id?: string | null;
   entity_key?: string | null;
   entity_label?: string | null;
@@ -49,7 +53,7 @@ export interface StatisticValueRaw {
 }
 
 export interface StatisticSeriesPointRaw {
-  entity_type?: string | null;
+  entity_type?: EntityType | null;
   school_id?: string | null;
   entity_key?: string | null;
   entity_label?: string | null;
@@ -62,18 +66,24 @@ export interface StatisticSeriesPointRaw {
 export interface PublishedEditorialSection {
   id: string;
   template: string;
-  section: string;
-  locale: string;
+  section: EditorialSections;
+  locale: Locale;
 }
 
 export const overviewMetrics = {
-  [statisticCategories.totalParticipants]: ['participant_count'],
-  [statisticCategories.namesDiversity]: ['distinct_count', 'diversity_percentage'],
-  [statisticCategories.surnamesDiversity]: ['distinct_count', 'diversity_percentage'],
-  [statisticCategories.participantsWithMultipleNames]: [
-    'participants_with_multiple_names',
-    'multiple_names_rate',
+  [statisticCategories.totalParticipants]: [overviewMetricKey.participantCount],
+  [statisticCategories.namesDiversity]: [
+    overviewMetricKey.distinctCount,
+    overviewMetricKey.diversityPercentage,
   ],
-  [statisticCategories.participationRecordYears]: ['record_year', 'record_participant_count'],
-  [statisticCategories.participantsGrowthRate]: ['growth_rate'],
+  [statisticCategories.surnamesDiversity]: [
+    overviewMetricKey.distinctCount,
+    overviewMetricKey.diversityPercentage,
+  ],
+  [statisticCategories.participantsWithMultipleNames]: [
+    overviewMetricKey.participantsWithMultipleNames,
+    overviewMetricKey.multipleNamesRate,
+  ],
+  [statisticCategories.participationRecordYears]: [overviewMetricKey.recordYear, overviewMetricKey.recordParticipantCount],
+  [statisticCategories.participantsGrowthRate]: [overviewMetricKey.growthRate],
 } as const satisfies Partial<Record<StatisticCategories, readonly string[]>>;
