@@ -1,14 +1,15 @@
 import { MouseEvent } from 'react';
 import { useActiveChapter } from './useActiveChapter';
-import { CHAPTER_ORDER, OVERVIEW_CHAPTER_ID } from '../utils/chapters';
+import { OVERVIEW_CHAPTER_ID } from '../utils/chapters';
 import { StatisticFamily } from '../../../../../../types/api/statistics.types';
+import { CategoryFamilies } from '../../../../../../types/statistics';
 
 export function useChapterNav({ families }: { families: StatisticFamily[] }) {
-  const chapterIds = [
+  const chapterIds: (typeof OVERVIEW_CHAPTER_ID | CategoryFamilies)[] = [
     OVERVIEW_CHAPTER_ID,
-    ...CHAPTER_ORDER.filter((id) => families.some((family) => family.family === id)),
-  ] as const;
-  const { activeId, containerRef, activeRef } = useActiveChapter([...chapterIds]);
+    ...families.map((family) => family.family),
+  ];
+  const { activeId, containerRef, activeRef } = useActiveChapter(chapterIds);
 
   function jumpTo(event: MouseEvent<HTMLAnchorElement>, id: string) {
     event.preventDefault();

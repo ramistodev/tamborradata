@@ -27,7 +27,7 @@ export function Card({
 }: CardProps) {
   return (
     <section
-      className={`rounded-[14px] border bg-card p-5 sm:px-5.5 ${tones[tone]} ${className}`}
+      className={`rounded-[14px] border bg-card px-3 py-2 sm:px-5 sm:py-4 ${tones[tone]} ${className}`}
       {...props}
     >
       {(title || action) && (

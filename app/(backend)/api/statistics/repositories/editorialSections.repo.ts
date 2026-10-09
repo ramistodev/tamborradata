@@ -2,11 +2,12 @@ import 'server-only';
 import { supabaseClient } from '../../../core/db/supabaseClient';
 import { ServerError } from '../../../lib/errors';
 import { statisticSummariesStatus, tables } from '../../../../types/dbSchema';
+import { Locale } from '../../../../types/locale';
 import { PublishedEditorialSection } from '../types';
 
 export async function getPublishedEditorialSections(
   publishedRunId: string,
-  locale: string
+  locale: Locale
 ): Promise<PublishedEditorialSection[]> {
   const { data: summaries, error: summariesError } = await supabaseClient
     .from(tables.statisticSummaries)

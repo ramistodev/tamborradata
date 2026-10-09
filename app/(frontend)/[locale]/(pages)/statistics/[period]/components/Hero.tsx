@@ -1,13 +1,13 @@
 import { useTranslations } from 'next-intl';
 import { PeriodResponse } from '../../../../../../types/api/period.types';
 import {
-  IntroOutro,
+  EditorialTemplate,
   OverviewStatistic,
   PeriodData,
 } from '../../../../../../types/api/statistics.types';
 import { periodKind } from '../../../../../../types/period.types';
 import { OVERVIEW_CHAPTER_ID } from '../utils/chapters';
-import { IntroOutroParagraphs } from './IntroOutroParagraphs';
+import { SummaryParagraphs } from './SummaryParagraphs';
 import { OverviewCard } from './OverviewCard';
 import { PeriodSelector } from './PeriodSelector';
 import { PublishDates } from './PublishDates';
@@ -21,7 +21,7 @@ export function Hero({
   periods: PeriodResponse[];
   periodData: PeriodData;
   overview: OverviewStatistic[];
-  intro: IntroOutro;
+  intro: EditorialTemplate;
 }) {
   const t = useTranslations('Statistics');
   const isYear = periodData.periodKind === periodKind.year;
@@ -49,7 +49,7 @@ export function Hero({
       </div>
       <div className="w-full flex flex-col gap-8">
         <OverviewCard overview={overview} periodData={periodData} />
-        <IntroOutroParagraphs p={intro} />
+        <SummaryParagraphs p={intro} />
       </div>
     </section>
   );

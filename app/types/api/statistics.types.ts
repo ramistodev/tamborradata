@@ -1,8 +1,15 @@
+import type { Locale } from '../locale';
 import type { PeriodKind } from '../period.types';
-import type { categoryDataShape, PresentationsFor, StatisticCategories } from '../statistics';
+import type {
+  categoryDataShape,
+  CategoryFamilies,
+  EditorialSections,
+  EntityType,
+  PresentationsFor,
+  StatisticCategories,
+} from '../statistics';
 
 export interface PeriodData {
-  /** Public slug of the period (the one used in URLs). */
   period: string;
   periodKind: PeriodKind;
   publishedAt: string;
@@ -12,14 +19,14 @@ export interface PeriodData {
 export interface StatisticsResponse {
   metaData: PeriodData;
   overview: OverviewStatistic[];
-  intro: IntroOutro;
+  intro: EditorialTemplate;
   families: StatisticFamily[];
-  outro: IntroOutro;
+  outro: EditorialTemplate;
 }
 
 export interface SummariesResponse {
   metaData: PeriodData;
-  locale: string;
+  locale: Locale;
   summaries: EditorialTemplate[];
 }
 
@@ -31,7 +38,7 @@ export interface School {
 
 export interface StatisticRank {
   groupSchool?: School;
-  entityType: string;
+  entityType: EntityType;
   school?: School;
   entityKey?: string;
   entityLabel?: string;
@@ -55,7 +62,7 @@ export interface OverviewStatistic {
 }
 
 export interface StatisticSeriesPoint {
-  entityType?: string;
+  entityType?: EntityType;
   school?: School;
   entityKey?: string;
   entityLabel?: string;
@@ -65,13 +72,8 @@ export interface StatisticSeriesPoint {
   value?: number;
 }
 
-export interface IntroOutro {
-  section: string;
-  summary: string;
-}
-
 export interface EditorialTemplate {
-  section: string;
+  section: EditorialSections;
   summary: string;
 }
 
@@ -81,8 +83,8 @@ export interface PageInfo {
 }
 
 export interface StatisticFamily {
-  family: string;
-  summary: string;
+  family: CategoryFamilies;
+  template: EditorialTemplate;
   categories: StatisticCategory[];
 }
 
@@ -106,6 +108,28 @@ export type StatisticCategory =
       dataShape: typeof categoryDataShape.series;
       data: StatisticSeriesPoint[];
     });
+
+export type RankCategory = Extract<
+  StatisticCategory,
+  { dataShape: typeof categoryDataShape.ranks }
+>;
+
+export type ValuesCategory = Extract<
+  StatisticCategory,
+  { dataShape: typeof categoryDataShape.values }
+>;
+
+export type SeriesCategory = Extract<
+  StatisticCategory,
+  { dataShape: typeof categoryDataShape.series }
+>;
+
+export interface CategoryDetailRequest {
+  period: string;
+  category: StatisticCategories;
+  cursor?: string;
+  limit?: number;
+}
 
 export type CategoryDetailResponse =
   | (CategoryHeaderInfo & {

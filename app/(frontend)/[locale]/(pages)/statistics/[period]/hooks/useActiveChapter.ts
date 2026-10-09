@@ -32,13 +32,7 @@ export function useActiveChapter(chapterIds: string[]) {
   // Runs after the render that moved `activeRef` to the new item, whether the change came from
   // scrolling the page or from clicking a link.
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    scrollToActiveElement(
-      containerRef.current,
-      activeRef.current,
-      prefersReducedMotion ? 'instant' : 'smooth'
-    );
+    scrollToActiveElement(containerRef.current, activeRef.current, 'smooth');
   }, [activeId]);
 
   return { activeId, containerRef, activeRef };
