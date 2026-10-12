@@ -49,6 +49,7 @@ export async function statisticsService(params: StatisticParams): Promise<Statis
   );
 
   const overviewStatistics = selectOverviewStatistics(statistics);
+
   // Crear un map con [statistic.id, data] para poder filtrarla
   const categoryDataById = new Map(categoryData.map((entry) => [entry.statistic.id, entry]));
 
