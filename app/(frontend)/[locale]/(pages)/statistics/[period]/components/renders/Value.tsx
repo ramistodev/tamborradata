@@ -3,8 +3,11 @@ import type { ValuesCategory } from '../../../../../../../types/api/statistics.t
 import { formatMetric, metricFormat, METRICS, visibleMetrics } from '../../utils/metrics';
 
 /**
- * One values category: its title and description, the first metric as the big number and the rest
- * as a short list. Rendered on the server, so numbers are formatted once, with the real locale.
+ * One values category: title and description on top, then the first metric as the big number and
+ * the rest as a short list. Inside a `ValuesGrid` row all cards share the same width (`flex-1`,
+ * never below `min-w-*`) and the same height (the row stretches them), and the metrics block sticks
+ * to the bottom so the big numbers line up. Rendered on the server, so numbers are formatted once,
+ * with the real locale.
  */
 export function ValueRender({ category }: { category: ValuesCategory }) {
   const tCategory = useTranslations('Statistics.categories');
@@ -17,50 +20,48 @@ export function ValueRender({ category }: { category: ValuesCategory }) {
   }
 
   return (
-    <section className="flex flex-col gap-3 rounded-xl border border-border bg-card px-3 py-2 sm:px-5 sm:py-4">
-      <div className="flex flex-col gap-2">
-        <span className="font-mono text-xs sm:text-sm uppercase text-accent flex items-center gap-3">
-          METRICA
-        </span>
-        <div>
-          <span className="font-mono text-sm font-semibold sm:text-base">
+    <div className="flex min-w-70 md:min-w-120 flex-1 flex-col justify-between gap-4 rounded-xl border border-border bg-card p-4 sm:min-w-72 sm:p-5">
+      <div className="flex flex-col gap-4">
+        <header className="flex flex-col gap-1">
+          <h3 className="text-sm font-bold sm:text-base">
             {tCategory(`${category.category}.title`)}
-          </span>
+          </h3>
           <p className="text-xs text-text-secondary sm:text-sm">
             {tCategory(`${category.category}.description`)}
           </p>
-        </div>
-      </div>
-      <dl className="flex flex-col gap-3">
-        <div className="flex flex-col gap-2">
-          <dt className="font-mono text-[9.5px] leading-none font-bold tracking-[0.13em] text-text-tertiary uppercase">
-            {tMetric(primary.key)}
-          </dt>
-          <dd
-            className={`font-mono text-[clamp(1.6rem,3vw,2.2rem)] leading-none font-bold tracking-[-0.045em] text-text ${
-              METRICS[primary.key].format === metricFormat.text ? 'capitalize' : ''
-            }`}
-          >
-            {formatMetric(primary, primary.key, format)}
-          </dd>
-        </div>
-        {rest.length > 0 && (
-          <div className="flex flex-col gap-1.5 border-t border-border pt-3">
-            {rest.map((metric) => (
-              <div key={metric.key} className="flex items-baseline justify-between gap-3">
-                <dt className="text-xs text-text-secondary">{tMetric(metric.key)}</dt>
-                <dd
-                  className={`font-mono text-xs font-semibold text-text ${
-                    METRICS[metric.key].format === metricFormat.text ? 'capitalize' : ''
-                  }`}
-                >
-                  {formatMetric(metric, metric.key, format)}
-                </dd>
-              </div>
-            ))}
+        </header>
+
+        <dl className="mt-auto flex flex-col gap-3">
+          <div className="flex flex-col gap-2">
+            <dt className="font-mono text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+              {tMetric(primary.key)}
+            </dt>
+            <dd
+              className={`font-mono text-3xl font-bold tracking-tight text-text sm:text-4xl ${
+                METRICS[primary.key].format === metricFormat.text ? 'capitalize' : ''
+              }`}
+            >
+              {formatMetric(primary, primary.key, format)}
+            </dd>
           </div>
-        )}
-      </dl>
-    </section>
+        </dl>
+      </div>
+      {rest.length > 0 && (
+        <dl className="flex flex-col divide-y divide-border border-t border-border">
+          {rest.map((metric) => (
+            <div key={metric.key} className="flex items-baseline justify-between gap-3 py-2">
+              <dt className="text-xs text-text-secondary sm:text-sm">{tMetric(metric.key)}</dt>
+              <dd
+                className={`font-mono text-xs font-semibold text-text sm:text-sm ${
+                  METRICS[metric.key].format === metricFormat.text ? 'capitalize' : ''
+                }`}
+              >
+                {formatMetric(metric, metric.key, format)}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </div>
   );
 }

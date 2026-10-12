@@ -1,9 +1,13 @@
 import { useNumberFormatter } from '../../../../../../../../i18n/useNumberFormatter';
-import { WIDTH } from '../constants';
 import { lineStats, type PointStat } from '../lib/stats';
-import type { Dimension, Line, Scales } from '../types';
+import type { ChartLayout, Dimension, Line, Scales } from '../types';
 
-type SeriesMarkersProps = { line: Line; dimensions: Dimension[]; scales: Scales };
+type SeriesMarkersProps = {
+  line: Line;
+  dimensions: Dimension[];
+  scales: Scales;
+  layout: ChartLayout;
+};
 
 const HALO = {
   paintOrder: 'stroke',
@@ -13,7 +17,7 @@ const HALO = {
 } as const;
 
 /** Marks the latest value (a pulsing dot) and the peak of a lone line, each with its number. */
-export function SeriesMarkers({ line, dimensions, scales }: SeriesMarkersProps) {
+export function SeriesMarkers({ line, dimensions, scales, layout }: SeriesMarkersProps) {
   const format = useNumberFormatter();
   const stats = lineStats(line, dimensions);
 
@@ -38,7 +42,7 @@ export function SeriesMarkers({ line, dimensions, scales }: SeriesMarkersProps) 
           <text
             x={top.x}
             y={top.y - 11}
-            textAnchor={anchorFor(top.x)}
+            textAnchor={anchorFor(top.x, layout.width)}
             fontSize={10}
             fontWeight={700}
             fill="var(--text)"
@@ -62,7 +66,7 @@ export function SeriesMarkers({ line, dimensions, scales }: SeriesMarkersProps) 
         <text
           x={last.x}
           y={last.y - 11}
-          textAnchor={anchorFor(last.x)}
+          textAnchor={anchorFor(last.x, layout.width)}
           fontSize={10}
           fontWeight={700}
           fill={line.color}
@@ -77,8 +81,8 @@ export function SeriesMarkers({ line, dimensions, scales }: SeriesMarkersProps) 
 }
 
 /** Keeps a label inside the chart when its point is close to an edge. */
-function anchorFor(x: number): 'start' | 'middle' | 'end' {
+function anchorFor(x: number, width: number): 'start' | 'middle' | 'end' {
   if (x < 56) return 'start';
-  if (x > WIDTH - 56) return 'end';
+  if (x > width - 56) return 'end';
   return 'middle';
 }

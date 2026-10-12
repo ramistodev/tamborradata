@@ -1,5 +1,5 @@
 import type { StatisticSeriesPoint } from '../../../../../../../../../types/api/statistics.types';
-import { COLORS, MAX_LINES } from '../constants';
+import { COLORS } from '../constants';
 import type { Chart, Dimension, Line } from '../types';
 
 type UncoloredLine = Omit<Line, 'color'>;
@@ -8,7 +8,11 @@ type UncoloredLine = Omit<Line, 'color'>;
  * Groups the points of a series into lines (one per entity) and the editions they span. A line
  * with no entity of its own (a single metric over time) is named `fallbackLabel`.
  */
-export function buildChart(data: StatisticSeriesPoint[], fallbackLabel: string): Chart {
+export function buildChart(
+  data: StatisticSeriesPoint[],
+  fallbackLabel: string,
+  maxLines: number
+): Chart {
   const orderByDimension = new Map<string, number>();
   const linesByKey = new Map<string, UncoloredLine>();
 
@@ -30,10 +34,12 @@ export function buildChart(data: StatisticSeriesPoint[], fallbackLabel: string):
     linesByKey.set(key, line);
   }
 
-  const lines = leadingLines([...linesByKey.values()], orderByDimension).map((line, index) => ({
-    ...line,
-    color: COLORS[index % COLORS.length],
-  }));
+  const lines = leadingLines([...linesByKey.values()], orderByDimension, maxLines).map(
+    (line, index) => ({
+      ...line,
+      color: COLORS[index % COLORS.length],
+    })
+  );
   const dimensions: Dimension[] = [...orderByDimension.entries()]
     .map(([key, order]) => ({ key, order }))
     .sort((a, b) => a.order - b.order);
@@ -44,7 +50,8 @@ export function buildChart(data: StatisticSeriesPoint[], fallbackLabel: string):
 /** The leading lines are the ones with the highest value in the latest edition they appear in. */
 function leadingLines(
   lines: UncoloredLine[],
-  orderByDimension: Map<string, number>
+  orderByDimension: Map<string, number>,
+  maxLines: number
 ): UncoloredLine[] {
   const latestValue = (line: UncoloredLine) => {
     let latest = { order: -Infinity, value: 0 };
@@ -59,5 +66,5 @@ function leadingLines(
     return latest.value;
   };
 
-  return lines.sort((a, b) => latestValue(b) - latestValue(a)).slice(0, MAX_LINES);
+  return lines.sort((a, b) => latestValue(b) - latestValue(a)).slice(0, maxLines);
 }

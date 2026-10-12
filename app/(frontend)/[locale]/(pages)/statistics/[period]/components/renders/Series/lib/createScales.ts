@@ -1,15 +1,15 @@
-import { HEIGHT, MIN_LABEL_SPACING, PADDING, WIDTH } from '../constants';
-import type { Dimension, Line, Scales } from '../types';
+import type { ChartLayout, Dimension, Line, Scales } from '../types';
 import { niceTicks } from './niceTicks';
 
 /** Maps editions and values to viewBox coordinates for the lines that are currently visible. */
-export function createScales(dimensions: Dimension[], lines: Line[]): Scales {
+export function createScales(dimensions: Dimension[], lines: Line[], layout: ChartLayout): Scales {
+  const { width, height, padding } = layout;
   const values = lines.flatMap((line) => [...line.values.values()]);
   // The scale always includes 0 (a series of negative rates still needs its zero line).
-  const ticks = niceTicks(Math.min(0, ...values), Math.max(0, ...values));
+  const ticks = niceTicks(Math.min(0, ...values), Math.max(0, ...values), layout.targetTicks);
 
-  const plotWidth = WIDTH - PADDING.left - PADDING.right;
-  const plotHeight = HEIGHT - PADDING.top - PADDING.bottom;
+  const plotWidth = width - padding.left - padding.right;
+  const plotHeight = height - padding.top - padding.bottom;
   const firstOrder = dimensions[0]?.order ?? 0;
   const orderSpan = (dimensions[dimensions.length - 1]?.order ?? 0) - firstOrder || 1;
   const scaleMin = ticks[0];
@@ -17,9 +17,9 @@ export function createScales(dimensions: Dimension[], lines: Line[]): Scales {
 
   // The x axis follows the real distance between editions, so a missing one leaves a visible gap.
   const positions = dimensions.map(
-    (dimension) => PADDING.left + ((dimension.order - firstOrder) / orderSpan) * plotWidth
+    (dimension) => padding.left + ((dimension.order - firstOrder) / orderSpan) * plotWidth
   );
-  const y = (value: number) => PADDING.top + (1 - (value - scaleMin) / scaleSpan) * plotHeight;
+  const y = (value: number) => padding.top + (1 - (value - scaleMin) / scaleSpan) * plotHeight;
 
   return {
     positions,
@@ -27,14 +27,14 @@ export function createScales(dimensions: Dimension[], lines: Line[]): Scales {
     ticks,
     // Areas close on the zero line, so a series that goes negative fills towards 0, not the floor.
     baseY: y(0),
-    labelStep: labelStepFor(positions),
+    labelStep: labelStepFor(positions, layout),
   };
 }
 
 /** Show fewer labels as editions pile up; sized by the closest pair so gaps cannot cause overlaps. */
-function labelStepFor(positions: number[]): number {
+function labelStepFor(positions: number[], layout: ChartLayout): number {
   const gaps = positions.slice(1).map((position, index) => position - positions[index]);
-  const closest = Math.min(...gaps, WIDTH);
+  const closest = Math.min(...gaps, layout.width);
 
-  return Math.max(1, Math.ceil(MIN_LABEL_SPACING / closest));
+  return Math.max(1, Math.ceil(layout.minLabelSpacing / closest));
 }

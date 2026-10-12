@@ -5,7 +5,7 @@ import { Link, usePathname } from '@/app/(frontend)/i18n/navigation';
 import { Icons } from '../../Icons';
 import { PeriodResponse } from '../../../../../types/api/period.types';
 import { useMobileMenu } from '../hooks/useMobileMenu';
-import { sortPeriods } from '../utils/sortPeriods';
+import { sortPeriods } from '../../../lib/sortPeriods';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
 export function MobileMenu({ periods }: { periods: PeriodResponse[] }) {

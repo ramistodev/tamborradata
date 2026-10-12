@@ -9,13 +9,6 @@ import type {
   StatisticCategories,
 } from '../statistics';
 
-export interface PeriodData {
-  period: string;
-  periodKind: PeriodKind;
-  publishedAt: string;
-  updatedAt: string;
-}
-
 export interface StatisticsResponse {
   metaData: PeriodData;
   overview: OverviewStatistic[];
@@ -28,6 +21,13 @@ export interface SummariesResponse {
   metaData: PeriodData;
   locale: Locale;
   summaries: EditorialTemplate[];
+}
+
+export interface PeriodData {
+  period: string;
+  periodKind: PeriodKind;
+  publishedAt: string;
+  updatedAt: string;
 }
 
 export interface School {

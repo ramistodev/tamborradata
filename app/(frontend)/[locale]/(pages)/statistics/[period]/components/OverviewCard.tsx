@@ -11,8 +11,8 @@ const VALUE_SIZES: Record<MetricSize, string> = {
 const VALUE_TONES: Record<MetricTone, string> = {
   default: 'text-text',
   accent: 'text-accent',
-  positive: 'text-emerald-400',
-  negative: 'text-red-400',
+  positive: 'text-success',
+  negative: 'text-danger',
 };
 
 // Static class names so Tailwind can see them. From `sm` a row uses one column per metric; on
@@ -34,10 +34,15 @@ export function OverviewCard({
   const { title, rows } = useOverviewCard({ periodData, overview });
 
   return (
-    <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-1">
+    <section
+      aria-labelledby="overview-title"
+      className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-1"
+    >
       <div className="col-span-2 flex items-center gap-2 bg-bg-secondary px-3 py-2 font-mono text-[10px] tracking-[.14em] text-text-secondary uppercase sm:col-span-1 sm:gap-3 sm:px-6 sm:py-3 sm:text-[11px]">
-        <span className="size-1.5 rounded-full bg-accent" />
-        <span>{title}</span>
+        <span aria-hidden="true" className="size-1.5 rounded-full bg-accent" />
+        <h2 id="overview-title" className="font-normal">
+          {title}
+        </h2>
       </div>
 
       {rows.map((row) => (
@@ -50,7 +55,7 @@ export function OverviewCard({
           ))}
         </div>
       ))}
-    </div>
+    </section>
   );
 }
 
