@@ -8,30 +8,33 @@ export function SeriesDataTable({ caption, dimensions, lines }: SeriesDataTableP
   const format = useNumberFormatter();
 
   return (
-    <table className="sr-only">
-      <caption>{caption}</caption>
-      <thead>
-        <tr>
-          <td />
-          {lines.map((line) => (
-            <th key={line.key} scope="col">
-              {line.label}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {dimensions.map((dimension) => (
-          <tr key={dimension.key}>
-            <th scope="row">{dimension.key}</th>
-            {lines.map((line) => {
-              const value = line.values.get(dimension.key);
-
-              return <td key={line.key}>{value === undefined ? '—' : format.format(value)}</td>;
-            })}
+    // The wrapper clips the table: a wide `sr-only` table alone still widens the page on a phone.
+    <div className="sr-only">
+      <table>
+        <caption>{caption}</caption>
+        <thead>
+          <tr>
+            <td />
+            {lines.map((line) => (
+              <th key={line.key} scope="col">
+                {line.label}
+              </th>
+            ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {dimensions.map((dimension) => (
+            <tr key={dimension.key}>
+              <th scope="row">{dimension.key}</th>
+              {lines.map((line) => {
+                const value = line.values.get(dimension.key);
+
+                return <td key={line.key}>{value === undefined ? '—' : format.format(value)}</td>;
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

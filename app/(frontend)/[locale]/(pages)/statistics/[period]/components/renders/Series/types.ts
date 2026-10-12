@@ -16,6 +16,20 @@ export type Chart = {
 
 export type Point = { x: number; y: number };
 
+/** Size and density of the plot; everything is in viewBox units. */
+export type ChartLayout = {
+  /** Phone layout: no hover, fewer lines, ticks and labels. */
+  compact: boolean;
+  width: number;
+  height: number;
+  padding: { top: number; right: number; bottom: number; left: number };
+  maxLines: number;
+  targetTicks: number;
+  /** Minimum distance between two labels of the x axis. */
+  minLabelSpacing: number;
+  axisFontSize: number;
+};
+
 export type Scales = {
   /** x position, in viewBox units, of every dimension (same order as `dimensions`). */
   positions: number[];

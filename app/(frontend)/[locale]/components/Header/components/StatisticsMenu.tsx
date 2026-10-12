@@ -5,7 +5,7 @@ import { Link, usePathname } from '@/app/(frontend)/i18n/navigation';
 import { PeriodResponse } from '../../../../../types/api/period.types';
 import { Icons } from '@/app/(frontend)/[locale]/components';
 import { useStatisticsMenu } from '../hooks/useStatisticsMenu';
-import { sortPeriods } from '../utils/sortPeriods';
+import { sortPeriods } from '../../../lib/sortPeriods';
 
 const focusRing =
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';

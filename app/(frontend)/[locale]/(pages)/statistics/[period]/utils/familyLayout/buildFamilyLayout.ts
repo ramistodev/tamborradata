@@ -39,10 +39,11 @@ function isValues(category: StatisticCategory): category is ValuesCategory {
   return category.dataShape === categoryDataShape.values;
 }
 
+// A table is a ranks category too, but it gets its own block.
 function isTable(category: StatisticCategory): category is RankCategory {
   return (
-    (category.dataShape === categoryDataShape.ranks && category.rendererKey) ===
-    categoryRendererKey.dataTable
+    category.dataShape === categoryDataShape.ranks &&
+    category.rendererKey === categoryRendererKey.dataTable
   );
 }
 

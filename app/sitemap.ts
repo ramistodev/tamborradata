@@ -1,7 +1,9 @@
 import { MetadataRoute } from 'next';
 import { siteUrl } from '@/app/(frontend)/[locale]/config/constants';
+import { getPeriods } from '@/app/(frontend)/[locale]/services/getPeriods';
 import { getAlternates } from '@/app/(frontend)/i18n/seo';
 import { routing } from '@/app/(frontend)/i18n/routing';
+import { periodKind } from '@/app/types/period.types';
 
 type Page = {
   href: string;
@@ -14,28 +16,25 @@ type Page = {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const currentYear = new Date().getFullYear();
 
-  const yearPages: Page[] = [];
+  // The statistics pages come from the published periods, not from a hardcoded range of years:
+  // a new edition (or an older one found later) reaches the sitemap by itself.
+  const periods = await getPeriods().catch(() => []);
+  const statisticsPages: Page[] = periods.map((period) => {
+    const year = Number(period.publicSlug);
+    const isCurrent = period.kind === periodKind.global || year >= currentYear;
 
-  for (let year = 2018; year <= currentYear; year++) {
-    if (year === 2021) continue; // 2021 no tiene datos disponibles
-    yearPages.push({
-      href: `/statistics/${year}`,
-      lastModified: year === currentYear ? new Date() : new Date(`${year}-01-20`),
+    return {
+      href: `/statistics/${period.publicSlug}`,
+      lastModified: isCurrent ? new Date() : new Date(`${year}-01-20`),
       changeFrequency: 'yearly',
-      priority: year === currentYear ? 0.9 : 0.7,
-    });
-  }
+      priority: isCurrent ? 0.9 : 0.7,
+    };
+  });
 
   const pages: Page[] = [
     { href: '/', lastModified: new Date(), changeFrequency: 'monthly', priority: 1.0 },
-    {
-      href: '/statistics/global',
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.9,
-    },
     { href: '/search', lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
-    ...yearPages,
+    ...statisticsPages,
     // Content only exists in Spanish: its canonical is the es URL, no hreflang
     {
       href: '/statistics/info',

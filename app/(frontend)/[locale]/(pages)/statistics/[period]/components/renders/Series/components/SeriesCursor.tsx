@@ -1,15 +1,15 @@
-import { HEIGHT, PADDING } from '../constants';
-import type { Dimension, Line, Scales } from '../types';
+import type { ChartLayout, Dimension, Line, Scales } from '../types';
 
 type SeriesCursorProps = {
   index: number;
   lines: Line[];
   dimensions: Dimension[];
   scales: Scales;
+  layout: ChartLayout;
 };
 
 /** Vertical guide at the hovered edition with a glowing dot on every line that has a value there. */
-export function SeriesCursor({ index, lines, dimensions, scales }: SeriesCursorProps) {
+export function SeriesCursor({ index, lines, dimensions, scales, layout }: SeriesCursorProps) {
   const x = scales.positions[index];
   const key = dimensions[index].key;
 
@@ -18,8 +18,8 @@ export function SeriesCursor({ index, lines, dimensions, scales }: SeriesCursorP
       <line
         x1={x}
         x2={x}
-        y1={PADDING.top}
-        y2={HEIGHT - PADDING.bottom}
+        y1={layout.padding.top}
+        y2={layout.height - layout.padding.bottom}
         stroke="var(--border-strong)"
         strokeDasharray="3 4"
       />

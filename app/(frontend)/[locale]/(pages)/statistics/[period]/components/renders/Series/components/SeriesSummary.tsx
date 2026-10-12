@@ -9,59 +9,60 @@ type SeriesSummaryProps = { line: Line; dimensions: Dimension[] };
 export function SeriesSummary({ line, dimensions }: SeriesSummaryProps) {
   const t = useTranslations('Statistics.layout');
   const format = useNumberFormatter();
-  const percent = useNumberFormatter({
-    style: 'percent',
-    maximumFractionDigits: 1,
-    signDisplay: 'always',
-  });
   const stats = lineStats(line, dimensions);
 
   if (!stats) {
     return null;
   }
 
-  const { latest, peak, change } = stats;
+  const { latest, peak } = stats;
 
   return (
-    <dl className="grid grid-cols-3 gap-2 sm:gap-3">
+    <dl className="flex items-start justify-between gap-4 px-1">
       <Stat
         label={t('seriesLatest')}
         value={format.format(latest.value)}
         hint={latest.dimensionKey}
+        marker={<span className="size-2 rounded-full" style={{ backgroundColor: line.color }} />}
       />
-      <Stat label={t('seriesPeak')} value={format.format(peak.value)} hint={peak.dimensionKey} />
       <Stat
-        label={t('seriesChange')}
-        value={change === null ? '—' : percent.format(change)}
-        tone={change === null ? undefined : change >= 0 ? 'up' : 'down'}
+        label={t('seriesPeak')}
+        value={format.format(peak.value)}
+        hint={peak.dimensionKey}
+        marker={
+          <span className="size-2.5 rounded-full border-2" style={{ borderColor: line.color }} />
+        }
+        alignEnd
       />
     </dl>
   );
 }
 
-const TONES = { up: 'text-success', down: 'text-danger' } as const;
-
-function Stat({
-  label,
-  value,
-  hint,
-  tone,
-}: {
+type StatProps = {
   label: string;
   value: string;
-  hint?: string;
-  tone?: keyof typeof TONES;
-}) {
+  hint: string;
+  /** Same mark the chart uses for this point, so the figure and the plot read together. */
+  marker: React.ReactNode;
+  alignEnd?: boolean;
+};
+
+function Stat({ label, value, hint, marker, alignEnd = false }: StatProps) {
   return (
-    <div className="flex flex-col gap-1 rounded-xl border border-border bg-bg-secondary px-3 py-2.5">
-      <dt className="font-mono text-[9.5px] font-bold tracking-[0.14em] text-text-tertiary uppercase">
+    <div className={`flex min-w-0 flex-col gap-1 ${alignEnd ? 'items-end text-right' : ''}`}>
+      <dt
+        className={`flex items-center gap-2 font-mono text-xs font-semibold tracking-wider text-text-tertiary uppercase ${
+          alignEnd ? 'flex-row-reverse' : ''
+        }`}
+      >
+        {marker}
         {label}
       </dt>
-      <dd
-        className={`font-mono text-base font-bold sm:text-lg ${tone ? TONES[tone] : 'text-text'}`}
-      >
-        {value}
-        {hint && <span className="ml-1.5 text-[10px] font-medium text-text-tertiary">{hint}</span>}
+      <dd className="flex flex-col font-mono">
+        <span className="text-lg leading-tight font-bold text-text sm:text-2xl md:text-3xl">
+          {value}
+        </span>
+        <span className="text-xs text-text-tertiary sm:text-sm">{hint}</span>
       </dd>
     </div>
   );

@@ -1,16 +1,21 @@
 import type statistics from '../es/statistics';
 
 export default {
-  title: 'Estatistikak',
   period: {
-    title: '{period}ko Haur Danborradaren estatistikak',
+    title: 'Haur Danborradaren estatistikak: {period}',
     description:
-      '{period}ko Haur Danborradaren azterketa: parte-hartzaileak, izen ohikoenak, ikastetxe nabarmenak eta urteko joerak.',
+      'Haur Danborradaren azterketa ({period}): parte-hartzaileak, izen ohikoenak, ikastetxe nabarmenenak eta urteko joerak.',
+    dataDescription:
+      '{participants} parte-hartzaile Haur Danborradan ({period}). Izenik ohikoenak: {names}. Abizenak, ikastetxeak eta urteko bilakaera.',
+    globalTitle: 'Haur Danborradaren estatistika historikoak ({first}-{last})',
+    globalDescription:
+      'Datuak: {first}-{last}. Donostiako Haur Danborrada: parte-hartzaileak, izenak, abizenak, ikastetxeak eta joerak.',
+    globalDataDescription:
+      'Datuak: {first}-{last}. {participants} parte-hartzaile erregistratu dira Haur Danborradan. Izen eta abizen ohikoenak, ikastetxeak eta bilakaera.',
   },
   chapters: {
-    explore: 'Arakatu',
     ariaLabel: 'Datuak arakatu',
-    overview: 'Laburpena',
+    hero: 'Laburpena',
     participationDynamics: 'Parte-hartzea',
     schools: 'Ikastetxeak',
     schoolsRenewal: 'Berrikuntza',
@@ -18,36 +23,53 @@ export default {
     names: 'Izenak',
     surnames: 'Abizenak',
     identityDiversity: 'Dibertsitatea',
+    closing: 'Amaiera',
   },
   hero: {
     eyebrowYear: 'Urteko edizioa',
     eyebrowGlobal: '{period} edizioa',
-    titleYear: 'Haur Danborrada {period}',
-    titleGlobal: 'Historia osoa',
   },
   periodSelector: {
+    label: 'Aldiak',
     missingEdition: 'Ez dago edizioa: {year}',
   },
+  closing: {
+    eyebrow: 'Laburbilduz',
+    navLabel: 'Aldien artean nabigatu',
+    newer: 'Berriagoa',
+    older: 'Zaharragoa',
+    edition: '{period} edizioa',
+    backToTop: 'Gora itzuli',
+  },
   structuredData: {
-    datasetDescription:
-      '{description} Datu-multzo zehatza parte-hartzearekin, izenekin, abizenekin eta ikastetxeekin.',
     home: 'Hasiera',
     statistics: 'Urteko estatistikak',
     breadcrumbPeriod: 'Haur Danborrada {period}',
-    namesQuestion: 'Zein izan ziren Haur Danborradako izen ohikoenak: {period}?',
-    namesAnswer:
-      '{period}ko Haur Danborradako izen ohikoenen sailkapena, urteko klasifikazioan buru direnekin.',
-    surnamesQuestion: 'Zein abizen nabarmendu ziren Haur Danborradan: {period}?',
-    surnamesAnswer: '{period}ko edizioan erregistratutako abizen ohikoenen zerrenda.',
-    schoolsQuestion: 'Zein ikastetxek izan zuten parte-hartze handiena: {period}?',
-    schoolsAnswer:
-      'Haur Danborradan presentzia handiena izan zuten ikastetxeak ({period}) eta berriki gehitutako zentroak.',
-    newNamesQuestion: 'Izen berririk izan al zen Haur Danborradan: {period}?',
-    newNamesAnswer: '{period}ko Haur Danborradan lehen aldiz agertzen diren izenak.',
-    participantsQuestion: 'Zenbat parte-hartzaile izan ziren Haur Danborradan: {period}?',
-    participantsAnswer:
-      'Danborrero eta kantinera txikien guztizko parte-hartze zenbatetsia: {period}.',
-    summaryQuestion: 'Non ikus dezaket Haur Danborradaren laburpena: {period}?',
+    breadcrumbGlobal: 'Historia osoa',
+    datasetDescription:
+      'Donostiako Haur Danborradaren datuak ({period}): parte-hartzaileak, izenak, abizenak eta ikastetxeak.',
+    datasetGlobalDescription:
+      'Donostiako Haur Danborradaren datuak: {first}-{last}. Edizio guztietako parte-hartzea, izenak, abizenak eta ikastetxeak.',
+    keywords:
+      'haur danborrada {period}, haur danborradaren estatistikak, haur danborradako parte-hartzaileak {period}, izen ohikoenak, ikastetxeak, Donostia, urtarrilaren 20a',
+    keywordsGlobal:
+      'haur danborradaren historia, haur danborradaren estatistikak, haur danborrada {first}etik, urteko parte-hartzaileak, izenak, abizenak, ikastetxeak, Donostia',
+    place: 'Donostia, Gipuzkoa',
+    eventName: 'Donostiako Haur Danborrada {period}',
+    eventDescription: 'Donostiako Haur Danborradaren desfilea, {period}(e)ko urtarrilaren 20an.',
+    eventSeriesName: 'Donostiako Haur Danborrada',
+    eventSeriesDescription:
+      'Donostiako danborrero eta kantinera txikien urteroko desfilea, urtarrilaren 20an.',
+    variables: {
+      participants: 'Parte-hartzaileak',
+      growth: 'Aurreko edizioarekiko aldaketa',
+      record: 'Errekor edizioko parte-hartzaileak',
+      distinctNames: 'Izen desberdinak',
+      distinctSurnames: 'Abizen desberdinak',
+      multipleNames: 'Izen elkartua duten parte-hartzaileak',
+      averageSchoolSize: 'Parte-hartzaileak ikastetxeko, batez beste',
+      schoolCount: 'Parte hartu duten ikastetxeak',
+    },
   },
   publishDates: {
     published: 'Argitaratua: {date}',
@@ -93,119 +115,273 @@ export default {
     school_count: 'Ikastetxe guztira',
     new_vs_veteran_ratio: 'Berriak beteranoen aldean',
   },
-  values: {
-    yes: 'Bai',
-    no: 'Ez',
-  },
-  legacy: {
-    headings: {
-      topNames: 'Izen errepikatuenak',
-      topSurnames: 'Abizen errepikatuenak',
-      topSchools: 'Parte-hartzaile gehien dituzten ikastetxeak',
-      totalParticipants: 'Parte-hartzaile guztiak',
-      newNames: 'Lehen aldiz agertzen diren izenak',
-      newSchools: 'Ikastetxe berriak',
-      commonNamesBySchool: 'Ikastetxeen arteko izen ohikoenak',
-      nameSurnameDiversity: 'Izenen eta abizenen aniztasuna',
-    },
-    controls: {
-      viewTable: 'Taula ikusi',
-      viewChart: 'Grafikoa ikusi',
-      showMore: 'Erakutsi gehiago',
-      showLess: 'Erakutsi gutxiago',
-    },
-    columns: {
-      year: 'Urtea',
-      name: 'Izena',
-      surname: 'Abizenak',
-      school: 'Ikastetxea',
-      appearances: 'Agerraldiak',
-      totalParticipants: 'Parte-hartzaile guztiak',
-      uniqueNames: 'Izen bakarrak',
-      uniqueSurnames: 'Abizen bakarrak',
-    },
-    aria: {
-      topNamesTable: 'Urteko izen errepikatuenen taula',
-      topNamesChart: 'Urteko 15 izen errepikatuenen barra-grafikoa',
-      topSurnamesTable: 'Urteko abizen errepikatuenen taula',
-      topSurnamesChart: 'Urteko 15 abizen errepikatuenen barra-grafikoa',
-      topSchoolsTable: 'Urteko parte-hartzaile gehien dituzten ikastetxeen taula',
-      topSchoolsChart: 'Urteko parte-hartzaile gehien dituzten 15 ikastetxeen barra-grafikoa',
-      totalParticipantsTable: 'Urteko parte-hartzaile guztien taula',
-      newNamesTable: 'Urteko izen berrien taula',
-      newSchoolsTable: 'Urteko ikastetxe berrien taula',
-      commonNamesBySchoolTable: 'Ikastetxeko izen ohikoenen urteko taula',
-      showMoreNames: 'Erakutsi izen gehiago',
-      showLessNames: 'Erakutsi izen gutxiago',
-      showMoreSurnames: 'Erakutsi abizen gehiago',
-      showLessSurnames: 'Erakutsi abizen gutxiago',
-      showMoreSchools: 'Erakutsi ikastetxe gehiago',
-      showLessSchools: 'Erakutsi ikastetxe gutxiago',
-      showMoreNewNames: 'Erakutsi izen berri gehiago',
-      showLessNewNames: 'Erakutsi izen berri gutxiago',
-    },
-  },
   categories: {
-    totalParticipants: { tab: 'Guztira', title: 'Parte-hartzaile guztiak', description: 'Erregistratutako parte-hartzaileen guztizkoa.' },
-    participantsGrowthRate: { tab: 'Aldaketa', title: 'Parte-hartzaileen aldaketa', description: 'Aurreko edizioarekiko aldaketa ehunekotan.' },
-    participationRecordYears: { tab: 'Errekorra', title: 'Parte-hartze errekorra', description: 'Parte-hartze handiena erregistratu zen edizioa.' },
-    topNames: { tab: 'Ohikoenak', title: 'Izenik ohikoenak', description: 'Izen bakoitzaren agerraldiak.' },
-    topSecondNames: { tab: 'Bigarren izena', title: 'Bigarren izenik ohikoenak', description: 'Bigarren izen gisa agertzen diren izenen agerraldiak.' },
-    nameTrends: { tab: 'Joera', title: 'Izenen joera', description: 'Izen nabarmenenen agerraldiak edizio bakoitzean.' },
-    newNames: { tab: 'Berriak', title: 'Estreinatzen diren izenak', description: 'Aurreko edizio guztietan ez zeuden izenak.' },
-    disappearedNames: { tab: 'Desagertuak', title: 'Desagertzen diren izenak', description: 'Aurreko edizioan zeuden eta oraingoan ez daudenak.' },
-    perennialNames: { tab: 'Beti daudenak', title: 'Beti daudenak', description: 'Edizio guztietan agertzen diren izenak.' },
-    nameComebacks: { tab: 'Itzultzen direnak', title: 'Desagertu eta itzultzen direnak', description: 'Edizioren batean falta izan eta itzuli diren izenak.' },
-    averageNameLength: { tab: 'Batez besteko luzera', title: 'Izenaren batez besteko luzera', description: 'Erregistratutako izen bakoitzeko karaktere kopuruaren batez bestekoa.' },
-    nameInitialDistribution: { tab: 'Hasierakoak', title: 'Hasierako letraren arabera', description: 'Izenak lehen letraren arabera nola banatzen diren.' },
-    longestNames: { tab: 'Luzeenak', title: 'Izenik luzeenak', description: 'Izenaren luzera karaktere kopuruan.' },
-    nameSchoolCorrelation: { tab: 'Ikastetxe gehienetan', title: 'Ikastetxe gehienetan dauden izenak', description: 'Izen bakoitza zenbat ikastetxetan agertzen den.' },
-    singleYearNames: { tab: 'Edizio bakarra', title: 'Edizio bakarreko izenak', description: 'Edizio batean bakarrik agertzen diren izenak.' },
-    rareNames: { tab: 'Urriak', title: 'Izen urriak', description: 'Oso gutxitan erregistratutako izenak.' },
-    participantsWithMultipleNames: { tab: 'Izen konposatua', title: 'Izen konposatua duten parte-hartzaileak', description: 'Izen bat baino gehiago dutenak.' },
-    topSurnames: { tab: 'Ohikoenak', title: 'Abizenik ohikoenak', description: 'Abizen bakoitzaren agerraldiak.' },
-    surnameTrends: { tab: 'Joera', title: 'Abizenen joera', description: 'Abizen nabarmenenen agerraldiak edizio bakoitzean.' },
-    newSurnames: { tab: 'Berriak', title: 'Estreinatzen diren abizenak', description: 'Aurreko edizio guztietan ez zeuden abizenak.' },
-    disappearedSurnames: { tab: 'Desagertuak', title: 'Desagertzen diren abizenak', description: 'Aurreko edizioan zeuden eta oraingoan ez daudenak.' },
-    perennialSurnames: { tab: 'Beti daudenak', title: 'Beti daudenak', description: 'Edizio guztietan agertzen diren abizenak.' },
-    surnameComebacks: { tab: 'Itzultzen direnak', title: 'Desagertu eta itzultzen direnak', description: 'Edizioren batean falta izan eta itzuli diren abizenak.' },
-    averageSurnameLength: { tab: 'Batez besteko luzera', title: 'Abizenaren batez besteko luzera', description: 'Erregistratutako abizen bakoitzeko karaktere kopuruaren batez bestekoa.' },
-    surnameInitialDistribution: { tab: 'Hasierakoak', title: 'Hasierako letraren arabera', description: 'Abizenak lehen letraren arabera nola banatzen diren.' },
-    longestSurnames: { tab: 'Luzeenak', title: 'Abizenik luzeenak', description: 'Abizenaren luzera karaktere kopuruan.' },
-    surnameSchoolCorrelation: { tab: 'Ikastetxe gehienetan', title: 'Ikastetxe gehienetan dauden abizenak', description: 'Abizen bakoitza zenbat ikastetxetan agertzen den.' },
-    singleYearSurnames: { tab: 'Edizio bakarra', title: 'Edizio bakarreko abizenak', description: 'Edizio batean bakarrik agertzen diren abizenak.' },
-    rareSurnames: { tab: 'Urriak', title: 'Abizen urriak', description: 'Oso gutxitan erregistratutako abizenak.' },
-    topSchools: { tab: 'Parte-hartzaile gehien', title: 'Parte-hartzaile gehien dituzten ikastetxeak', description: 'Ikastetxe bakoitzeko parte-hartzaileak.' },
-    schoolGrowthRate: { tab: 'Hazkundea', title: 'Ikastetxeen hazkundea', description: 'Ikastetxeko parte-hartzaileen aldaketa ehunekotan.' },
-    averageSchoolSize: { tab: 'Batez besteko tamaina', title: 'Ikastetxearen batez besteko tamaina', description: 'Ikastetxeko parte-hartzaileen batez bestekoa.' },
-    schoolNameDiversity: { tab: 'Izen aniztasuna', title: 'Izen aniztasun handieneko ikastetxeak', description: 'Ikastetxe bakoitzean erregistratutako izen desberdinak.' },
-    schoolSurnameDiversity: { tab: 'Abizen aniztasuna', title: 'Abizen aniztasun handieneko ikastetxeak', description: 'Ikastetxe bakoitzean erregistratutako abizen desberdinak.' },
-    commonNameBySchool: { tab: 'Izen ohikoena', title: 'Ikastetxe bakoitzeko izen ohikoena', description: 'Ikastetxe bakoitzeko erregistro bat, agerraldien arabera ordenatuta.' },
-    commonSurnameBySchool: { tab: 'Abizen ohikoena', title: 'Ikastetxe bakoitzeko abizen ohikoena', description: 'Ikastetxe bakoitzeko erregistro bat, agerraldien arabera ordenatuta.' },
-    namesDiversity: { tab: 'Izenak', title: 'Izenen aniztasuna', description: 'Izenen multzoaren barietatea.' },
-    surnamesDiversity: { tab: 'Abizenak', title: 'Abizenen aniztasuna', description: 'Abizenen multzoaren barietatea.' },
-    nameConcentration: { tab: 'Izenen kontzentrazioa', title: 'Izenen kontzentrazioa', description: 'Parte-hartzaileak izen gutxitan zenbateraino pilatzen diren.' },
-    surnameConcentration: { tab: 'Abizenen kontzentrazioa', title: 'Abizenen kontzentrazioa', description: 'Parte-hartzaileak abizen gutxitan zenbateraino pilatzen diren.' },
-    nameSurnameDynasties: { tab: 'Dinastiak', title: 'Izen eta abizen dinastiak', description: 'Edizioetan zehar errepikatzen diren konbinazioak.' },
-    newSchools: { tab: 'Berriak', title: 'Estreinatzen diren ikastetxeak', description: 'Aurreko edizioetan ez zeuden ikastetxeak.' },
-    disappearedSchools: { tab: 'Desagertuak', title: 'Desagertzen diren ikastetxeak', description: 'Aurreko edizioan zeuden eta oraingoan ez daudenak.' },
-    newVsVeteranSchoolRatio: { tab: 'Berriak eta beteranoak', title: 'Berriak eta beteranoak', description: 'Ikastetxe berrien eta beteranoen arteko proportzioa.' },
-    schoolsEvolution: { tab: 'Bilakaera', title: 'Ikastetxeen bilakaera', description: 'Parte-hartzaile gehien dituzten ikastetxeen parte-hartzaileak edizio bakoitzean.' },
-    schoolLongevity: { tab: 'Iraunkorrenak', title: 'Iraunkorrenak', description: 'Ikastetxe bakoitzak parte hartu duen edizio kopurua.' },
-    mostConstantSchools: { tab: 'Konstanteenak', title: 'Konstanteenak', description: 'Edizioen arteko parte-hartzearen erregulartasuna.' },
+    totalParticipants: {
+      tab: 'Guztira',
+      title: 'Parte-hartzaile guztiak',
+      description: 'Guztira erregistratutako danborrerak eta kantinerak.',
+    },
+    participantsGrowthRate: {
+      tab: 'Aldaketa',
+      title: 'Parte-hartzaileen aldaketa',
+      description:
+        'Parte-hartzeak zenbat gora edo behera egin duen, ehunekotan, aurreko edizioarekin alderatuta.',
+    },
+    participationRecordYears: {
+      tab: 'Errekorra',
+      title: 'Parte-hartze errekorra',
+      description:
+        'Historia osoko parte-hartzaile gehien izan zituen edizioa, eta zenbat izan ziren.',
+    },
+    topNames: {
+      tab: 'Ohikoenak',
+      title: 'Izenik ohikoenak',
+      description: 'Gehien errepikatzen diren izenak eta bakoitzak zenbat aldiz agertzen den.',
+    },
+    topSecondNames: {
+      tab: 'Bigarren izena',
+      title: 'Bigarren izenik ohikoenak',
+      description: 'Izen elkartua dutenen artean gehien errepikatzen diren bigarren izenak.',
+    },
+    nameTrends: {
+      tab: 'Joera',
+      title: 'Izenen joera',
+      description: 'Izen nabarmenenen agerraldiek edizioz edizio izan duten bilakaera.',
+    },
+    newNames: {
+      tab: 'Berriak',
+      title: 'Estreinatzen diren izenak',
+      description: 'Edizio honetan lehen aldiz agertzen diren izenak, inoiz ez zirenak.',
+    },
+    disappearedNames: {
+      tab: 'Desagertuak',
+      title: 'Desagertzen diren izenak',
+      description: 'Aurreko edizioan zeuden eta orain agertzen ez diren izenak.',
+    },
+    perennialNames: {
+      tab: 'Beti daudenak',
+      title: 'Beti daudenak',
+      description: 'Edizio guztietan egon diren izenak.',
+    },
+    nameComebacks: {
+      tab: 'Itzultzen direnak',
+      title: 'Desagertu eta itzultzen direnak',
+      description: 'Edizioren batean desagertu eta itzuli diren izenak.',
+    },
+    averageNameLength: {
+      tab: 'Batez besteko luzera',
+      title: 'Izenaren batez besteko luzera',
+      description: 'Erregistratutako izenen batez besteko letra kopurua.',
+    },
+    nameInitialDistribution: {
+      tab: 'Hasierakoak',
+      title: 'Hasierako letraren arabera',
+      description: 'Izenak zein letrarekin hasten diren kontuan hartuta nola banatzen diren.',
+    },
+    longestNames: {
+      tab: 'Luzeenak',
+      title: 'Izenik luzeenak',
+      description: 'Letra gehien dituzten izenak eta haien luzera.',
+    },
+    nameSchoolCorrelation: {
+      tab: 'Ikastetxe gehienetan',
+      title: 'Ikastetxe gehienetan dauden izenak',
+      description: 'Ikastetxe desberdin gehienetan agertzen diren izenak, eta zenbatetan.',
+    },
+    singleYearNames: {
+      tab: 'Edizio bakarra',
+      title: 'Edizio bakarreko izenak',
+      description: 'Historia osoan edizio bakar batean agertu diren izenak.',
+    },
+    rareNames: {
+      tab: 'Urriak',
+      title: 'Izen urriak',
+      description: 'Historia osoan oso gutxitan erregistratu diren izenak.',
+    },
+    participantsWithMultipleNames: {
+      tab: 'Izen konposatua',
+      title: 'Izen konposatua duten parte-hartzaileak',
+      description:
+        'Izen bat baino gehiago duten parte-hartzaileak, eta zer proportzio osatzen duten.',
+    },
+    topSurnames: {
+      tab: 'Ohikoenak',
+      title: 'Abizenik ohikoenak',
+      description: 'Gehien errepikatzen diren abizenak eta bakoitzak zenbat aldiz agertzen den.',
+    },
+    surnameTrends: {
+      tab: 'Joera',
+      title: 'Abizenen joera',
+      description: 'Abizen nabarmenenen agerraldiek edizioz edizio izan duten bilakaera.',
+    },
+    newSurnames: {
+      tab: 'Berriak',
+      title: 'Estreinatzen diren abizenak',
+      description: 'Edizio honetan lehen aldiz agertzen diren abizenak, inoiz ez zirenak.',
+    },
+    disappearedSurnames: {
+      tab: 'Desagertuak',
+      title: 'Desagertzen diren abizenak',
+      description: 'Aurreko edizioan zeuden eta orain agertzen ez diren abizenak.',
+    },
+    perennialSurnames: {
+      tab: 'Beti daudenak',
+      title: 'Beti daudenak',
+      description: 'Edizio guztietan egon diren abizenak.',
+    },
+    surnameComebacks: {
+      tab: 'Itzultzen direnak',
+      title: 'Desagertu eta itzultzen direnak',
+      description: 'Edizioren batean desagertu eta itzuli diren abizenak.',
+    },
+    averageSurnameLength: {
+      tab: 'Batez besteko luzera',
+      title: 'Abizenaren batez besteko luzera',
+      description: 'Erregistratutako abizenen batez besteko letra kopurua.',
+    },
+    surnameInitialDistribution: {
+      tab: 'Hasierakoak',
+      title: 'Hasierako letraren arabera',
+      description: 'Abizenak zein letrarekin hasten diren kontuan hartuta nola banatzen diren.',
+    },
+    longestSurnames: {
+      tab: 'Luzeenak',
+      title: 'Abizenik luzeenak',
+      description: 'Letra gehien dituzten abizenak eta haien luzera.',
+    },
+    surnameSchoolCorrelation: {
+      tab: 'Ikastetxe gehienetan',
+      title: 'Ikastetxe gehienetan dauden abizenak',
+      description: 'Ikastetxe desberdin gehienetan agertzen diren abizenak, eta zenbatetan.',
+    },
+    singleYearSurnames: {
+      tab: 'Edizio bakarra',
+      title: 'Edizio bakarreko abizenak',
+      description: 'Historia osoan edizio bakar batean agertu diren abizenak.',
+    },
+    rareSurnames: {
+      tab: 'Urriak',
+      title: 'Abizen urriak',
+      description: 'Historia osoan oso gutxitan erregistratu diren abizenak.',
+    },
+    topSchools: {
+      tab: 'Parte-hartzaile gehien',
+      title: 'Parte-hartzaile gehien dituzten ikastetxeak',
+      description:
+        'Parte-hartzaile gehien dituzten ikastetxeak, eta bakoitzak zenbat ematen dituen.',
+    },
+    schoolGrowthRate: {
+      tab: 'Hazkundea',
+      title: 'Ikastetxeen hazkundea',
+      description:
+        'Ikastetxe bakoitzaren parte-hartzaileen aldaketa ehunekotan, aurreko edizioarekin alderatuta.',
+    },
+    averageSchoolSize: {
+      tab: 'Batez besteko tamaina',
+      title: 'Ikastetxearen batez besteko tamaina',
+      description: 'Ikastetxe bakoitzeko batez besteko parte-hartzaile kopurua.',
+    },
+    schoolNameDiversity: {
+      tab: 'Izen aniztasuna',
+      title: 'Izen aniztasun handieneko ikastetxeak',
+      description: 'Parte-hartzaileen artean izen desberdin gehien dituzten ikastetxeak.',
+    },
+    schoolSurnameDiversity: {
+      tab: 'Abizen aniztasuna',
+      title: 'Abizen aniztasun handieneko ikastetxeak',
+      description: 'Parte-hartzaileen artean abizen desberdin gehien dituzten ikastetxeak.',
+    },
+    commonNameBySchool: {
+      tab: 'Izen ohikoena',
+      title: 'Ikastetxe bakoitzeko izen ohikoena',
+      description:
+        'Ikastetxe bakoitzean gehien errepikatzen den izena eta zenbat aldiz agertzen den.',
+    },
+    commonSurnameBySchool: {
+      tab: 'Abizen ohikoena',
+      title: 'Ikastetxe bakoitzeko abizen ohikoena',
+      description:
+        'Ikastetxe bakoitzean gehien errepikatzen den abizena eta zenbat aldiz agertzen den.',
+    },
+    namesDiversity: {
+      tab: 'Izenak',
+      title: 'Izenen aniztasuna',
+      description:
+        'Izenen aniztasuna: zenbat eta izen desberdin gehiago, orduan eta aniztasun handiagoa.',
+    },
+    surnamesDiversity: {
+      tab: 'Abizenak',
+      title: 'Abizenen aniztasuna',
+      description:
+        'Abizenen aniztasuna: zenbat eta abizen desberdin gehiago, orduan eta aniztasun handiagoa.',
+    },
+    nameConcentration: {
+      tab: 'Izenen kontzentrazioa',
+      title: 'Izenen kontzentrazioa',
+      description:
+        'Parte-hartzaileak izen gutxitan zenbateraino pilatzen diren. Zenbat eta pilaketa handiagoa, orduan eta aniztasun txikiagoa.',
+    },
+    surnameConcentration: {
+      tab: 'Abizenen kontzentrazioa',
+      title: 'Abizenen kontzentrazioa',
+      description:
+        'Parte-hartzaileak abizen gutxitan zenbateraino pilatzen diren. Zenbat eta pilaketa handiagoa, orduan eta aniztasun txikiagoa.',
+    },
+    nameSurnameDynasties: {
+      tab: 'Dinastiak',
+      title: 'Izen eta abizen dinastiak',
+      description:
+        'Hainbat edizioetan errepikatzen diren izen eta abizen konbinazioak, ziur aski familia berekoak.',
+    },
+    newSchools: {
+      tab: 'Berriak',
+      title: 'Estreinatzen diren ikastetxeak',
+      description: 'Edizio honetan lehen aldiz parte hartzen duten ikastetxeak.',
+    },
+    disappearedSchools: {
+      tab: 'Desagertuak',
+      title: 'Desagertzen diren ikastetxeak',
+      description: 'Aurreko edizioan zeuden eta orain agertzen ez diren ikastetxeak.',
+    },
+    newVsVeteranSchoolRatio: {
+      tab: 'Berriak eta beteranoak',
+      title: 'Berriak eta beteranoak',
+      description: 'Ikastetxe beteranoko zenbat ikastetxe berri dauden.',
+    },
+    schoolsEvolution: {
+      tab: 'Bilakaera',
+      title: 'Ikastetxeen bilakaera',
+      description:
+        'Ikastetxe handienen parte-hartzaile kopuruak edizioz edizio izan duen bilakaera.',
+    },
+    schoolLongevity: {
+      tab: 'Iraunkorrenak',
+      title: 'Iraunkorrenak',
+      description: 'Edizio gehienetan parte hartu duten ikastetxeak, eta zenbatetan.',
+    },
+    mostConstantSchools: {
+      tab: 'Konstanteenak',
+      title: 'Konstanteenak',
+      description:
+        'Parte-hartzea edizioz edizio gutxien aldatzen duten ikastetxeak; ez dira zertan handienak izan behar.',
+    },
   },
   layout: {
-    views: '{count} ikuspegi',
-    top: 'Top {count}',
-    school: 'Ikastetxea',
-    name: 'Izena',
-    surname: 'Abizena',
-    value: 'Balioa',
     showMore: 'Erakutsi gehiago',
     showLess: 'Erakutsi gutxiago',
     seriesLatest: 'Azkena',
     seriesPeak: 'Gehienekoa',
-    seriesChange: 'Aldaketa',
+    groups: { series: 'Serieak', rankings: 'Sailkapenak', tables: 'Taulak' },
+    tableValue: 'Aldiz',
+    chartHint:
+      'Erabili ezker eta eskuin gezi-teklak edizioetan zehar mugitzeko eta haien balioak irakurtzeko.',
+    legendLabel: 'Grafikoaren serieak: sakatu erakutsi edo ezkutatzeko',
+    keyFigures: 'Oinarrizko zifrak',
+    shown: '{count} emaitza erakusten',
+    table: {
+      commonNameBySchool: { school: 'Ikastetxea', entity: 'Izen ohikoena' },
+      commonSurnameBySchool: { school: 'Ikastetxea', entity: 'Abizen ohikoena' },
+    },
   },
   familyRender: {
     participationDynamics: { title: 'Parte-hartzea' },
@@ -215,36 +391,5 @@ export default {
     schools: { title: 'Ikastetxeak' },
     schoolsRenewal: { title: 'Berrikuntza' },
     schoolsEvolution: { title: 'Bilakaera' },
-  },
-  names: {
-    title: 'Izenak',
-    rankingLabel: 'Izenen sailkapena',
-    seriesLabel: 'Izenen bilakaera',
-    rank: 'Postua',
-    name: 'Izena',
-    value: 'Balioa',
-    noData: '—',
-    unknownName: 'Izengabea',
-    categories: {
-      topNames: 'Izen ohikoenak',
-      topSecondNames: 'Bigarren izen ohikoenak',
-      nameTrends: 'Izenen joerak',
-      newNames: 'Izen berriak',
-      disappearedNames: 'Desagertutako izenak',
-      perennialNames: 'Edizio guztietako izenak',
-      nameComebacks: 'Berriro agertutako izenak',
-      averageNameLength: 'Izenen batez besteko luzera',
-      nameInitialDistribution: 'Izenen hasierako letrak',
-      longestNames: 'Izen luzeenak',
-      nameSchoolCorrelation: 'Ikastetxe gehienetan dauden izenak',
-      singleYearNames: 'Edizio bakarreko izenak',
-      rareNames: 'Izen arraroak',
-      participantsWithMultipleNames: 'Izen bat baino gehiago duten parte-hartzaileak',
-    },
-    metrics: {
-      average_length: 'Batez besteko karaktereak',
-      participants_with_multiple_names: 'Parte-hartzaileak',
-      multiple_names_rate: 'Parte-hartzaile ebatzi guztietatik',
-    },
   },
 } satisfies typeof statistics;

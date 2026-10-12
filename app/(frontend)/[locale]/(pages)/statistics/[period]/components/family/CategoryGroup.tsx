@@ -26,7 +26,7 @@ export function CategoryGroup({
   const hasTabs = categories.length > 1;
 
   return (
-    <div className="flex flex-col gap-2 bg-card rounded-xl border border-border p-3 sm:p-4 ">
+    <div className="flex flex-col gap-3 bg-card rounded-xl border border-border p-3 sm:p-4">
       <span className="font-mono text-xs sm:text-sm uppercase text-accent flex items-center gap-3">
         <span>{title}</span>
         <span className="size-0.5 rounded-full bg-accent" />
@@ -54,9 +54,9 @@ export function CategoryGroup({
                     tabIndex={isActive ? 0 : -1}
                     onClick={() => selectTab(index)}
                     onKeyDown={(event) => handleKeyDown(event, index)}
-                    className={`shrink-0 rounded-full px-4 py-2 text-xs font-semibold whitespace-nowrap transition-colors ${
+                    className={`shrink-0 rounded-full px-4 py-2 text-xs font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
                       isActive
-                        ? 'bg-accent text-white'
+                        ? 'bg-accent-dim text-white'
                         : 'text-text-secondary hover:cursor-pointer hover:text-text'
                     }`}
                   >
@@ -75,11 +75,14 @@ export function CategoryGroup({
           role={hasTabs ? 'tabpanel' : undefined}
           aria-labelledby={hasTabs ? tabId(index) : undefined}
           hidden={index !== activeIndex}
+          // The first thing in a panel is text, not a control: make the panel itself reachable.
+          tabIndex={0}
+          className="rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
         >
           <div className="flex flex-col gap-1 mb-2">
-            <span className="text-sm sm:text-base md:text-lg font-bold">
+            <h3 className="text-sm sm:text-base md:text-lg font-bold">
               {tCategory(`${category.category}.title`)}
-            </span>
+            </h3>
             <span className="text-xs sm:text-sm text-text-secondary">
               {tCategory(`${category.category}.description`)}
             </span>

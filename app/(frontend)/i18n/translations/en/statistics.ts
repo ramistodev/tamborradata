@@ -1,16 +1,21 @@
 import type statistics from '../es/statistics';
 
 export default {
-  title: 'Statistics',
   period: {
-    title: "Children's Tamborrada statistics {period}",
+    title: "Children's Tamborrada Statistics {period}",
     description:
-      "Analysis of the {period} Children's Tamborrada: participants, most common names, standout schools and yearly trends.",
+      "Analysis of the Children's Tamborrada {period}: participants, most common names, leading schools and yearly trends.",
+    dataDescription:
+      "{participants} participants in the Children's Tamborrada {period}. Most common names: {names}. Surnames, schools and yearly trends.",
+    globalTitle: "Children's Tamborrada Historical Statistics ({first}-{last})",
+    globalDescription:
+      "Data from {first} to {last} of the Children's Tamborrada in Donostia: participants, names, surnames, schools and trends.",
+    globalDataDescription:
+      "Data from {first} to {last}: {participants} participants registered in the Children's Tamborrada. Most common names and surnames, schools and trends.",
   },
   chapters: {
-    explore: 'Explore',
     ariaLabel: 'Explore the data',
-    overview: 'Overview',
+    hero: 'Overview',
     participationDynamics: 'Participation',
     schools: 'Schools',
     schoolsRenewal: 'Renewal',
@@ -18,36 +23,54 @@ export default {
     names: 'Names',
     surnames: 'Surnames',
     identityDiversity: 'Diversity',
+    closing: 'Wrap-up',
   },
   hero: {
     eyebrowYear: 'Yearly edition',
     eyebrowGlobal: 'Edition {period}',
-    titleYear: "Children's Tamborrada {period}",
-    titleGlobal: 'Complete history',
   },
   periodSelector: {
+    label: 'Periods',
     missingEdition: 'No edition in {year}',
   },
+  closing: {
+    eyebrow: 'In summary',
+    navLabel: 'Navigate between periods',
+    newer: 'More recent',
+    older: 'Older',
+    edition: 'Edition {period}',
+    backToTop: 'Back to top',
+  },
   structuredData: {
-    datasetDescription:
-      '{description} Detailed dataset with participation, names, surnames and schools.',
     home: 'Home',
-    statistics: 'Statistics by year',
+    statistics: 'Statistics by Year',
     breadcrumbPeriod: "Children's Tamborrada {period}",
-    namesQuestion: "What were the most common names in the Children's Tamborrada {period}?",
-    namesAnswer:
-      "Ranking of the most common names in the Children's Tamborrada {period}, with the ones leading the yearly ranking.",
-    surnamesQuestion: "Which surnames stood out in the Children's Tamborrada {period}?",
-    surnamesAnswer: 'List of the most frequent surnames recorded in the {period} edition.',
-    schoolsQuestion: 'Which schools had the highest participation in {period}?',
-    schoolsAnswer:
-      "Schools with the largest presence in the Children's Tamborrada {period} and newly joined centres.",
-    newNamesQuestion: "Were there new names in the Children's Tamborrada {period}?",
-    newNamesAnswer: "Names that appear for the first time in the Children's Tamborrada {period}.",
-    participantsQuestion: "How many participants were there in the Children's Tamborrada {period}?",
-    participantsAnswer:
-      'Estimated total participation of child drummers and cantineras in {period}.',
-    summaryQuestion: "Where can I see the summary of the Children's Tamborrada {period}?",
+    breadcrumbGlobal: 'Full history',
+    datasetDescription:
+      "Data from the Children's Tamborrada {period} in Donostia / San Sebastián: participants, names, surnames and schools.",
+    datasetGlobalDescription:
+      "Data from {first} to {last} of the Children's Tamborrada in Donostia / San Sebastián: participation, names, surnames and schools of every edition.",
+    keywords:
+      "children's tamborrada {period}, children's tamborrada statistics, children's tamborrada participants {period}, most common names, schools, Donostia, San Sebastián, January 20",
+    keywordsGlobal:
+      "children's tamborrada history, children's tamborrada statistics, children's tamborrada since {first}, participants per year, names, surnames, schools, Donostia, San Sebastián",
+    place: 'Donostia / San Sebastián, Gipuzkoa',
+    eventName: "Children's Tamborrada of Donostia {period}",
+    eventDescription:
+      "Parade of the Children's Tamborrada of Donostia / San Sebastián on January 20, {period}.",
+    eventSeriesName: "Children's Tamborrada of Donostia",
+    eventSeriesDescription:
+      'Yearly parade of child drummers and cantineras of Donostia / San Sebastián every January 20.',
+    variables: {
+      participants: 'Participants',
+      growth: 'Change compared with the previous edition',
+      record: 'Participants in the record edition',
+      distinctNames: 'Distinct names',
+      distinctSurnames: 'Distinct surnames',
+      multipleNames: 'Participants with a compound name',
+      averageSchoolSize: 'Average participants per school',
+      schoolCount: 'Participating schools',
+    },
   },
   publishDates: {
     published: 'Published on {date}',
@@ -93,119 +116,271 @@ export default {
     school_count: 'Schools in total',
     new_vs_veteran_ratio: 'New per veteran',
   },
-  values: {
-    yes: 'Yes',
-    no: 'No',
-  },
-  legacy: {
-    headings: {
-      topNames: 'Most repeated names',
-      topSurnames: 'Most repeated surnames',
-      topSchools: 'Schools with the most participants',
-      totalParticipants: 'Total participants',
-      newNames: 'Names appearing for the first time',
-      newSchools: 'New schools',
-      commonNamesBySchool: 'Most common names across schools',
-      nameSurnameDiversity: 'Name and surname diversity',
-    },
-    controls: {
-      viewTable: 'View table',
-      viewChart: 'View chart',
-      showMore: 'Show more',
-      showLess: 'Show less',
-    },
-    columns: {
-      year: 'Year',
-      name: 'Name',
-      surname: 'Surnames',
-      school: 'School',
-      appearances: 'Appearances',
-      totalParticipants: 'Total participants',
-      uniqueNames: 'Unique names',
-      uniqueSurnames: 'Unique surnames',
-    },
-    aria: {
-      topNamesTable: 'Table of the most repeated names of the year',
-      topNamesChart: 'Bar chart showing the 15 most repeated names of the year',
-      topSurnamesTable: 'Table of the most repeated surnames of the year',
-      topSurnamesChart: 'Bar chart showing the 15 most repeated surnames of the year',
-      topSchoolsTable: 'Table of schools with the most participants of the year',
-      topSchoolsChart: 'Bar chart showing the 15 schools with the most participants of the year',
-      totalParticipantsTable: 'Table of total participants of the year',
-      newNamesTable: 'Table of new names of the year',
-      newSchoolsTable: 'Table of new schools of the year',
-      commonNamesBySchoolTable: 'Table of the most common names by school of the year',
-      showMoreNames: 'Show more names',
-      showLessNames: 'Show fewer names',
-      showMoreSurnames: 'Show more surnames',
-      showLessSurnames: 'Show fewer surnames',
-      showMoreSchools: 'Show more schools',
-      showLessSchools: 'Show fewer schools',
-      showMoreNewNames: 'Show more new names',
-      showLessNewNames: 'Show fewer new names',
-    },
-  },
   categories: {
-    totalParticipants: { tab: 'Total', title: 'Total participants', description: 'Total number of participants recorded.' },
-    participantsGrowthRate: { tab: 'Change', title: 'Participants growth', description: 'Percentage change compared with the previous edition.' },
-    participationRecordYears: { tab: 'Record', title: 'Participation record', description: 'The edition with the highest recorded participation.' },
-    topNames: { tab: 'Most frequent', title: 'Most frequent names', description: 'Recorded appearances per name.' },
-    topSecondNames: { tab: 'Second name', title: 'Most frequent second names', description: 'Appearances of names in second position.' },
-    nameTrends: { tab: 'Trends', title: 'Name trends', description: 'Appearances per edition of the leading names.' },
-    newNames: { tab: 'New', title: 'Debuting names', description: 'Names absent from every previous edition.' },
-    disappearedNames: { tab: 'Disappeared', title: 'Disappearing names', description: 'Present in the previous edition and absent now.' },
-    perennialNames: { tab: 'Always present', title: 'Always present', description: 'Names that appear in every edition.' },
-    nameComebacks: { tab: 'Comebacks', title: 'Comebacks', description: 'Names that were missing from an edition and returned.' },
-    averageNameLength: { tab: 'Average length', title: 'Average name length', description: 'Average number of characters per recorded name.' },
-    nameInitialDistribution: { tab: 'Initials', title: 'By initial letter', description: 'How names are distributed by their first letter.' },
-    longestNames: { tab: 'Longest', title: 'Longest names', description: 'Length in characters of the recorded name.' },
-    nameSchoolCorrelation: { tab: 'In most schools', title: 'Names in the most schools', description: 'In how many schools each name appears.' },
-    singleYearNames: { tab: 'Single edition', title: 'Single-edition names', description: 'Names that appear in only one edition.' },
-    rareNames: { tab: 'Rare', title: 'Rare names', description: 'Names recorded on very few occasions.' },
-    participantsWithMultipleNames: { tab: 'Multiple names', title: 'Participants with multiple names', description: 'Participants with more than one given name.' },
-    topSurnames: { tab: 'Most frequent', title: 'Most frequent surnames', description: 'Recorded appearances per surname.' },
-    surnameTrends: { tab: 'Trends', title: 'Surname trends', description: 'Appearances per edition of the leading surnames.' },
-    newSurnames: { tab: 'New', title: 'Debuting surnames', description: 'Surnames absent from every previous edition.' },
-    disappearedSurnames: { tab: 'Disappeared', title: 'Disappearing surnames', description: 'Present in the previous edition and absent now.' },
-    perennialSurnames: { tab: 'Always present', title: 'Always present', description: 'Surnames that appear in every edition.' },
-    surnameComebacks: { tab: 'Comebacks', title: 'Comebacks', description: 'Surnames that were missing from an edition and returned.' },
-    averageSurnameLength: { tab: 'Average length', title: 'Average surname length', description: 'Average number of characters per recorded surname.' },
-    surnameInitialDistribution: { tab: 'Initials', title: 'By initial letter', description: 'How surnames are distributed by their first letter.' },
-    longestSurnames: { tab: 'Longest', title: 'Longest surnames', description: 'Length in characters of the recorded surname.' },
-    surnameSchoolCorrelation: { tab: 'In most schools', title: 'Surnames in the most schools', description: 'In how many schools each surname appears.' },
-    singleYearSurnames: { tab: 'Single edition', title: 'Single-edition surnames', description: 'Surnames that appear in only one edition.' },
-    rareSurnames: { tab: 'Rare', title: 'Rare surnames', description: 'Surnames recorded on very few occasions.' },
-    topSchools: { tab: 'Most participants', title: 'Schools with the most participants', description: 'Recorded participants per school.' },
-    schoolGrowthRate: { tab: 'Growth', title: 'School growth', description: 'Percentage change in participants per school.' },
-    averageSchoolSize: { tab: 'Average size', title: 'Average school size', description: 'Average participants per school.' },
-    schoolNameDiversity: { tab: 'Name variety', title: 'Schools with the most name variety', description: 'Distinct names recorded in each school.' },
-    schoolSurnameDiversity: { tab: 'Surname variety', title: 'Schools with the most surname variety', description: 'Distinct surnames recorded in each school.' },
-    commonNameBySchool: { tab: 'Common name', title: 'Most common name by school', description: 'One record per school, ordered by appearances.' },
-    commonSurnameBySchool: { tab: 'Common surname', title: 'Most common surname by school', description: 'One record per school, ordered by appearances.' },
-    namesDiversity: { tab: 'Names', title: 'Names diversity', description: 'Variety of the set of given names.' },
-    surnamesDiversity: { tab: 'Surnames', title: 'Surnames diversity', description: 'Variety of the set of surnames.' },
-    nameConcentration: { tab: 'Name concentration', title: 'Name concentration', description: 'How concentrated participants are in a few names.' },
-    surnameConcentration: { tab: 'Surname concentration', title: 'Surname concentration', description: 'How concentrated participants are in a few surnames.' },
-    nameSurnameDynasties: { tab: 'Dynasties', title: 'Name and surname dynasties', description: 'Combinations that repeat across editions.' },
-    newSchools: { tab: 'New', title: 'Debuting schools', description: 'Schools absent from previous editions.' },
-    disappearedSchools: { tab: 'Disappeared', title: 'Schools that disappear', description: 'Present in the previous edition and absent now.' },
-    newVsVeteranSchoolRatio: { tab: 'New vs veteran', title: 'New versus veteran schools', description: 'Ratio of new schools to veteran schools.' },
-    schoolsEvolution: { tab: 'Evolution', title: 'Schools evolution', description: 'Participants per edition for the largest schools.' },
-    schoolLongevity: { tab: 'Long-standing', title: 'Most long-standing', description: 'Editions each school has taken part in.' },
-    mostConstantSchools: { tab: 'Consistent', title: 'Most consistent', description: 'Regularity of participation across editions.' },
+    totalParticipants: {
+      tab: 'Total',
+      title: 'Total participants',
+      description: 'Drummers and cantineras registered in total.',
+    },
+    participantsGrowthRate: {
+      tab: 'Change',
+      title: 'Participants growth',
+      description:
+        'How much participation grew or shrank, as a percentage, compared with the previous edition.',
+    },
+    participationRecordYears: {
+      tab: 'Record',
+      title: 'Participation record',
+      description:
+        'The edition with the most participants in the whole history, and how many there were.',
+    },
+    topNames: {
+      tab: 'Most frequent',
+      title: 'Most frequent names',
+      description: 'The most repeated names and how many times each one appears.',
+    },
+    topSecondNames: {
+      tab: 'Second name',
+      title: 'Most frequent second names',
+      description: 'The most repeated second names among participants with a compound name.',
+    },
+    nameTrends: {
+      tab: 'Trends',
+      title: 'Name trends',
+      description:
+        'How the number of appearances of the leading names has changed, edition by edition.',
+    },
+    newNames: {
+      tab: 'New',
+      title: 'Debuting names',
+      description: 'Names that appear for the first time in this edition, never seen before.',
+    },
+    disappearedNames: {
+      tab: 'Disappeared',
+      title: 'Disappearing names',
+      description: 'Names that were in the previous edition and no longer appear in this one.',
+    },
+    perennialNames: {
+      tab: 'Always present',
+      title: 'Always present',
+      description: 'Names that have been present in every edition.',
+    },
+    nameComebacks: {
+      tab: 'Comebacks',
+      title: 'Comebacks',
+      description: 'Names that dropped out for one or more editions and then came back.',
+    },
+    averageNameLength: {
+      tab: 'Average length',
+      title: 'Average name length',
+      description: 'Average number of letters in the registered names.',
+    },
+    nameInitialDistribution: {
+      tab: 'Initials',
+      title: 'By initial letter',
+      description: 'How names are distributed by the letter they start with.',
+    },
+    longestNames: {
+      tab: 'Longest',
+      title: 'Longest names',
+      description: 'The names with the most letters, and their length.',
+    },
+    nameSchoolCorrelation: {
+      tab: 'In most schools',
+      title: 'Names in the most schools',
+      description: 'The names found in the most different schools, and in how many.',
+    },
+    singleYearNames: {
+      tab: 'Single edition',
+      title: 'Single-edition names',
+      description: 'Names that have appeared in only one edition in the whole history.',
+    },
+    rareNames: {
+      tab: 'Rare',
+      title: 'Rare names',
+      description: 'Names recorded very few times across the whole history.',
+    },
+    participantsWithMultipleNames: {
+      tab: 'Multiple names',
+      title: 'Participants with multiple names',
+      description: 'Participants with more than one given name, and what share they make up.',
+    },
+    topSurnames: {
+      tab: 'Most frequent',
+      title: 'Most frequent surnames',
+      description: 'The most repeated surnames and how many times each one appears.',
+    },
+    surnameTrends: {
+      tab: 'Trends',
+      title: 'Surname trends',
+      description:
+        'How the number of appearances of the leading surnames has changed, edition by edition.',
+    },
+    newSurnames: {
+      tab: 'New',
+      title: 'Debuting surnames',
+      description: 'Surnames that appear for the first time in this edition, never seen before.',
+    },
+    disappearedSurnames: {
+      tab: 'Disappeared',
+      title: 'Disappearing surnames',
+      description: 'Surnames that were in the previous edition and no longer appear in this one.',
+    },
+    perennialSurnames: {
+      tab: 'Always present',
+      title: 'Always present',
+      description: 'Surnames that have been present in every edition.',
+    },
+    surnameComebacks: {
+      tab: 'Comebacks',
+      title: 'Comebacks',
+      description: 'Surnames that dropped out for one or more editions and then came back.',
+    },
+    averageSurnameLength: {
+      tab: 'Average length',
+      title: 'Average surname length',
+      description: 'Average number of letters in the registered surnames.',
+    },
+    surnameInitialDistribution: {
+      tab: 'Initials',
+      title: 'By initial letter',
+      description: 'How surnames are distributed by the letter they start with.',
+    },
+    longestSurnames: {
+      tab: 'Longest',
+      title: 'Longest surnames',
+      description: 'The surnames with the most letters, and their length.',
+    },
+    surnameSchoolCorrelation: {
+      tab: 'In most schools',
+      title: 'Surnames in the most schools',
+      description: 'The surnames found in the most different schools, and in how many.',
+    },
+    singleYearSurnames: {
+      tab: 'Single edition',
+      title: 'Single-edition surnames',
+      description: 'Surnames that have appeared in only one edition in the whole history.',
+    },
+    rareSurnames: {
+      tab: 'Rare',
+      title: 'Rare surnames',
+      description: 'Surnames recorded very few times across the whole history.',
+    },
+    topSchools: {
+      tab: 'Most participants',
+      title: 'Schools with the most participants',
+      description: 'The schools with the most participants, and how many each one brings.',
+    },
+    schoolGrowthRate: {
+      tab: 'Growth',
+      title: 'School growth',
+      description:
+        'Percentage change in the participants of each school compared with the previous edition.',
+    },
+    averageSchoolSize: {
+      tab: 'Average size',
+      title: 'Average school size',
+      description: 'Average number of participants per school.',
+    },
+    schoolNameDiversity: {
+      tab: 'Name variety',
+      title: 'Schools with the most name variety',
+      description: 'The schools with the most different names among their participants.',
+    },
+    schoolSurnameDiversity: {
+      tab: 'Surname variety',
+      title: 'Schools with the most surname variety',
+      description: 'The schools with the most different surnames among their participants.',
+    },
+    commonNameBySchool: {
+      tab: 'Common name',
+      title: 'Most common name by school',
+      description: 'The name that appears most in each school, and how many times it appears.',
+    },
+    commonSurnameBySchool: {
+      tab: 'Common surname',
+      title: 'Most common surname by school',
+      description: 'The surname that appears most in each school, and how many times it appears.',
+    },
+    namesDiversity: {
+      tab: 'Names',
+      title: 'Names diversity',
+      description:
+        'How much variety there is in names: the more distinct names, the more diversity.',
+    },
+    surnamesDiversity: {
+      tab: 'Surnames',
+      title: 'Surnames diversity',
+      description:
+        'How much variety there is in surnames: the more distinct surnames, the more diversity.',
+    },
+    nameConcentration: {
+      tab: 'Name concentration',
+      title: 'Name concentration',
+      description:
+        'How concentrated participants are in a few names. The more concentration, the less diversity.',
+    },
+    surnameConcentration: {
+      tab: 'Surname concentration',
+      title: 'Surname concentration',
+      description:
+        'How concentrated participants are in a few surnames. The more concentration, the less diversity.',
+    },
+    nameSurnameDynasties: {
+      tab: 'Dynasties',
+      title: 'Name and surname dynasties',
+      description:
+        'Name and surname combinations that repeat across several editions, possibly from the same family.',
+    },
+    newSchools: {
+      tab: 'New',
+      title: 'Debuting schools',
+      description: 'Schools taking part for the first time in this edition.',
+    },
+    disappearedSchools: {
+      tab: 'Disappeared',
+      title: 'Schools that disappear',
+      description: 'Schools that were in the previous edition and no longer appear in this one.',
+    },
+    newVsVeteranSchoolRatio: {
+      tab: 'New vs veteran',
+      title: 'New versus veteran schools',
+      description: 'How many new schools there are for each veteran school.',
+    },
+    schoolsEvolution: {
+      tab: 'Evolution',
+      title: 'Schools evolution',
+      description:
+        'How the number of participants of the largest schools has changed, edition by edition.',
+    },
+    schoolLongevity: {
+      tab: 'Long-standing',
+      title: 'Most long-standing',
+      description: 'The schools that have taken part in the most editions, and in how many.',
+    },
+    mostConstantSchools: {
+      tab: 'Consistent',
+      title: 'Most consistent',
+      description:
+        'The schools whose participation changes least from one edition to the next; they are not necessarily the largest.',
+    },
   },
   layout: {
-    views: '{count} views',
-    top: 'Top {count}',
-    school: 'School',
-    name: 'Name',
-    surname: 'Surname',
-    value: 'Value',
     showMore: 'Show more',
     showLess: 'Show less',
     seriesLatest: 'Latest',
     seriesPeak: 'Peak',
-    seriesChange: 'Change',
+    groups: { series: 'Series', rankings: 'Rankings', tables: 'Tables' },
+    tableValue: 'Times',
+    chartHint:
+      'Use the left and right arrow keys to move through the editions and read their values.',
+    legendLabel: 'Chart series: press to show or hide',
+    keyFigures: 'Key figures',
+    shown: 'Showing {count} results',
+    table: {
+      commonNameBySchool: { school: 'School', entity: 'Most common name' },
+      commonSurnameBySchool: { school: 'School', entity: 'Most common surname' },
+    },
   },
   familyRender: {
     participationDynamics: { title: 'Participation' },
@@ -215,36 +390,5 @@ export default {
     schools: { title: 'Schools' },
     schoolsRenewal: { title: 'Renewal' },
     schoolsEvolution: { title: 'Evolution' },
-  },
-  names: {
-    title: 'Names',
-    rankingLabel: 'Name ranking',
-    seriesLabel: 'Name history',
-    rank: 'Rank',
-    name: 'Name',
-    value: 'Value',
-    noData: '—',
-    unknownName: 'Unnamed',
-    categories: {
-      topNames: 'Most frequent names',
-      topSecondNames: 'Most frequent second names',
-      nameTrends: 'Name trends',
-      newNames: 'New names',
-      disappearedNames: 'Disappeared names',
-      perennialNames: 'Names in every edition',
-      nameComebacks: 'Returning names',
-      averageNameLength: 'Average name length',
-      nameInitialDistribution: 'Name initials',
-      longestNames: 'Longest names',
-      nameSchoolCorrelation: 'Names across the most schools',
-      singleYearNames: 'Names in one edition only',
-      rareNames: 'Rare names',
-      participantsWithMultipleNames: 'Participants with multiple names',
-    },
-    metrics: {
-      average_length: 'Average characters',
-      participants_with_multiple_names: 'Participants',
-      multiple_names_rate: 'Of resolved participants',
-    },
   },
 } satisfies typeof statistics;
