@@ -6,7 +6,7 @@ import {
   PeriodData,
 } from '../../../../../../types/api/statistics.types';
 import { periodKind } from '../../../../../../types/period.types';
-import { OVERVIEW_CHAPTER_ID } from '../utils/chapters';
+import { HERO_CHAPTER_ID } from '../utils/chapters';
 import { SummaryParagraphs } from './SummaryParagraphs';
 import { OverviewCard } from './OverviewCard';
 import { PeriodSelector } from './PeriodSelector';
@@ -28,19 +28,22 @@ export function Hero({
   const { period } = periodData;
 
   return (
-    <section id={OVERVIEW_CHAPTER_ID} className="flex scroll-mt-32 flex-col gap-4 px-3 sm:px-5">
-      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-        <span className="text-xs sm:text-sm font-mono text-accent whitespace-nowrap uppercase">
-          {isYear ? t('hero.eyebrowYear') : t('hero.eyebrowGlobal', { period })}
-        </span>
-        <PublishDates periodData={periodData} />
-      </div>
-      <h1 id="year-page-title" className="text-2xl md:text-3xl font-bold">
-        <span className="hidden md:block">{t('period.title', { period })}</span>
-        <span className="block md:hidden">
-          {isYear ? t('hero.titleYear', { period }) : t('hero.titleGlobal')}
-        </span>
-      </h1>
+    <section
+      id={HERO_CHAPTER_ID}
+      tabIndex={-1}
+      className="flex scroll-mt-32 flex-col gap-4 px-3 focus:outline-none sm:px-5"
+    >
+      <header className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+          <span className="text-xs sm:text-sm font-mono text-accent whitespace-nowrap uppercase">
+            {isYear ? t('hero.eyebrowYear') : t('hero.eyebrowGlobal', { period })}
+          </span>
+          <PublishDates periodData={periodData} />
+        </div>
+        <h1 id="year-page-title" className="text-xl sm:text-2xl md:text-3xl font-bold">
+          {t('period.title', { period })}
+        </h1>
+      </header>
       <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">
         <PeriodSelector periods={periods} />
         <span className="w-full flex flex-col items-center">

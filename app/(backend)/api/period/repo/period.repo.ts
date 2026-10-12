@@ -6,6 +6,7 @@ export async function getAllPublishedPeriods(): Promise<PublishedPeriod[]> {
   const { data, error } = await supabaseClient
     .from(tables.statsPeriods)
     .select('internal_key, public_slug, kind')
+    .order('public_slug', { ascending: false })
     .eq('is_ready', true);
 
   if (error) {

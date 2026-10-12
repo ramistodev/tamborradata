@@ -9,15 +9,22 @@ export function FamilyRender({ family }: { family: StatisticFamily }) {
   const format = useFormatter();
 
   return (
-    <section id={family.family} className="flex flex-col gap-4">
+    <section
+      id={family.family}
+      tabIndex={-1}
+      aria-labelledby={`${family.family}-title`}
+      className="flex scroll-mt-32 flex-col gap-4 focus:outline-none"
+    >
       <header className="flex items-center gap-2 px-4 py-2 border-b border-border">
-        <span className="font-mono text-[10px] sm:text-xs text-accent">
+        <span aria-hidden="true" className="font-mono text-[10px] sm:text-xs text-accent">
           {format.number(CHAPTER_ORDER[family.family], {
             minimumIntegerDigits: 2,
             useGrouping: false,
           })}
         </span>
-        <h2 className="text-xl md:text-2xl font-semibold">{t('title')}</h2>
+        <h2 id={`${family.family}-title`} className="text-xl md:text-2xl font-semibold">
+          {t('title')}
+        </h2>
       </header>
       <SummaryParagraphs p={family.template} />
       <div>

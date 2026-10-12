@@ -1,6 +1,7 @@
 import { PeriodResponse } from '../../../../../types/api/period.types';
 import { StatisticsResponse } from '../../../../../types/api/statistics.types';
 import { ChapterNav } from './components/ChapterNav';
+import { Closing } from './components/Closing';
 import { FamilyRender } from './components/family/FamilyRender';
 import { Hero } from './components/Hero';
 import { sortFamilies } from './utils/chapters';
@@ -28,6 +29,7 @@ export function PeriodPageContent({
           <FamilyRender key={family.family} family={family} />
         ))}
       </div>
+      <Closing periods={periods} currentPeriod={stats.metaData.period} outro={stats.outro} />
     </article>
   );
 }

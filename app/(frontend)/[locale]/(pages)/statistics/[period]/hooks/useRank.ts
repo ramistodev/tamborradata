@@ -38,8 +38,11 @@ export function useRank(category: RankCategory) {
     (query.data ? query.hasNextPage : initialCursor !== undefined);
   const hasMore = visible < allRows.length || canFetchMore;
   const canCollapse = visible > initialRows.length;
-  // The leader is always in the first page, so the bars do not rescale when expanding or collapsing.
-  const maxValue = Math.max(...initialRows.map((entry) => entry.value));
+  // Biggest magnitude among the rows fetched so far. In a plain ranking the leader is in the first
+  // page, so the bars never rescale; in a signed one the deepest decline sits at the end and the
+  // scale grows only when a page brings a bigger value. `allRows` survives a collapse, so
+  // collapsing and expanding again never changes the bars.
+  const maxAbsValue = Math.max(...allRows.map((entry) => Math.abs(entry.value)));
 
   const loadMore = async () => {
     const target = visible + RANK_PAGE_SIZE;
@@ -64,7 +67,7 @@ export function useRank(category: RankCategory) {
     ranks,
     listRef,
     formatNumber,
-    maxValue,
+    maxAbsValue,
     hasMore,
     canCollapse,
     isLoading: query.isFetching,

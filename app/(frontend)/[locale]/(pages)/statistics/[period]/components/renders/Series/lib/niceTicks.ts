@@ -1,9 +1,7 @@
-import { TARGET_TICKS } from '../constants';
-
 /** Round tick values (1, 2, 5 x 10^n) that start at 0 (or below) and cover the maximum. */
-export function niceTicks(min: number, max: number): number[] {
+export function niceTicks(min: number, max: number, targetTicks: number): number[] {
   const range = max - min || 1;
-  const rawStep = range / TARGET_TICKS;
+  const rawStep = range / targetTicks;
   const magnitude = 10 ** Math.floor(Math.log10(rawStep));
   const normalized = rawStep / magnitude;
   const step = (normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 5 ? 5 : 10) * magnitude;

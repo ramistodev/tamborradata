@@ -10,6 +10,7 @@ export function ChapterNav({ families }: { families: StatisticFamily[] }) {
 
   return (
     <nav
+      data-chapter-nav
       aria-label={t('ariaLabel')}
       className="sticky top-14.25 md:top-15.25 z-40 border-b border-border backdrop-blur-md px-5 md:px-10"
     >
@@ -23,7 +24,7 @@ export function ChapterNav({ families }: { families: StatisticFamily[] }) {
                 href={`#${id}`}
                 onClick={(event) => jumpTo(event, id)}
                 aria-current={isActive ? 'location' : undefined}
-                className={`inline-flex py-4 px-3 items-center text-xs whitespace-nowrap transition-colors ${
+                className={`inline-flex py-4 px-3 items-center text-xs whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent ${
                   isActive
                     ? 'border-accent border-b font-semibold text-text'
                     : 'border-transparent text-text-secondary hover:text-text'

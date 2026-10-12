@@ -1,5 +1,5 @@
-import { PeriodResponse } from '../../../../../types/api/period.types';
-import { GLOBAL_STATS_KEY } from '../../../config/constants';
+import { PeriodResponse } from '../../../types/api/period.types';
+import { GLOBAL_STATS_KEY } from '../config/constants';
 
 /** Global period first, then the rest in the order they come. */
 export function sortPeriods(periods: PeriodResponse[]) {

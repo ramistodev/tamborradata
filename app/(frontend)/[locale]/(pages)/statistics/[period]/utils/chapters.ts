@@ -2,7 +2,8 @@ import type { StatisticFamily } from '@/app/types/api/statistics.types';
 import { CategoryFamilies, categoryFamilies } from '@/app/types/statistics';
 
 /** Id of the hero section: the first "chapter" of the nav, always present. */
-export const OVERVIEW_CHAPTER_ID = 'overview';
+export const HERO_CHAPTER_ID = 'hero';
+export const CLOSING_CHAPTER_ID = 'closing';
 
 // Position of each family in the page. Every family must have one (enforced by the compiler), and
 // the chapter's section must use the family name as its `id`.

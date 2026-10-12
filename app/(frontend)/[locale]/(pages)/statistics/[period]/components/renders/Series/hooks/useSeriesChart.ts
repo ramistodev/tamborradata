@@ -2,13 +2,17 @@ import { useMemo, useState } from 'react';
 import type { StatisticSeriesPoint } from '../../../../../../../../../types/api/statistics.types';
 import { buildChart } from '../lib/buildChart';
 import { createScales } from '../lib/createScales';
+import type { ChartLayout } from '../types';
 
 /**
  * Chart of one series plus what the user can do with it: hide lines (the scale follows the lines
  * that stay) and focus one (the legend highlights it and dims the rest).
  */
-export function useSeriesChart(data: StatisticSeriesPoint[], label: string) {
-  const chart = useMemo(() => buildChart(data, label), [data, label]);
+export function useSeriesChart(data: StatisticSeriesPoint[], label: string, layout: ChartLayout) {
+  const chart = useMemo(
+    () => buildChart(data, label, layout.maxLines),
+    [data, label, layout.maxLines]
+  );
   const [hiddenKeys, setHiddenKeys] = useState<ReadonlySet<string>>(new Set());
   const [focusedKey, setFocusedKey] = useState<string | null>(null);
 
@@ -17,8 +21,8 @@ export function useSeriesChart(data: StatisticSeriesPoint[], label: string) {
     [chart.lines, hiddenKeys]
   );
   const scales = useMemo(
-    () => createScales(chart.dimensions, visibleLines),
-    [chart.dimensions, visibleLines]
+    () => createScales(chart.dimensions, visibleLines, layout),
+    [chart.dimensions, visibleLines, layout]
   );
 
   function toggleLine(key: string) {
