@@ -39,3 +39,10 @@ export class ServerError extends Error {
     this.name = 'ServerError';
   }
 }
+
+export class PeriodMovedError extends Error {
+  constructor(public readonly slug: string) {
+    super(`The period was moved to "${slug}".`);
+    this.name = 'PeriodMovedError';
+  }
+}
