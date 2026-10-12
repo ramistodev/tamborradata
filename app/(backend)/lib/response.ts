@@ -4,6 +4,7 @@ import {
   ConflictError,
   ForbiddenError,
   NotFoundError,
+  PeriodMovedError,
   ServerError,
   UnauthorizedError,
   ValidationError,
@@ -59,6 +60,7 @@ export function handleError(tag: string, error: unknown): Response {
   if (error instanceof ForbiddenError) return res.forbidden(error.message);
   if (error instanceof NotFoundError) return res.notFound(error.message);
   if (error instanceof ConflictError) return res.conflict(error.message);
+  if (error instanceof PeriodMovedError) return res.notFound(error.message);
   if (error instanceof ServerError) return res.serverError(error.message);
   const message = error instanceof Error ? error.message : String(error);
 
