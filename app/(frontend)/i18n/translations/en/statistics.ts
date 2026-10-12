@@ -41,6 +41,14 @@ export default {
     edition: 'Edition {period}',
     backToTop: 'Back to top',
   },
+  error: {
+    title: 'We could not load the statistics',
+    description:
+      'An unexpected error happened while getting the data. You can try again or go back to the home page.',
+    retry: 'Try again',
+    back: 'Back to home',
+    digest: 'Error code: {digest}',
+  },
   structuredData: {
     home: 'Home',
     statistics: 'Statistics by Year',
