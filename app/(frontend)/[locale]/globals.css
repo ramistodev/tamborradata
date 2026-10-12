@@ -89,6 +89,10 @@
   --chart-9: #4f46e5;
   --chart-10: #5b7f00;
 
+  /* Scrollbar: the thumb reaches 3:1 against the track (WCAG non-text contrast) */
+  --scrollbar-track: var(--bg-secondary);
+  --scrollbar-thumb: #7f8ba6;
+
   /* Decoration */
   --grid-line: rgba(0, 80, 204, 0.06);
   --grid-size: 80px;
@@ -143,8 +147,43 @@
     --chart-9: #8f9bff;
     --chart-10: #58d39d;
 
+    --scrollbar-thumb: #53628a;
+
     /* Decoration */
     --grid-line: rgba(77, 140, 255, 0.04);
+  }
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+/* Standard properties (Firefox, Chrome 121+, Safari 18.2+). `scrollbar-color` is inherited, so the
+ * scroll areas inside the page follow it too. `scrollbar-width` is not, so the `scrollbar-none` and
+ * `scrollbar-thin` utilities keep working: they are set on each element. */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* Fallback for browsers without the standard properties. Chrome ignores these rules once
+ * `scrollbar-color` is set, so they only apply where it is not supported. */
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background: var(--scrollbar-track);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border: 3px solid var(--scrollbar-track);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
   }
 }
 
