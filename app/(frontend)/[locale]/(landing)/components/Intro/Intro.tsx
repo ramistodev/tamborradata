@@ -17,7 +17,7 @@ export async function Intro() {
           {t('subtitle')}
         </p>
 
-        <Link href="/statistics/global" className={buttonStyles({ className: 'mt-4' })}>
+        <Link href="/statistics/2008-2026" className={buttonStyles({ className: 'mt-4' })}>
           {t('cta')} <Icons.ArrowRight />
         </Link>
       </Container>
