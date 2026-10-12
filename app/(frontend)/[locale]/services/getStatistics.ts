@@ -6,6 +6,8 @@ import { StatisticsResponse } from '../../../types/api/statistics.types';
 import { Locale } from '../../../types/locale';
 import { cacheAcrossRequests } from '../lib/cacheAcrossRequests';
 import { handleServiceError } from '../lib/handleServiceError';
+import { PeriodMovedError } from '../../../(backend)/lib/errors';
+import { permanentRedirect } from '../../i18n/navigation';
 
 const getCachedStatistics = cacheAcrossRequests(statisticsService, ['statistics'], {
   revalidate: 3600,
@@ -18,6 +20,9 @@ export const getStatistics = cache(
     try {
       return await getCachedStatistics(checkParams(periodKey, locale));
     } catch (error) {
+      if (error instanceof PeriodMovedError) {
+        permanentRedirect({ href: `/statistics/${error.slug}`, locale });
+      }
       return handleServiceError(error);
     }
   }
