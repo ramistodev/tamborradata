@@ -117,7 +117,7 @@ export function ExploreStatistics() {
           transition={{ duration: 1, type: 'spring', stiffness: 300, damping: 20 }}
         >
           <Link
-            href="/statistics/global"
+            href="/statistics/2008-2026"
             className="block h-full p-8 rounded-2xl transition-all duration-500 shadow-xl group border border-(--color-border) relative overflow-hidden bg-linear-to-br from-(--eye-catching-text) via-(--color-primary) to-(--color-bg-thirdary)"
           >
             <div className="flex flex-col items-start justify-center gap-4 relative z-10">

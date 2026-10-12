@@ -49,7 +49,7 @@ export function LandingStructuredData({
       {
         '@type': 'DataDownload',
         encodingFormat: 'text/html',
-        contentUrl: `${siteUrl}/statistics/global`,
+        contentUrl: `${siteUrl}/statistics/2008-2026`,
         name: 'Consulta de estadísticas globales de la Tamborrada Infantil',
       },
     ],
