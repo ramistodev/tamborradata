@@ -15,10 +15,6 @@ type ClosingProps = {
 
 /** End of the page: the summary, the way to the neighbour editions and a way back to the top. */
 export function Closing({ periods, currentPeriod, outro }: ClosingProps) {
-  const t = useTranslations('Statistics.closing');
-  const tChapter = useTranslations('Statistics.chapters');
-  const hasSummary = Boolean(outro.summary && outro.section);
-
   return (
     <section
       id={CLOSING_CHAPTER_ID}
@@ -26,9 +22,6 @@ export function Closing({ periods, currentPeriod, outro }: ClosingProps) {
       aria-labelledby={`${CLOSING_CHAPTER_ID}-title`}
       className="flex scroll-mt-32 flex-col gap-6 border-t border-border px-3 pt-8 pb-10 focus:outline-none sm:px-5"
     >
-      <h2 id={`${CLOSING_CHAPTER_ID}-title`} className="sr-only">
-        {tChapter('closing')}
-      </h2>
       <SummaryParagraphs p={outro} />
       <PeriodNeighbors periods={periods} currentPeriod={currentPeriod} />
       <div className="flex justify-center">
