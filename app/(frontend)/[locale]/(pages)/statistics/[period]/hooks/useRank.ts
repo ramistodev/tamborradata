@@ -48,6 +48,7 @@ export function useRank(category: RankCategory) {
     const target = visible + RANK_PAGE_SIZE;
 
     if (target > allRows.length && canFetchMore) {
+      // On failure (network, server or timeout) `visible` stays put and `hasError` is raised.
       const result = await query.fetchNextPage();
 
       if (result.isError) {
@@ -71,6 +72,8 @@ export function useRank(category: RankCategory) {
     hasMore,
     canCollapse,
     isLoading: query.isFetching,
+    // Stays true until the next attempt starts, so the retry button is just `loadMore` again.
+    hasError: query.isFetchNextPageError,
     loadMore,
     collapseRanks,
   };

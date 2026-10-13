@@ -19,6 +19,7 @@ export function RankRender({ category, unit = '' }: { category: RankCategory; un
     hasMore,
     canCollapse,
     isLoading,
+    hasError,
     loadMore,
     collapseRanks,
   } = useRank(category);
@@ -82,6 +83,7 @@ export function RankRender({ category, unit = '' }: { category: RankCategory; un
         hasMore={hasMore}
         canCollapse={canCollapse}
         isLoading={isLoading}
+        hasError={hasError}
         onLoadMore={loadMore}
         onCollapse={collapseRanks}
       />

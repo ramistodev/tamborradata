@@ -248,4 +248,35 @@ export const Icons = {
       />
     </svg>
   ),
+
+  // Size it with `className` (default size-4).
+  ExclamationCircle: ({ className = 'size-4' }: { className?: string }) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      aria-hidden="true"
+      className={`shrink-0 ${className}`}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4M12 16h.01" />
+    </svg>
+  ),
+
+  // Size it with `className` (default size-4).
+  RetryIcon: ({ className = 'size-4' }: { className?: string }) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      aria-hidden="true"
+      className={`shrink-0 ${className}`}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5" />
+    </svg>
+  ),
 };
