@@ -6,12 +6,12 @@ import { handleError, res } from '../../lib/response';
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const name = searchParams.get('name');
+    const participant = searchParams.get('participant');
     const schoolKey = searchParams.get('schoolKey');
 
-    const { cleanName, schoolKey: cleanSchoolKey } = await checkParams({ name, schoolKey });
+    const { tokens, schoolKey: cleanSchoolKey } = checkParams({ participant, schoolKey });
 
-    const participants = await participantsService(cleanName, cleanSchoolKey);
+    const participants = await participantsService(tokens, cleanSchoolKey);
 
     return res.ok(participants);
   } catch (error) {

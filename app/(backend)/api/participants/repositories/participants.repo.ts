@@ -1,30 +1,38 @@
 import 'server-only';
 import { supabaseClient } from '../../../core/db/supabaseClient';
-import { tables } from '../../../../types/dbSchema';
-import { NotFoundError } from '../../../lib/errors';
+import { nameResolutionStatus, tables } from '../../../../types/dbSchema';
 import { ParticipantRow } from '../types';
 
+const toArrayLiteral = (units: string[]) =>
+  `{${units.map((unit) => `"${unit.replace(/["\\]/g, '\\$&')}"`).join(',')}}`;
+
+/**
+ * Resolved participants of a school with at least one typed unit among their names and another
+ * among their surnames. Any compatible record has both, so this never leaves out a match.
+ */
 export async function fetchParticipants(
-  partialName: string,
+  units: string[],
   schoolKey: string
 ): Promise<ParticipantRow[]> {
+  const typedUnits = toArrayLiteral(units);
+
   const { data: participants, error } = await supabaseClient
     .from(tables.participants)
     .select(
-      'id, name, name_key, year, school:schools!inner(id, canonical_name, school_key), scraped_url:scraped_urls(url)'
+      `name, name_key, year,
+       school:schools!inner(canonical_name, school_key),
+       scraped_url:scraped_urls(url),
+       resolution:participant_name_resolutions!inner(name_keys, surname_keys)`
     )
-    .ilike('name', `%${partialName}%`)
     .eq('school.school_key', schoolKey)
-    .order('year', { ascending: false })
+    .eq('resolution.status', nameResolutionStatus.resolved)
+    .overlaps('resolution.name_keys', typedUnits)
+    .overlaps('resolution.surname_keys', typedUnits)
     .returns<ParticipantRow[]>();
 
   if (error) {
     throw new Error(`Error fetching participants: ${error.message}`);
   }
 
-  if (!participants || participants.length === 0) {
-    throw new NotFoundError('No participants found for the given name and schoolKey');
-  }
-
-  return participants;
+  return participants ?? [];
 }
