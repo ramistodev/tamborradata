@@ -20,7 +20,8 @@ export function useCategoryQuery(
 ) {
   return useInfiniteQuery({
     queryKey: queryKeys.category(category, period, limit),
-    queryFn: ({ pageParam }) => fetchCategory({ period, category, cursor: pageParam, limit }),
+    queryFn: ({ pageParam, signal }) =>
+      fetchCategory({ period, category, cursor: pageParam, limit, signal }),
     initialPageParam: initialCursor,
     getNextPageParam: (lastPage) => lastPage.pageInfo.nextCursor ?? undefined,
     enabled: enabled && Boolean(category) && Boolean(period),

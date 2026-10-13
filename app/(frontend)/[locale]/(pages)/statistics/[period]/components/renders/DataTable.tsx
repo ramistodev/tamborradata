@@ -11,8 +11,17 @@ const headerCell =
 
 /** One row per school with the entity that leads it and how many times it appears. */
 export function DataTableRender({ category }: { category: RankCategory }) {
-  const { ranks, listRef, formatNumber, hasMore, canCollapse, isLoading, loadMore, collapseRanks } =
-    useRank(category);
+  const {
+    ranks,
+    listRef,
+    formatNumber,
+    hasMore,
+    canCollapse,
+    isLoading,
+    hasError,
+    loadMore,
+    collapseRanks,
+  } = useRank(category);
   const t = useTranslations('Statistics.layout');
   const tCategory = useTranslations('Statistics.categories');
 
@@ -76,6 +85,7 @@ export function DataTableRender({ category }: { category: RankCategory }) {
         hasMore={hasMore}
         canCollapse={canCollapse}
         isLoading={isLoading}
+        hasError={hasError}
         onLoadMore={loadMore}
         onCollapse={collapseRanks}
       />

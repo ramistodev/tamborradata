@@ -376,6 +376,8 @@ export default {
   layout: {
     showMore: 'Show more',
     showLess: 'Show less',
+    loadError: 'Could not load more results.',
+    retry: 'Try again',
     seriesLatest: 'Latest',
     seriesPeak: 'Peak',
     groups: { series: 'Series', rankings: 'Rankings', tables: 'Tables' },
