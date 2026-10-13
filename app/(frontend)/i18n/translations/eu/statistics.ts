@@ -377,6 +377,8 @@ export default {
   layout: {
     showMore: 'Erakutsi gehiago',
     showLess: 'Erakutsi gutxiago',
+    loadError: 'Ezin izan dira emaitza gehiago kargatu.',
+    retry: 'Saiatu berriro',
     seriesLatest: 'Azkena',
     seriesPeak: 'Gehienekoa',
     groups: { series: 'Serieak', rankings: 'Sailkapenak', tables: 'Taulak' },

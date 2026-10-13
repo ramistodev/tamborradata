@@ -375,6 +375,8 @@ const statistics = {
   layout: {
     showMore: 'Mostrar más',
     showLess: 'Mostrar menos',
+    loadError: 'No se han podido cargar más resultados.',
+    retry: 'Reintentar',
     seriesLatest: 'Último',
     seriesPeak: 'Máximo',
     groups: { series: 'Series', rankings: 'Rankings', tables: 'Tablas' },
