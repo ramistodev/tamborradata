@@ -19,7 +19,6 @@ export function Closing({ periods, currentPeriod, outro }: ClosingProps) {
     <section
       id={CLOSING_CHAPTER_ID}
       tabIndex={-1}
-      aria-labelledby={`${CLOSING_CHAPTER_ID}-title`}
       className="flex scroll-mt-32 flex-col gap-6 border-t border-border px-3 pt-8 pb-10 focus:outline-none sm:px-5"
     >
       <SummaryParagraphs p={outro} />
