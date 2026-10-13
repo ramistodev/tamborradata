@@ -3,11 +3,13 @@ import { ValidationError } from '../../../lib/errors';
 import { ParticipantsParams } from '../../../../types/api/participants.types';
 import { CheckParamsResponse } from '../types';
 
-export async function checkParams(params: ParticipantsParams): Promise<CheckParamsResponse> {
-  const { name, schoolKey } = params;
-  // Validar que se hayan proporcionado los parámetros
-  if (!name || !schoolKey) {
-    throw new ValidationError("Parameters like 'name' and 'schoolKey' are required");
+const MIN_TOKENS = 3;
+
+export function checkParams(params: ParticipantsParams): CheckParamsResponse {
+  const { participant, schoolKey } = params;
+
+  if (!participant || !schoolKey) {
+    throw new ValidationError("Parameters like 'participant' and 'schoolKey' are required");
   }
 
   const cleanSchoolKey = schoolKey.trim();
@@ -16,16 +18,17 @@ export async function checkParams(params: ParticipantsParams): Promise<CheckPara
     throw new ValidationError("The 'schoolKey' parameter cannot be empty");
   }
 
-  // Normalizar nombre
-  const cleanName = name
+  // Same normalization as participants.name_key: no accents, lowercase
+  const tokens = participant
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean);
 
-  if (cleanName.split(' ').length < 3) {
-    throw new ValidationError("The 'name' parameter must contain at least three words");
+  if (tokens.length < MIN_TOKENS) {
+    throw new ValidationError("The 'participant' parameter must contain at least three words");
   }
 
-  return { cleanName, schoolKey: cleanSchoolKey };
+  return { tokens, schoolKey: cleanSchoolKey };
 }

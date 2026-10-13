@@ -1,5 +1,6 @@
 export const tables = {
   participants: 'participants',
+  participantNameResolutions: 'participant_name_resolutions',
   schools: 'schools',
   schoolAliases: 'school_aliases',
   scrapedUrls: 'scraped_urls',
@@ -26,3 +27,12 @@ export const statisticSummariesStatus = {
 
 export type StatisticSummariesStatus =
   (typeof statisticSummariesStatus)[keyof typeof statisticSummariesStatus];
+
+export const nameResolutionStatus = {
+  resolved: 'resolved',
+  ambiguous: 'ambiguous',
+  evidenceApplied: 'evidence_applied',
+  failed: 'failed',
+} as const;
+
+export type NameResolutionStatus = (typeof nameResolutionStatus)[keyof typeof nameResolutionStatus];
