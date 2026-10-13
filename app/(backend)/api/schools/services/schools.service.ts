@@ -7,7 +7,6 @@ export async function schoolsService(params: SchoolsParams): Promise<SchoolListR
   const schools = await getSchools(params.query);
 
   return schools.map((school) => ({
-    id: school.id,
     school: school.canonical_name,
     schoolKey: school.school_key,
   }));

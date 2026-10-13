@@ -6,7 +6,7 @@ import { SchoolRow } from '../types';
 export async function getSchools(query?: string): Promise<SchoolRow[]> {
   let request = supabaseClient
     .from(tables.schools)
-    .select('id, canonical_name, school_key')
+    .select('canonical_name, school_key')
     .order('canonical_name', { ascending: true });
 
   if (query) {
