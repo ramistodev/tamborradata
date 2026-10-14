@@ -1,5 +1,7 @@
 'use client';
 import { useId, useState } from 'react';
+import { Icons } from '../../Icons';
+import { fieldBorderStyles, fieldStyles } from '../Input';
 import { Skeleton } from '../Skeleton';
 import type { SelectOption } from './types';
 import { useSelect } from './useSelect';
@@ -12,14 +14,28 @@ type SelectProps = {
   onChange?: (value: string) => void;
   placeholder: string;
   label?: string;
+  /** Accessible name of the trigger when there is no visible `label`. */
+  ariaLabel?: string;
+  /** `id` of the trigger, so a form can focus it. */
+  id?: string;
+  /** `id`s of the elements that describe the trigger (hints, errors). */
+  describedBy?: string;
   /** Submits the selected value in native forms. */
   name?: string;
   required?: boolean;
   disabled?: boolean;
   isLoading?: boolean;
+  /**
+   * Adds a filter field. The trigger is then a plain popup button, and the filter field (inside the
+   * popup) is the only combobox, so a screen reader never meets two of them for one control.
+   */
   searchable?: boolean;
   searchPlaceholder?: string;
+  /** Accessible name of the filter field. Falls back to `searchPlaceholder`. */
+  searchLabel?: string;
   emptyMessage?: string;
+  /** Spoken (polite live region) while filtering, e.g. "3 schools found". */
+  getResultsMessage?: (count: number) => string;
   className?: string;
 };
 
@@ -32,16 +48,25 @@ export function Select({
   onChange,
   placeholder,
   label,
+  ariaLabel,
+  id,
+  describedBy,
   name,
   required,
   disabled,
   isLoading,
   searchable,
   searchPlaceholder,
+  searchLabel,
   emptyMessage,
+  getResultsMessage,
   className = '',
 }: SelectProps) {
-  const labelId = useId();
+  const baseId = useId();
+  const labelId = `${baseId}-label`;
+  const hiddenNameId = `${baseId}-name`;
+  const valueId = `${baseId}-value`;
+  const panelId = `${baseId}-panel`;
   const [internalValue, setInternalValue] = useState<string | null>(defaultValue);
   const isControlled = controlledValue !== undefined;
   const value = isControlled ? controlledValue : internalValue;
@@ -67,6 +92,19 @@ export function Select({
   } = select;
 
   const activeDescendant = isOpen && activeIndex >= 0 ? optionId(activeIndex) : undefined;
+  const nameSourceId = label ? labelId : ariaLabel ? hiddenNameId : undefined;
+  // A searchable trigger is a plain button: its name is the label followed by the chosen value
+  const triggerLabelledBy = searchable
+    ? [nameSourceId, selected ? valueId : undefined].filter(Boolean).join(' ') || undefined
+    : nameSourceId;
+  const hasListbox = Boolean(isLoading) || filtered.length > 0;
+  const controlledId = searchable ? panelId : hasListbox ? listboxId : undefined;
+  const resultsMessage =
+    searchable && isOpen && query.trim() && !isLoading
+      ? filtered.length === 0
+        ? (emptyMessage ?? getResultsMessage?.(0) ?? '')
+        : (getResultsMessage?.(filtered.length) ?? '')
+      : '';
 
   return (
     <div ref={rootRef} className={`relative flex w-full flex-col gap-2 ${className}`}>
@@ -75,38 +113,43 @@ export function Select({
           {label}
         </span>
       )}
+      {!label && ariaLabel && (
+        <span id={hiddenNameId} hidden>
+          {ariaLabel}
+        </span>
+      )}
 
       <button
         ref={triggerRef}
+        id={id}
         type="button"
-        role="combobox"
-        aria-haspopup="listbox"
+        role={searchable ? undefined : 'combobox'}
+        aria-haspopup={searchable ? 'dialog' : 'listbox'}
         aria-expanded={isOpen}
-        aria-controls={listboxId}
-        aria-labelledby={label ? labelId : undefined}
-        aria-required={required}
+        aria-controls={isOpen ? controlledId : undefined}
+        aria-labelledby={triggerLabelledBy}
+        aria-describedby={describedBy}
+        aria-required={searchable ? undefined : required}
         aria-activedescendant={searchable ? undefined : activeDescendant}
         disabled={disabled}
         onClick={select.toggle}
         onKeyDown={select.handleKeyDown}
-        className={`flex w-full cursor-pointer items-center justify-between gap-2 rounded-[10px] border bg-bg px-3.5 py-2.75 text-left font-sans text-[14.5px] transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-50 ${isOpen ? 'border-accent' : 'border-border hover:border-border-strong'}`}
+        className={`flex cursor-pointer items-center justify-between gap-2 text-left ${fieldStyles} ${fieldBorderStyles} ${isOpen ? 'border-accent!' : ''}`}
       >
-        <span className={`truncate ${selected ? 'text-text' : 'text-text-tertiary'}`}>
+        <span
+          id={valueId}
+          className={`min-w-0 wrap-break-word ${selected ? 'font-semibold text-text' : 'text-text-tertiary'}`}
+        >
           {selected ? selected.label : placeholder}
         </span>
-        <svg
-          aria-hidden="true"
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          className={`shrink-0 text-text-secondary transition-transform duration-200 motion-reduce:transition-none ${isOpen ? 'rotate-180' : ''}`}
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-        </svg>
+        <Icons.ChevronDown
+          className={`size-3.5 text-text-secondary transition-transform duration-200 motion-reduce:transition-none ${isOpen ? 'rotate-180' : ''}`}
+        />
       </button>
+
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {resultsMessage}
+      </div>
 
       {/*
        * Mirrors the value for native forms. Neither type="hidden" nor readOnly can be used:
@@ -125,51 +168,62 @@ export function Select({
       )}
 
       {isOpen && (
-        <div className="absolute inset-x-0 top-full z-50 mt-1 flex max-h-[min(260px,50vh)] animate-drop-in flex-col overflow-hidden rounded-[10px] border border-border bg-card shadow-[0_8px_32px_rgba(0,0,0,0.22)] motion-reduce:animate-none">
+        <div
+          id={panelId}
+          role={searchable ? 'dialog' : undefined}
+          aria-labelledby={searchable ? nameSourceId : undefined}
+          aria-label={searchable && !nameSourceId ? placeholder : undefined}
+          className="absolute inset-x-0 top-full z-50 mt-1.5 flex max-h-[min(300px,50vh)] animate-drop-in flex-col overflow-hidden rounded-xl border border-border bg-card shadow-[0_8px_32px_rgba(0,0,0,0.22)] motion-reduce:animate-none"
+        >
           {searchable && (
-            <div className="shrink-0 border-b border-border px-2.5 py-2">
+            <div className="flex shrink-0 items-center gap-2 border-b border-border px-3.5 py-2.5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-accent">
+              <span aria-hidden="true" className="flex">
+                <Icons.SearchIcon className="size-4 text-text-tertiary" />
+              </span>
               <input
                 ref={searchRef}
                 type="text"
                 role="combobox"
                 aria-expanded="true"
-                aria-controls={listboxId}
+                aria-controls={hasListbox ? listboxId : undefined}
                 aria-activedescendant={activeDescendant}
                 aria-autocomplete="list"
-                aria-label={searchPlaceholder ?? placeholder}
+                aria-label={searchLabel ?? searchPlaceholder ?? placeholder}
                 autoComplete="off"
+                autoCapitalize="off"
+                spellCheck={false}
                 value={query}
                 placeholder={searchPlaceholder}
                 onChange={(event) => select.handleQueryChange(event.target.value)}
                 onKeyDown={select.handleKeyDown}
-                className="w-full rounded-lg border border-border bg-bg px-2.5 py-1.75 font-sans text-[13px] text-text outline-none transition-colors placeholder:text-text-tertiary focus:border-accent"
+                className="min-w-0 flex-1 bg-transparent font-sans text-base text-text outline-hidden placeholder:text-text-tertiary"
               />
             </div>
           )}
 
-          <ul
-            ref={listRef}
-            id={listboxId}
-            role="listbox"
-            aria-labelledby={label ? labelId : undefined}
-            aria-busy={isLoading}
-            className="flex-1 overflow-y-auto py-1"
-          >
-            {isLoading
-              ? Array.from({ length: LOADING_ROWS }, (_, index) => (
-                  <li key={index} role="presentation" className="px-3.5 py-2.25">
-                    <Skeleton className="h-4 w-3/4" />
-                  </li>
-                ))
-              : filtered.length === 0
-                ? emptyMessage && (
-                    <li role="presentation" className="px-3.5 py-3 text-[13px] text-text-secondary">
-                      {emptyMessage}
+          {hasListbox ? (
+            <ul
+              ref={listRef}
+              id={listboxId}
+              role="listbox"
+              aria-labelledby={nameSourceId}
+              aria-busy={isLoading}
+              className="flex-1 overflow-y-auto overscroll-contain py-1.5 scrollbar-thin"
+            >
+              {isLoading
+                ? Array.from({ length: LOADING_ROWS }, (_, index) => (
+                    <li key={index} role="presentation" className="px-3.5 py-2.25">
+                      <Skeleton className="h-4 w-3/4" />
                     </li>
-                  )
+                  ))
                 : filtered.map((option, index) => {
                     const isSelected = option.value === value;
                     const isActive = index === activeIndex;
+                    const tone = isActive
+                      ? 'bg-bg-hover font-semibold text-text'
+                      : isSelected
+                        ? 'font-semibold text-text'
+                        : 'text-text-secondary';
 
                     return (
                       <li
@@ -181,31 +235,19 @@ export function Select({
                         onMouseDown={(event) => event.preventDefault()}
                         onMouseMove={() => !option.disabled && select.setActiveIndex(index)}
                         onClick={() => select.select(option)}
-                        className={`flex cursor-pointer items-center justify-between gap-2 px-3.5 py-2.25 font-sans text-[13.5px] transition-colors duration-100 ${isSelected ? 'bg-bg-hover text-accent' : 'text-text'} ${isActive && !isSelected ? 'bg-bg-secondary' : ''} ${option.disabled ? 'cursor-not-allowed opacity-50' : ''}`}
+                        className={`mx-1.5 flex cursor-pointer items-center justify-between gap-2 rounded-lg px-2.5 py-2.25 font-sans text-[13.5px] transition-colors duration-100 motion-reduce:transition-none ${tone} ${option.disabled ? 'cursor-not-allowed opacity-50' : ''}`}
                       >
                         <span className="min-w-0 wrap-break-word">{option.label}</span>
-                        {isSelected && (
-                          <svg
-                            aria-hidden="true"
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.5"
-                            className="shrink-0"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="m4.5 12.75 6 6 9-13.5"
-                            />
-                          </svg>
-                        )}
+                        {isSelected && <Icons.CheckMark className="size-3.5 text-accent" />}
                       </li>
                     );
                   })}
-          </ul>
+            </ul>
+          ) : (
+            emptyMessage && (
+              <p className="px-3.5 py-3 text-[13px] text-text-secondary">{emptyMessage}</p>
+            )
+          )}
         </div>
       )}
     </div>
