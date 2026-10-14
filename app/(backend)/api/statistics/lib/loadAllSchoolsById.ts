@@ -1,5 +1,5 @@
 import { School } from '../../../../types/api/statistics.types';
-import { resolveSchoolIds } from '../repositories/schools.repo';
+import { resolveSchoolIds } from '../repo/schools.repo';
 import { AllSchoolsById } from '../types';
 
 export async function loadAllSchoolsById(): Promise<AllSchoolsById> {
