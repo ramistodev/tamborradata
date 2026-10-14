@@ -41,7 +41,10 @@ export function Hero({
           <PublishDates periodData={periodData} />
         </div>
         <h1 id="year-page-title" className="text-xl sm:text-2xl md:text-3xl font-bold">
-          {t('period.title', { period })}
+          <span className="hidden md:block">{t('period.title', { period })}</span>
+          <span className="block md:hidden">
+            {isYear ? t('hero.titleYear', { period }) : t('hero.titleGlobal')}
+          </span>
         </h1>
       </header>
       <div className="w-full text-sm sm:text-md md:text-base flex flex-col gap-3">

@@ -28,6 +28,8 @@ export default {
   hero: {
     eyebrowYear: 'Yearly edition',
     eyebrowGlobal: 'Edition {period}',
+    titleYear: "Children's Tamborrada {period}",
+    titleGlobal: 'Complete history',
   },
   periodSelector: {
     label: 'Periods',

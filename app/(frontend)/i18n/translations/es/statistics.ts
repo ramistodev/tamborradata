@@ -26,6 +26,8 @@ const statistics = {
   hero: {
     eyebrowYear: 'Edición anual',
     eyebrowGlobal: 'Edición {period}',
+    titleYear: 'Tamborrada Infantil {period}',
+    titleGlobal: 'Historia completa',
   },
   periodSelector: {
     label: 'Periodos',
