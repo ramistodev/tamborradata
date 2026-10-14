@@ -1,4 +1,5 @@
 import { useTranslations } from 'next-intl';
+import { Icons } from '../../../../components/Icons';
 import { Link } from '../../../../../i18n/navigation';
 import type { PeriodResponse } from '../../../../../../types/api/period.types';
 import { adjacentPeriods } from '../utils/adjacentPeriods';
@@ -27,11 +28,8 @@ export function PeriodNeighbors({ periods, currentPeriod }: PeriodNeighborsProps
       {newer ? (
         <Link href={`/statistics/${newer.publicSlug}`} className={CARD}>
           <span className={KICKER}>
-            <span
-              aria-hidden="true"
-              className="transition-transform group-hover:-translate-x-1 motion-reduce:transition-none"
-            >
-              ←
+            <span className="transition-transform group-hover:-translate-x-1 motion-reduce:transition-none">
+              <Icons.ArrowLeft className="size-3.5" />
             </span>
             {t('newer')}
           </span>
@@ -49,11 +47,8 @@ export function PeriodNeighbors({ periods, currentPeriod }: PeriodNeighborsProps
         >
           <span className={KICKER}>
             {t('older')}
-            <span
-              aria-hidden="true"
-              className="transition-transform group-hover:translate-x-1 motion-reduce:transition-none"
-            >
-              →
+            <span className="transition-transform group-hover:translate-x-1 motion-reduce:transition-none">
+              <Icons.ArrowRight className="size-3.5" />
             </span>
           </span>
           <span className="text-base font-semibold text-text sm:text-lg">
