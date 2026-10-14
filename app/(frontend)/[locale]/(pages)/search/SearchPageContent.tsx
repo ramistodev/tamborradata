@@ -1,7 +1,25 @@
-export function SearchPageContent() {
+import { OverviewResponse } from '../../../../types/api/overview.types';
+import type { SchoolListResult } from '../../../../types/api/schools.types';
+import { FAQSection } from './components/FAQSection';
+import { Hero } from './components/Hero';
+import { OverviewSection } from './components/OverviewSection';
+import { SearchSection } from './components/SearchSection';
+
+export function SearchPageContent({
+  schools,
+  overview,
+}: {
+  schools: SchoolListResult[];
+  overview: OverviewResponse;
+}) {
   return (
-    <div className="relative flex flex-col items-center justify-center w-full h-full gap-4 px-3 py-6 sm:px-5">
-      <p>Estamos trabajando ahora en esta puta meirda amigo</p>
+    <div className="md:w-3/4 lg:w-2/3 w-full flex flex-col gap-20 px-4 sm:px-5 pb-5 pt-8 md:pt-15">
+      <div className="flex flex-col gap-6">
+        <Hero />
+        <SearchSection schools={schools} />
+      </div>
+      <OverviewSection overview={overview} />
+      <FAQSection period={overview.globalPeriod} />
     </div>
   );
 }
