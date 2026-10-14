@@ -11,7 +11,12 @@ type UseSelectParams = {
   disabled?: boolean;
 };
 
-/** Lowercase + strip accents so "Ikastola" matches "ikástola". */
+/** Space kept above the select when it is scrolled to the top of the viewport. */
+const SCROLL_TOP_OFFSET = 100;
+/** Typed characters stay in the type-ahead buffer this long. */
+const TYPEAHEAD_RESET_MS = 500;
+
+/** Lowercase + strip accents so "Ikastola" matches "ikastola". */
 function normalize(text: string) {
   return text
     .normalize('NFD')
@@ -55,6 +60,9 @@ export function useSelect({ options, value, onChange, searchable, disabled }: Us
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(-1);
+  const typeahead = useRef<{ buffer: string; timer?: ReturnType<typeof setTimeout> }>({ buffer: '' });
+
+  useEffect(() => () => clearTimeout(typeahead.current.timer), []);
 
   const selected = useMemo(
     () => options.find((option) => option.value === value) ?? null,
@@ -102,10 +110,34 @@ export function useSelect({ options, value, onChange, searchable, disabled }: Us
     return () => document.removeEventListener('mousedown', handleMouseDown);
   }, [isOpen, close]);
 
-  // Focus the filter input when opening a searchable select
+  // Focus the filter input when opening a searchable select. The scroll is handled by the
+  // effect below, so the browser's own scroll-into-view must not fight with it.
   useEffect(() => {
-    if (isOpen && searchable) searchRef.current?.focus();
+    if (isOpen && searchable) searchRef.current?.focus({ preventScroll: true });
   }, [isOpen, searchable]);
+
+  // Bring the select to the top while it is open (so the panel stays clear of the on-screen
+  // keyboard) and restore the previous scroll position when it closes. Only touch screens have
+  // that keyboard: with a mouse or keyboard the page must not move on its own.
+  useEffect(() => {
+    if (!isOpen) return;
+    const root = rootRef.current;
+    if (!root || !window.matchMedia('(pointer: coarse)').matches) return;
+
+    const previousScroll = window.scrollY;
+    const behavior: ScrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ? 'auto'
+      : 'smooth';
+    const frame = requestAnimationFrame(() => {
+      const top = previousScroll + root.getBoundingClientRect().top - SCROLL_TOP_OFFSET;
+      window.scrollTo({ top, behavior });
+    });
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.scrollTo({ top: previousScroll, behavior });
+    };
+  }, [isOpen]);
 
   // Keep the active option visible while navigating with the keyboard
   useEffect(() => {
@@ -123,6 +155,30 @@ export function useSelect({ options, value, onChange, searchable, disabled }: Us
       ? options.filter((option) => normalize(option.label).includes(normalizedQuery))
       : options;
     setActiveIndex(firstEnabledIndex(nextFiltered));
+  }
+
+  // Select-only combobox: typing letters jumps to the next option that starts with them
+  function handleTypeahead(character: string) {
+    const state = typeahead.current;
+    clearTimeout(state.timer);
+    state.buffer += character;
+    state.timer = setTimeout(() => {
+      state.buffer = '';
+    }, TYPEAHEAD_RESET_MS);
+
+    const term = normalize(state.buffer);
+    const start = state.buffer.length > 1 ? Math.max(activeIndex, 0) : activeIndex + 1;
+
+    for (let offset = 0; offset < filtered.length; offset++) {
+      const index = (start + offset) % filtered.length;
+      const option = filtered[index];
+
+      if (!option.disabled && normalize(option.label).startsWith(term)) {
+        if (!isOpen) open();
+        setActiveIndex(index);
+        return;
+      }
+    }
   }
 
   function handleKeyDown(event: KeyboardEvent) {
@@ -168,8 +224,19 @@ export function useSelect({ options, value, onChange, searchable, disabled }: Us
         close(true);
         break;
       case 'Tab':
-        if (isOpen) close();
+        // From the filter input, focus goes back to the trigger first, so Tab continues from it
+        // instead of from an input that is about to unmount
+        if (!isOpen) break;
+        // Select-only combobox: Tab keeps the highlighted option, like the APG pattern
+        if (!searchable && filtered[activeIndex] && !filtered[activeIndex].disabled) {
+          onChange(filtered[activeIndex].value);
+        }
+        close(isSearchInput);
         break;
+      default: {
+        const isCharacter = event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey;
+        if (!searchable && isCharacter) handleTypeahead(event.key);
+      }
     }
   }
 
