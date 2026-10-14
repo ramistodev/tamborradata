@@ -1,7 +1,7 @@
 import 'server-only';
 import type { SchoolListResult } from '@/app/types/api/schools.types';
 import type { SchoolsParams } from '../types/index';
-import { getSchools } from '../repositories/schools.repo';
+import { getSchools } from '../repo/schools.repo';
 
 export async function schoolsService(params: SchoolsParams): Promise<SchoolListResult[]> {
   const schools = await getSchools(params.query);

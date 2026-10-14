@@ -7,15 +7,15 @@ import {
 } from './buildStatisticsResponse';
 import { assertStatisticPresentation } from '../lib/assertStatisticPresentation';
 import { loadAllSchoolsById } from '../lib/loadAllSchoolsById';
-import { getPublishedPeriod } from '../repositories/period.repo';
-import { getPublishedStatisticHeaders } from '../repositories/statisticHeaders.repo';
-import { getPublishedEditorialSections } from '../repositories/editorialSections.repo';
+import { getPublishedPeriod } from '../repo/period.repo';
+import { getPublishedStatisticHeaders } from '../repo/statisticHeaders.repo';
+import { getPublishedEditorialSections } from '../repo/editorialSections.repo';
 import {
   getSchoolGroupedRanksPreview,
   getStatisticRanksPreview,
-} from '../repositories/statisticRanks.repo';
-import { getStatisticSeriesPreview } from '../repositories/statisticSeries.repo';
-import { getAllStatisticValues } from '../repositories/statisticValues.repo';
+} from '../repo/statisticRanks.repo';
+import { getStatisticSeriesPreview } from '../repo/statisticSeries.repo';
+import { getAllStatisticValues } from '../repo/statisticValues.repo';
 import { categoryDataShape, schoolGroupedRankCategories } from '../../../../types/statistics';
 import type {
   StatisticParams,

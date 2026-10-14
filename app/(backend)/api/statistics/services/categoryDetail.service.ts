@@ -10,14 +10,11 @@ import type { CategoryDetailParams } from '../dtos/category.schema';
 import { assertStatisticPresentation } from '../lib/assertStatisticPresentation';
 import { loadAllSchoolsById } from '../lib/loadAllSchoolsById';
 import { normalizeData } from '../lib/normalizeData';
-import { getPublishedPeriod } from '../repositories/period.repo';
-import { getPublishedStatisticByCategory } from '../repositories/statisticHeaders.repo';
-import {
-  getSchoolGroupedRanksPage,
-  getStatisticRanksPage,
-} from '../repositories/statisticRanks.repo';
-import { getStatisticSeriesPage } from '../repositories/statisticSeries.repo';
-import { getAllStatisticValues } from '../repositories/statisticValues.repo';
+import { getPublishedPeriod } from '../repo/period.repo';
+import { getPublishedStatisticByCategory } from '../repo/statisticHeaders.repo';
+import { getSchoolGroupedRanksPage, getStatisticRanksPage } from '../repo/statisticRanks.repo';
+import { getStatisticSeriesPage } from '../repo/statisticSeries.repo';
+import { getAllStatisticValues } from '../repo/statisticValues.repo';
 import type { StatisticsHeader } from '../types';
 
 export async function categoryDetailService(

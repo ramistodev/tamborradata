@@ -1,5 +1,5 @@
 import 'server-only';
-import { fetchParticipants } from '../repositories/participants.repo';
+import { fetchParticipants } from '../repo/participants.repo';
 import { NotFoundError } from '../../../lib/errors';
 import { matchTypes, ParticipantsResponse } from '../../../../types/api/participants.types';
 import { dropCoveredIncompletes } from '../lib/dropCoveredIncompletes';
