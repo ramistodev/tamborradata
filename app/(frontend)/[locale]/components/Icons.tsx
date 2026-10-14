@@ -84,16 +84,44 @@ export const Icons = {
     </svg>
   ),
 
-  ArrowRight: () => (
+  // Size it with `className`. The default keeps the CTA look (gap + nudge on `group` hover).
+  ArrowRight: ({
+    className = 'ml-2 size-5 transition-transform group-hover:translate-x-1',
+  }: {
+    className?: string;
+  }) => (
     <svg
-      className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform"
-      fill="currentColor"
-      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2.2}
+      stroke="currentColor"
+      aria-hidden="true"
+      className={`shrink-0 ${className}`}
     >
       <path
-        fillRule="evenodd"
-        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-        clipRule="evenodd"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4.5 12h15m0 0-6.75-6.75M19.5 12l-6.75 6.75"
+      />
+    </svg>
+  ),
+
+  // Size it with `className` (default size-4).
+  ArrowLeft: ({ className = 'size-4' }: { className?: string }) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2.2}
+      stroke="currentColor"
+      aria-hidden="true"
+      className={`shrink-0 ${className}`}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M19.5 12h-15m0 0 6.75 6.75M4.5 12l6.75-6.75"
       />
     </svg>
   ),
@@ -124,6 +152,25 @@ export const Icons = {
       className={`shrink-0 ${className}`}
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+    </svg>
+  ),
+
+  // Size it with `className` (default size-4).
+  ArrowUp: ({ className = 'size-4' }: { className?: string }) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2.2}
+      stroke="currentColor"
+      aria-hidden="true"
+      className={`shrink-0 ${className}`}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 19.5v-15m0 0-6.75 6.75M12 4.5l6.75 6.75"
+      />
     </svg>
   ),
 
@@ -215,14 +262,14 @@ export const Icons = {
     </svg>
   ),
 
-  SearchIcon: () => (
+  SearchIcon: ({ className = 'size-6' }: { className?: string }) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="size-6"
+      className={className}
     >
       <path
         strokeLinecap="round"
@@ -276,7 +323,64 @@ export const Icons = {
       aria-hidden="true"
       className={`shrink-0 ${className}`}
     >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"
+      />
+    </svg>
+  ),
+
+  // Size it with `className` (default size-4).
+  CheckMark: ({ className = 'size-4' }: { className?: string }) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2.5}
+      stroke="currentColor"
+      aria-hidden="true"
+      className={`shrink-0 ${className}`}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+    </svg>
+  ),
+
+  // Size it with `className` (default size-4).
+  GraduationCap: ({ className = 'size-4' }: { className?: string }) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      aria-hidden="true"
+      className={`shrink-0 ${className}`}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"
+      />
+    </svg>
+  ),
+
+  // Size it with `className` (default size-4).
+  ExternalLink: ({ className = 'size-4' }: { className?: string }) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      aria-hidden="true"
+      className={`shrink-0 ${className}`}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+      />
     </svg>
   ),
 };
