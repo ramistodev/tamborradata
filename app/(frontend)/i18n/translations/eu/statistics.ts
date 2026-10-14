@@ -28,6 +28,8 @@ export default {
   hero: {
     eyebrowYear: 'Urteko edizioa',
     eyebrowGlobal: '{period} edizioa',
+    titleYear: 'Haur Danborrada {period}',
+    titleGlobal: 'Historia osoa',
   },
   periodSelector: {
     label: 'Aldiak',
