@@ -5,7 +5,6 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />
-      {/* id + tabIndex: target of the "skip to content" link */}
       <main
         id="main-content"
         tabIndex={-1}
