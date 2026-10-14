@@ -9,17 +9,20 @@ type ButtonStyleOptions = {
   className?: string;
 };
 
+// `aria-disabled` is for buttons that must stay focusable (a native `disabled` one drops out of the
+// tab order and loses focus); it looks like `disabled`, and its handler has to ignore the click.
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-[10px] border font-sans tracking-[-0.01em] ' +
-  'cursor-pointer transition-[opacity,transform,color,border-color] duration-200 ' +
+  'inline-flex items-center justify-center gap-2 rounded-lg border font-sans tracking-[-0.01em] ' +
+  'cursor-pointer transition-[opacity,transform,color,border-color] duration-200 motion-reduce:transition-none ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ' +
-  'disabled:cursor-not-allowed disabled:opacity-50';
+  'disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50';
 
 const variants: Record<Variant, string> = {
   primary:
-    'border-transparent bg-accent text-bg font-bold hover:-translate-y-px hover:opacity-85 ' +
-    'disabled:hover:translate-y-0 disabled:hover:opacity-50',
-  ghost: 'border-border bg-transparent text-text font-medium hover:border-accent hover:text-accent',
+    'border-transparent bg-accent text-bg font-bold hover:not-aria-disabled:-translate-y-px hover:not-aria-disabled:opacity-85 ' +
+    'motion-reduce:hover:translate-y-0 disabled:hover:translate-y-0 disabled:hover:opacity-50',
+  ghost:
+    'border-border bg-transparent text-text font-medium hover:not-aria-disabled:border-accent hover:not-aria-disabled:text-accent',
 };
 
 const sizes: Record<Size, string> = {

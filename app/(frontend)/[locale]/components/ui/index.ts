@@ -1,8 +1,12 @@
 export { Badge } from './Badge';
+export { BigStat, StatHighlight } from './BigStat';
 export { Button, buttonStyles } from './Button';
 export { Card } from './Card';
 export { Container } from './Container';
 export { DragScroll } from './DragScroll/DragScroll';
+export { FAQs } from './FAQs';
+export type { FAQItem } from './FAQs';
+export { Input } from './Input';
 export { Select } from './Select/Select';
 export type { SelectOption } from './Select/types';
 export { Skeleton } from './Skeleton';
