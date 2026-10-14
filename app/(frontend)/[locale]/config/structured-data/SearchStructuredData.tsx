@@ -1,146 +1,143 @@
 import Script from 'next/script';
+import { getFormatter, getLocale, getTranslations } from 'next-intl/server';
+import type { OverviewResponse } from '../../../../types/api/overview.types';
+import { getAlternates, getLanguageTag } from '../../../i18n/seo';
+import { buildFaqs } from '../../(pages)/search/data/faqs';
+import { buildSearchTexts } from '../../(pages)/search/data/buildSearchTexts';
+import { ogImageUrl, organizationId, webSiteId } from '../constants';
 
-export function SearchStructuredData() {
-  const pageTitle = 'Busca tu participación en la Tamborrada Infantil';
-  const pageDescription =
-    'Consulta tu historial de participación: años, compañía y apariciones en la Tamborrada Infantil desde 2018.';
-  const canonicalUrl = 'https://tamborradata.com/search';
-  const imageUrl = 'https://tamborradata.com/og-image.webp';
-  const searchTarget = 'https://tamborradata.com/search?name={search_term_string}';
+type SearchStructuredDataProps = {
+  period: NonNullable<OverviewResponse['globalPeriod']>;
+};
 
-  const publicationDateISO = '2018-01-20T00:00:00.000Z';
+/** First publication date of the page (ISO 8601). A fixed value chosen by the owner, never derived. */
+const DATE_PUBLISHED = '2025-12-16T00:00:00.000Z';
 
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const dataReleaseDate = new Date(currentYear, 0, 20); // 20 de enero del año actual
+/**
+ * Structured data of the search page, as one `@graph` like the period pages: the page, the search
+ * tool it offers (WebApplication), the event series the searched people took part in, its
+ * breadcrumb and its FAQ. The FAQ comes from the same `buildFaqs` as the visible one and the
+ * texts from the same `buildSearchTexts` as the metadata, so what Google reads is always what the
+ * page shows. No `Dataset`: the participants can only be searched, not downloaded, and have no
+ * license, so the page does not claim to publish a dataset.
+ */
+export async function SearchStructuredData({ period }: SearchStructuredDataProps) {
+  const [locale, t, tMetadata, tFaq, tEvent, format] = await Promise.all([
+    getLocale(),
+    getTranslations('Search'),
+    getTranslations('Search.metadata'),
+    getTranslations('Search.faq.items'),
+    getTranslations('Statistics.structuredData'),
+    getFormatter(),
+  ]);
 
-  const lastDataYear = now >= dataReleaseDate ? currentYear : currentYear - 1;
-  const lastUpdatedISO = `${lastDataYear}-01-20T00:00:00.000Z`;
-
-  const webPageStructuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: pageTitle,
-    url: canonicalUrl,
-    description: pageDescription,
-    image: imageUrl,
-    primaryImageOfPage: imageUrl,
-    inLanguage: 'es-ES',
-    mainEntityOfPage: canonicalUrl,
-    isFamilyFriendly: true,
-    mainEntity: {
-      '@type': 'SearchAction',
-      name: 'Buscador de participantes de la Tamborrada Infantil',
-      target: searchTarget,
-      'query-input': 'required name=search_term_string',
-      description:
-        'Busca tu nombre y consulta tu historial de participación en la Tamborrada Infantil desde 2018.',
-    },
-    about: [
-      'historial de participación',
-      'buscar participantes de la Tamborrada Infantil',
-      'base de datos histórica desde 2018',
-      'resultados publicados por El Diario Vasco',
-      'consulta tamborrada infantil',
-      'participación por colegio',
-      'estadísticas tamborrada infantil',
-      'búsqueda de niños y niñas',
-      'datos históricos',
-    ],
-    breadcrumb: {
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://tamborradata.com' },
-        { '@type': 'ListItem', position: 2, name: 'Búsqueda de Participantes', item: canonicalUrl },
-      ],
-    },
-    isPartOf: {
-      '@type': 'WebSite',
-      name: 'Tamborradata',
-      url: 'https://tamborradata.com',
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Tamborradata',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://tamborradata.com/favicon.ico',
-      },
-    },
-    isAccessibleForFree: true,
-    datePublished: publicationDateISO,
-    dateModified: lastUpdatedISO,
+  const url = getAlternates(locale, '/search').canonical;
+  const language = getLanguageTag(locale);
+  const { title, description } = buildSearchTexts(tMetadata, period);
+  const years = { startYear: String(period.startYear), endYear: String(period.endYear) };
+  const ids = {
+    webPage: `${url}#webpage`,
+    breadcrumb: `${url}#breadcrumb`,
+    faq: `${url}#faq`,
+    app: `${url}#search-tool`,
+    eventSeries: `${url}#event-series`,
   };
 
-  const faqStructuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    inLanguage: 'es-ES',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: '¿Qué información necesito para realizar una búsqueda?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Introduce tu nombre completo (nombre y dos apellidos) y, si lo conoces, la compañía en la que participaste para afinar el historial de participación.',
-        },
+  const webPage = {
+    '@type': 'WebPage',
+    '@id': ids.webPage,
+    url,
+    name: title,
+    description,
+    inLanguage: language,
+    keywords: t('structuredData.keywords')
+      .split(',')
+      .map((keyword) => keyword.trim()),
+    isAccessibleForFree: true,
+    isPartOf: { '@id': webSiteId },
+    publisher: { '@id': organizationId },
+    about: { '@id': ids.eventSeries },
+    mainEntity: { '@id': ids.app },
+    primaryImageOfPage: { '@type': 'ImageObject', url: ogImageUrl },
+    breadcrumb: { '@id': ids.breadcrumb },
+    hasPart: { '@id': ids.faq },
+    datePublished: DATE_PUBLISHED,
+    dateModified: period.lastPublishedAt,
+  };
+
+  const app = {
+    '@type': 'WebApplication',
+    '@id': ids.app,
+    url,
+    name: t('structuredData.appName'),
+    description: t('structuredData.appDescription', years),
+    inLanguage: language,
+    operatingSystem: 'Any',
+    isAccessibleForFree: true,
+    temporalCoverage: `${period.startYear}/${period.endYear}`,
+    about: { '@id': ids.eventSeries },
+    creator: { '@id': organizationId },
+    publisher: { '@id': organizationId },
+    mainEntityOfPage: { '@id': ids.webPage },
+    datePublished: DATE_PUBLISHED,
+    dateModified: period.lastPublishedAt,
+  };
+
+  const eventSeries = {
+    '@type': 'EventSeries',
+    '@id': ids.eventSeries,
+    name: tEvent('eventSeriesName'),
+    description: tEvent('eventSeriesDescription'),
+    startDate: `${period.startYear}-01-20`,
+    image: ogImageUrl,
+    location: {
+      '@type': 'Place',
+      name: tEvent('place'),
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Donostia / San Sebastián',
+        addressRegion: 'Gipuzkoa',
+        addressCountry: 'ES',
       },
+    },
+  };
+
+  const breadcrumb = {
+    '@type': 'BreadcrumbList',
+    '@id': ids.breadcrumb,
+    itemListElement: [
       {
-        '@type': 'Question',
-        name: '¿Qué información muestran los resultados?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Verás tu historial de participación: años, compañía y apariciones en la Tamborrada Infantil según los resultados publicados por El Diario Vasco.',
-        },
+        '@type': 'ListItem',
+        position: 1,
+        name: t('structuredData.home'),
+        item: getAlternates(locale, '/').canonical,
       },
-      {
-        '@type': 'Question',
-        name: '¿Desde qué año puedo buscar participantes?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'La base de datos histórica arranca en 2018 y se amplía cada enero con el nuevo listado.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: '¿Por qué no aparece mi nombre?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Puede ser por variaciones en la escritura del nombre, selección incorrecta de compañía o porque no existan registros publicados desde 2018 para esa persona.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: '¿Con qué frecuencia se actualizan los datos del buscador?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Cada enero se actualiza automáticamente tras la publicación del Diario Vasco para mantener el historial de participación al día.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: '¿Cómo saber si salí en la Tamborrada Infantil?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Introduce tu nombre completo y la compañía en el buscador; si existen registros desde 2018 verás en qué años apareces en la Tamborrada Infantil.',
-        },
-      },
+      { '@type': 'ListItem', position: 2, name: t('title'), item: url },
     ],
+  };
+
+  const faq = {
+    '@type': 'FAQPage',
+    '@id': ids.faq,
+    url,
+    inLanguage: language,
+    mainEntity: buildFaqs(tFaq, format, period).map(({ question, answer }) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
   };
 
   return (
-    <>
-      <Script
-        id="webpage-search-structured-data"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageStructuredData) }}
-      />
-
-      <Script
-        id="faq-search-structured-data"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
-      />
-    </>
+    <Script
+      id="search-structured-data"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@graph': [webPage, app, eventSeries, breadcrumb, faq],
+        }),
+      }}
+    />
   );
 }
