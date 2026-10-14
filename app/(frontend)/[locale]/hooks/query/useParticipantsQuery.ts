@@ -1,15 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchParticipants } from '@/app/(frontend)/[locale]/services/fetchParticipants';
+import { fetchParticipants } from '../../services/fetchParticipants';
 import { queryKeys } from '../../lib/queryKeys';
 
-export function useParticipantsQuery<T>(name: string, company: string) {
+/** Records matching a name in a school. Empty strings keep it idle until a search is submitted. */
+export function useParticipantsQuery(participant: string, schoolKey: string) {
   return useQuery({
-    queryKey: queryKeys.participants(name, company),
-    queryFn: () => fetchParticipants<T>(name, company),
-    enabled: Boolean(name) && Boolean(company),
-    staleTime: Infinity, // siempre refetch con nuevos params
-    gcTime: Infinity, // no persistir resultados viejos
-    retry: false, // no reintentar
+    queryKey: queryKeys.participants(participant, schoolKey),
+    queryFn: ({ signal }) => fetchParticipants({ participant, schoolKey, signal }),
+    enabled: Boolean(participant) && Boolean(schoolKey),
+    staleTime: Infinity,
+    gcTime: Infinity,
+    retry: 0,
     refetchOnWindowFocus: false,
   });
 }

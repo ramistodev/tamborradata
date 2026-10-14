@@ -12,10 +12,12 @@ const getCachedSchools = cacheAcrossRequests(schoolsService, ['schools'], {
 });
 
 // cache() dedupes calls within one request; cacheAcrossRequests persists across requests (not in dev).
-export const getSchools = cache(async (query: string | null = null): Promise<SchoolListResult[]> => {
-  try {
-    return await getCachedSchools(checkSchoolsParams(query));
-  } catch (error) {
-    return handleServiceError(error);
+export const getSchools = cache(
+  async (query: string | null = null): Promise<SchoolListResult[]> => {
+    try {
+      return await getCachedSchools(checkSchoolsParams(query));
+    } catch (error) {
+      return handleServiceError(error);
+    }
   }
-});
+);
