@@ -15,8 +15,6 @@ const VALUE_TONES: Record<MetricTone, string> = {
   negative: 'text-danger',
 };
 
-// Static class names so Tailwind can see them. From `sm` a row uses one column per metric; on
-// mobile the rows disappear (`contents`) and all metrics share one 2-column grid.
 const ROW_COLUMNS: Record<number, string> = {
   1: 'sm:grid-cols-1',
   2: 'sm:grid-cols-2',
@@ -36,7 +34,7 @@ export function OverviewCard({
   return (
     <section
       aria-labelledby="overview-title"
-      className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-1"
+      className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-1 sm:gap-0 sm:divide-y sm:divide-border"
     >
       <div className="col-span-2 flex items-center gap-2 bg-bg-secondary px-3 py-2 font-mono text-[10px] tracking-[.14em] text-text-secondary uppercase sm:col-span-1 sm:gap-3 sm:px-6 sm:py-3 sm:text-[11px]">
         <span aria-hidden="true" className="size-1.5 rounded-full bg-accent" />
@@ -48,7 +46,7 @@ export function OverviewCard({
       {rows.map((row) => (
         <div
           key={row[0].label}
-          className={`contents sm:grid sm:gap-px sm:bg-border ${ROW_COLUMNS[row.length]}`}
+          className={`contents sm:grid sm:divide-x sm:divide-border ${ROW_COLUMNS[row.length]}`}
         >
           {row.map((metric) => (
             <ShowMetric key={metric.label} metric={metric} />
