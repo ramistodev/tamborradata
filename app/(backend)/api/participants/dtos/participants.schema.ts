@@ -1,15 +1,31 @@
 import 'server-only';
 import { ValidationError } from '../../../lib/errors';
-import { ParticipantsParams } from '../../../../types/api/participants.types';
+import {
+  MAX_PARTICIPANT_LENGTH,
+  MIN_PARTICIPANT_WORDS,
+} from '../../../../types/api/participants.types';
 import { CheckParamsResponse } from '../types';
 
-const MIN_TOKENS = 3;
+/** The body comes straight from `req.json()`, so nothing about its shape can be trusted. */
+export function checkParams(body: unknown): CheckParamsResponse {
+  if (typeof body !== 'object' || body === null) {
+    throw new ValidationError('The request body must be a JSON object');
+  }
 
-export function checkParams(params: ParticipantsParams): CheckParamsResponse {
-  const { participant, schoolKey } = params;
+  const { participant, schoolKey } = body as Record<string, unknown>;
+
+  if (typeof participant !== 'string' || typeof schoolKey !== 'string') {
+    throw new ValidationError("Parameters 'participant' and 'schoolKey' must be strings");
+  }
 
   if (!participant || !schoolKey) {
     throw new ValidationError("Parameters like 'participant' and 'schoolKey' are required");
+  }
+
+  if (participant.length > MAX_PARTICIPANT_LENGTH) {
+    throw new ValidationError(
+      `The 'participant' parameter cannot be longer than ${MAX_PARTICIPANT_LENGTH} characters`
+    );
   }
 
   const cleanSchoolKey = schoolKey.trim();
@@ -26,7 +42,7 @@ export function checkParams(params: ParticipantsParams): CheckParamsResponse {
     .split(/\s+/)
     .filter(Boolean);
 
-  if (tokens.length < MIN_TOKENS) {
+  if (tokens.length < MIN_PARTICIPANT_WORDS) {
     throw new ValidationError("The 'participant' parameter must contain at least three words");
   }
 
