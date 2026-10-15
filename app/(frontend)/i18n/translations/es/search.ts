@@ -13,7 +13,7 @@ const search = {
     description:
       'Escribe el nombre y los dos apellidos, elige el colegio y descubre en qué años salió en la Tamborrada Infantil de Donostia. Cada año enlaza a su fuente original.',
     about:
-      'Este buscador reúne a los participantes de la Tamborrada Infantil de Donostia, el desfile anual de niños y niñas tamborreros y cantineras (no es un concurso). Muestra en qué años aparece una persona en el colegio elegido y enlaza a la fuente original de cada año.',
+      'Este buscador reúne a los participantes de la Tamborrada Infantil de Donostia, el desfile anual de niños y niñas tamborreros y cantineras. Muestra en qué años aparece una persona en el colegio elegido y enlaza a la fuente original de cada año.',
   },
   form: {
     ariaLabel: 'Buscador de participantes',
@@ -47,7 +47,7 @@ const search = {
     card: {
       exact: 'Coincidencia exacta',
       compatible: 'Coincidencia compatible',
-      count: '{count, plural, one {# participación · fuente} other {# participaciones · fuentes}}',
+      count: '{count, plural, one {# participación} other {# participaciones}}',
     },
     row: {
       viewSource: 'Ver fuente',
@@ -71,6 +71,16 @@ const search = {
       description: 'Ha ocurrido un error o la petición ha tardado demasiado. Inténtalo de nuevo.',
       retry: 'Reintentar',
     },
+    rateLimited: {
+      title: 'Demasiadas búsquedas seguidas',
+      // Spoken once by the live region; the panel shows `countdown` instead
+      description:
+        'Has hecho muchas búsquedas en poco tiempo. Vuelve a intentarlo {minutes, plural, one {en # minuto} other {en # minutos}}.',
+      countdown:
+        'Has hecho muchas búsquedas en poco tiempo. Podrás volver a buscar en {minutes, plural, =0 {{seconds} s} other {{minutes} min {seconds} s}}.',
+      ready: 'Ya puedes volver a buscar.',
+      retry: 'Reintentar',
+    },
   },
   overview: {
     title: 'Datos disponibles en el buscador',
@@ -87,7 +97,7 @@ const search = {
   topStats: {
     name: 'Nombre más repetido',
     surname: 'Apellido más repetido',
-    school: 'Colegio con más participantes',
+    school: 'Colegio con más participaciones',
     count: '{count, plural, one {# participación} other {# participaciones}}',
   },
   structuredData: {
@@ -97,6 +107,8 @@ const search = {
     appName: 'Buscador de participantes de la Tamborrada Infantil',
     appDescription:
       'Herramienta web para buscar participantes de la Tamborrada Infantil de Donostia por nombre y colegio y consultar en qué años salieron. Ediciones de {startYear} a {endYear}.',
+    appDescriptionFallback:
+      'Herramienta web para buscar participantes de la Tamborrada Infantil de Donostia por nombre y colegio y consultar en qué años salieron.',
   },
   faq: {
     kicker: 'Preguntas frecuentes',
@@ -115,7 +127,7 @@ const search = {
       whySchool: {
         question: '¿Por qué tengo que elegir un colegio?',
         answer:
-          'Porque hay muchos nombres y apellidos repetidos entre los participantes, y el colegio permite distinguir a unas personas de otras. La búsqueda se hace solo dentro del colegio que elijas. Además, por protección de los datos, para que nadie pueda hacer búsquedas masivas de participantes.',
+          'Porque hay muchos nombres y apellidos repetidos entre los participantes, y el colegio permite distinguir a unas personas de otras. La búsqueda se hace solo dentro del colegio que elijas, así que los resultados son más precisos y solo aparecen personas del colegio que te interesa.',
       },
       matchTypes: {
         question: '¿Qué significa “coincidencia exacta” y “coincidencia compatible”?',
@@ -125,12 +137,17 @@ const search = {
       multipleResults: {
         question: '¿Por qué aparecen varios resultados para una misma búsqueda?',
         answer:
-          'Cada forma distinta en que aparece un nombre en las fuentes es un resultado. Por ejemplo, una persona puede estar publicada un año con segundo nombre y otro año sin él, o con un solo apellido. Dentro de cada resultado se agrupan todos los años en los que aparece esa forma del nombre.',
+          'Cada forma distinta en que aparece un nombre en las fuentes es un resultado. Por ejemplo, una persona puede estar publicada un año con segundo nombre y otro año sin él, o con un solo apellido. Dentro de cada resultado se agrupan todos los años en los que aparece esa forma del nombre en ese colegio. Es una agrupación por nombre registrado, no una identificación verificada: dos personas distintas con el mismo nombre y colegio en años diferentes aparecerían juntas, así que conviene revisar las fuentes.',
       },
       years: {
         question: '¿De qué años hay datos?',
         answer:
           'Hay datos de {editionsCount, plural, one {# edición} other {# ediciones}}, entre {startYear} y {endYear}.{hasGaps, select, yes { No hay datos de {missingYears}.} other {}}',
+      },
+      yearsFallback: {
+        question: '¿De qué años hay datos?',
+        answer:
+          'Hay datos de varias ediciones de la Tamborrada Infantil de Donostia, pero ahora mismo no podemos mostrar el rango exacto de años. Puedes buscar con normalidad y volver más tarde para consultarlo.',
       },
       sources: {
         question: '¿De dónde salen los datos y son oficiales?',

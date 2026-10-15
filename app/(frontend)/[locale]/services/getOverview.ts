@@ -11,10 +11,13 @@ const getCachedOverview = cacheAcrossRequests(overviewService, ['overview'], {
 });
 
 // cache() dedupes calls within one request; cacheAcrossRequests persists across requests (not in dev).
-export const getOverview = cache(async (scope: OverviewScope): Promise<OverviewResponse> => {
-  try {
-    return await getCachedOverview(scope);
-  } catch (error) {
-    return handleServiceError(error);
+export const getOverview = cache(
+  async (scope: OverviewScope, nullable: boolean = false): Promise<OverviewResponse | null> => {
+    try {
+      return await getCachedOverview(scope);
+    } catch (error) {
+      if (nullable) return null;
+      return handleServiceError(error);
+    }
   }
-});
+);

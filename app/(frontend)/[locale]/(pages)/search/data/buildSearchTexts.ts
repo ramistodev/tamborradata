@@ -1,7 +1,7 @@
 import type { useTranslations } from 'next-intl';
 import type { OverviewResponse } from '../../../../../types/api/overview.types';
 
-type SearchPeriod = Pick<NonNullable<OverviewResponse['globalPeriod']>, 'startYear' | 'endYear'>;
+type SearchPeriod = OverviewResponse['globalPeriod'];
 
 type MetadataTranslator = ReturnType<typeof useTranslations<'Search.metadata'>>;
 
@@ -12,11 +12,14 @@ type MetadataTranslator = ReturnType<typeof useTranslations<'Search.metadata'>>;
  *
  * `t` is scoped to `Search.metadata` and works with both `useTranslations` and `getTranslations`.
  */
-export function buildSearchTexts(t: MetadataTranslator, period?: SearchPeriod) {
+export function buildSearchTexts(t: MetadataTranslator, globalPeriod: SearchPeriod) {
   return {
     title: t('title'),
-    description: period
-      ? t('description', { startYear: String(period.startYear), endYear: String(period.endYear) })
+    description: globalPeriod
+      ? t('description', {
+          startYear: String(globalPeriod.startYear),
+          endYear: String(globalPeriod.endYear),
+        })
       : t('descriptionFallback'),
   };
 }
