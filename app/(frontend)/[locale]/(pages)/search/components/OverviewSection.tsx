@@ -6,11 +6,13 @@ import { YearsTimeline } from './YearsTimeline';
 
 const TITLE_ID = 'search-overview-title';
 
-export function OverviewSection({ overview }: { overview: OverviewResponse }) {
+export function OverviewSection({
+  globalPeriod,
+}: {
+  globalPeriod: OverviewResponse['globalPeriod'];
+}) {
   const t = useTranslations('Search.overview');
   const format = useFormatter();
-  const globalPeriod = overview.globalPeriod;
-
   if (!globalPeriod) return null;
 
   return (

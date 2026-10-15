@@ -15,7 +15,7 @@ export default {
     description:
       "Type the first name and both surnames, choose the school and find out in which years they took part in the Children's Tamborrada of Donostia. Each year links to its original source.",
     about:
-      "This search tool covers the participants of the Children's Tamborrada of Donostia, the yearly parade of child drummers and cantineras (it is not a competition). It shows in which years a person appears at the chosen school and links to the original source of each year.",
+      "This search tool covers the participants of the Children's Tamborrada of Donostia, the yearly parade of child drummers and cantineras. It shows in which years a person appears at the chosen school and links to the original source of each year.",
   },
   form: {
     ariaLabel: 'Participant search',
@@ -49,7 +49,7 @@ export default {
     card: {
       exact: 'Exact match',
       compatible: 'Compatible match',
-      count: '{count, plural, one {# participation · source} other {# participations · sources}}',
+      count: '{count, plural, one {# participation} other {# participations}}',
     },
     row: {
       viewSource: 'View source',
@@ -73,6 +73,15 @@ export default {
       description: 'An error occurred or the request took too long. Please try again.',
       retry: 'Try again',
     },
+    rateLimited: {
+      title: 'Too many searches in a row',
+      description:
+        'You have made many searches in a short time. Please try again {minutes, plural, one {in # minute} other {in # minutes}}.',
+      countdown:
+        'You have made many searches in a short time. You can search again in {minutes, plural, =0 {{seconds} s} other {{minutes} min {seconds} s}}.',
+      ready: 'You can search again now.',
+      retry: 'Try again',
+    },
   },
   overview: {
     title: 'Data available in the search',
@@ -89,7 +98,7 @@ export default {
   topStats: {
     name: 'Most repeated first name',
     surname: 'Most repeated surname',
-    school: 'School with the most participants',
+    school: 'School with the most participations',
     count: '{count, plural, one {# participation} other {# participations}}',
   },
   structuredData: {
@@ -99,6 +108,8 @@ export default {
     appName: "Children's Tamborrada participant search",
     appDescription:
       "Web tool to search participants of the Children's Tamborrada of Donostia by name and school and check in which years they took part. Editions from {startYear} to {endYear}.",
+    appDescriptionFallback:
+      "Web tool to search participants of the Children's Tamborrada of Donostia by name and school and check in which years they took part.",
   },
   faq: {
     kicker: 'Frequently asked questions',
@@ -117,7 +128,7 @@ export default {
       whySchool: {
         question: 'Why do I have to choose a school?',
         answer:
-          'Because many first names and surnames are repeated among the participants, and the school makes it possible to tell people apart. The search is made only within the school you choose. Also, for data protection, so that nobody can run mass searches of participants.',
+          'Because many first names and surnames are repeated among the participants, and the school makes it possible to tell people apart. The search is made only within the school you choose, so the results are more precise and only people from the school you care about appear.',
       },
       matchTypes: {
         question: 'What do “exact match” and “compatible match” mean?',
@@ -127,12 +138,17 @@ export default {
       multipleResults: {
         question: 'Why do I get several results for the same search?',
         answer:
-          'Each different form in which a name appears in the sources is a result. For example, a person may be published one year with a second first name and another year without it, or with a single surname. Within each result, all the years in which that form of the name appears are grouped together.',
+          'Each different form in which a name appears in the sources is a result. For example, a person may be published one year with a second first name and another year without it, or with a single surname. Within each result, all the years in which that form of the name appears at that school are grouped together. It is a grouping by registered name, not a verified identification: two different people with the same name and school in different years would appear together, so it is worth checking the sources.',
       },
       years: {
         question: 'Which years is there data for?',
         answer:
           'There is data for {editionsCount, plural, one {# edition} other {# editions}}, between {startYear} and {endYear}.{hasGaps, select, yes { There is no data for {missingYears}.} other {}}',
+      },
+      yearsFallback: {
+        question: 'Which years is there data for?',
+        answer:
+          "There is data for several editions of the Children's Tamborrada of Donostia, but we cannot show the exact range of years right now. You can search as usual and come back later to check it.",
       },
       sources: {
         question: 'Where does the data come from, and is it official?',
