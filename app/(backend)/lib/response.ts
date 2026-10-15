@@ -8,12 +8,17 @@ import {
   ServerError,
   UnauthorizedError,
   ValidationError,
+  RateLimitError,
 } from './errors';
 
-function jsonResponse(body: unknown, status: number): Response {
+function jsonResponse(
+  body: unknown,
+  status: number,
+  headers: Record<string, string> = {}
+): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
+    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...headers },
   });
 }
 
@@ -52,6 +57,14 @@ export const res = {
   serverError(message: string = 'Internal server error'): Response {
     return jsonResponse({ error: errorMessage(message, 'Internal server error') }, 500);
   },
+  tooManyRequests(
+    message: string = 'Too many requests',
+    retryAfterSeconds: number = 60
+  ): Response {
+    return jsonResponse({ error: errorMessage(message, 'Too many requests') }, 429, {
+      'Retry-After': String(retryAfterSeconds),
+    });
+  },
 };
 
 export function handleError(tag: string, error: unknown): Response {
@@ -60,6 +73,8 @@ export function handleError(tag: string, error: unknown): Response {
   if (error instanceof ForbiddenError) return res.forbidden(error.message);
   if (error instanceof NotFoundError) return res.notFound(error.message);
   if (error instanceof ConflictError) return res.conflict(error.message);
+  if (error instanceof RateLimitError)
+    return res.tooManyRequests(error.message, error.retryAfterSeconds);
   if (error instanceof PeriodMovedError) return res.notFound(error.message);
   if (error instanceof ServerError) return res.serverError(error.message);
   const message = error instanceof Error ? error.message : String(error);

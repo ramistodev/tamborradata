@@ -1,3 +1,5 @@
+import 'server-only';
+
 export class ValidationError extends Error {
   constructor(message: string) {
     super(message);
@@ -37,6 +39,13 @@ export class ServerError extends Error {
   constructor(message: string) {
     super(message);
     this.name = 'ServerError';
+  }
+}
+
+export class RateLimitError extends Error {
+  constructor(public readonly retryAfterSeconds: number) {
+    super(`Rate limit exceeded. Please try again in ${retryAfterSeconds} seconds.`);
+    this.name = 'RateLimitError';
   }
 }
 
