@@ -3,18 +3,12 @@ import type { OverviewResponse } from '../../../../../types/api/overview.types';
 import { FAQs } from '../../../components/ui';
 import { buildFaqs } from '../data/faqs';
 
-type FAQSectionProps = {
-  period: OverviewResponse['globalPeriod'];
-};
-
 const TITLE_ID = 'search-faq-title';
 
-export function FAQSection({ period }: FAQSectionProps) {
+export function FAQSection({ globalPeriod }: { globalPeriod: OverviewResponse['globalPeriod'] }) {
   const t = useTranslations('Search.faq');
   const tItems = useTranslations('Search.faq.items');
   const format = useFormatter();
-
-  if (!period) return null;
 
   return (
     <section aria-labelledby={TITLE_ID} className="flex flex-col gap-6 sm:gap-9">
@@ -27,7 +21,7 @@ export function FAQSection({ period }: FAQSectionProps) {
           {t('title')}
         </h2>
       </div>
-      <FAQs items={buildFaqs(tItems, format, period)} />
+      <FAQs items={buildFaqs(tItems, format, globalPeriod)} />
     </section>
   );
 }

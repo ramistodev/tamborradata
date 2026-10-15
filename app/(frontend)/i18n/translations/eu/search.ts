@@ -15,7 +15,7 @@ export default {
     description:
       'Idatzi izena eta bi abizenak, aukeratu ikastetxea eta jakin zein urtetan atera zen Donostiako Haur Danborradan. Urte bakoitzak bere jatorrizko iturrira darama.',
     about:
-      'Bilatzaile honek Donostiako Haur Danborradako parte-hartzaileak biltzen ditu, danborrero eta kantinera txikien urteroko desfilea (ez da lehiaketa bat). Pertsona bat aukeratutako ikastetxean zein urtetan agertzen den erakusten du, eta urte bakoitzaren jatorrizko iturrira darama.',
+      'Bilatzaile honek Donostiako Haur Danborradako parte-hartzaileak biltzen ditu, danborrero eta kantinera txikien urteroko desfilea. Pertsona bat aukeratutako ikastetxean zein urtetan agertzen den erakusten du, eta urte bakoitzaren jatorrizko iturrira darama.',
   },
   form: {
     ariaLabel: 'Parte-hartzaileen bilatzailea',
@@ -49,7 +49,7 @@ export default {
     card: {
       exact: 'Bat-etortze zehatza',
       compatible: 'Bat-etortze bateragarria',
-      count: '{count, plural, one {# parte-hartze · iturria} other {# parte-hartze · iturriak}}',
+      count: '{count} parte-hartze',
     },
     row: {
       viewSource: 'Ikusi iturria',
@@ -73,6 +73,15 @@ export default {
       description: 'Errore bat gertatu da edo eskaerak gehiegi iraun du. Saiatu berriro.',
       retry: 'Saiatu berriro',
     },
+    rateLimited: {
+      title: 'Bilaketa gehiegi segidan',
+      description:
+        'Bilaketa asko egin dituzu denbora gutxian. Saiatu berriro {minutes, plural, other {# minutu barru}}.',
+      countdown:
+        'Bilaketa asko egin dituzu denbora gutxian. Berriro bilatu ahal izango duzu {minutes, plural, =0 {{seconds} s} other {{minutes} min {seconds} s}} barru.',
+      ready: 'Orain berriro bilatu dezakezu.',
+      retry: 'Saiatu berriro',
+    },
   },
   overview: {
     title: 'Bilatzailean eskuragarri dauden datuak',
@@ -89,7 +98,7 @@ export default {
   topStats: {
     name: 'Gehien errepikatutako izena',
     surname: 'Gehien errepikatutako abizena',
-    school: 'Parte-hartzaile gehien dituen ikastetxea',
+    school: 'Parte-hartze gehien dituen ikastetxea',
     count: '{count} parte-hartze',
   },
   structuredData: {
@@ -99,6 +108,8 @@ export default {
     appName: 'Haur Danborradako parte-hartzaileen bilatzailea',
     appDescription:
       'Donostiako Haur Danborradako parte-hartzaileak izenaren eta ikastetxearen arabera bilatzeko eta zein urtetan atera ziren kontsultatzeko web tresna. Edizioak: {startYear}-{endYear}.',
+    appDescriptionFallback:
+      'Donostiako Haur Danborradako parte-hartzaileak izenaren eta ikastetxearen arabera bilatzeko eta zein urtetan atera ziren kontsultatzeko web tresna.',
   },
   faq: {
     kicker: 'Maiz egindako galderak',
@@ -117,7 +128,7 @@ export default {
       whySchool: {
         question: 'Zergatik aukeratu behar dut ikastetxe bat?',
         answer:
-          'Parte-hartzaileen artean izen eta abizen asko errepikatzen direlako, eta ikastetxeari esker pertsonak bereiz daitezkeelako. Bilaketa aukeratzen duzun ikastetxearen barruan soilik egiten da. Gainera, datuak babesteko, inork parte-hartzaileen bilaketa masiboak egin ez ditzan.',
+          'Parte-hartzaileen artean izen eta abizen asko errepikatzen direlako, eta ikastetxeari esker pertsonak bereiz daitezkeelako. Bilaketa aukeratzen duzun ikastetxearen barruan soilik egiten da; horrela, emaitzak zehatzagoak dira eta interesatzen zaizun ikastetxeko pertsonak soilik agertzen dira.',
       },
       matchTypes: {
         question: 'Zer esan nahi dute “bat-etortze zehatza” eta “bat-etortze bateragarria” esapideek?',
@@ -127,12 +138,17 @@ export default {
       multipleResults: {
         question: 'Zergatik agertzen dira emaitza anitz bilaketa berarentzat?',
         answer:
-          'Izen bat iturrietan agertzen den forma desberdin bakoitza emaitza bat da. Adibidez, pertsona bat urte batean bigarren izenarekin argitaratuta egon daiteke eta beste urte batean gabe, edo abizen bakarrarekin. Emaitza bakoitzaren barruan, izenaren forma hori agertzen den urte guztiak biltzen dira.',
+          'Izen bat iturrietan agertzen den forma desberdin bakoitza emaitza bat da. Adibidez, pertsona bat urte batean bigarren izenarekin argitaratuta egon daiteke eta beste urte batean gabe, edo abizen bakarrarekin. Emaitza bakoitzaren barruan, izenaren forma hori ikastetxe horretan agertzen den urte guztiak biltzen dira. Erregistratutako izenaren araberako multzokatzea da, ez identifikazio egiaztatua: izen eta ikastetxe bera duten bi pertsona desberdin urte desberdinetan elkarrekin agertuko lirateke, beraz, komeni da iturriak egiaztatzea.',
       },
       years: {
         question: 'Zein urtetako datuak daude?',
         answer:
           '{editionsCount} edizioren datuak daude, {startYear} eta {endYear} artekoak.{hasGaps, select, yes { Ez dago daturik hauetan: {missingYears}.} other {}}',
+      },
+      yearsFallback: {
+        question: 'Zein urtetako datuak daude?',
+        answer:
+          'Donostiako Haur Danborradako hainbat edizioren datuak daude, baina oraintxe ezin dugu urte-tarte zehatza erakutsi. Ohi bezala bila dezakezu eta geroago itzuli tartea kontsultatzeko.',
       },
       sources: {
         question: 'Nondik datoz datuak eta ofizialak dira?',

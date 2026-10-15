@@ -7,7 +7,7 @@ import { buildSearchTexts } from '../../(pages)/search/data/buildSearchTexts';
 import { ogImageUrl, organizationId, webSiteId } from '../constants';
 
 type SearchStructuredDataProps = {
-  period: NonNullable<OverviewResponse['globalPeriod']>;
+  globalPeriod: OverviewResponse['globalPeriod'];
 };
 
 /** First publication date of the page (ISO 8601). A fixed value chosen by the owner, never derived. */
@@ -21,7 +21,7 @@ const DATE_PUBLISHED = '2025-12-16T00:00:00.000Z';
  * page shows. No `Dataset`: the participants can only be searched, not downloaded, and have no
  * license, so the page does not claim to publish a dataset.
  */
-export async function SearchStructuredData({ period }: SearchStructuredDataProps) {
+export async function SearchStructuredData({ globalPeriod }: SearchStructuredDataProps) {
   const [locale, t, tMetadata, tFaq, tEvent, format] = await Promise.all([
     getLocale(),
     getTranslations('Search'),
@@ -33,8 +33,18 @@ export async function SearchStructuredData({ period }: SearchStructuredDataProps
 
   const url = getAlternates(locale, '/search').canonical;
   const language = getLanguageTag(locale);
-  const { title, description } = buildSearchTexts(tMetadata, period);
-  const years = { startYear: String(period.startYear), endYear: String(period.endYear) };
+  const { title, description } = buildSearchTexts(tMetadata, globalPeriod);
+  // Everything that depends on the published period. Without it (the overview failed to load) these
+  // stay undefined, which `JSON.stringify` leaves out, so no property ever states a made-up year.
+  const fromPeriod = globalPeriod && {
+    appDescription: t('structuredData.appDescription', {
+      startYear: String(globalPeriod.startYear),
+      endYear: String(globalPeriod.endYear),
+    }),
+    temporalCoverage: `${globalPeriod.startYear}/${globalPeriod.endYear}`,
+    startDate: `${globalPeriod.startYear}-01-20`,
+    dateModified: globalPeriod.lastPublishedAt,
+  };
   const ids = {
     webPage: `${url}#webpage`,
     breadcrumb: `${url}#breadcrumb`,
@@ -62,7 +72,7 @@ export async function SearchStructuredData({ period }: SearchStructuredDataProps
     breadcrumb: { '@id': ids.breadcrumb },
     hasPart: { '@id': ids.faq },
     datePublished: DATE_PUBLISHED,
-    dateModified: period.lastPublishedAt,
+    dateModified: fromPeriod?.dateModified,
   };
 
   const app = {
@@ -70,17 +80,17 @@ export async function SearchStructuredData({ period }: SearchStructuredDataProps
     '@id': ids.app,
     url,
     name: t('structuredData.appName'),
-    description: t('structuredData.appDescription', years),
+    description: fromPeriod?.appDescription ?? t('structuredData.appDescriptionFallback'),
     inLanguage: language,
     operatingSystem: 'Any',
     isAccessibleForFree: true,
-    temporalCoverage: `${period.startYear}/${period.endYear}`,
+    temporalCoverage: fromPeriod?.temporalCoverage,
     about: { '@id': ids.eventSeries },
     creator: { '@id': organizationId },
     publisher: { '@id': organizationId },
     mainEntityOfPage: { '@id': ids.webPage },
     datePublished: DATE_PUBLISHED,
-    dateModified: period.lastPublishedAt,
+    dateModified: fromPeriod?.dateModified,
   };
 
   const eventSeries = {
@@ -88,7 +98,7 @@ export async function SearchStructuredData({ period }: SearchStructuredDataProps
     '@id': ids.eventSeries,
     name: tEvent('eventSeriesName'),
     description: tEvent('eventSeriesDescription'),
-    startDate: `${period.startYear}-01-20`,
+    startDate: fromPeriod?.startDate,
     image: ogImageUrl,
     location: {
       '@type': 'Place',
@@ -121,7 +131,7 @@ export async function SearchStructuredData({ period }: SearchStructuredDataProps
     '@id': ids.faq,
     url,
     inLanguage: language,
-    mainEntity: buildFaqs(tFaq, format, period).map(({ question, answer }) => ({
+    mainEntity: buildFaqs(tFaq, format, globalPeriod).map(({ question, answer }) => ({
       '@type': 'Question',
       name: question,
       acceptedAnswer: { '@type': 'Answer', text: answer },

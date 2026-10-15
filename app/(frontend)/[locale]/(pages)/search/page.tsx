@@ -14,9 +14,10 @@ export async function generateMetadata(): Promise<Metadata> {
   // The same cached calls the page makes, so nothing is fetched twice
   const [t, overview] = await Promise.all([
     getTranslations('Search.metadata'),
-    getOverview(overviewScope.global),
+    getOverview(overviewScope.global, true),
   ]);
-  const { title, description } = buildSearchTexts(t, overview.globalPeriod);
+
+  const { title, description } = buildSearchTexts(t, overview?.globalPeriod);
   const alternates = getAlternates(locale, '/search');
 
   return {
@@ -57,12 +58,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function SearchPage() {
   const [schools, overview] = await Promise.all([
     getSchools(),
-    getOverview(overviewScope.global),
+    getOverview(overviewScope.global, true),
   ]);
 
   return (
     <>
-      {overview.globalPeriod && <SearchStructuredData period={overview.globalPeriod} />}
+      <SearchStructuredData globalPeriod={overview?.globalPeriod} />
       <SearchPageContent schools={schools} overview={overview} />
     </>
   );
