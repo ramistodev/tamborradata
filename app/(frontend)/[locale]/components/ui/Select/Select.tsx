@@ -1,5 +1,5 @@
 'use client';
-import { useId, useState } from 'react';
+import { type Ref, useCallback, useId, useState } from 'react';
 import { Icons } from '../../Icons';
 import { fieldBorderStyles, fieldStyles } from '../Input';
 import { Skeleton } from '../Skeleton';
@@ -36,7 +36,11 @@ type SelectProps = {
   emptyMessage?: string;
   /** Spoken (polite live region) while filtering, e.g. "3 schools found". */
   getResultsMessage?: (count: number) => string;
+  /** Element that takes focus once an option is chosen; the trigger when omitted or `null`. */
+  getFocusAfterSelect?: () => HTMLElement | null;
   className?: string;
+  /** Ref to the trigger button, e.g. to return focus to it. */
+  ref?: Ref<HTMLButtonElement>;
 };
 
 const LOADING_ROWS = 6;
@@ -60,7 +64,9 @@ export function Select({
   searchLabel,
   emptyMessage,
   getResultsMessage,
+  getFocusAfterSelect,
   className = '',
+  ref,
 }: SelectProps) {
   const baseId = useId();
   const labelId = `${baseId}-label`;
@@ -76,7 +82,14 @@ export function Select({
     onChange?.(nextValue);
   }
 
-  const select = useSelect({ options, value, onChange: handleChange, searchable, disabled });
+  const select = useSelect({
+    options,
+    value,
+    onChange: handleChange,
+    searchable,
+    disabled,
+    getFocusAfterSelect,
+  });
   const {
     rootRef,
     triggerRef,
@@ -90,6 +103,16 @@ export function Select({
     selected,
     filtered,
   } = select;
+
+  // The trigger needs both the hook's internal ref (focus return) and the caller's ref
+  const setTriggerRef = useCallback(
+    (node: HTMLButtonElement | null) => {
+      triggerRef.current = node;
+      if (typeof ref === 'function') ref(node);
+      else if (ref) ref.current = node;
+    },
+    [triggerRef, ref]
+  );
 
   const activeDescendant = isOpen && activeIndex >= 0 ? optionId(activeIndex) : undefined;
   const nameSourceId = label ? labelId : ariaLabel ? hiddenNameId : undefined;
@@ -120,7 +143,7 @@ export function Select({
       )}
 
       <button
-        ref={triggerRef}
+        ref={setTriggerRef}
         id={id}
         type="button"
         role={searchable ? undefined : 'combobox'}
@@ -176,7 +199,7 @@ export function Select({
           className="absolute inset-x-0 top-full z-50 mt-1.5 flex max-h-[min(300px,50vh)] animate-drop-in flex-col overflow-hidden rounded-xl border border-border bg-card shadow-[0_8px_32px_rgba(0,0,0,0.22)] motion-reduce:animate-none"
         >
           {searchable && (
-            <div className="flex shrink-0 items-center gap-2 border-b border-border px-3.5 py-2.5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-accent">
+            <div className="flex shrink-0 items-center gap-2 border-b border-border px-3.5 py-2.5">
               <span aria-hidden="true" className="flex">
                 <Icons.SearchIcon className="size-4 text-text-tertiary" />
               </span>
