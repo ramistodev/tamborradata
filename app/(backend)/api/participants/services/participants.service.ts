@@ -1,6 +1,5 @@
 import 'server-only';
 import { fetchParticipants } from '../repo/participants.repo';
-import { NotFoundError } from '../../../lib/errors';
 import { matchTypes, ParticipantsResponse } from '../../../../types/api/participants.types';
 import { dropCoveredIncompletes } from '../lib/dropCoveredIncompletes';
 import { groupRecords } from '../lib/groupRecords';
@@ -22,9 +21,6 @@ export async function participantsService(
 
   const records = groupRecords(dropCoveredIncompletes(matches));
 
-  if (records.length === 0) {
-    throw new NotFoundError('No participants found for the given name and schoolKey');
-  }
-
+  // No matches is a valid answer, not an error: it resolves to an empty list
   return records;
 }
