@@ -34,6 +34,7 @@
   /* Status */
   --color-success: var(--success);
   --color-danger: var(--danger);
+  --color-warning: var(--warning);
 
   /* Text */
   --color-text: var(--text);
@@ -67,6 +68,7 @@
   /* Status */
   --success: #0f7350;
   --danger: #c0384a;
+  --warning: #8a6d00;
 
   /* Text. Every text token reaches 4.5:1 (WCAG AA) on every surface above. */
   --text: #08101f;
@@ -126,6 +128,7 @@
     /* Status */
     --success: #3cb884;
     --danger: #d95a6a;
+    --warning: #d9a520;
 
     /* Text */
     --text: #e8edf7;

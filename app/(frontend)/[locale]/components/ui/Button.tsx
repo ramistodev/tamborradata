@@ -1,6 +1,6 @@
-import type { ButtonHTMLAttributes } from 'react';
+import type { ComponentProps } from 'react';
 
-type Variant = 'primary' | 'ghost';
+type Variant = 'primary' | 'ghost' | 'warning';
 type Size = 'sm' | 'md';
 
 type ButtonStyleOptions = {
@@ -14,15 +14,20 @@ type ButtonStyleOptions = {
 const base =
   'inline-flex items-center justify-center gap-2 rounded-lg border font-sans tracking-[-0.01em] ' +
   'cursor-pointer transition-[opacity,transform,color,border-color] duration-200 motion-reduce:transition-none ' +
-  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ' +
+  'focus-visible:outline-2 focus-visible:outline-offset-2 ' +
   'disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50';
 
 const variants: Record<Variant, string> = {
   primary:
     'border-transparent bg-accent text-bg font-bold hover:not-aria-disabled:-translate-y-px hover:not-aria-disabled:opacity-85 ' +
-    'motion-reduce:hover:translate-y-0 disabled:hover:translate-y-0 disabled:hover:opacity-50',
+    'focus-visible:outline-accent motion-reduce:hover:translate-y-0 disabled:hover:translate-y-0 disabled:hover:opacity-50',
   ghost:
-    'border-border bg-transparent text-text font-medium hover:not-aria-disabled:border-accent hover:not-aria-disabled:text-accent',
+    'border-border bg-transparent text-text font-medium hover:not-aria-disabled:border-accent hover:not-aria-disabled:text-accent ' +
+    'focus-visible:outline-accent',
+  // For actions inside a warning panel, so nothing on it turns blue
+  warning:
+    'border-warning/50 bg-transparent text-warning font-medium hover:not-aria-disabled:bg-warning/15 ' +
+    'focus-visible:outline-warning',
 };
 
 const sizes: Record<Size, string> = {
@@ -39,7 +44,7 @@ export function buttonStyles({
   return `${base} ${variants[variant]} ${sizes[size]} ${className}`;
 }
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & Omit<ButtonStyleOptions, 'className'>;
+type ButtonProps = ComponentProps<'button'> & Omit<ButtonStyleOptions, 'className'>;
 
 export function Button({ variant, size, className, type = 'button', ...props }: ButtonProps) {
   return <button type={type} className={buttonStyles({ variant, size, className })} {...props} />;

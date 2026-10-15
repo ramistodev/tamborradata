@@ -9,6 +9,8 @@ type UseSelectParams = {
   onChange: (value: string) => void;
   searchable?: boolean;
   disabled?: boolean;
+  /** Where focus goes after an option is chosen. Without it, or when it returns `null`, the trigger. */
+  getFocusAfterSelect?: () => HTMLElement | null;
 };
 
 /** Space kept above the select when it is scrolled to the top of the viewport. */
@@ -47,7 +49,14 @@ function lastEnabledIndex(options: SelectOption[]) {
  * State and behavior of an accessible select (APG "combobox" pattern):
  * open/close, text filter, keyboard navigation, click outside and focus management.
  */
-export function useSelect({ options, value, onChange, searchable, disabled }: UseSelectParams) {
+export function useSelect({
+  options,
+  value,
+  onChange,
+  searchable,
+  disabled,
+  getFocusAfterSelect,
+}: UseSelectParams) {
   const baseId = useId();
   const listboxId = `${baseId}-listbox`;
   const optionId = (index: number) => `${baseId}-option-${index}`;
@@ -93,9 +102,10 @@ export function useSelect({ options, value, onChange, searchable, disabled }: Us
     (option: SelectOption) => {
       if (option.disabled) return;
       onChange(option.value);
-      close(true);
+      close();
+      (getFocusAfterSelect?.() ?? triggerRef.current)?.focus();
     },
-    [onChange, close]
+    [onChange, close, getFocusAfterSelect]
   );
 
   // Click outside closes the panel
