@@ -1,4 +1,5 @@
 import type { ParticipantsResponse } from '../../../types/api/participants.types';
+import { RateLimitedError } from '../lib/errors';
 
 type FetchParticipantsParams = {
   participant: string;
@@ -6,17 +7,24 @@ type FetchParticipantsParams = {
   signal?: AbortSignal;
 };
 
-/** Records of `GET /api/participants`. A 404 means "no matches", so it resolves to an empty list. */
+/** Records of `POST /api/participants`. No matches resolves to an empty list. */
 export async function fetchParticipants({
   participant,
   schoolKey,
   signal,
 }: FetchParticipantsParams): Promise<ParticipantsResponse[]> {
-  const searchParams = new URLSearchParams({ participant, schoolKey });
-  const response = await fetch(`/api/participants?${searchParams}`, { signal });
+  const response = await fetch('/api/participants', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ participant, schoolKey }),
+    signal,
+  });
 
-  if (response.status === 404) {
-    return [];
+  if (response.status === 429) {
+    const retryAfter = Number(response.headers.get('Retry-After'));
+    throw new RateLimitedError(Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter : 60);
   }
 
   const body = await response.json();

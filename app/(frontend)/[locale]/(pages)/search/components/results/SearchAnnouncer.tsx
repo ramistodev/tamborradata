@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { ParticipantsResponse } from '../../../../../../types/api/participants.types';
 import type { SearchParams } from '../../hooks/useSearchForm';
+import { getRetryMinutes } from '../../utils/getRetryMinutes';
 
 /** Lets the region empty out first, so an identical message is announced again. */
 const ANNOUNCE_DELAY_MS = 150;
@@ -11,6 +12,7 @@ type SearchAnnouncerProps = {
   records: ParticipantsResponse[] | undefined;
   isFetching: boolean;
   isError: boolean;
+  retryAfterSeconds: number | null;
 };
 
 /**
@@ -19,7 +21,13 @@ type SearchAnnouncerProps = {
  * nothing is announced twice. It stays mounted, because a region added together with its text is
  * often not announced.
  */
-export function SearchAnnouncer({ search, records, isFetching, isError }: SearchAnnouncerProps) {
+export function SearchAnnouncer({
+  search,
+  records,
+  isFetching,
+  isError,
+  retryAfterSeconds,
+}: SearchAnnouncerProps) {
   const tResults = useTranslations('Search.results');
   const tStatus = useTranslations('Search.status');
   const [message, setMessage] = useState('');
@@ -28,6 +36,10 @@ export function SearchAnnouncer({ search, records, isFetching, isError }: Search
   if (search) {
     if (isFetching) {
       text = tResults('loading');
+    } else if (retryAfterSeconds !== null) {
+      text = `${tStatus('rateLimited.title')}. ${tStatus('rateLimited.description', {
+        minutes: getRetryMinutes(retryAfterSeconds),
+      })}`;
     } else if (isError) {
       text = `${tStatus('error.title')}. ${tStatus('error.description')}`;
     } else if (!records || records.length === 0) {
