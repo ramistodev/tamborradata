@@ -5,6 +5,7 @@ import { ParticipantCard } from './ParticipantCard';
 import { ResultsSkeleton } from './ResultsSkeleton';
 import { SearchError } from '../status/SearchError';
 import { SearchPrompt } from '../status/SearchPrompt';
+import { SearchRateLimited } from '../status/SearchRateLimited';
 import { SearchSummary } from './SearchSummary';
 
 type SearchResultsProps = {
@@ -12,6 +13,8 @@ type SearchResultsProps = {
   records: ParticipantsResponse[] | undefined;
   isFetching: boolean;
   isError: boolean;
+  /** Seconds to wait when the API refused the search for being too frequent; `null` otherwise. */
+  retryAfterSeconds: number | null;
   onRetry: () => void;
   onClear: () => void;
 };
@@ -21,11 +24,16 @@ export function SearchResults({
   records,
   isFetching,
   isError,
+  retryAfterSeconds,
   onRetry,
   onClear,
 }: SearchResultsProps) {
   if (!search) return <SearchPrompt />;
   if (isFetching) return <ResultsSkeleton />;
+  // Before `isError`: a rate-limited search is an error too, and has its own message
+  if (retryAfterSeconds !== null) {
+    return <SearchRateLimited retryAfterSeconds={retryAfterSeconds} onRetry={onRetry} />;
+  }
   if (isError) return <SearchError onRetry={onRetry} />;
   if (!records || records.length === 0) return <NoResults />;
 

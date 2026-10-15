@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 type StatusPanelProps = {
   icon: ReactNode;
   title: string;
-  tone?: 'accent' | 'danger';
+  tone?: 'accent' | 'danger' | 'warning';
   action?: ReactNode;
   children: ReactNode;
 };
@@ -11,6 +11,14 @@ type StatusPanelProps = {
 const TONES = {
   accent: 'bg-accent/10 text-accent',
   danger: 'bg-danger/10 text-danger',
+  warning: 'bg-warning/15 text-warning',
+};
+
+// Only a warning tints the whole panel, so a wait stands out from an empty or a failed search
+const PANEL_TONES = {
+  accent: 'border-border bg-card',
+  danger: 'border-border bg-card',
+  warning: 'border-warning/40 bg-warning/10',
 };
 
 /**
@@ -19,7 +27,7 @@ const TONES = {
  */
 export function StatusPanel({ icon, title, tone = 'accent', action, children }: StatusPanelProps) {
   return (
-    <div className="flex items-start gap-4 rounded-2xl border border-border bg-card p-5">
+    <div className={`flex items-start gap-4 rounded-2xl border p-5 ${PANEL_TONES[tone]}`}>
       <div
         aria-hidden="true"
         className={`grid size-10 shrink-0 place-items-center rounded-xl ${TONES[tone]}`}

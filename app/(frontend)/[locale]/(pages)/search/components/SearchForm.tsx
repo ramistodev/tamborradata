@@ -1,57 +1,43 @@
-import { useId } from 'react';
+import { useId, useRef } from 'react';
 import type { FormEvent, RefObject } from 'react';
 import { useTranslations } from 'next-intl';
 import { Icons } from '../../../components/Icons';
 import { Button, Input, Select } from '../../../components/ui';
 import type { SelectOption } from '../../../components/ui';
+import { MAX_PARTICIPANT_LENGTH } from '../../../../../types/api/participants.types';
 
 type SearchFormProps = {
   name: string;
   onNameChange: (name: string) => void;
   nameInputRef: RefObject<HTMLInputElement | null>;
+  schoolDropdownRef: RefObject<HTMLButtonElement | null>;
   schoolKey: string | null;
   onSchoolChange: (schoolKey: string) => void;
   schoolOptions: SelectOption[];
   isNameValid: boolean;
   canSubmit: boolean;
   isSearching: boolean;
-  onSubmit: (event: FormEvent) => void;
+  handleSubmit: (event: FormEvent) => void;
 };
 
 export function SearchForm({
   name,
   onNameChange,
   nameInputRef,
+  schoolDropdownRef,
   schoolKey,
   onSchoolChange,
   schoolOptions,
   isNameValid,
   canSubmit,
   isSearching,
-  onSubmit,
+  handleSubmit,
 }: SearchFormProps) {
   const t = useTranslations('Search.form');
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
   const id = useId();
   const hintId = `${id}-hint`;
   const schoolId = `${id}-school`;
-
-  // The button is `aria-disabled` (not `disabled`) so it stays in the tab order and keeps focus
-  // while a search runs; the handler does what `disabled` would have done
-  function handleSubmit(event: FormEvent) {
-    if (isSearching) {
-      event.preventDefault();
-      return;
-    }
-
-    if (!canSubmit) {
-      event.preventDefault();
-      if (isNameValid) document.getElementById(schoolId)?.focus();
-      else nameInputRef.current?.focus();
-      return;
-    }
-
-    onSubmit(event);
-  }
 
   return (
     <form
@@ -62,6 +48,7 @@ export function SearchForm({
     >
       <Input
         ref={nameInputRef}
+        maxLength={MAX_PARTICIPANT_LENGTH}
         type="text"
         name="participant"
         value={name}
@@ -76,6 +63,7 @@ export function SearchForm({
         spellCheck={false}
       />
       <Select
+        ref={schoolDropdownRef}
         id={schoolId}
         options={schoolOptions}
         value={schoolKey}
@@ -88,8 +76,10 @@ export function SearchForm({
         searchLabel={t('school.searchAriaLabel')}
         emptyMessage={t('school.empty')}
         getResultsMessage={(count) => t('school.resultsCount', { count })}
+        getFocusAfterSelect={() => (isNameValid ? submitButtonRef.current : nameInputRef.current)}
       />
       <Button
+        ref={submitButtonRef}
         type="submit"
         aria-disabled={!canSubmit || isSearching}
         aria-describedby={hintId}
