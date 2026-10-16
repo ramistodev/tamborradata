@@ -43,14 +43,6 @@ export default {
     edition: '{period} edizioa',
     backToTop: 'Gora itzuli',
   },
-  error: {
-    title: 'Ezin izan ditugu estatistikak kargatu',
-    description:
-      'Ustekabeko errore bat gertatu da datuak lortzean. Berriro saia zaitezke edo hasierara itzuli.',
-    retry: 'Saiatu berriro',
-    back: 'Itzuli hasierara',
-    digest: 'Errorearen kodea: {digest}',
-  },
   structuredData: {
     home: 'Hasiera',
     statistics: 'Urteko estatistikak',
