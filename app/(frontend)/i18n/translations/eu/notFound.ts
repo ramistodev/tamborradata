@@ -1,7 +1,9 @@
 import type notFound from '../es/notFound';
 
 export default {
-  title: 'Ene... orria ez da aurkitu!',
-  description: 'Bilatzen duzun orria ez dago edo lekuz aldatu dute. Baina lasai, hasierako orrira itzul zaitezke.',
-  backHome: 'Hasierara itzuli',
+  kicker: 'Errorea',
+  title: 'Orri hau unibertsotik kanpo dago',
+  description:
+    'Sartzen saiatzen ari zaren orria ez dago edo lekuz aldatu dute. Saiatu hasierako orrira itzultzen.',
+  backHome: 'Joan hasierako orrira',
 } satisfies typeof notFound;
