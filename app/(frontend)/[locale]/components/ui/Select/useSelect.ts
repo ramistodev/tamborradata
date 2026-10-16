@@ -123,7 +123,11 @@ export function useSelect({
   // Focus the filter input when opening a searchable select. The scroll is handled by the
   // effect below, so the browser's own scroll-into-view must not fight with it.
   useEffect(() => {
-    if (isOpen && searchable) searchRef.current?.focus({ preventScroll: true });
+    const input = searchRef.current;
+    if (!isOpen || !searchable || !input) return;
+    input.focus({ preventScroll: true });
+    // Opened by typing: the filter already holds a character, so the caret goes after it
+    input.setSelectionRange(input.value.length, input.value.length);
   }, [isOpen, searchable]);
 
   // Bring the select to the top while it is open (so the panel stays clear of the on-screen
@@ -245,7 +249,16 @@ export function useSelect({
         break;
       default: {
         const isCharacter = event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey;
-        if (!searchable && isCharacter) handleTypeahead(event.key);
+        if (!isCharacter) break;
+        if (!searchable) {
+          handleTypeahead(event.key);
+        } else if (!isOpen && !isSearchInput) {
+          // Typing on the closed trigger opens the panel with that character already in the filter.
+          // The default action is cancelled, otherwise the focus move would type it a second time.
+          event.preventDefault();
+          open();
+          handleQueryChange(event.key);
+        }
       }
     }
   }
