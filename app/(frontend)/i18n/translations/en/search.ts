@@ -73,6 +73,13 @@ export default {
       description: 'An error occurred or the request took too long. Please try again.',
       retry: 'Try again',
     },
+    schoolsUnavailable: {
+      title: 'The search is unavailable',
+      description:
+        'Searching for participants is not possible at the moment because the search is having a temporary problem. The rest of the page keeps working as usual, so you can keep exploring and try again in a little while.',
+      retry: 'Try again',
+      retrying: 'Trying again…',
+    },
     rateLimited: {
       title: 'Too many searches in a row',
       description:

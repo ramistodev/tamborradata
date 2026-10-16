@@ -7,8 +7,9 @@ import { useSearchForm } from '../hooks/useSearchForm';
 import { SearchForm } from './SearchForm';
 import { SearchAnnouncer } from './results/SearchAnnouncer';
 import { SearchResults } from './results/SearchResults';
+import { SchoolsUnavailable } from './status/SchoolsUnavailable';
 
-export function SearchSection({ schools }: { schools: SchoolListResult[] }) {
+export function SearchSection({ schools }: { schools: SchoolListResult[] | null }) {
   const t = useTranslations('Search.results');
 
   const {
@@ -33,9 +34,12 @@ export function SearchSection({ schools }: { schools: SchoolListResult[] }) {
   } = useSearchForm();
 
   const schoolOptions = useMemo(
-    () => schools.map(({ school, schoolKey }) => ({ value: schoolKey, label: school })),
+    () => (schools ?? []).map(({ school, schoolKey }) => ({ value: schoolKey, label: school })),
     [schools]
   );
+
+  // After the hooks: returning before `useMemo` would change the hook order between renders
+  if (!schools || schools.length === 0) return <SchoolsUnavailable />;
 
   return (
     <div className="flex flex-col gap-6">

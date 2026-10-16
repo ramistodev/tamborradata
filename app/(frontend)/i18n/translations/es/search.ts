@@ -71,6 +71,13 @@ const search = {
       description: 'Ha ocurrido un error o la petición ha tardado demasiado. Inténtalo de nuevo.',
       retry: 'Reintentar',
     },
+    schoolsUnavailable: {
+      title: 'El buscador no está disponible',
+      description:
+        'Por el momento no es posible buscar participantes porque el buscador está teniendo un problema temporal. El resto de la página sigue funcionando con normalidad, así que puedes seguir explorando y volver a probar dentro de un rato.',
+      retry: 'Reintentar',
+      retrying: 'Reintentando…',
+    },
     rateLimited: {
       title: 'Demasiadas búsquedas seguidas',
       // Spoken once by the live region; the panel shows `countdown` instead

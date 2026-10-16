@@ -73,6 +73,13 @@ export default {
       description: 'Errore bat gertatu da edo eskaerak gehiegi iraun du. Saiatu berriro.',
       retry: 'Saiatu berriro',
     },
+    schoolsUnavailable: {
+      title: 'Bilatzailea ez dago erabilgarri',
+      description:
+        'Oraingoz ezin da parte-hartzailerik bilatu, bilatzaileak aldi baterako arazo bat duelako. Orriaren gainerakoak ohiko moduan funtzionatzen du, beraz, arakatzen jarrai dezakezu eta berriro saiatu geroxeago.',
+      retry: 'Saiatu berriro',
+      retrying: 'Berriro saiatzen…',
+    },
     rateLimited: {
       title: 'Bilaketa gehiegi segidan',
       description:

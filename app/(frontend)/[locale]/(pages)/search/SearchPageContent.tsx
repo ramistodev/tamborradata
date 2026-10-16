@@ -9,7 +9,7 @@ export function SearchPageContent({
   schools,
   overview,
 }: {
-  schools: SchoolListResult[];
+  schools: SchoolListResult[] | null;
   overview: OverviewResponse | null;
 }) {
   return (

@@ -13,10 +13,14 @@ const getCachedSchools = cacheAcrossRequests(schoolsService, ['schools'], {
 
 // cache() dedupes calls within one request; cacheAcrossRequests persists across requests (not in dev).
 export const getSchools = cache(
-  async (query: string | null = null): Promise<SchoolListResult[]> => {
+  async (
+    query: string | null = null,
+    nullable: boolean = false
+  ): Promise<SchoolListResult[] | null> => {
     try {
       return await getCachedSchools(checkSchoolsParams(query));
     } catch (error) {
+      if (nullable) return null;
       return handleServiceError(error);
     }
   }
