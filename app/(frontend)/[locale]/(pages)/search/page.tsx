@@ -57,7 +57,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function SearchPage() {
   const [schools, overview] = await Promise.all([
-    getSchools(),
+    getSchools('', true), // nullable: true means "could not load"; an empty list means "there are no schools"
     getOverview(overviewScope.global, true),
   ]);
 
