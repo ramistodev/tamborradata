@@ -1,20 +1,54 @@
 import './(frontend)/[locale]/globals.css';
-import Link from 'next/link';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getTranslations } from 'next-intl/server';
+import { Link } from './(frontend)/i18n/navigation';
+import { buttonStyles } from './(frontend)/[locale]/components/ui';
+import { jetbrainsMono, sora, spaceGrotesk } from './(frontend)/[locale]/config/fonts';
 
-export default function GlobalNotFound() {
+/**
+ * The only 404 of the site: it handles `notFound()` calls and URLs that match no route. It sits
+ * outside the `[locale]` layout, so it renders its own document and reads the locale from the
+ * request, falling back to the default one when the URL has none.
+ */
+export default async function NotFound() {
+  const locale = await getLocale();
+  const t = await getTranslations('NotFound');
+
   return (
-    <html lang="es">
+    <html
+      lang={locale}
+      className={`${sora.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+    >
       <body>
-        <div className="w-full min-h-screen flex flex-col items-center justify-center gap-4 px-6 text-center">
-          <h1 className="text-8xl font-extrabold">404</h1>
-          <h2 className="text-2xl font-semibold">Página no encontrada</h2>
-          <Link
-            href="/"
-            className="mt-4 inline-block px-8 py-3 rounded-full font-medium text-white bg-linear-to-r from-blue-600 to-blue-800 shadow-lg hover:shadow-xl transition-all"
-          >
-            Volver al inicio
-          </Link>
-        </div>
+        <NextIntlClientProvider>
+          <main className="flex w-full flex-1 items-center justify-center px-4 py-16 sm:px-5">
+            <section className="flex w-full max-w-2xl animate-drop-in flex-col items-center gap-5 text-center motion-reduce:animate-none">
+              <p className="font-mono text-lg font-semibold tracking-widest text-accent uppercase sm:text-xl">
+                {t('kicker')}
+              </p>
+
+              <div className="relative">
+                <span
+                  aria-hidden="true"
+                  className="font-mono text-accent text-8xl leading-none font-extrabold tracking-tighter"
+                >
+                  404
+                </span>
+              </div>
+
+              <span className="font-mono text-2xl font-semibold text-balance text-accent sm:text-3xl">
+                {t('title')}
+              </span>
+              <p className="max-w-md text-balance text-sm leading-relaxed text-text-secondary sm:text-base">
+                {t('description')}
+              </p>
+
+              <Link href="/" className={buttonStyles({ className: 'mt-2' })}>
+                {t('backHome')}
+              </Link>
+            </section>
+          </main>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
