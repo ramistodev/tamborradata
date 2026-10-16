@@ -41,14 +41,6 @@ const statistics = {
     edition: 'Edición {period}',
     backToTop: 'Volver arriba',
   },
-  error: {
-    title: 'No hemos podido cargar las estadísticas',
-    description:
-      'Ha ocurrido un error inesperado al obtener los datos. Puedes volver a intentarlo o regresar al inicio.',
-    retry: 'Reintentar',
-    back: 'Volver al inicio',
-    digest: 'Código del error: {digest}',
-  },
   structuredData: {
     home: 'Inicio',
     statistics: 'Estadísticas por Año',
