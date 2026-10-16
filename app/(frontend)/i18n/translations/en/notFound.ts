@@ -1,7 +1,9 @@
 import type notFound from '../es/notFound';
 
 export default {
-  title: 'Oops... page not found!',
-  description: "The page you are looking for does not exist or has been moved. But don't worry, you can go back to the home page.",
-  backHome: 'Back to home',
+  kicker: 'Error',
+  title: 'This page is outside of the universe',
+  description:
+    "The page you are trying to access doesn't exist or has been moved. Try going back to the home page.",
+  backHome: 'Go to the home page',
 } satisfies typeof notFound;
