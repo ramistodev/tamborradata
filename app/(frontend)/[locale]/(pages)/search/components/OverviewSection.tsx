@@ -17,7 +17,6 @@ export function OverviewSection({
 
   return (
     <section aria-labelledby={TITLE_ID} className="flex flex-col gap-6 sm:gap-9">
-      <span aria-hidden="true" className="w-full border border-border"></span>
       <h2 id={TITLE_ID} className="sr-only">
         {t('title')}
       </h2>
