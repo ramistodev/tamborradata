@@ -10,15 +10,15 @@ type StatusPanelProps = {
 
 const TONES = {
   accent: 'bg-accent/10 text-accent',
-  danger: 'bg-danger/10 text-danger',
-  warning: 'bg-warning/15 text-warning',
+  danger: 'bg-bg-danger text-text-danger',
+  warning: 'bg-bg-warning text-text-warning',
 };
 
 // Only a warning tints the whole panel, so a wait stands out from an empty or a failed search
 const PANEL_TONES = {
   accent: 'border-border bg-card',
-  danger: 'border-border bg-card',
-  warning: 'border-warning/40 bg-warning/10',
+  danger: 'border-border-danger bg-bg-danger',
+  warning: 'border-border-warning bg-bg-warning',
 };
 
 /**
@@ -36,7 +36,9 @@ export function StatusPanel({ icon, title, tone = 'accent', action, children }: 
       </div>
       <div className="flex min-w-0 flex-col gap-1.5">
         <h3 className="text-base font-semibold text-text">{title}</h3>
-        <p className="max-w-prose text-sm leading-relaxed text-text-secondary">{children}</p>
+        <p className="max-w-prose text-sm sm:text-base leading-relaxed text-text-secondary">
+          {children}
+        </p>
         {action && <div className="mt-2">{action}</div>}
       </div>
     </div>

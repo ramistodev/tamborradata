@@ -47,7 +47,7 @@ export function SeriesTooltip({ dimensionKey, x, width, entries }: SeriesTooltip
             {change !== null && (
               <span
                 className={`w-12 text-right font-mono text-xs ${
-                  change >= 0 ? 'text-success' : 'text-danger'
+                  change >= 0 ? 'text-text-success' : 'text-text-danger'
                 }`}
               >
                 {percent.format(change)}
