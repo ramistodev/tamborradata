@@ -40,7 +40,9 @@ function DivergingBar({ value, maxAbsValue }: { value: number; maxAbsValue: numb
       {half > 0 && (
         <div
           className={`absolute inset-y-0 ${
-            value > 0 ? 'left-1/2 rounded-r-full bg-success' : 'right-1/2 rounded-l-full bg-danger'
+            value > 0
+              ? 'left-1/2 rounded-r-full bg-text-success'
+              : 'right-1/2 rounded-l-full bg-text-danger'
           }`}
           style={{ width: `${half}%` }}
         />
@@ -57,7 +59,8 @@ export function DivergingValue({ value }: { value: number }) {
     maximumFractionDigits: 2,
     signDisplay: 'exceptZero',
   });
-  const tone = value > 0 ? 'text-success' : value < 0 ? 'text-danger' : 'text-text-secondary';
+  const tone =
+    value > 0 ? 'text-text-success' : value < 0 ? 'text-text-danger' : 'text-text-secondary';
 
   return (
     <span className={`w-10 shrink-0 text-left font-mono text-xs font-semibold sm:w-16 ${tone}`}>

@@ -11,15 +11,15 @@ type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
 const tones: Record<Tone, string> = {
   neutral: 'border-border bg-bg-secondary',
   accent: 'border-accent/40 bg-accent-glow',
-  success: 'border-success/40 bg-success/[7%]',
-  danger: 'border-danger/40 bg-danger/[7%]',
+  success: 'border-border-success bg-bg-success',
+  danger: 'border-border-danger bg-bg-danger',
 };
 
 const valueTones: Record<Tone, string> = {
   neutral: 'text-text-secondary',
   accent: 'text-accent',
-  success: 'text-success',
-  danger: 'text-danger',
+  success: 'text-text-success',
+  danger: 'text-text-danger',
 };
 
 export function Badge({ tone = 'neutral', value, className = '', children, ...props }: BadgeProps) {

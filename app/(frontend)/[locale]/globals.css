@@ -32,9 +32,15 @@
   --color-accent-glow: var(--accent-glow);
 
   /* Status */
-  --color-success: var(--success);
-  --color-danger: var(--danger);
-  --color-warning: var(--warning);
+  --color-bg-success: var(--bg-success);
+  --color-bg-danger: var(--bg-danger);
+  --color-bg-warning: var(--bg-warning);
+  --color-text-success: var(--text-success);
+  --color-text-danger: var(--text-danger);
+  --color-text-warning: var(--text-warning);
+  --color-border-success: var(--border-success);
+  --color-border-danger: var(--border-danger);
+  --color-border-warning: var(--border-warning);
 
   /* Text */
   --color-text: var(--text);
@@ -66,9 +72,20 @@
   --accent-glow: rgba(0, 80, 204, 0.08);
 
   /* Status */
-  --success: #0f7350;
-  --danger: #c0384a;
-  --warning: #8a6d00;
+  --success: #047857;
+
+  /* Tinted panel surfaces and borders for each status */
+  --bg-success: rgba(4, 120, 87, 0.1);
+  --bg-danger: rgba(185, 28, 28, 0.08);
+  --bg-warning: rgba(217, 119, 6, 0.1);
+  --border-success: rgba(4, 120, 87, 0.45);
+  --border-danger: rgba(185, 28, 28, 0.4);
+  --border-warning: rgba(217, 119, 6, 0.5);
+  --text-success: #047857;
+  --text-danger: #b91c1c;
+  --text-warning: #92400e;
+
+  /* Status text: each one reaches 4.5:1 (WCAG AA) on the card surface */
 
   /* Text. Every text token reaches 4.5:1 (WCAG AA) on every surface above. */
   --text: #08101f;
@@ -126,9 +143,18 @@
     --accent-glow: rgba(77, 140, 255, 0.12);
 
     /* Status */
-    --success: #3cb884;
-    --danger: #d95a6a;
-    --warning: #d9a520;
+    --success: #34d399;
+
+    --bg-success: rgba(52, 211, 153, 0.12);
+    --bg-danger: rgba(248, 113, 113, 0.12);
+    --bg-warning: rgba(251, 191, 36, 0.12);
+    --border-success: rgba(52, 211, 153, 0.4);
+    --border-danger: rgba(248, 113, 113, 0.4);
+    --border-warning: rgba(251, 191, 36, 0.4);
+
+    --text-success: #34d399;
+    --text-danger: #f87171;
+    --text-warning: #fbbf24;
 
     /* Text */
     --text: #e8edf7;

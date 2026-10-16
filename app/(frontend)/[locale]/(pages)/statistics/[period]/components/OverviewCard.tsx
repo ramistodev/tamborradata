@@ -11,8 +11,8 @@ const VALUE_SIZES: Record<MetricSize, string> = {
 const VALUE_TONES: Record<MetricTone, string> = {
   default: 'text-text',
   accent: 'text-accent',
-  positive: 'text-success',
-  negative: 'text-danger',
+  positive: 'text-text-success',
+  negative: 'text-text-danger',
 };
 
 const ROW_COLUMNS: Record<number, string> = {
