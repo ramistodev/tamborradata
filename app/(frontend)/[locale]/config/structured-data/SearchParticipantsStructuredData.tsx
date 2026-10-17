@@ -2,11 +2,11 @@ import Script from 'next/script';
 import { getFormatter, getLocale, getTranslations } from 'next-intl/server';
 import type { OverviewResponse } from '../../../../types/api/overview.types';
 import { getAlternates, getLanguageTag } from '../../../i18n/seo';
-import { buildFaqs } from '../../(pages)/search/data/faqs';
-import { buildSearchTexts } from '../../(pages)/search/data/buildSearchTexts';
+import { buildFaqs } from '../../(pages)/search-participants/data/faqs';
+import { buildSearchTexts } from '../../(pages)/search-participants/data/buildSearchTexts';
 import { ogImageUrl, organizationId, webSiteId } from '../constants';
 
-type SearchStructuredDataProps = {
+type SearchParticipantsStructuredDataProps = {
   globalPeriod: OverviewResponse['globalPeriod'];
 };
 
@@ -21,7 +21,9 @@ const DATE_PUBLISHED = '2025-12-16T00:00:00.000Z';
  * page shows. No `Dataset`: the participants can only be searched, not downloaded, and have no
  * license, so the page does not claim to publish a dataset.
  */
-export async function SearchStructuredData({ globalPeriod }: SearchStructuredDataProps) {
+export async function SearchParticipantsStructuredData({
+  globalPeriod,
+}: SearchParticipantsStructuredDataProps) {
   const [locale, t, tMetadata, tFaq, tEvent, format] = await Promise.all([
     getLocale(),
     getTranslations('Search'),
@@ -31,7 +33,7 @@ export async function SearchStructuredData({ globalPeriod }: SearchStructuredDat
     getFormatter(),
   ]);
 
-  const url = getAlternates(locale, '/search').canonical;
+  const url = getAlternates(locale, '/search-participants').canonical;
   const language = getLanguageTag(locale);
   const { title, description } = buildSearchTexts(tMetadata, globalPeriod);
   // Everything that depends on the published period. Without it (the overview failed to load) these

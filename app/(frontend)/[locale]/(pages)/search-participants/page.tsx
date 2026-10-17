@@ -2,9 +2,9 @@ import { Metadata } from 'next';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { getAlternates, getOpenGraphLocales } from '../../../i18n/seo';
 import { getSchools } from '../../services/getSchools';
-import { SearchPageContent } from './SearchPageContent';
+import { SearchParticipantsPageContent } from './SearchParticipantsPageContent';
 import { buildSearchTexts } from './data/buildSearchTexts';
-import { SearchStructuredData } from '../../config/structured-data/SearchStructuredData';
+import { SearchParticipantsStructuredData } from '../../config/structured-data/SearchParticipantsStructuredData';
 import { ogImageUrl, siteName } from '../../config/constants';
 import { overviewScope } from '../../../../types/api/overview.types';
 import { getOverview } from '../../services/getOverview';
@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
   ]);
 
   const { title, description } = buildSearchTexts(t, overview?.globalPeriod);
-  const alternates = getAlternates(locale, '/search');
+  const alternates = getAlternates(locale, '/search-participants');
 
   return {
     title,
@@ -55,7 +55,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function SearchPage() {
+export default async function SearchParticipantsPage() {
   const [schools, overview] = await Promise.all([
     getSchools('', true), // nullable: true means "could not load"; an empty list means "there are no schools"
     getOverview(overviewScope.global, true),
@@ -63,8 +63,8 @@ export default async function SearchPage() {
 
   return (
     <>
-      <SearchStructuredData globalPeriod={overview?.globalPeriod} />
-      <SearchPageContent schools={schools} overview={overview} />
+      <SearchParticipantsStructuredData globalPeriod={overview?.globalPeriod} />
+      <SearchParticipantsPageContent schools={schools} overview={overview} />
     </>
   );
 }

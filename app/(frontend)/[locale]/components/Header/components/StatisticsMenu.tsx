@@ -80,9 +80,9 @@ export function StatisticsMenu({ periods }: { periods: PeriodResponse[] }) {
 
       {/* Search */}
       <Link
-        href="/search"
-        aria-current={pathname.includes('/search') ? 'page' : undefined}
-        className={`rounded-sm font-mono text-base lg:text-lg transition-colors font-medium ${focusRing} ${pathname.includes('/search') ? 'text-accent cursor-default' : 'hover:text-accent'}`}
+        href="/search-participants"
+        aria-current={pathname.includes('/search-participants') ? 'page' : undefined}
+        className={`rounded-sm font-mono text-base lg:text-lg transition-colors font-medium ${focusRing} ${pathname.includes('/search-participants') ? 'text-accent cursor-default' : 'hover:text-accent'}`}
       >
         {t('search')}
       </Link>
