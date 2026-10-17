@@ -22,7 +22,7 @@ export async function Header() {
 
       <nav
         aria-label={t('navLabel')}
-        className="hidden md:flex relative w-full items-center justify-center gap-7 py-4 px-6"
+        className="hidden md:flex relative w-full h-(--header-h) items-center justify-center gap-7 px-6"
       >
         <DesktopMenu periods={periods} />
       </nav>

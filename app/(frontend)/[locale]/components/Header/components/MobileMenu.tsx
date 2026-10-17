@@ -31,7 +31,7 @@ export function MobileMenu({ periods }: { periods: PeriodResponse[] }) {
   return (
     <>
       {/* Bar: brand in the middle, hamburger on the right */}
-      <div className="relative flex items-center justify-center px-6 py-4">
+      <div className="relative flex h-(--header-h) items-center justify-center px-6">
         <Link
           href="/"
           aria-current={isHome ? 'page' : undefined}
