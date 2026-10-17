@@ -1,5 +1,5 @@
 'use client';
-import { useFormatter } from 'next-intl';
+import { useFormatter, useTranslations } from 'next-intl';
 import type { OverviewResponse } from '../../../../../types/api/overview.types';
 import { StatsCard } from './StatsCard';
 import { StatsCardTops } from './StatsCardTops';
@@ -9,7 +9,15 @@ type LastPeriod = NonNullable<OverviewResponse['lastPeriod']>;
 
 const TONE = 'accent';
 
-export function LastStatsCard({ period }: { period: LastPeriod }) {
+/** `period` counts up; `finalPeriod` has the real figures, which assistive technology reads instead. */
+export function LastStatsCard({
+  period,
+  finalPeriod = period,
+}: {
+  period: LastPeriod;
+  finalPeriod?: LastPeriod;
+}) {
+  const t = useTranslations('Landing.stats.last');
   const format = useFormatter();
   const count = (value: number) => format.number(value, { useGrouping: 'always' });
 
@@ -27,9 +35,12 @@ export function LastStatsCard({ period }: { period: LastPeriod }) {
   return (
     <StatsCard
       tone={TONE}
-      label="Última edición"
+      label={t('label')}
       value={count(period.totalParticipations)}
-      summary={`participaciones en ${count(period.totalSchools)} colegios.`}
+      summary={t('summary', { schools: period.totalSchools })}
+      finalText={`${count(finalPeriod.totalParticipations)} ${t('summary', {
+        schools: finalPeriod.totalSchools,
+      })}`}
       badge={
         growth && (
           <span
@@ -38,11 +49,14 @@ export function LastStatsCard({ period }: { period: LastPeriod }) {
             <span aria-hidden="true">
               {period.growthRate! > 0 ? '▲' : period.growthRate! < 0 ? '▼' : '='}
             </span>{' '}
-            {growth} frente al año anterior
+            {t('growth', { change: growth })}
           </span>
         )
       }
-      cta={{ label: `Ver edición ${period.year}`, href: `/statistics/${period.publicSlug}` }}
+      cta={{
+        label: t('cta', { year: String(period.year) }),
+        href: `/statistics/${period.publicSlug}`,
+      }}
     >
       <StatsCardTops
         tone={TONE}

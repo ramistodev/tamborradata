@@ -1,5 +1,5 @@
 'use client';
-import { useFormatter } from 'next-intl';
+import { useFormatter, useTranslations } from 'next-intl';
 import type { OverviewResponse } from '../../../../../types/api/overview.types';
 import { StatsCard } from './StatsCard';
 import { StatsCardTops } from './StatsCardTops';
@@ -9,22 +9,31 @@ type GlobalPeriod = NonNullable<OverviewResponse['globalPeriod']>;
 
 const TONE = 'surface';
 
-export function GlobalStatsCard({ period }: { period: GlobalPeriod }) {
+/** `period` counts up; `finalPeriod` has the real figures, which assistive technology reads instead. */
+export function GlobalStatsCard({
+  period,
+  finalPeriod = period,
+}: {
+  period: GlobalPeriod;
+  finalPeriod?: GlobalPeriod;
+}) {
+  const t = useTranslations('Landing.stats.global');
   const format = useFormatter();
+  // 'always': Spanish skips the thousands separator on 4-digit numbers (5149) by default
   const count = (value: number) => format.number(value, { useGrouping: 'always' });
 
-  const missing = period.missingYears.map(String);
-  const missingNote =
-    missing.length > 0
-      ? ` Aún no hay datos de ${format.list(missing, { style: 'long', type: 'conjunction' })}.`
-      : '';
+  const missingYears = period.missingYears.map(String);
 
   return (
     <StatsCard
       tone={TONE}
-      label={`Histórico · ${period.startYear}-${period.endYear}`}
+      label={t('label', { startYear: String(period.startYear), endYear: String(period.endYear) })}
       value={count(period.totalParticipations)}
-      summary={`participaciones repartidas en ${count(period.editionsCount)} ediciones y ${count(period.totalSchools)} colegios.`}
+      summary={t('summary', { editions: period.editionsCount, schools: period.totalSchools })}
+      finalText={`${count(finalPeriod.totalParticipations)} ${t('summary', {
+        editions: finalPeriod.editionsCount,
+        schools: finalPeriod.totalSchools,
+      })}`}
       timeline={
         <YearsTimeline
           startYear={period.startYear}
@@ -33,8 +42,11 @@ export function GlobalStatsCard({ period }: { period: GlobalPeriod }) {
           tone={TONE}
         />
       }
-      note={`Una participación es un registro en una edición: una misma persona puede sumar varias.${missingNote}`}
-      cta={{ label: 'Ver historia completa', href: `/statistics/${period.publicSlug}` }}
+      note={t('note', {
+        hasGaps: missingYears.length > 0 ? 'yes' : 'no',
+        missingYears: format.list(missingYears, { style: 'long', type: 'conjunction' }),
+      })}
+      cta={{ label: t('cta'), href: `/statistics/${period.publicSlug}` }}
     >
       <StatsCardTops
         tone={TONE}

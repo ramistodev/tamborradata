@@ -8,12 +8,18 @@ export interface TerminalLineData {
   text: string;
 }
 
-/** What the terminal "types": cloning, installing and running the project locally. */
-export const TERMINAL_LINES: TerminalLineData[] = [
-  { kind: 'command', text: `git clone github.com/${REPO_NAME}` },
-  { kind: 'output', text: "Cloning into 'tamborradata'…" },
-  { kind: 'command', text: 'pnpm install' },
-  { kind: 'output', text: 'Dependencias instaladas' },
-  { kind: 'command', text: 'pnpm dev' },
-  { kind: 'output', text: 'Ready on http://localhost:3000' },
-];
+/**
+ * What the terminal "types": cloning, installing and running the project locally. The commands and
+ * the output of git and Next are what those tools print, so they are not translated; the
+ * "dependencies installed" line is ours, and `installedText` is its translation.
+ */
+export function buildTerminalLines(installedText: string): TerminalLineData[] {
+  return [
+    { kind: 'command', text: `git clone github.com/${REPO_NAME}` },
+    { kind: 'output', text: "Cloning into 'tamborradata'…" },
+    { kind: 'command', text: 'pnpm install' },
+    { kind: 'output', text: installedText },
+    { kind: 'command', text: 'pnpm dev' },
+    { kind: 'output', text: 'Ready on http://localhost:3000' },
+  ];
+}

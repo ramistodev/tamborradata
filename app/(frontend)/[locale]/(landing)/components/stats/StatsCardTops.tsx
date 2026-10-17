@@ -1,5 +1,5 @@
 'use client';
-import { useFormatter } from 'next-intl';
+import { useFormatter, useTranslations } from 'next-intl';
 import type { TopEntry } from '../../../../../types/api/overview.types';
 import { StatsCardTone, statsCardTones } from './statsCardTone';
 
@@ -12,13 +12,15 @@ interface StatsCardTopsProps {
 
 /** The most repeated name, surname and school as a small ledger: label, name and count per row. */
 export function StatsCardTops({ tone, topName, topSurname, topSchool }: StatsCardTopsProps) {
+  // The labels are the ones of the search page, so they are translated and reviewed once
+  const t = useTranslations('Search.topStats');
   const format = useFormatter();
   const styles = statsCardTones[tone];
 
   const rows = [
-    { label: 'Nombre más repetido', entry: topName },
-    { label: 'Apellido más repetido', entry: topSurname },
-    { label: 'Colegio con más participaciones', entry: topSchool },
+    { label: t('name'), entry: topName },
+    { label: t('surname'), entry: topSurname },
+    { label: t('school'), entry: topSchool },
   ];
 
   return (
