@@ -1,6 +1,6 @@
 import { PeriodKind } from '../../../../types/period.types';
 
-export interface PublishedPeriod {
+export interface PublishedPeriodRaw {
   internal_key: string;
   public_slug: string;
   kind: PeriodKind;
