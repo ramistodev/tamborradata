@@ -14,9 +14,9 @@ export const editorialSections = {
 
 export type EditorialSections = (typeof editorialSections)[keyof typeof editorialSections];
 
-export interface EditorialSectionCategories extends Readonly<
+export type EditorialSectionCategories = Readonly<
   Record<EditorialSections, readonly StatisticCategories[]>
-> {}
+>;
 
 export const editorialSectionCategories = {
   periodIntro: [

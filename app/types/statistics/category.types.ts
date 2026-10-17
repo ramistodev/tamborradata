@@ -76,9 +76,9 @@ export const schoolGroupedRankCategories: ReadonlySet<StatisticCategories> = new
   statisticCategories.commonSurnameBySchool,
 ]);
 
-export interface CategoriesGroupedByFamilies extends Readonly<
+export type CategoriesGroupedByFamilies = Readonly<
   Record<CategoryFamilies, readonly StatisticCategories[]>
-> {}
+>;
 
 export const categoriesGroupedByFamilies = {
   names: [
