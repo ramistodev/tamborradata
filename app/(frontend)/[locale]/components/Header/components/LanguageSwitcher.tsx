@@ -32,7 +32,7 @@ export function LanguageSwitcher() {
             <button
               type="button"
               lang={language.locale}
-              aria-label={language.name}
+              aria-label={`${language.code}, ${language.name}`}
               aria-current={isActive ? 'true' : undefined}
               disabled={isPending}
               onClick={() => changeLocale(language.locale)}
