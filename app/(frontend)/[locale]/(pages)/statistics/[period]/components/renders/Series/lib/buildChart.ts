@@ -24,7 +24,7 @@ export function buildChart(
       continue;
     }
 
-    const key = point.entityKey ?? point.school?.schoolId ?? point.entityLabel ?? point.metricKey;
+    const key = point.entityKey ?? point.school?.schoolKey ?? point.entityLabel ?? point.metricKey;
     const line = linesByKey.get(key) ?? {
       key,
       label: point.entityLabel ?? point.school?.canonicalName ?? fallbackLabel,

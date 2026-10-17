@@ -21,7 +21,7 @@ export interface ParticipantsResponse {
   matchType: MatchType;
   name: string;
   nameKey: string;
-  school: Pick<School, 'canonicalName' | 'schoolKey'>;
+  school: School;
   participations: Participation[];
 }
 

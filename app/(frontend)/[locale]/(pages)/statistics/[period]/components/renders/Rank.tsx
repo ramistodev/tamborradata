@@ -44,7 +44,7 @@ export function RankRender({ category, unit = '' }: { category: RankCategory; un
 
           return (
             <li
-              key={`${entry.rank}-${entry.entityKey ?? entry.school?.schoolId ?? label}`}
+              key={`${entry.rank}-${entry.entityKey ?? entry.school?.schoolKey ?? label}`}
               className="flex items-center justify-between gap-3 sm:gap-4 rounded-md px-1.5 py-1.5"
             >
               <span
