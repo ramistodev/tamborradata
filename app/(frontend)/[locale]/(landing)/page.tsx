@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import { getAlternates, getOpenGraphLocales } from '../../i18n/seo';
 import { LandingStructuredData } from '../config/structured-data/LandingStructuredData';
 import { Landing } from './Landing';
+import { getOverview } from '../services/getOverview';
 
 const siteUrl = 'https://tamborradata.com';
 const imageUrl = `${siteUrl}/og-image.webp`;
@@ -54,6 +55,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function LandingPage() {
   const t = await getTranslations('Landing.metadata');
+  const overview = await getOverview('both', true);
 
   return (
     <>
@@ -64,7 +66,7 @@ export default async function LandingPage() {
         imageUrl={imageUrl}
       />
 
-      <Landing />
+      <Landing overview={overview} />
     </>
   );
 }
