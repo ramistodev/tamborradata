@@ -1,7 +1,7 @@
-import Script from 'next/script';
 import { getFormatter, getLocale, getTranslations } from 'next-intl/server';
 import { getAlternates, getLanguageTag } from '../../../../i18n/seo';
 import { ogImageUrl } from '../../constants';
+import { JsonLd } from '../JsonLd';
 import { buildPeriodFacts } from './buildPeriodFacts';
 import { buildPeriodGraph, presentVariables } from './buildPeriodGraph';
 import { buildPeriodTexts } from './buildPeriodTexts';
@@ -75,11 +75,5 @@ export async function YearStructuredData({ stats, periods }: PeriodStructuredDat
     },
   });
 
-  return (
-    <Script
-      id="period-structured-data"
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
-    />
-  );
+  return <JsonLd id="period-structured-data" data={graph} />;
 }
