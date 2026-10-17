@@ -34,8 +34,8 @@ const variants: Record<Variant, string> = {
 };
 
 const sizes: Record<Size, string> = {
-  sm: 'px-3.5 py-2 text-[13px]',
-  md: 'px-5.25 py-2.75 text-sm',
+  sm: 'px-[14px] py-[6px] text-[13px]',
+  md: 'px-[21px] py-[11px] text-sm',
 };
 
 /** Button classes, exposed so links (`<Link>`, `<a>`) can look like buttons. */
