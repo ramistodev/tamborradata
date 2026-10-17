@@ -1,28 +1,29 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { OverviewResponse } from '../../../../types/api/overview.types';
+import { useEffect, useRef, useState } from 'react';
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
 
 const TYPEWRITER_DURATION = 700;
-const PHRASES = [
-  'La tamborrada vista desde sus nombres',
-  'Cada edicion una historia',
-  'Detras de la tamborrada hay historias',
-];
 
-export function useHero() {
+/**
+ * `phrases` are the (already translated) tagline phrases, typed and deleted one after another.
+ * With reduced motion requested nothing moves: the first phrase is shown whole.
+ */
+export function useHero(phrases: string[]) {
+  const reducedMotion = usePrefersReducedMotion();
   const overviewRef = useRef<HTMLDivElement | null>(null);
   const [charCount, setCharCount] = useState<number>(0);
   const [phraseIndex, setPhraseIndex] = useState<number>(0);
   const [phase, setPhase] = useState<'typing' | 'holding' | 'deleting' | 'idle'>('typing');
 
-  const phrase = PHRASES[phraseIndex];
-  const description = phrase.slice(0, charCount);
+  const phraseCount = phrases.length;
+  const phrase = phrases[phraseIndex % phraseCount];
+  const description = reducedMotion ? phrases[0] : phrase.slice(0, charCount);
 
-  const tiks = useMemo(() => {
-    if (phraseIndex === null) return 0;
-    return Math.floor(TYPEWRITER_DURATION / PHRASES[phraseIndex].length);
-  }, [phraseIndex]);
+  // The time to type a phrase is the same for every phrase, however long it is
+  const tiks = Math.floor(TYPEWRITER_DURATION / phrase.length);
 
   useEffect(() => {
+    if (reducedMotion) return;
+
     const delay = { typing: tiks, holding: 2000, deleting: tiks / 2, idle: 1000 }[phase];
 
     const id = setTimeout(() => {
@@ -37,7 +38,7 @@ export function useHero() {
         setPhase('deleting');
       } else if (phase === 'deleting') {
         if (charCount === 0) {
-          setPhraseIndex((prev) => (prev + 1) % PHRASES.length);
+          setPhraseIndex((prev) => (prev + 1) % phraseCount);
           setPhase('idle');
           return;
         }
@@ -49,7 +50,7 @@ export function useHero() {
     }, delay);
 
     return () => clearTimeout(id);
-  }, [charCount, phraseIndex, phase, tiks]);
+  }, [charCount, phase, phrase.length, phraseCount, tiks, reducedMotion]);
 
   return { description, overviewRef };
 }

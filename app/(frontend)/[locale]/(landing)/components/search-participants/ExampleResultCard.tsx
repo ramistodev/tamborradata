@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { Icons } from '../../../components/Icons';
 
 interface ExampleSource {
@@ -13,25 +14,28 @@ const EXAMPLE_SOURCES: ExampleSource[] = [
 
 /**
  * Static mock of a search result, so visitors see what the search gives back before using it.
- * Nothing in it is a real person or a real link: the rows only look like the real ones.
+ * Nothing in it is a real person or a real link: the rows only look like the real ones. The labels
+ * of a result (match type, count, "view source") are the ones of the search page itself.
  */
 export function ExampleResultCard() {
+  const t = useTranslations('Landing.searchParticipants.example');
+  const tCard = useTranslations('Search.results.card');
+  const tRow = useTranslations('Search.results.row');
+
   return (
-    <figure className="flex w-full flex-col gap-3" aria-label="Ejemplo ilustrativo de un resultado">
+    <figure className="flex w-full flex-col gap-3" aria-label={t('ariaLabel')}>
       <div className="flex flex-col gap-5 rounded-2xl border border-border bg-bg-secondary p-6 sm:p-8 hover:border-accent hover:-rotate-1 hover:-translate-y-2 hover:shadow-lg transition-all">
         <header className="flex flex-col gap-2">
           <p className="font-mono text-xs font-semibold uppercase tracking-widest text-accent">
-            Coincidencia exacta
+            {tCard('exact')}
           </p>
-          <p className="font-title text-2xl font-semibold text-text sm:text-3xl">
-            Nombre Apellido Apellido
-          </p>
-          <p className="font-mono text-xs text-text-secondary">Tu colegio</p>
+          <p className="font-title text-2xl font-semibold text-text sm:text-3xl">{t('name')}</p>
+          <p className="font-mono text-xs text-text-secondary">{t('school')}</p>
         </header>
 
         <div className="flex flex-col gap-2">
           <p className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
-            {EXAMPLE_SOURCES.length} participaciones · Fuentes
+            {tCard('count', { count: EXAMPLE_SOURCES.length })} · {t('sources')}
           </p>
           <ul className="flex flex-col divide-y divide-border border-y border-border">
             {EXAMPLE_SOURCES.map(({ year, host }) => (
@@ -41,7 +45,7 @@ export function ExampleResultCard() {
                   {host}
                 </span>
                 <span className="flex shrink-0 items-center gap-1.5 text-xs font-semibold text-accent">
-                  Ver fuente
+                  {tRow('viewSource')}
                   <Icons.ExternalLink className="size-3.5" />
                 </span>
               </li>
@@ -50,9 +54,7 @@ export function ExampleResultCard() {
         </div>
       </div>
 
-      <figcaption className="text-center text-sm text-text-tertiary">
-        Ejemplo ilustrativo
-      </figcaption>
+      <figcaption className="text-center text-sm text-text-tertiary">{t('caption')}</figcaption>
     </figure>
   );
 }
