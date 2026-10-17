@@ -27,12 +27,6 @@ const webSiteStructuredData = {
   inLanguage: 'es-ES',
   publisher: { '@id': `${siteUrl}#organization` },
   sameAs: ['https://x.com/tamborradata', 'https://github.com/ramistodev/tamborradata'],
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: `${siteUrl}/search?name={search_term_string}`,
-    'query-input': 'required name=search_term_string',
-    name: 'Buscar participación en la Tamborrada Infantil',
-  },
 };
 
 export function StructuredData() {
