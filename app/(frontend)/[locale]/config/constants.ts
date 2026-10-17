@@ -12,3 +12,5 @@ export const logoUrl = `${siteUrl}/favicon.ico`;
 // structured data of every page can point at them instead of repeating them.
 export const organizationId = `${siteUrl}#organization`;
 export const webSiteId = `${siteUrl}#website`;
+
+export const contactEmail = 'contact@tamborradata.com';
