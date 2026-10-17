@@ -35,14 +35,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { href: '/', lastModified: new Date(), changeFrequency: 'monthly', priority: 1.0 },
     { href: '/search-participants', lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     ...statisticsPages,
-    // Content only exists in Spanish: its canonical is the es URL, no hreflang
-    {
-      href: '/statistics/info',
-      lastModified: new Date('2025-11-01'),
-      changeFrequency: 'monthly',
-      priority: 0.5,
-      translated: false,
-    },
   ];
 
   return pages.flatMap(({ href, translated = true, ...meta }) => {
