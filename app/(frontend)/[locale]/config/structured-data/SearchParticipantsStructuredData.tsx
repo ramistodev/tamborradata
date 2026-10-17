@@ -1,10 +1,10 @@
-import Script from 'next/script';
 import { getFormatter, getLocale, getTranslations } from 'next-intl/server';
 import type { OverviewResponse } from '../../../../types/api/overview.types';
 import { getAlternates, getLanguageTag } from '../../../i18n/seo';
 import { buildFaqs } from '../../(pages)/search-participants/data/faqs';
 import { buildSearchTexts } from '../../(pages)/search-participants/data/buildSearchTexts';
 import { ogImageUrl, organizationId, webSiteId } from '../constants';
+import { JsonLd } from './JsonLd';
 
 type SearchParticipantsStructuredDataProps = {
   globalPeriod: OverviewResponse['globalPeriod'];
@@ -141,14 +141,11 @@ export async function SearchParticipantsStructuredData({
   };
 
   return (
-    <Script
+    <JsonLd
       id="search-structured-data"
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@graph': [webPage, app, eventSeries, breadcrumb, faq],
-        }),
+      data={{
+        '@context': 'https://schema.org',
+        '@graph': [webPage, app, eventSeries, breadcrumb, faq],
       }}
     />
   );
