@@ -89,10 +89,10 @@ export function MobileMenu({ periods }: { periods: PeriodResponse[] }) {
 
           {/* Search */}
           <Link
-            href="/search"
+            href="/search-participants"
             onClick={closeMenu}
-            aria-current={pathname.includes('/search') ? 'page' : undefined}
-            className={`font-mono text-lg font-medium transition-colors ${pathname.includes('/search') ? 'text-accent cursor-default' : 'hover:text-accent'}`}
+            aria-current={pathname.includes('/search-participants') ? 'page' : undefined}
+            className={`font-mono text-lg font-medium transition-colors ${pathname.includes('/search-participants') ? 'text-accent cursor-default' : 'hover:text-accent'}`}
           >
             {t('search')}
           </Link>

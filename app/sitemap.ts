@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const pages: Page[] = [
     { href: '/', lastModified: new Date(), changeFrequency: 'monthly', priority: 1.0 },
-    { href: '/search', lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { href: '/search-participants', lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     ...statisticsPages,
     // Content only exists in Spanish: its canonical is the es URL, no hreflang
     {
