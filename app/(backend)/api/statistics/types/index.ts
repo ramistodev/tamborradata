@@ -24,7 +24,12 @@ export interface PublishedPeriod {
   metaData: PeriodData;
 }
 
-export type AllSchoolsById = Map<string, School>;
+/** Backend-only: the public `School` plus the DB id used to resolve foreign keys. */
+export interface SchoolWithId extends School {
+  schoolId: string;
+}
+
+export type AllSchoolsById = Map<string, SchoolWithId>;
 
 export interface StatisticsHeader {
   id: string;
@@ -84,6 +89,9 @@ export const overviewMetrics = {
     overviewMetricKey.participantsWithMultipleNames,
     overviewMetricKey.multipleNamesRate,
   ],
-  [statisticCategories.participationRecordYears]: [overviewMetricKey.recordYear, overviewMetricKey.recordParticipantCount],
+  [statisticCategories.participationRecordYears]: [
+    overviewMetricKey.recordYear,
+    overviewMetricKey.recordParticipantCount,
+  ],
   [statisticCategories.participantsGrowthRate]: [overviewMetricKey.growthRate],
 } as const satisfies Partial<Record<StatisticCategories, readonly string[]>>;

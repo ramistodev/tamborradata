@@ -1,13 +1,16 @@
+import type { School } from '../../../../types/api/statistics.types';
 import { AllSchoolsById } from '../types';
 
 const SCHOOL_PLACEHOLDER_PATTERN = /\{\{school:([^}]*)\}\}/gi;
 
-export function resolveSchool(schoolId: string, allSchoolsById: AllSchoolsById) {
+/** Resolves the DB id into the public `School`, dropping the internal id. */
+export function resolveSchool(schoolId: string, allSchoolsById: AllSchoolsById): School {
   const school = allSchoolsById.get(schoolId);
   if (!school) {
     throw new Error(`Failed to resolve school ID: ${schoolId}`);
   }
-  return school;
+  const { canonicalName, schoolKey } = school;
+  return { canonicalName, schoolKey };
 }
 
 export function resolveSchoolIdSummary(

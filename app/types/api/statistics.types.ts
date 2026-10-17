@@ -31,7 +31,6 @@ export interface PeriodData {
 }
 
 export interface School {
-  schoolId: string;
   canonicalName: string;
   schoolKey: string;
 }
