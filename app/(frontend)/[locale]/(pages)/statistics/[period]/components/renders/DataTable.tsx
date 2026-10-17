@@ -59,7 +59,7 @@ export function DataTableRender({ category }: { category: RankCategory }) {
           <tbody>
             {ranks.map((entry, index) => (
               <tr
-                key={`${entry.groupSchool?.schoolId ?? index}-${entry.entityKey ?? index}`}
+                key={`${entry.groupSchool?.schoolKey ?? index}-${entry.entityKey ?? index}`}
                 className={index % 2 === 1 ? 'bg-bg-secondary' : undefined}
               >
                 <th
