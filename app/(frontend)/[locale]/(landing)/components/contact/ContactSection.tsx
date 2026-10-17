@@ -1,17 +1,17 @@
+import { useTranslations } from 'next-intl';
 import { Icons } from '../../../components/Icons';
 import { contactEmail } from '../../../config/constants';
 
 export function ContactSection() {
+  const t = useTranslations('Landing.contact');
+
   return (
     <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
       <div className="flex flex-col items-start gap-6">
         <h2 className="text-4xl font-extrabold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-          ¿Hablamos?
+          {t('title')}
         </h2>
-        <p className="text-lg text-text-secondary text-balance">
-          Si has encontrado un error en los datos, quieres hablar de prensa o tienes una idea para
-          mejorar la web, escríbenos. Respondemos a mano.
-        </p>
+        <p className="text-lg text-text-secondary text-balance">{t('description')}</p>
       </div>
 
       <div className="flex flex-col gap-6 rounded-2xl border border-border bg-bg-secondary p-6 sm:p-10">
@@ -20,7 +20,7 @@ export function ContactSection() {
             <Icons.MailIcon className="size-5" />
           </span>
           <span className="font-mono text-xs uppercase tracking-widest text-text-tertiary">
-            Correo
+            {t('emailLabel')}
           </span>
         </div>
 
@@ -32,9 +32,7 @@ export function ContactSection() {
           {contactEmail}
         </a>
 
-        <p className="border-t border-border pt-4 text-sm text-text-secondary">
-          Si es una corrección, indica el año, el nombre y el colegio.
-        </p>
+        <p className="border-t border-border pt-4 text-sm text-text-secondary">{t('hint')}</p>
       </div>
     </div>
   );

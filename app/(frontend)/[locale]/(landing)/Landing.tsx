@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { OverviewResponse } from '../../../types/api/overview.types';
 import { Hero } from './components/Hero';
 import { StatsSection } from './components/stats/StatsSection';
@@ -8,44 +9,54 @@ import { OpenSourceSection } from './components/open-source/OpenSourceSection';
 import { ContactSection } from './components/contact/ContactSection';
 import { FAQSection } from './components/faq/FAQSection';
 
-const sections = [
+type SectionKey = 'stats' | 'searchParticipants' | 'press' | 'openSource' | 'contact' | 'faq';
+
+interface Section {
+  id: string;
+  titleKey: SectionKey;
+  secondaryBg?: boolean;
+  render: (overview: OverviewResponse | null) => React.ReactNode;
+}
+
+const sections: Section[] = [
   {
     id: 'stats',
-    title: 'Statistics',
-    render: (overview: OverviewResponse | null) => <StatsSection overview={overview} />,
+    titleKey: 'stats',
+    render: (overview) => <StatsSection overview={overview} />,
   },
   {
     id: 'search-participants',
-    title: 'Search Participants',
+    titleKey: 'searchParticipants',
     secondaryBg: true,
-    render: (overview: OverviewResponse | null) => (
-      <SearchParticipantsSection overview={overview} />
-    ),
+    render: (overview) => <SearchParticipantsSection overview={overview} />,
   },
   {
     id: 'press-mention',
-    title: 'Press Mention',
+    titleKey: 'press',
     render: () => <PressMentionsSection />,
   },
   {
     id: 'open-source',
-    title: 'Open Source',
+    titleKey: 'openSource',
     secondaryBg: true,
     render: () => <OpenSourceSection />,
   },
   {
     id: 'contact',
-    title: 'Contact',
+    titleKey: 'contact',
     render: () => <ContactSection />,
   },
   {
     id: 'faq',
-    title: 'FAQ',
-    render: (overview: OverviewResponse | null) => <FAQSection overview={overview} />,
+    titleKey: 'faq',
+    secondaryBg: true,
+    render: (overview) => <FAQSection overview={overview} />,
   },
 ];
 
 export function Landing({ overview }: { overview: OverviewResponse | null }) {
+  const t = useTranslations('Landing.sections');
+
   return (
     <div className="w-full flex flex-col items-center justify-center gap-4">
       <div className="w-full max-w-6xl flex flex-col items-center justify-center px-4 sm:px-6">
@@ -53,9 +64,9 @@ export function Landing({ overview }: { overview: OverviewResponse | null }) {
       </div>
       {sections.map((section, index) => (
         <SectionLayout
-          key={index}
+          key={section.id}
           index={index + 1}
-          title={section.title}
+          title={t(section.titleKey)}
           secondaryBg={section.secondaryBg}
         >
           {section.render(overview)}

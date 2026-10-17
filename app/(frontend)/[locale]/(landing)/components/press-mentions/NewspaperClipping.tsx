@@ -1,11 +1,18 @@
+import { useTranslations } from 'next-intl';
 import { Icons } from '../../../components/Icons';
 import { pressArticle } from './pressArticle';
 
 /**
  * The article drawn as a newspaper clipping, in plain HTML and CSS. It is paper, so its colours are
  * fixed and do not follow the light/dark theme. The whole clipping is the link to the article.
+ *
+ * The paper is a real Spanish document: its publication, date, headline and byline are not
+ * translated and are marked `lang="es"`. Only the "Read the article" line and the link's accessible
+ * name belong to the website and follow its language.
  */
 export function NewspaperClipping() {
+  const t = useTranslations('Landing.press.clipping');
+  const tCommon = useTranslations('Landing.common');
   const { publication, host, section, headline, author, isoDate, displayDate, url } = pressArticle;
 
   return (
@@ -13,10 +20,9 @@ export function NewspaperClipping() {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`Leer el artículo «${headline}» en ${publication} (se abre en una pestaña nueva)`}
       className="group block -rotate-1 rounded-md bg-[#f1ece0] p-6 text-[#1b1b1b] shadow-2xl shadow-black/50 transition duration-300 hover:rotate-0 hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:p-10"
     >
-      <header className="flex flex-col gap-2">
+      <header lang="es" className="flex flex-col gap-2">
         <div className="flex items-end justify-between gap-4 font-mono text-[10px] uppercase tracking-widest text-[#555] sm:text-xs">
           <span>{publication}</span>
           <time dateTime={isoDate}>{displayDate}</time>
@@ -29,7 +35,7 @@ export function NewspaperClipping() {
         </div>
       </header>
 
-      <div className="flex flex-col gap-4 pt-8 pb-10 sm:pt-10 sm:pb-14">
+      <div lang="es" className="flex flex-col gap-4 pt-8 pb-10 sm:pt-10 sm:pb-14">
         <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#b5372e] sm:text-xs">
           {section}
         </p>
@@ -43,10 +49,11 @@ export function NewspaperClipping() {
 
       <footer className="flex items-center justify-between gap-4 border-t border-[#1b1b1b]/30 pt-4 text-xs sm:text-sm">
         <span className="font-medium">
-          Leer el artículo{' '}
+          {t('read')}{' '}
           <Icons.ArrowRight className="ml-1 inline size-4 align-text-bottom transition-transform group-hover:translate-x-1 motion-reduce:transition-none" />
         </span>
         <span className="font-mono text-[10px] text-[#555] sm:text-xs">{host}</span>
+        <span className="sr-only">{tCommon('newTab')}</span>
       </footer>
     </a>
   );
