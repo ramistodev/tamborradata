@@ -93,12 +93,6 @@ export function LandingStructuredData({
     keywords: ['Tamborradata', 'Tamborrada Infantil', 'estadísticas Tamborrada'],
     isPartOf: { '@id': websiteId, '@type': 'WebSite' },
     publisher: { '@id': organizationId, '@type': 'Organization' },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: `${siteUrl}/search?name={search_term_string}`,
-      'query-input': 'required name=search_term_string',
-      name: 'Buscar participación en la Tamborrada Infantil',
-    },
     datePublished: publicationDateISO,
     dateModified: lastUpdatedISO,
     hasPart: [{ '@id': `${siteUrl}#press-mentions` }],
