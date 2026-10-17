@@ -1,6 +1,8 @@
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 
+type Redirect = Awaited<ReturnType<NonNullable<NextConfig['redirects']>>>[number];
+
 const withNextIntl = createNextIntlPlugin('./app/(frontend)/i18n/request.ts');
 
 const nextConfig: NextConfig = {
@@ -9,7 +11,19 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.*.*'],
 
   async redirects() {
-    const redirects = [];
+    const redirects: Redirect[] = [
+      // The search page used to live at /search (any locale prefix, as-needed for the default one)
+      {
+        source: '/search',
+        destination: '/search-participants',
+        permanent: true,
+      },
+      {
+        source: '/:locale(en|es|eu)/search',
+        destination: '/:locale/search-participants',
+        permanent: true,
+      },
+    ];
 
     // Solo en producción
     if (process.env.NODE_ENV === 'production') {
