@@ -1,214 +1,171 @@
-import Script from 'next/script';
+import { getFormatter, getLocale, getTranslations } from 'next-intl/server';
+import type { OverviewResponse } from '../../../../types/api/overview.types';
+import { getAlternates, getLanguageTag } from '../../../i18n/seo';
+import { buildLandingFaqs } from '../../(landing)/components/faq/faqs';
+import { pressArticle } from '../../(landing)/components/press-mentions/pressArticle';
+import { ogImageUrl, organizationId, siteUrl, webSiteId } from '../constants';
+import { JsonLd } from './JsonLd';
 
-export function LandingStructuredData({
-  siteUrl,
+/** First public version of the website (ISO 8601): the date of its first public commit, 18 Nov 2025. */
+const DATE_PUBLISHED = '2025-11-18T00:00:00.000Z';
+
+/**
+ * The last time the landing itself changed (the redesign). It is the floor of `dateModified`: when
+ * a newer edition is published, `lastPublishedAt` is later and takes over, so it never goes stale.
+ */
+const LANDING_UPDATED = '2026-10-17T00:00:00.000Z';
+
+/** ISO strings of the same format sort as dates, so the latest one is the greatest. */
+const latestDate = (...dates: (string | undefined)[]) =>
+  dates
+    .filter((date): date is string => Boolean(date))
+    .sort()
+    .at(-1);
+
+/**
+ * Structured data of the landing, as one `@graph` like the search page: the page, the dataset it
+ * presents, its breadcrumb, its FAQ and the press mention. The FAQ comes from the same
+ * `buildLandingFaqs` as the visible one and the texts from the same `buildLandingTexts` as the
+ * metadata, so what Google reads is always what the page shows. Everything that depends on the
+ * published period stays undefined without it, which `JSON.stringify` leaves out, so no property
+ * ever states a made-up year.
+ */
+export async function LandingStructuredData({
+  overview,
   pageTitle,
   pageDescription,
-  imageUrl,
 }: {
-  siteUrl: string;
+  overview: OverviewResponse | null;
   pageTitle: string;
   pageDescription: string;
-  imageUrl: string;
 }) {
-  const organizationId = `${siteUrl}#organization`;
-  const websiteId = `${siteUrl}#website`;
-  const webPageId = `${siteUrl}#webpage`;
-  const datasetId = `${siteUrl}#dataset`;
+  const [locale, t, tMetadata, tFaq, tEvent, tSearch, format] = await Promise.all([
+    getLocale(),
+    getTranslations('Landing.structuredData'),
+    getTranslations('Landing.metadata'),
+    getTranslations('Landing.faq.items'),
+    getTranslations('Statistics.structuredData'),
+    getTranslations('Search.structuredData'),
+    getFormatter(),
+  ]);
 
-  const now = new Date();
-  const currentYear = now.getUTCFullYear();
-  const januaryTwentyThisYear = Date.UTC(currentYear, 0, 20);
-  const lastUpdatedYear = now.getTime() >= januaryTwentyThisYear ? currentYear : currentYear - 1;
+  const globalPeriod = overview?.globalPeriod;
+  const url = getAlternates(locale, '/').canonical;
+  const language = getLanguageTag(locale);
+  const keywords = tMetadata('keywords')
+    .split(',')
+    .map((keyword) => keyword.trim());
+  const dateModified = latestDate(LANDING_UPDATED, globalPeriod?.lastPublishedAt);
 
-  const publicationDateISO = '2018-01-20T00:00:00.000Z';
-  const lastUpdatedISO = `${lastUpdatedYear}-01-20T00:00:00.000Z`;
-  const temporalCoverage = `2018-01-20/${lastUpdatedYear}-01-20`;
-
-  const datasetStructuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'Dataset',
-    '@id': datasetId,
-    name: 'Tamborradata: datos de la Tamborrada Infantil',
-    description:
-      'Dataset con estadísticas y participación de la Tamborrada Infantil de Donostia-San Sebastián desde 2018: nombres, colegios y tendencias anuales.',
-    url: siteUrl,
-    sameAs: ['https://x.com/tamborradata', 'https://github.com/ramistodev/tamborradata'],
-    isAccessibleForFree: true,
-    license: 'https://creativecommons.org/licenses/by-sa/4.0/',
-    creator: { '@id': organizationId },
-    publisher: { '@id': organizationId },
-    inLanguage: 'es-ES',
-    temporalCoverage,
-    spatialCoverage: {
-      '@type': 'Place',
-      name: 'Donostia-San Sebastián, Gipuzkoa, España',
-    },
-    keywords: ['Tamborradata', 'Tamborrada Infantil', 'estadísticas Tamborrada'],
+  const fromPeriod = globalPeriod && {
+    description: t('datasetDescription', {
+      startYear: String(globalPeriod.startYear),
+      endYear: String(globalPeriod.endYear),
+    }),
+    temporalCoverage: `${globalPeriod.startYear}/${globalPeriod.endYear}`,
     distribution: [
       {
         '@type': 'DataDownload',
         encodingFormat: 'text/html',
-        contentUrl: `${siteUrl}/statistics/2008-2026`,
-        name: 'Consulta de estadísticas globales de la Tamborrada Infantil',
+        contentUrl: `${siteUrl}/statistics/${globalPeriod.publicSlug}`,
+        name: t('distributionName'),
       },
     ],
-    image: {
-      '@type': 'ImageObject',
-      url: imageUrl,
-      width: 1200,
-      height: 630,
-    },
-    datePublished: publicationDateISO,
-    dateModified: lastUpdatedISO,
   };
 
-  const webPageStructuredData = {
-    '@context': 'https://schema.org',
+  const ids = {
+    webPage: `${url}#webpage`,
+    dataset: `${url}#dataset`,
+    breadcrumb: `${url}#breadcrumb`,
+    faq: `${url}#faq`,
+    press: `${url}#press-mentions`,
+  };
+
+  const webPage = {
     '@type': ['WebPage', 'CollectionPage'],
-    '@id': webPageId,
-    url: siteUrl,
+    '@id': ids.webPage,
+    url,
     name: pageTitle,
     description: pageDescription,
-    primaryImageOfPage: {
-      '@type': 'ImageObject',
-      url: imageUrl,
-      width: 1200,
-      height: 630,
-    },
-    image: imageUrl,
-    inLanguage: 'es-ES',
+    inLanguage: language,
+    keywords,
     isFamilyFriendly: true,
     isAccessibleForFree: true,
-    mainEntityOfPage: { '@id': webPageId },
+    isPartOf: { '@id': webSiteId },
+    publisher: { '@id': organizationId },
+    primaryImageOfPage: { '@type': 'ImageObject', url: ogImageUrl, width: 1200, height: 630 },
+    image: ogImageUrl,
     about: [
       { '@type': 'Thing', name: 'Tamborradata' },
-      { '@type': 'Thing', name: 'Tamborrada Infantil' },
-      { '@type': 'Thing', name: 'estadísticas de la Tamborrada' },
+      { '@type': 'Thing', name: tEvent('eventSeriesName') },
+      { '@type': 'Thing', name: t('aboutStatistics') },
     ],
-    breadcrumb: {
-      '@type': 'BreadcrumbList',
-      itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Inicio', item: siteUrl }],
-    },
-    keywords: ['Tamborradata', 'Tamborrada Infantil', 'estadísticas Tamborrada'],
-    isPartOf: { '@id': websiteId, '@type': 'WebSite' },
-    publisher: { '@id': organizationId, '@type': 'Organization' },
-    datePublished: publicationDateISO,
-    dateModified: lastUpdatedISO,
-    hasPart: [{ '@id': `${siteUrl}#press-mentions` }],
+    mainEntity: { '@id': ids.dataset },
+    breadcrumb: { '@id': ids.breadcrumb },
+    hasPart: [{ '@id': ids.faq }, { '@id': ids.press }],
+    datePublished: DATE_PUBLISHED,
+    dateModified,
   };
 
-  const faqStructuredData = {
-    '@context': 'https://schema.org',
+  const dataset = {
+    '@type': 'Dataset',
+    '@id': ids.dataset,
+    name: t('datasetName'),
+    description: fromPeriod?.description ?? t('datasetDescriptionFallback'),
+    url,
+    sameAs: ['https://x.com/tamborradata', 'https://github.com/ramistodev/tamborradata'],
+    isAccessibleForFree: true,
+    creator: { '@id': organizationId },
+    publisher: { '@id': organizationId },
+    inLanguage: language,
+    temporalCoverage: fromPeriod?.temporalCoverage,
+    spatialCoverage: { '@type': 'Place', name: tEvent('place') },
+    keywords,
+    distribution: fromPeriod?.distribution,
+    image: { '@type': 'ImageObject', url: ogImageUrl, width: 1200, height: 630 },
+    datePublished: DATE_PUBLISHED,
+    dateModified,
+  };
+
+  const breadcrumb = {
+    '@type': 'BreadcrumbList',
+    '@id': ids.breadcrumb,
+    itemListElement: [{ '@type': 'ListItem', position: 1, name: tSearch('home'), item: url }],
+  };
+
+  const faq = {
     '@type': 'FAQPage',
-    '@id': `${siteUrl}#faq`,
-    url: siteUrl,
-    name: 'Preguntas frecuentes sobre Tamborradata',
-    description: 'Preguntas frecuentes sobre Tamborradata y los datos de la Tamborrada Infantil.',
-    inLanguage: 'es-ES',
-    datePublished: publicationDateISO,
-    dateModified: lastUpdatedISO,
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: '¿Qué es Tamborradata?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Tamborradata es el sitio de estadísticas y datos abiertos sobre la Tamborrada Infantil de Donostia, con una base histórica consolidada desde 2018.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: '¿Dónde consultar las estadísticas de la Tamborrada Infantil?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'En tamborradata.com puedes ver estadísticas de participación, nombres, colegios y tendencias de la Tamborrada Infantil desde 2018.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: '¿Cómo buscar mi participación en la Tamborrada Infantil?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Accede a tamborradata.com/search e introduce tu nombre completo y compañía para localizar tu historial desde 2018.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: '¿Qué información ofrece Tamborradata?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Ofrecemos estadísticas sobre participación, nombres, colegios, evolución por año y análisis culturales basados en los listados publicados cada enero.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: '¿Para qué sirve la base de datos histórica?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'La base histórica preserva y analiza la evolución de la Tamborrada Infantil, aportando datos verificables para ciudadanía, investigadores y medios.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: '¿Con qué frecuencia se actualizan los datos?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Cada enero se incorporan los resultados recién publicados, manteniendo actualizadas las estadísticas y el buscador.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: '¿De dónde proceden los datos?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Los datos se basan en los listados publicados por El Diario Vasco, procesados y normalizados por Tamborradata desde 2018.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: '¿Los datos personales son públicos?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'No publicamos datos personales individuales; solo se muestran estadísticas agregadas y resúmenes para proteger la privacidad.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: '¿Puedo usar los datos en mis proyectos?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Sí, la información está bajo licencia Creative Commons BY-SA 4.0; cita Tamborradata como fuente y respeta la atribución.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: '¿Quién está detrás de Tamborradata?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Tamborradata es un proyecto independiente desarrollado por Ramistodev para reforzar y preservar los datos de la Tamborrada Infantil.',
-        },
-      },
-    ],
+    '@id': ids.faq,
+    url,
+    name: t('faqName'),
+    description: t('faqDescription'),
+    inLanguage: language,
+    datePublished: DATE_PUBLISHED,
+    dateModified,
+    mainEntity: buildLandingFaqs(tFaq, format, overview).map(({ question, answer }) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
   };
 
-  const pressMentionsStructuredData = {
-    '@context': 'https://schema.org',
+  // The article is in Spanish, whatever the language of the page
+  const pressMentions = {
     '@type': 'ItemList',
-    '@id': `${siteUrl}#press-mentions`,
-    name: 'Mencionado en medios',
-    itemListOrder: 'http://schema.org/ItemListOrderDescending',
+    '@id': ids.press,
+    name: t('pressName'),
+    itemListOrder: 'https://schema.org/ItemListOrderDescending',
     numberOfItems: 1,
-    mentions: [{ '@id': `${siteUrl}#organization` }],
-    mainEntityOfPage: { '@type': 'WebPage', '@id': webPageId },
+    mentions: [{ '@id': organizationId }],
     itemListElement: [
       {
         '@type': 'ListItem',
         position: 1,
         item: {
           '@type': 'NewsArticle',
-          url: 'https://www.diariovasco.com/tamborrada/tamborradatacom-fiesta-datos-20260116073402-nt.html',
-          headline: 'Tamborradata.com, la fiesta en datos',
+          url: pressArticle.url,
+          headline: pressArticle.headline,
+          inLanguage: 'es',
           datePublished: '2026-01-16T07:34:02+01:00',
           publisher: {
             '@type': 'Organization',
@@ -217,12 +174,12 @@ export function LandingStructuredData({
           },
           author: {
             '@type': 'Person',
-            name: 'Jorge F. Mendiola',
+            name: pressArticle.author,
             url: 'https://www.diariovasco.com/autor/jorge-f-mendiola-709.html',
           },
           about: [
             { '@type': 'Thing', name: 'Tamborradata' },
-            { '@type': 'Thing', name: 'Tamborrada Infantil' },
+            { '@type': 'Thing', name: tEvent('eventSeriesName') },
           ],
         },
       },
@@ -230,27 +187,12 @@ export function LandingStructuredData({
   };
 
   return (
-    <>
-      <Script
-        id="dataset-structured-data"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetStructuredData) }}
-      />
-      <Script
-        id="webpage-structured-data"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageStructuredData) }}
-      />
-      <Script
-        id="faq-structured-data"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
-      />
-      <Script
-        id="press-mentions-structured-data"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(pressMentionsStructuredData) }}
-      />
-    </>
+    <JsonLd
+      id="landing-structured-data"
+      data={{
+        '@context': 'https://schema.org',
+        '@graph': [webPage, dataset, breadcrumb, faq, pressMentions],
+      }}
+    />
   );
 }
