@@ -6,7 +6,7 @@ export const GLOBAL_STATS_KEY = 'global';
 export const siteUrl = 'https://tamborradata.com';
 export const siteName = 'Tamborradata';
 export const ogImageUrl = `${siteUrl}/og-image.webp`;
-export const logoUrl = `${siteUrl}/favicon.ico`;
+export const logoUrl = `${siteUrl}/logo-512x512.png`;
 
 // `@id`s of the entities declared once in the root layout (see `StructuredData.tsx`), so the
 // structured data of every page can point at them instead of repeating them.
