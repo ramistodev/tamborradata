@@ -243,6 +243,18 @@ html:has([data-chapter-nav]) {
   }
 }
 
+/* Single source of truth for the sticky header height (border excluded): the header and
+   any full-screen section (landing hero) read it. */
+:root {
+  --header-h: 3.5rem;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --header-h: 4rem;
+  }
+}
+
 body {
   background: var(--bg);
   color: var(--text);
