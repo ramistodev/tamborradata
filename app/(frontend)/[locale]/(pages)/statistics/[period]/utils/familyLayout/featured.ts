@@ -47,7 +47,7 @@ export const FEATURED_CATEGORIES: Record<CategoryFamilies, Map<StatisticCategori
     [statisticCategories.singleYearSurnames, 12],
   ]),
   identityDiversity: new Map([
-    [statisticCategories.nameSurnameDynasties, 1],
+    [statisticCategories.commonNameSurnamePairs, 1],
     [statisticCategories.namesDiversity, 2],
     [statisticCategories.surnamesDiversity, 3],
     [statisticCategories.nameConcentration, 4],

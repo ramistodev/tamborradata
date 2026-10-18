@@ -277,7 +277,11 @@ export const statisticCategoryPeriodConfig = {
       rendererKey: categoryRendererKey.horizontalRanking,
     },
   },
-  [statisticCategories.nameSurnameDynasties]: {
+  [statisticCategories.commonNameSurnamePairs]: {
+    [periodKind.year]: {
+      dataShape: categoryDataShape.ranks,
+      rendererKey: categoryRendererKey.horizontalRanking,
+    },
     [periodKind.global]: {
       dataShape: categoryDataShape.ranks,
       rendererKey: categoryRendererKey.horizontalRanking,
