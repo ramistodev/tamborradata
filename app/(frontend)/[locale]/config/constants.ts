@@ -14,3 +14,4 @@ export const organizationId = `${siteUrl}#organization`;
 export const webSiteId = `${siteUrl}#website`;
 
 export const contactEmail = 'contact@tamborradata.com';
+export const repositoryUrl = 'https://github.com/ramistodev/tamborradata';
