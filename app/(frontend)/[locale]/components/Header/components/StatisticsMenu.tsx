@@ -43,7 +43,7 @@ export function StatisticsMenu({ periods }: { periods: PeriodResponse[] }) {
           id={panelId}
           className={`absolute top-full left-0 w-full justify-center bg-bg/85 backdrop-blur-md z-999 border-border border-b border-t animate-drop-in motion-reduce:animate-none py-4 ${isOpen ? 'flex' : 'hidden'}`}
         >
-          <div className="w-2/3 flex flex-col gap-2 relative">
+          <div className="w-2/3 flex flex-col gap-2 relative px-6">
             <div className="flex items-center justify-between font-mono text-xs text-text-secondary">
               <span className="uppercase">
                 <span aria-hidden="true">{'// '}</span>
@@ -51,22 +51,20 @@ export function StatisticsMenu({ periods }: { periods: PeriodResponse[] }) {
               </span>
               <span>{t('periodsCount', { count: sortedPeriods.length })}</span>
             </div>
-            <ul
-              aria-label={t('statisticsOptions')}
-              className="flex flex-wrap items-start gap-5 px-6"
-            >
+            <ul aria-label={t('statisticsOptions')} className="flex flex-wrap items-start gap-5">
               {sortedPeriods.map((period) => {
                 const href = `/statistics/${period.publicSlug}`;
                 return (
                   <li
                     key={period.publicSlug}
-                    className="text-text-secondary hover:text-text px-2 py-1 border border-border rounded-md"
+                    className="text-text-secondary hover:text-text border border-border rounded-md"
                   >
                     <Link
                       href={href}
                       onClick={close}
+                      onDragStart={(event) => event.preventDefault()}
                       aria-current={pathname.includes(href) ? 'page' : undefined}
-                      className={`font-mono text-base block text-nowrap whitespace-nowrap transition-colors rounded-sm ${focusRing} ${pathname === href ? 'text-accent cursor-default' : ''}`}
+                      className={`font-mono text-base px-2 py-1 block text-nowrap whitespace-nowrap transition-colors rounded-sm ${focusRing} ${pathname === href ? 'text-accent cursor-default' : ''}`}
                     >
                       {period.publicSlug}
                     </Link>
