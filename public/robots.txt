@@ -1,61 +1,17 @@
 # Robots.txt for Tamborradata
-# Website: https://tamborradata.com
-# Description: Tamborrada Infantil Statistics and Data Analysis
+# https://tamborradata.com
 
+# Everyone. A bot with its own block would ignore this one entirely, so the rules live here and the
+# named blocks below are only for the bots that are turned away.
 User-agent: *
 Allow: /
 
-# Block API endpoints and internal routes
+# The API returns JSON for the website itself, not pages to index
 Disallow: /api/
-Disallow: /_next/
+# Vercel's analytics and speed endpoints
 Disallow: /_vercel/
-Disallow: /admin/
-Disallow: /.well-known/
 
-# Block sensitive or temporary files
-Disallow: /*.json$
-Disallow: /*.xml$
-Disallow: /temp/
-Disallow: /private/
-Disallow: /cache/
-
-# Allow important static resources
-Allow: /favicon.ico
-Allow: /assets/
-Allow: /images/
-Allow: /sitemap.xml
-Allow: /robots.txt
-
-# Crawl-delay for respectful crawling
-Crawl-delay: 1
-
-# Sitemap location
-Sitemap: https://tamborradata.com/sitemap.xml
-
-# Specific rules for major search engines
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 2
-
-User-agent: Slurp
-Allow: /
-Crawl-delay: 2
-
-# Social media crawlers
-User-agent: facebookexternalhit
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: LinkedInBot
-Allow: /
-
-# Block problematic bots
+# Bots that only crawl to feed SEO tools
 User-agent: AhrefsBot
 Disallow: /
 
@@ -70,3 +26,5 @@ Disallow: /
 
 User-agent: BLEXBot
 Disallow: /
+
+Sitemap: https://tamborradata.com/sitemap.xml

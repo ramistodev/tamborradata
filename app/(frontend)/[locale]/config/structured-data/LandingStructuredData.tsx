@@ -4,23 +4,8 @@ import { getAlternates, getLanguageTag } from '../../../i18n/seo';
 import { buildLandingFaqs } from '../../(landing)/components/faq/faqs';
 import { pressArticle } from '../../(landing)/components/press-mentions/pressArticle';
 import { ogImageUrl, organizationId, siteUrl, webSiteId } from '../constants';
+import { PAGES_UPDATED, SITE_PUBLISHED, latestDate } from '../contentDates';
 import { JsonLd } from './JsonLd';
-
-/** First public version of the website (ISO 8601): the date of its first public commit, 18 Nov 2025. */
-const DATE_PUBLISHED = '2025-11-18T00:00:00.000Z';
-
-/**
- * The last time the landing itself changed (the redesign). It is the floor of `dateModified`: when
- * a newer edition is published, `lastPublishedAt` is later and takes over, so it never goes stale.
- */
-const LANDING_UPDATED = '2026-10-17T00:00:00.000Z';
-
-/** ISO strings of the same format sort as dates, so the latest one is the greatest. */
-const latestDate = (...dates: (string | undefined)[]) =>
-  dates
-    .filter((date): date is string => Boolean(date))
-    .sort()
-    .at(-1);
 
 /**
  * Structured data of the landing, as one `@graph` like the search page: the page, the dataset it
@@ -55,7 +40,7 @@ export async function LandingStructuredData({
   const keywords = tMetadata('keywords')
     .split(',')
     .map((keyword) => keyword.trim());
-  const dateModified = latestDate(LANDING_UPDATED, globalPeriod?.lastPublishedAt);
+  const dateModified = latestDate(PAGES_UPDATED, globalPeriod?.lastPublishedAt);
 
   const fromPeriod = globalPeriod && {
     description: t('datasetDescription', {
@@ -103,7 +88,7 @@ export async function LandingStructuredData({
     mainEntity: { '@id': ids.dataset },
     breadcrumb: { '@id': ids.breadcrumb },
     hasPart: [{ '@id': ids.faq }, { '@id': ids.press }],
-    datePublished: DATE_PUBLISHED,
+    datePublished: SITE_PUBLISHED,
     dateModified,
   };
 
@@ -123,7 +108,7 @@ export async function LandingStructuredData({
     keywords,
     distribution: fromPeriod?.distribution,
     image: { '@type': 'ImageObject', url: ogImageUrl, width: 1200, height: 630 },
-    datePublished: DATE_PUBLISHED,
+    datePublished: SITE_PUBLISHED,
     dateModified,
   };
 
@@ -140,7 +125,7 @@ export async function LandingStructuredData({
     name: t('faqName'),
     description: t('faqDescription'),
     inLanguage: language,
-    datePublished: DATE_PUBLISHED,
+    datePublished: SITE_PUBLISHED,
     dateModified,
     mainEntity: buildLandingFaqs(tFaq, format, overview).map(({ question, answer }) => ({
       '@type': 'Question',
