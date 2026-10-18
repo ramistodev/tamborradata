@@ -43,13 +43,13 @@ export function PeriodSelector({ periods }: { periods: PeriodResponse[] }) {
               <li
                 ref={isActive ? activePeriod : null}
                 key={period.publicSlug}
-                className={`shrink-0 px-2 py-1 border border-border rounded-md select-none ${isActive ? 'bg-accent-dim text-white cursor-default border-accent-dim' : 'text-text-secondary border-border hover:text-text'}`}
+                className={`shrink-0 border border-border rounded-md select-none ${isActive ? 'bg-accent-dim text-white cursor-default border-accent-dim' : 'text-text-secondary border-border hover:text-text'}`}
               >
                 <Link
                   href={href}
                   onDragStart={(event) => event.preventDefault()}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`font-mono text-base block text-nowrap whitespace-nowrap transition-colors rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent ${isActive ? 'cursor-default' : ''}`}
+                  className={`font-mono text-base block text-nowrap whitespace-nowrap px-2 py-1 transition-colors rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent ${isActive ? 'cursor-default' : ''}`}
                 >
                   {period.publicSlug}
                 </Link>
