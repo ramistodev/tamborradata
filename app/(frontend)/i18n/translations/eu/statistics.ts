@@ -329,11 +329,11 @@ export default {
       description:
         'Parte-hartzaileak abizen gutxitan zenbateraino pilatzen diren. Zenbat eta pilaketa handiagoa, orduan eta aniztasun txikiagoa.',
     },
-    nameSurnameDynasties: {
-      tab: 'Dinastiak',
-      title: 'Izen eta abizen dinastiak',
+    commonNameSurnamePairs: {
+      tab: 'Izena eta abizena',
+      title: 'Izen eta abizen konbinazio ohikoenak',
       description:
-        'Hainbat edizioetan errepikatzen diren izen eta abizen konbinazioak, ziur aski familia berekoak.',
+        'Parte-hartzaileen artean gehien errepikatzen diren izen eta abizen bikoteak, izenaren gainerakoa kontuan hartu gabe.',
     },
     newSchools: {
       tab: 'Berriak',
