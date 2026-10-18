@@ -7,5 +7,6 @@ export async function periodService(): Promise<PeriodResponse[]> {
     periodKey: period.internal_key,
     publicSlug: period.public_slug,
     kind: period.kind,
+    lastPublishedAt: period.last_published_at,
   }));
 }

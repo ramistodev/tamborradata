@@ -4,4 +4,5 @@ export interface PeriodResponse {
   periodKey: string;
   publicSlug: string;
   kind: PeriodKind;
+  lastPublishedAt: string | null;
 }
