@@ -6,7 +6,7 @@ import { FamilyRender } from './components/family/FamilyRender';
 import { Hero } from './components/Hero';
 import { sortFamilies } from './utils/chapters';
 
-export function PeriodPageContent({
+export function PageContent({
   periods,
   stats,
 }: {

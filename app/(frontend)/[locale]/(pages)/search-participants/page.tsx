@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { getAlternates, getOpenGraphLocales } from '../../../i18n/seo';
 import { getSchools } from '../../services/getSchools';
-import { SearchParticipantsPageContent } from './SearchParticipantsPageContent';
+import { PageContent } from './PageContent';
 import { buildSearchTexts } from './data/buildSearchTexts';
 import { SearchParticipantsStructuredData } from '../../config/structured-data/SearchParticipantsStructuredData';
 import { ogImageUrl, siteName } from '../../config/constants';
@@ -64,7 +64,7 @@ export default async function SearchParticipantsPage() {
   return (
     <>
       <SearchParticipantsStructuredData globalPeriod={overview?.globalPeriod} />
-      <SearchParticipantsPageContent schools={schools} overview={overview} />
+      <PageContent schools={schools} overview={overview} />
     </>
   );
 }
