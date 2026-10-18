@@ -328,11 +328,11 @@ export default {
       description:
         'How concentrated participants are in a few surnames. The more concentration, the less diversity.',
     },
-    nameSurnameDynasties: {
-      tab: 'Dynasties',
-      title: 'Name and surname dynasties',
+    commonNameSurnamePairs: {
+      tab: 'Name and surname',
+      title: 'Most common name and surname pairs',
       description:
-        'Name and surname combinations that repeat across several editions, possibly from the same family.',
+        'The name and surname pairs that repeat most among participants, regardless of the rest of the name.',
     },
     newSchools: {
       tab: 'New',

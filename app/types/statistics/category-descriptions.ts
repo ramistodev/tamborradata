@@ -65,8 +65,8 @@ export const categoryDescriptions = {
   longestSurnames: 'The surnames with the most characters.',
   surnameSchoolCorrelation: 'Association between surnames and the schools where they occur.',
 
-  nameSurnameDynasties:
-    'Given-name + surname combinations that recur across multiple editions, suggesting the same family line.',
+  commonNameSurnamePairs:
+    'The given-name + surname pairs that repeat most among participants, regardless of the rest of the name.',
 
   topSchools:
     'Ranking of schools by participant count in the target period — the current leaderboard.',

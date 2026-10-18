@@ -327,11 +327,11 @@ const statistics = {
       description:
         'Cuánto se concentran los participantes en unos pocos apellidos. Cuanta más concentración, menos diversidad.',
     },
-    nameSurnameDynasties: {
-      tab: 'Dinastías',
-      title: 'Dinastías de nombre y apellido',
+    commonNameSurnamePairs: {
+      tab: 'Nombre y apellido',
+      title: 'Combinaciones de nombre y apellido más frecuentes',
       description:
-        'Combinaciones de nombre y apellido que se repiten en varias ediciones, posiblemente de una misma familia.',
+        'Pares de nombre y apellido que más se repiten entre los participantes, sin importar el resto del nombre.',
     },
     newSchools: {
       tab: 'Nuevos',

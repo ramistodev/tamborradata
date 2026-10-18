@@ -39,7 +39,7 @@ export const statisticCategories = {
   surnameSchoolCorrelation: 'surnameSchoolCorrelation',
 
   // Nombre + Apellido
-  nameSurnameDynasties: 'nameSurnameDynasties',
+  commonNameSurnamePairs: 'commonNameSurnamePairs',
 
   // Escuelas
   topSchools: 'topSchools',
@@ -125,7 +125,7 @@ export const categoriesGroupedByFamilies = {
     statisticCategories.surnamesDiversity,
     statisticCategories.nameConcentration,
     statisticCategories.surnameConcentration,
-    statisticCategories.nameSurnameDynasties,
+    statisticCategories.commonNameSurnamePairs,
   ],
   schoolsRenewal: [
     statisticCategories.newSchools,
