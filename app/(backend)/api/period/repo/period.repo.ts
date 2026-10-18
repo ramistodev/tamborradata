@@ -5,7 +5,7 @@ import { PublishedPeriodRaw } from '../types';
 export async function getAllPublishedPeriods(): Promise<PublishedPeriodRaw[]> {
   const { data, error } = await supabaseClient
     .from(tables.statsPeriods)
-    .select('internal_key, public_slug, kind')
+    .select('internal_key, public_slug, kind, last_published_at')
     .order('public_slug', { ascending: false })
     .eq('is_ready', true);
 
