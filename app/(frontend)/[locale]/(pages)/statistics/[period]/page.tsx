@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { getFormatter, getLocale, getTranslations } from 'next-intl/server';
 import { getAlternates, getOpenGraphLocales } from '../../../../i18n/seo';
-import { PeriodPageContent } from './PeriodPageContent';
+import { PageContent } from './PageContent';
 import { ogImageUrl, siteName } from '../../../config/constants';
 import { buildPeriodFacts } from '../../../config/structured-data/period/buildPeriodFacts';
 import { buildPeriodTexts } from '../../../config/structured-data/period/buildPeriodTexts';
@@ -67,7 +67,7 @@ export default async function PeriodPage({ params }: { params: Promise<{ period:
   return (
     <>
       <PeriodStructuredData stats={stats} periods={periods} />
-      <PeriodPageContent periods={periods} stats={stats} />
+      <PageContent periods={periods} stats={stats} />
     </>
   );
 }

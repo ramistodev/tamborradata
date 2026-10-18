@@ -5,7 +5,7 @@ import { Hero } from './components/Hero';
 import { OverviewSection } from './components/OverviewSection';
 import { SearchSection } from './components/SearchSection';
 
-export function SearchParticipantsPageContent({
+export function PageContent({
   schools,
   overview,
 }: {
