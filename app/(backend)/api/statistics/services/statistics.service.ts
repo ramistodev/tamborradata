@@ -1,22 +1,22 @@
 import 'server-only';
 import type { StatisticsResponse } from '@/app/types/api/statistics.types';
-import {
-  buildStatisticsResponse,
-  selectFamilyStatistics,
-  selectOverviewStatistics,
-} from './buildStatisticsResponse';
+import { buildStatisticsResponse, selectOverviewStatistics } from './buildStatisticsResponse';
 import { assertStatisticPresentation } from '../lib/assertStatisticPresentation';
 import { loadAllSchoolsById } from '../lib/loadAllSchoolsById';
 import { getPublishedPeriod } from '../repo/period.repo';
 import { getPublishedStatisticHeaders } from '../repo/statisticHeaders.repo';
-import { getPublishedEditorialSections } from '../repo/editorialSections.repo';
+import { getOptionalEditorialSections } from '../repo/editorialSections.repo';
 import {
   getSchoolGroupedRanksPreview,
   getStatisticRanksPreview,
 } from '../repo/statisticRanks.repo';
 import { getStatisticSeriesPreview } from '../repo/statisticSeries.repo';
 import { getAllStatisticValues } from '../repo/statisticValues.repo';
-import { categoryDataShape, schoolGroupedRankCategories } from '../../../../types/statistics';
+import {
+  categoryDataShape,
+  schoolGroupedRankCategories,
+  statisticCategories,
+} from '../../../../types/statistics';
 import type {
   StatisticParams,
   StatisticRankRaw,
@@ -26,23 +26,29 @@ import type {
 } from '../types';
 import { CursorPage } from '../lib/pagination';
 
+const KNOWN_CATEGORIES = new Set<string>(Object.values(statisticCategories));
+
 export async function statisticsService(params: StatisticParams): Promise<StatisticsResponse> {
   const { publicSlug, locale } = params;
 
   const publishedPeriod = await getPublishedPeriod(publicSlug); // runId publicado y tipo de periodo
-  const [statistics, summaries, allSchoolsById] = await Promise.all([
+  const [publishedStatistics, summaries, allSchoolsById] = await Promise.all([
     getPublishedStatisticHeaders(publishedPeriod.runId),
-    getPublishedEditorialSections(publishedPeriod.runId, locale),
+    getOptionalEditorialSections(publishedPeriod.runId, locale),
     loadAllSchoolsById(),
   ]);
+
+  // A run published before a category was removed still carries it: skip it instead of failing the page
+  const statistics = publishedStatistics.filter((statistic) =>
+    KNOWN_CATEGORIES.has(statistic.category)
+  );
 
   for (const statistic of statistics) {
     assertStatisticPresentation(statistic, publishedPeriod.kind);
   }
 
-  const familyStatistics = selectFamilyStatistics(statistics, summaries);
   const categoryData = await Promise.all(
-    familyStatistics.map(async (statistic) => ({
+    statistics.map(async (statistic) => ({
       statistic,
       data: await getRawStatisticData(statistic),
     }))

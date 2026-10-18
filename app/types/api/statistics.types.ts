@@ -9,6 +9,7 @@ import type {
   StatisticCategories,
 } from '../statistics';
 
+/** The summaries (`intro`, `outro` and each family's `template`) are optional: they come empty until published. */
 export interface StatisticsResponse {
   metaData: PeriodData;
   overview: OverviewStatistic[];
@@ -83,6 +84,7 @@ export interface PageInfo {
 
 export interface StatisticFamily {
   family: CategoryFamilies;
+  /** `template.summary` is empty when no summary is published for this family yet. */
   template: EditorialTemplate;
   categories: StatisticCategory[];
 }

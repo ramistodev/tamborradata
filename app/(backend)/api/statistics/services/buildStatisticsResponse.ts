@@ -7,6 +7,7 @@ import type {
   StatisticFamily,
   StatisticsResponse,
 } from '@/app/types/api/statistics.types';
+import { log } from '../../../core/logger';
 import { normalizeData } from '../lib/normalizeData';
 import { resolveSchoolIdSummary } from '../lib/resolveSchoolId';
 import { overviewMetrics } from '../types';
@@ -54,67 +55,65 @@ export function buildStatisticsResponse(
   );
 }
 
-// Convierte cada resumen editorial crudo en un template público, resolviendo los tokens {{school:id}} a nombre real.
+/**
+ * Convierte cada resumen editorial crudo en un template público, resolviendo los tokens
+ * {{school:id}} a nombre real. Un resumen con un token que no se puede resolver se deja fuera y se
+ * reporta: un solo texto malformado no puede tumbar la página entera, los resúmenes son opcionales.
+ */
 export function resolveEditorialTemplates(
   summaries: PublishedEditorialSection[],
   allSchoolsById: AllSchoolsById
 ): EditorialTemplate[] {
-  return summaries.map((summary) => ({
-    section: summary.section,
-    summary: resolveSchoolIdSummary(summary.template, allSchoolsById),
-  }));
+  return summaries.flatMap((summary) => {
+    try {
+      return [
+        {
+          section: summary.section,
+          summary: resolveSchoolIdSummary(summary.template, allSchoolsById),
+        },
+      ];
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      log(
+        `[statistics] Summary '${summary.section}' (${summary.locale}) skipped: ${reason}`,
+        'error'
+      );
+      return [];
+    }
+  });
 }
 
-// Agrupa las categorías ya normalizadas dentro de su familia editorial (sección con resumen publicado).
+/**
+ * Agrupa las categorías ya normalizadas por su familia. Las familias salen de las estadísticas, no
+ * de los resúmenes: el resumen es solo el texto opcional de cada familia, y si no hay uno publicado
+ * se entrega vacío (como el intro y el outro), que el front no pinta. Ordenadas por nombre para que
+ * la respuesta sea estable.
+ */
 function assignCategoriesToFamilies(
   categoryData: LoadedStatisticData[],
   editorialTemplates: EditorialTemplate[],
   categories: StatisticCategory[]
 ): StatisticFamily[] {
-  const categoriesByFamily = new Map<string, StatisticCategory[]>();
-  categoryData.forEach(({ statistic }, index) => {
-    const familyCategories = categoriesByFamily.get(statistic.family) ?? [];
-    familyCategories.push(categories[index]);
-    categoriesByFamily.set(statistic.family, familyCategories);
-  });
-
-  return editorialTemplates.flatMap((template) => {
-    if (
-      template.section === editorialSections.periodIntro ||
-      template.section === editorialSections.periodOutro
-    ) {
-      return [];
-    }
-
-    return [
-      {
-        family: template.section,
-        template,
-        categories: categoriesByFamily.get(template.section) ?? [],
-      },
-    ];
-  });
-}
-
-/**
- * Único predicado para decidir qué estadísticas pertenecen a una sección familiar renderizada:
- * lo comparten el service (para saber de qué categorías pedir datos) y la agrupación de arriba,
- * así ambos nunca se desincronizan como pasaría con un filtro duplicado y un corte posicional.
- */
-export function selectFamilyStatistics(
-  statistics: StatisticsHeader[],
-  summaries: PublishedEditorialSection[]
-): StatisticsHeader[] {
-  const familySections = new Set(
-    summaries
-      .map((summary) => summary.section)
-      .filter(
-        (section) =>
-          section !== editorialSections.periodIntro && section !== editorialSections.periodOutro
-      )
+  const templatesBySection = new Map(
+    editorialTemplates.map((template) => [template.section, template])
   );
+  const families = new Map<StatisticFamily['family'], StatisticFamily>();
 
-  return statistics.filter((statistic) => familySections.has(statistic.family));
+  categoryData.forEach(({ statistic }, index) => {
+    const family: StatisticFamily = families.get(statistic.family) ?? {
+      family: statistic.family,
+      template: templatesBySection.get(statistic.family) ?? {
+        section: statistic.family,
+        summary: '',
+      },
+      categories: [],
+    };
+
+    family.categories.push(categories[index]);
+    families.set(statistic.family, family);
+  });
+
+  return [...families.values()].sort((a, b) => a.family.localeCompare(b.family));
 }
 
 /**
