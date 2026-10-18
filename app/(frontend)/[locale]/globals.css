@@ -228,6 +228,11 @@ html:has([data-chapter-nav]) {
   scroll-padding-top: 7rem;
 }
 
+/* Pages with an in-page table of contents (privacy policy): animate the jump to a section. */
+html:has([data-smooth-scroll]) {
+  scroll-behavior: smooth;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
