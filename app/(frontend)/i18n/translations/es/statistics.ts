@@ -58,6 +58,7 @@ const statistics = {
     eventName: 'Tamborrada Infantil de Donostia {period}',
     eventDescription:
       'Desfile de la Tamborrada Infantil de Donostia / San Sebastián del 20 de enero de {period}.',
+    performerName: 'Niños y niñas tamborreros y cantineras de los colegios de Donostia',
     eventSeriesName: 'Tamborrada Infantil de Donostia',
     eventSeriesDescription:
       'Desfile anual de niños y niñas tamborreros y cantineras de Donostia / San Sebastián cada 20 de enero.',

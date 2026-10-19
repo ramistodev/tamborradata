@@ -13,6 +13,9 @@ export const logoUrl = `${siteUrl}/logo-512x512.png`;
 export const organizationId = `${siteUrl}#organization`;
 export const webSiteId = `${siteUrl}#website`;
 
+// License of the published data, declared as `license` in every Dataset (Google asks for it).
+export const licenseUrl = 'https://creativecommons.org/licenses/by-sa/4.0/';
+
 export const contactEmail = 'contact@tamborradata.com';
 export const repositoryUrl = 'https://github.com/ramistodev/tamborradata';
 export const buyMeACoffeeUrl = 'https://buymeacoffee.com/tamborradata';
