@@ -27,6 +27,7 @@ export default {
     searchParticipants: 'Bilatzailea',
     press: 'Prentsa',
     openSource: 'Kode irekia',
+    buyMeACoffee: 'Laguntza',
     contact: 'Kontaktua',
     faq: 'Galderak',
   },
@@ -135,6 +136,14 @@ export default {
       installed: 'Mendekotasunak instalatuta',
     },
   },
+  buyMeACoffee: {
+    title: 'Tamborradata denbora libreetan egiten da',
+    paragraph1:
+      'Proiektu hau existitzen da lanetik kanpo eskaintzen diodan denborari eta nire poltsikotik ateratzen den diruari esker: ostatua, datu-basea eta martxan mantentzeko behar den guztia.',
+    paragraph2:
+      'Norbait aurkitzeko, urte bat berriro ezagutzeko edo, besterik gabe, kuriosatzeko balio badizu, ekarpen txiki batek asko laguntzen dit hobetzen jarraitzen. Eta ezin baduzu, partekatzea bera ere laguntza handia da.',
+    cardLabel: 'Gonbida nazazu kafe batera',
+    cardText: 'Ekarpen bakoitza, txikia izanda ere, Tamborradata mantentzeko eta hobetzeko erabiltzen da.',  },
   contact: {
     title: 'Hitz egingo dugu?',
     description:

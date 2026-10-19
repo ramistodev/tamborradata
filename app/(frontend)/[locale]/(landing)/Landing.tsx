@@ -8,8 +8,10 @@ import { PressMentionsSection } from './components/press-mentions/PressMentionsS
 import { OpenSourceSection } from './components/open-source/OpenSourceSection';
 import { ContactSection } from './components/contact/ContactSection';
 import { FAQSection } from './components/faq/FAQSection';
+import { BuyMeACoffeeSection } from './components/buy-me-a-coffee/BuyMeACoffeeSection';
 
-type SectionKey = 'stats' | 'searchParticipants' | 'press' | 'openSource' | 'contact' | 'faq';
+type SectionKey =
+  'stats' | 'searchParticipants' | 'press' | 'openSource' | 'buyMeACoffee' | 'contact' | 'faq';
 
 interface Section {
   id: string;
@@ -42,14 +44,19 @@ const sections: Section[] = [
     render: () => <OpenSourceSection />,
   },
   {
+    id: 'buy-me-a-coffee',
+    titleKey: 'buyMeACoffee',
+    render: () => <BuyMeACoffeeSection />,
+  },
+  {
     id: 'contact',
     titleKey: 'contact',
+    secondaryBg: true,
     render: () => <ContactSection />,
   },
   {
     id: 'faq',
     titleKey: 'faq',
-    secondaryBg: true,
     render: (overview) => <FAQSection overview={overview} />,
   },
 ];

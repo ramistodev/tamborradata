@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/app/(frontend)/i18n/navigation';
 import { repositoryUrl } from '../config/constants';
 import { Icons } from './Icons';
+import { BuyMeACoffee } from './ui/BuyMeACoffee';
 
 export function Footer() {
   const t = useTranslations('Footer');
@@ -20,6 +21,7 @@ export function Footer() {
         <Icons.GithubIcon className="size-4" />
         <span>{t('openSource')}</span>
       </a>
+      <BuyMeACoffee />
       <span className="text-center text-sm text-text-secondary sm:mb-1">
         {t('copyright', { year: new Date().getFullYear() })}
       </span>

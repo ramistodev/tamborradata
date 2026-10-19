@@ -28,6 +28,7 @@ export default {
     searchParticipants: 'Search',
     press: 'Press',
     openSource: 'Open source',
+    buyMeACoffee: 'Support',
     contact: 'Contact',
     faq: 'Questions',
   },
@@ -137,6 +138,14 @@ export default {
       installed: 'Dependencies installed',
     },
   },
+  buyMeACoffee: {
+    title: 'Tamborradata is built in spare time',
+    paragraph1:
+      'This project exists thanks to the time I put into it outside my job and the money that comes out of my own pocket: the hosting, the database and everything else needed to keep it running.',
+    paragraph2:
+      "If it has helped you find someone, rediscover a year or just browse around, a small contribution helps me a lot to keep improving it. And if you can't, sharing it is already a great help.",
+    cardLabel: 'Invite me for a coffee',
+    cardText: 'Every contribution, however small, goes towards maintaining and improving Tamborradata.',  },
   contact: {
     title: 'Shall we talk?',
     description:
