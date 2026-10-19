@@ -6,11 +6,11 @@
 
 Una plataforma web que visualiza y analiza la evolución histórica de la Tamborrada Infantil de San Sebastián a través de datos.
 
-Dirigida a ciudadanía, medios, investigadores y curiosos que quieran explorar tendencias, colegios, nombres y participación desde 2018.
+Dirigida a ciudadanía, medios, investigadores y curiosos que quieran explorar tendencias, colegios, nombres y participación a lo largo de todas las ediciones registradas.
 
 _Primera fuente pública y estructurada dedicada exclusivamente a preservar y mostrar la historia digital de este evento cultural._
 
-_Proyecto de ingeniería full-stack desarrollado por **RamistoDev**._
+_Proyecto de ingeniería desarrollado por **RamistoDev**._
 
 ---
 
@@ -22,7 +22,7 @@ _Proyecto de ingeniería full-stack desarrollado por **RamistoDev**._
 - [📁 Estructura del Repositorio](#-estructura-del-repositorio)
 - [🔌 Endpoints de la API](#-endpoints-de-la-api)
 - [🔧 Tecnologías Utilizadas](#-tecnologías-utilizadas)
-- [📦 Mock Data](#-mock-data)
+- [🌍 Internacionalización](#-internacionalización)
 - [🚀 Puesta en Marcha](#-puesta-en-marcha)
 - [📚 Documentación Extendida](#-documentación-extendida)
 - [📄 Licencia](#-licencia)
@@ -63,11 +63,11 @@ Ofrecer una **plataforma web educativa y cultural** que preserve, analice y mues
 
 ## 🔷 Arquitectura General
 
-**Stack:** Next.js 16 (App Router) + React Query + Supabase PostgreSQL
+**Stack:** Next.js 16 (App Router) + React 19 + Supabase (PostgreSQL)
 
-**Patrón:** Route → Service → Repository → Database
+**Patrón del backend:** Route → DTO (validación) → Service → Repository → Base de datos
 
-Arquitectura en capas con separación de responsabilidades entre Frontend (Server Components + SSR), Backend (API Routes) y Base de Datos (PostgreSQL con RLS).
+El frontend (Server Components + SSR) y el backend (Route Handlers) conviven en el mismo proyecto Next.js, separados por _route groups_: `app/(frontend)` y `app/(backend)`. Los tipos compartidos entre ambos viven en `app/types`.
 
 📘 **Detalles completos:** [docs/design-decisions.md](docs/design-decisions.md)
 
@@ -77,50 +77,90 @@ Arquitectura en capas con separación de responsabilidades entre Frontend (Serve
 
 ```
 tamborradata/
-├── app/(frontend)/          # Next.js + React Query
-├── app/(backend)/           # API Routes + Services
-├── mocked_data/             # Datos sintéticos
-└── docs/                    # Documentación extendida
+├── app/
+│   ├── (frontend)/
+│   │   ├── [locale]/
+│   │   │   ├── (landing)/   # Landing: hero y secciones
+│   │   │   ├── (pages)/     # Estadísticas, búsqueda de participantes y política de privacidad
+│   │   │   ├── components/  # Header, Footer, iconos y componentes de UI compartidos
+│   │   │   ├── config/      # Constantes, fechas de contenido, fuentes y datos estructurados
+│   │   │   ├── hooks/       # Hooks de cliente (React Query)
+│   │   │   ├── lib/         # Utilidades, formato, claves de consulta y manejo de errores
+│   │   │   ├── providers/   # Proveedor de React Query
+│   │   │   └── services/    # Obtención de datos en servidor y en cliente
+│   │   └── i18n/            # Routing, SEO y traducciones (es, en, eu)
+│   ├── (backend)/
+│   │   ├── api/             # Route Handlers (route, dtos, services, repo, types)
+│   │   ├── core/            # Configuración de entorno, cliente Supabase y logger
+│   │   └── lib/             # Errores, respuestas, caché y límite de peticiones
+│   └── types/               # Tipos compartidos entre frontend y backend
+├── docs/                    # Documentación extendida
+├── public/                  # Recursos estáticos
+└── proxy.ts                 # i18n en páginas y protección de /api
 ```
+
+### **Páginas**
+
+| Ruta                   | Contenido                           |
+| ---------------------- | ----------------------------------- |
+| `/`                    | Landing                             |
+| `/statistics`          | Redirige al periodo global          |
+| `/statistics/[period]` | Estadísticas de un año o del global |
+| `/search-participants` | Búsqueda de participantes           |
+| `/privacy-policy`      | Política de privacidad              |
+
+### **Secciones de la landing**
+
+Hero y, en este orden: estadísticas, búsqueda de participantes, menciones en prensa, código abierto, apoyo al proyecto (botón de Buy Me a Coffee), contacto y preguntas frecuentes.
 
 ---
 
 ## 🔌 Endpoints de la API
 
-La aplicación expone 5 endpoints REST internos:
+La aplicación expone endpoints REST internos bajo `/api`. Resumen:
 
-| Endpoint                                     | Descripción                       |
-| -------------------------------------------- | --------------------------------- |
-| `GET /api/years`                             | Lista de años disponibles         |
-| `GET /api/statistics?year=YYYY`              | Estadísticas completas de un año  |
-| `GET /api/category?year=YYYY&category=...`   | Datos ampliados de una categoría  |
-| `GET /api/companies`                         | Colegios participantes históricos |
-| `GET /api/participants?name=...&company=...` | Búsqueda de participantes         |
+| Endpoint                                             | Descripción                                      |
+| ---------------------------------------------------- | ------------------------------------------------ |
+| `GET /api/overview?scope=global\|last\|both`         | Cifras clave del periodo global y del último año |
+| `GET /api/period`                                    | Periodos listos para consultar                   |
+| `GET /api/statistics?publicSlug=...&locale=...`      | Estadísticas de un periodo (vista previa)        |
+| `GET /api/statistics/[period]/summaries?locale=...`  | Resúmenes editoriales de un periodo              |
+| `GET /api/statistics/[period]/categories/[category]` | Detalle paginado de una categoría                |
+| `GET /api/schools?query=...`                         | Listado de colegios                              |
+| `POST /api/participants`                             | Búsqueda de un participante (cuerpo JSON)        |
+| `GET /api/ping`                                      | Comprobación de que la API responde              |
+
+📘 **Parámetros, respuestas, caché y errores:** [docs/api.md](docs/api.md)
 
 ---
 
 ## 🔧 Tecnologías Utilizadas
 
-- **Frontend:** Next.js 16, React 19, TypeScript, TailwindCSS 4
-- **Estado:** React Query 5
-- **Backend:** Supabase (PostgreSQL + RLS), API Routes
-- **Visualización:** Nivo, Framer Motion 12
-- **Deploy:** Vercel
+| Área       | Tecnología                                                             |
+| ---------- | ---------------------------------------------------------------------- |
+| Framework  | Next.js 16 (App Router), React 19, TypeScript 6                        |
+| Estilos    | Tailwind CSS 4                                                         |
+| Datos      | TanStack React Query 5, Supabase (`@supabase/supabase-js`, PostgreSQL) |
+| i18n       | next-intl 4                                                            |
+| Animación  | GSAP                                                                   |
+| Contenido  | react-markdown + rehype-sanitize                                       |
+| Analítica  | Vercel Analytics y Speed Insights                                      |
+| Calidad    | ESLint 9, Prettier 3                                                   |
+| Gestor     | pnpm                                                                   |
+| Despliegue | Vercel                                                                 |
 
 ---
 
-## 📦 Mock Data
+## 🌍 Internacionalización
 
-El repositorio incluye **datos sintéticos** en `mocked_data/` para desarrollo local:
+La web está disponible en **español (`es`, idioma por defecto), inglés (`en`) y euskera (`eu`)**, con `next-intl`.
 
-- `tamborradata_schema.sql` → Esquema de base de datos
-- `statistics.csv` → Estadísticas de ejemplo
-- `participants.csv` → 100 participantes ficticios
+- El prefijo del idioma es opcional para el idioma por defecto (`localePrefix: 'as-needed'`): `/statistics` es español y `/en/statistics` es inglés.
+- No hay detección automática del idioma del navegador.
+- Las traducciones están en `app/(frontend)/i18n/translations/{es,en,eu}`.
+- La API recibe el idioma mediante el parámetro `locale` cuando devuelve contenido editorial.
 
-> [!IMPORTANT]
-> Todos los nombres son **ficticios y generados aleatoriamente**.
-
-📄 **Documentación detallada:** [docs/mock-data.md](docs/mock-data.md)
+📘 **Detalles:** [docs/i18n.md](docs/i18n.md)
 
 ---
 
@@ -128,9 +168,9 @@ El repositorio incluye **datos sintéticos** en `mocked_data/` para desarrollo l
 
 ### **Requisitos previos**
 
-- Node.js 18+
+- Node.js 20.9 o superior (requisito de Next.js 16)
 - pnpm
-- Credenciales de Supabase
+- Un proyecto de Supabase con el esquema y los datos publicados de Tamborradata
 
 ### **Instalación**
 
@@ -138,19 +178,25 @@ El repositorio incluye **datos sintéticos** en `mocked_data/` para desarrollo l
 # 1. Instalar dependencias
 pnpm install
 
-# 2. Configurar variables de entorno
-# Crea .env.local con:
-SUPABASE_URL=https://xxxx.supabase.co
-SUPABASE_ANON_KEY=your_anon_key
+# 2. Configurar las variables de entorno
+# Copia .env.example a .env.local y completa los valores
 
-# 3. Importar datos mock a Supabase
-# - Ejecuta tamborradata_schema.sql en Supabase
-# - Importa statistics.csv y participants.csv desde Table Editor
-
-# 4. Iniciar el servidor de desarrollo
+# 3. Iniciar el servidor de desarrollo
 pnpm dev
 # La app estará en http://localhost:3000
 ```
+
+### **Variables de entorno**
+
+Las lee `app/(backend)/core/config/env.ts`:
+
+| Variable               | Uso                                                                |
+| ---------------------- | ------------------------------------------------------------------ |
+| `SUPABASE_URL`         | URL del proyecto de Supabase                                       |
+| `SUPABASE_ANON_KEY`    | Clave anónima de Supabase                                          |
+| `NEXT_PUBLIC_BASE_URL` | URL pública del sitio                                              |
+| `SIGNATURE_SECRET`     | Clave con la que se cifran los cursores de paginación              |
+| `HASH_SECRET`          | Clave del hash con el que el limitador de peticiones enmascara IPs |
 
 ### **Comandos disponibles**
 
@@ -158,7 +204,8 @@ pnpm dev
 pnpm dev        # Desarrollo
 pnpm build      # Build de producción
 pnpm start      # Servidor de producción
-pnpm test       # Ejecutar tests
+pnpm types      # Comprobación de tipos (tsc --noEmit)
+pnpm lint       # Linter (ESLint)
 ```
 
 ---
@@ -167,11 +214,12 @@ pnpm test       # Ejecutar tests
 
 Para información detallada sobre arquitectura, decisiones técnicas y funcionamiento interno:
 
-- 📘 **[React Query](docs/react-query.md)** → Caching, SSR, polling y gestión de estado
-- 📗 **[SEO Técnico](docs/seo.md)** → Optimización para buscadores y AI Overviews
-- 📙 **[Sistema isUpdating](docs/isUpdating.md)** → Actualización anual automática
+- 🔌 **[API](docs/api.md)** → Referencia de endpoints, parámetros, respuestas y errores
+- 📘 **[Obtención de datos](docs/data-fetching.md)** → Caché, SSR y gestión de estado en el cliente
+- 🌍 **[Internacionalización](docs/i18n.md)** → Idiomas, rutas y traducciones
+- 📗 **[SEO Técnico](docs/seo.md)** → Metadatos, datos estructurados, sitemap y robots
+- 📙 **[Publicación de datos](docs/publishing.md)** → Cómo llegan los datos nuevos cada año
 - 📕 **[Decisiones de Diseño](docs/design-decisions.md)** → Arquitectura y patrones
-- 📓 **[Mock Data](docs/mock-data.md)** → Estructura de datos sintéticos
 
 ---
 
