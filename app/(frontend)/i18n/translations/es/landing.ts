@@ -26,6 +26,7 @@ const landing = {
     searchParticipants: 'Buscador',
     press: 'Prensa',
     openSource: 'Código abierto',
+    buyMeACoffee: 'Apoyo',
     contact: 'Contacto',
     faq: 'Preguntas',
   },
@@ -135,6 +136,14 @@ const landing = {
       installed: 'Dependencias instaladas',
     },
   },
+  buyMeACoffee: {
+    title: 'Tamborradata se hace en ratos libres',
+    paragraph1:
+      'Este proyecto existe gracias al tiempo que le dedico fuera de mi trabajo y al dinero que sale de mi bolsillo: el alojamiento, la base de datos y todo lo que hace falta para mantenerlo en marcha.',
+    paragraph2:
+      'Si te ha servido para encontrar a alguien, redescubrir un año o simplemente curiosear, una pequeña aportación me ayuda muchísimo a seguir mejorándolo. Y si no puedes, compartirlo ya es una gran ayuda.',
+    cardLabel: 'Invítame a un café',
+    cardText: 'Cada aportación, por pequeña que sea, se destina a mantener y mejorar Tamborradata.',  },
   contact: {
     title: '¿Hablamos?',
     description:
