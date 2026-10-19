@@ -41,6 +41,21 @@ export async function YearStructuredData({ stats, periods }: PeriodStructuredDat
       name: t('structuredData.eventName', { period }),
       description: t('structuredData.eventDescription', { period }),
       startDate: eventDate,
+      endDate: eventDate,
+      organizer: {
+        '@type': 'GovernmentOrganization',
+        name: 'Ayuntamiento de Donostia / San Sebastián',
+        url: 'https://www.donostia.eus',
+      },
+      performer: { '@type': 'PerformingGroup', name: t('structuredData.performerName') },
+      // Watching the parade in the street is free
+      offers: {
+        '@type': 'Offer',
+        url,
+        price: 0,
+        priceCurrency: 'EUR',
+        availability: 'https://schema.org/InStock',
+      },
       eventStatus: 'https://schema.org/EventScheduled',
       eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
       image: ogImageUrl,

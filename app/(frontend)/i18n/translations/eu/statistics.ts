@@ -59,6 +59,7 @@ export default {
     place: 'Donostia, Gipuzkoa',
     eventName: 'Donostiako Haur Danborrada {period}',
     eventDescription: 'Donostiako Haur Danborradaren desfilea, {period}(e)ko urtarrilaren 20an.',
+    performerName: 'Donostiako ikastetxeetako danborrero eta kantinera txikiak',
     eventSeriesName: 'Donostiako Haur Danborrada',
     eventSeriesDescription:
       'Donostiako danborrero eta kantinera txikien urteroko desfilea, urtarrilaren 20an.',

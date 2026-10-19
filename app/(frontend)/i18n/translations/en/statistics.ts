@@ -60,6 +60,7 @@ export default {
     eventName: "Children's Tamborrada of Donostia {period}",
     eventDescription:
       "Parade of the Children's Tamborrada of Donostia / San Sebastián on January 20, {period}.",
+    performerName: 'Child drummers and cantineras from the schools of Donostia',
     eventSeriesName: "Children's Tamborrada of Donostia",
     eventSeriesDescription:
       'Yearly parade of child drummers and cantineras of Donostia / San Sebastián every January 20.',

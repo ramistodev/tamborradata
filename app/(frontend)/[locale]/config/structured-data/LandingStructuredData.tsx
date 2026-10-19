@@ -3,7 +3,7 @@ import type { OverviewResponse } from '../../../../types/api/overview.types';
 import { getAlternates, getLanguageTag } from '../../../i18n/seo';
 import { buildLandingFaqs } from '../../(landing)/components/faq/faqs';
 import { pressArticle } from '../../(landing)/components/press-mentions/pressArticle';
-import { ogImageUrl, organizationId, siteUrl, webSiteId } from '../constants';
+import { licenseUrl, ogImageUrl, organizationId, siteUrl, webSiteId } from '../constants';
 import { PAGES_UPDATED, SITE_PUBLISHED, latestDate } from '../contentDates';
 import { JsonLd } from './JsonLd';
 
@@ -99,6 +99,7 @@ export async function LandingStructuredData({
     description: fromPeriod?.description ?? t('datasetDescriptionFallback'),
     url,
     sameAs: ['https://x.com/tamborradata', 'https://github.com/ramistodev/tamborradata'],
+    license: licenseUrl,
     isAccessibleForFree: true,
     creator: { '@id': organizationId },
     publisher: { '@id': organizationId },

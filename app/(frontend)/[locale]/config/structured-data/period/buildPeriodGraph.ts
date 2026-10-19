@@ -1,4 +1,4 @@
-import { ogImageUrl, organizationId, webSiteId } from '../../constants';
+import { licenseUrl, ogImageUrl, organizationId, webSiteId } from '../../constants';
 
 export type PropertyValueInput = { name: string; value: number; unitText?: string };
 
@@ -23,8 +23,6 @@ type PeriodGraphInput = {
     placeName: string;
   };
 };
-
-const LICENSE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/';
 
 /**
  * One `@graph` per page, with every node pointing at the others by `@id`: the page (WebPage) has a
@@ -75,7 +73,7 @@ export function buildPeriodGraph(input: PeriodGraphInput) {
     description: input.dataset.description,
     inLanguage: input.language,
     keywords: input.dataset.keywords,
-    license: LICENSE_URL,
+    license: licenseUrl,
     isAccessibleForFree: true,
     temporalCoverage: input.dataset.temporalCoverage,
     spatialCoverage: { '@type': 'Place', name: input.dataset.placeName },
