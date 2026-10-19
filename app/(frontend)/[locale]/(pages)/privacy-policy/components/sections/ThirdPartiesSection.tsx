@@ -12,6 +12,7 @@ export function ThirdPartiesSection() {
         <li>{t.rich('i2', rich)}</li>
         <li>{t.rich('i3', rich)}</li>
         <li>{t.rich('i4', rich)}</li>
+        <li>{t.rich('i5', rich)}</li>
       </Ul>
       <P>{t('outro')}</P>
     </>

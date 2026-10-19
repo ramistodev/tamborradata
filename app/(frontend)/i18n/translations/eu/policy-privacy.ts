@@ -102,6 +102,7 @@ const privacyPolicy = {
       i2: '<strong>Supabase.</strong> Parte-hartzaileak eta estatistikak gordetzen dituen datu-basea ostatatzen du.',
       i3: '<strong>OpenAI.</strong> Estatistiken laburpenak idazten eta itzultzen ditu. Datu agregatuak soilik jasotzen ditu, inoiz ez parte-hartzaileen izenak (ikus estatistiken atala).',
       i4: '<strong>SerpAPI eta Internet Archive.</strong> Jatorrizko orriak aurkitzeko prozesuan erabiltzen dira. Ez dute Tamborradataren bisitarien daturik jasotzen.',
+      i5: '<strong>Buy Me a Coffee.</strong> Proiektua dohaintza batekin babestu nahi baduzu esteka jartzen dugun kanpoko zerbitzua da. Klik egitean Tamborradatatik irteten zara: bertan ordaintzea eta emandako datuak (izena, mezu bat edo posta elektronikoa, adibidez) Buy Me a Coffee-k eta bere ordainketa-hornitzaileak tratatzen dituzte, beren politiken arabera. Tamborradatak ez ditu haien scriptak sartzen, ez die web orriaren bisitarien daturik bidaltzen eta ez du ordainketa-daturik jasotzen, ezta gordetzen ere.',
       outro:
         'Ez ditugu datuak saltzen ezta hirugarrenei helburu komertzialekin laga ere. Hornitzaile horietako batzuek Europako Esparru Ekonomikotik kanpo trata ditzakete datuak, beren pribatutasun-politiketan eskaintzen dituzten bermeekin.',
     },

@@ -102,6 +102,7 @@ const privacyPolicy = {
       i2: '<strong>Supabase.</strong> Hosts the database where participants and statistics are stored.',
       i3: '<strong>OpenAI.</strong> Writes and translates the summaries of the statistics. It receives only aggregated data, never participant names (see the statistics section).',
       i4: '<strong>SerpAPI and Internet Archive.</strong> Used in the process of finding the source pages. They do not receive data from Tamborradata visitors.',
+      i5: '<strong>Buy Me a Coffee.</strong> The external service we link to if you want to support the project with a donation. When you click, you leave Tamborradata: the payment and the data you provide there (such as your name, a message or your email) are handled by Buy Me a Coffee and its payment provider, under their own policies. Tamborradata does not include their scripts, does not send them data about people who visit the website, and does not receive or store payment data.',
       outro:
         'We do not sell or hand over data to third parties for commercial purposes. Some of these providers may process data outside the European Economic Area, with the safeguards they offer in their own privacy policies.',
     },
