@@ -27,7 +27,7 @@ export function ContactSection() {
         {/* One line always: the sizes are picked so the address fits the card at every width */}
         <a
           href={`mailto:${contactEmail}`}
-          className="w-fit max-w-full rounded-sm text-lg font-semibold whitespace-nowrap text-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:text-2xl lg:text-xl xl:text-2xl"
+          className="w-fit max-w-full rounded-sm text-base md:text-lg font-semibold text-accent hover:underline truncate focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:text-2xl lg:text-xl xl:text-2xl"
         >
           {contactEmail}
         </a>
