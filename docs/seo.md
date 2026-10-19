@@ -1,576 +1,228 @@
 # SEO Técnico - Optimización para Buscadores
 
-Esta documentación explica en detalle la estrategia SEO implementada en Tamborradata para maximizar la visibilidad en buscadores (Google, Bing) y en AI Overviews (ChatGPT, Gemini, Perplexity).
+Esta documentación describe cómo Tamborradata genera su metadata, sus datos estructurados, el sitemap y el `robots.txt`. Todo lo que aparece aquí corresponde al código actual; las rutas de archivo se indican en cada sección.
 
 ---
 
 ## 📋 Índice
 
-- [Estrategia General](#estrategia-general)
-- [Metadata Optimization](#metadata-optimization)
+- [Resumen rápido](#resumen-rápido)
+- [Metadata](#metadata)
+- [Fechas de contenido](#fechas-de-contenido)
+- [Idiomas, canonical y alternates](#idiomas-canonical-y-alternates)
 - [Structured Data (Schema.org)](#structured-data-schemaorg)
 - [Sitemap y Robots.txt](#sitemap-y-robotstxt)
-- [Canonical URLs](#canonical-urls)
 - [Open Graph y Twitter Cards](#open-graph-y-twitter-cards)
-- [Optimización para AI Overviews](#optimización-para-ai-overviews)
-- [Core Web Vitals](#core-web-vitals)
+- [Iconos y manifest](#iconos-y-manifest)
+- [Política de privacidad](#política-de-privacidad)
+- [Referencias](#referencias)
 
 ---
 
-## Estrategia General
+## Resumen rápido
 
-Tamborradata implementa una **estrategia SEO técnica avanzada** con los siguientes pilares:
-
-### **Objetivos SEO**
-
-1. **Indexación completa** → Todas las páginas indexadas por Google
-2. **Ranking en búsquedas locales** → "Tamborrada Infantil datos", "estadísticas Tamborrada"
-3. **Featured Snippets** → Aparecer en respuestas destacadas
-4. **AI Overviews** → Ser fuente de información para ChatGPT/Gemini
-5. **Performance óptimo** → Core Web Vitals en verde
-
-### **Stack SEO**
-
-- **Next.js 16 Metadata API** → Gestión de meta tags
-- **Schema.org JSON-LD** → Structured data
-- **Server Components** → SSR para contenido indexable
-- **Sitemap dinámico** → Actualización automática
-- **robots.txt optimizado** → Control de crawling
+| Aspecto            | Cómo se resuelve                                                                              |
+| ------------------ | --------------------------------------------------------------------------------------------- |
+| Metadata           | Next.js Metadata API (`generateMetadata`), heredada del layout raíz y sobrescrita por página   |
+| Datos estructurados | JSON-LD (`@graph`) renderizado en el servidor                                                |
+| Años y cifras      | Salen de los datos publicados (periodos y _overview_), nunca de textos fijos                  |
+| Fechas             | Una sola fuente (`contentDates.ts` y fechas del periodo) para JSON-LD y sitemap               |
+| Idiomas            | `es` (sin prefijo), `en` y `eu` (con prefijo), con `hreflang` y `x-default`                   |
+| Dominio            | `siteUrl` en `config/constants.ts`: cambiarlo ahí cambia todas las URLs absolutas             |
 
 ---
 
-## Metadata Optimization
+## Metadata
 
-Cada página de Tamborradata incluye metadata completa y optimizada.
+### **Metadata heredada del layout raíz**
 
-### **Metadata de Homepage**
+`app/(frontend)/[locale]/layout.tsx` define en `generateMetadata` lo que toda página hereda:
 
-```typescript
-// app/page.tsx
-export const metadata: Metadata = {
-  metadataBase: new URL('https://tamborradata.com'),
-  title: 'Tamborradata | Datos y estadísticas de la Tamborrada Infantil',
-  description:
-    'Explorar datos y estadísticas de la Tamborrada Infantil en Donostia-San Sebastián: participación, nombres, colegios y tendencias desde 2018.',
+- `metadataBase` (a partir de `siteUrl`), para poder usar URLs relativas
+- `title` y `description` por defecto (traducciones `Site`). La descripción incluye el año de inicio del periodo global; sin datos usa un texto que no menciona años
+- `applicationName`, `manifest` e `icons` (ver [Iconos y manifest](#iconos-y-manifest))
+- `robots` por defecto (`index: true`, `follow: true`)
+- `openGraph` y `twitter` por defecto, incluida la imagen compartida
+- `viewport.themeColor` según el esquema de color claro u oscuro
 
-  alternates: {
-    canonical: 'https://tamborradata.com',
-  },
+Cada página sobrescribe solo lo que declara. Las páginas no repiten `metadataBase`.
 
-  keywords: [
-    'Tamborradata',
-    'Tamborrada Infantil',
-    'estadísticas Tamborrada',
-    'datos Tamborrada',
-    'Donostia',
-    'San Sebastián',
-  ],
+### **Metadata por página**
 
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-      'max-video-preview': -1,
-    },
-  },
+| Página                       | Archivo                                                   | Title y description                                                                                      |
+| ---------------------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Landing `/`                  | `(landing)/page.tsx`                                      | Dinámicos: `buildLandingTexts` inserta el rango de años publicado (con texto de respaldo si no hay datos) |
+| Buscador `/search-participants` | `(pages)/search-participants/page.tsx`                 | Dinámicos: `buildSearchTexts` con el rango del periodo global                                             |
+| Periodo `/statistics/[period]` | `(pages)/statistics/[period]/page.tsx`                  | Dinámicos: `buildPeriodTexts` incluye cifras reales (participantes, nombres más comunes) cuando hay datos |
+| Privacidad `/privacy-policy` | `(pages)/privacy-policy/page.tsx`                         | Traducción `PrivacyPolicy.metadata` + ` \| Tamborradata`                                                  |
 
-  category: 'website',
-};
-```
+Notas:
 
-### **Metadata de Páginas Dinámicas**
+- `/statistics` no tiene contenido propio: redirige al periodo global (`getPeriods`), cuyo slug cambia cada año.
+- La landing añade `keywords` (traducción `Landing.metadata.keywords`), `category` y directivas `googleBot` ampliadas (`max-image-preview: large`, `max-snippet: -1`, `max-video-preview: -1`). Lo mismo hacen el buscador y la política de privacidad.
+- Las páginas de periodo heredan el `robots` del layout raíz.
+- Los textos de la landing, el buscador y los periodos se comparten entre la metadata y el JSON-LD (`buildLandingTexts`, `buildSearchTexts`, `buildPeriodTexts`), de modo que lo que lee Google es lo mismo en ambos sitios.
+- Las llamadas a datos de `generateMetadata` y de la página usan las mismas funciones cacheadas (`getOverview`, `getPeriods`, `getStatistics`), por lo que no se repiten peticiones.
 
-```typescript
-// app/statistics/[year]/page.tsx
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { year } = params;
+---
 
-  return {
-    title: `Estadísticas ${year} | Tamborradata`,
-    description: `Datos y estadísticas completas de la Tamborrada Infantil ${year}: participación, colegios, nombres más populares y tendencias.`,
-    alternates: {
-      canonical: `https://tamborradata.com/statistics/${year}`,
-    },
-    openGraph: {
-      title: `Estadísticas Tamborrada Infantil ${year}`,
-      description: `Explorar datos de ${year}`,
-      url: `https://tamborradata.com/statistics/${year}`,
-      images: [
-        {
-          url: `https://tamborradata.com/og-image-${year}.webp`,
-        },
-      ],
-    },
-  };
-}
-```
+## Fechas de contenido
 
-### **Optimización de Titles**
+`app/(frontend)/[locale]/config/contentDates.ts` concentra las fechas que el sitio comunica a los buscadores:
 
-| Página   | Title                                     | Razón               |
-| -------- | ----------------------------------------- | ------------------- |
-| Home     | `Tamborradata \| Datos y estadísticas...` | Branding + keywords |
-| Año      | `Estadísticas 2024 \| Tamborradata`       | Año + branding      |
-| Global   | `Estadísticas Globales \| Tamborradata`   | Diferenciación      |
-| Búsqueda | `Buscar Participantes \| Tamborradata`    | Funcionalidad clara |
+| Constante / helper | Significado                                                                                       |
+| ------------------ | ------------------------------------------------------------------------------------------------- |
+| `SITE_PUBLISHED`   | Primera versión pública del sitio                                                                 |
+| `PAGES_UPDATED`    | Último cambio de diseño o contenido de la landing y el buscador. Se actualiza a mano al cambiarlos |
+| `latestDate(...)`  | Devuelve la fecha más reciente de una lista, ignorando las vacías                                 |
 
-**Reglas:**
+Cómo se usan:
 
-- ≤ 60 caracteres
-- Branding al final (excepto home)
-- Keywords al inicio
-- Separador visual `|`
+- **Landing:** `dateModified` = la más reciente entre `PAGES_UPDATED` y `lastPublishedAt` del periodo global.
+- **Buscador:** `dateModified` = `lastPublishedAt` del periodo global; `datePublished` es una constante fija de la propia página.
+- **Periodos:** `datePublished` y `dateModified` salen de `metaData.publishedAt` y `metaData.updatedAt`, y se reutilizan en `openGraph.publishedTime` y `modifiedTime`.
+- **Política de privacidad:** `PRIVACY_POLICY_PUBLISHED` y `PRIVACY_POLICY_UPDATED` (`privacy-policy/data/constants.ts`), los mismos que muestra la línea visible de "actualizado el".
+- **Sitemap:** usa las mismas fuentes como `lastModified`.
+
+Si una fecha no se conoce, se omite: una fecha inventada es peor que ninguna.
+
+---
+
+## Idiomas, canonical y alternates
+
+El routing (`app/(frontend)/i18n/routing.ts`) define `es` (idioma por defecto), `en` y `eu`, con `localePrefix: 'as-needed'`: el español no lleva prefijo y los demás sí. `alternateLinks` está desactivado en next-intl porque los `alternates` los genera el propio proyecto.
+
+`getAlternates(locale, href)` (`i18n/seo.ts`) devuelve para cada página:
+
+- `canonical`: la URL absoluta de la página en el idioma actual
+- `languages`: una URL por idioma (`es`, `eu`, `en`) más `x-default`, que apunta al idioma por defecto
+
+Otras utilidades del mismo archivo:
+
+- `getLanguageTag(locale)` → `es-ES`, `eu-ES`, `en-US` (para `inLanguage` en JSON-LD)
+- `getOpenGraphLocales(locale)` → `og:locale` y `og:locale:alternate`
 
 ---
 
 ## Structured Data (Schema.org)
 
-Tamborradata implementa **JSON-LD** para proporcionar datos estructurados a los buscadores.
+### **Cómo se renderiza**
 
-### **Organization Schema**
+`config/structured-data/JsonLd.tsx` emite un `<script type="application/ld+json">` normal, **renderizado en el servidor**. No se usa `next/script`, porque lo inyecta el cliente tras la carga y no estaría en el HTML que descarga un rastreador. Además se escapa `<` (`<`) para que ningún texto de los datos pueda cerrar la etiqueta.
 
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "@id": "https://tamborradata.com#organization",
-  "name": "Tamborradata",
-  "description": "Proyecto de datos y estadísticas sobre la Tamborrada Infantil",
-  "url": "https://tamborradata.com",
-  "logo": "https://tamborradata.com/favicon.ico",
-  "sameAs": ["https://x.com/tamborradata", "https://github.com/ramistodev/tamborradata"]
-}
-```
+Las propiedades que dependen del periodo publicado quedan `undefined` si no hay datos y `JSON.stringify` las omite, así que ninguna propiedad afirma un año inventado.
 
-### **WebSite Schema**
+### **Entidades globales (layout raíz)**
 
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": "https://tamborradata.com#website",
-  "name": "Tamborradata",
-  "url": "https://tamborradata.com",
-  "inLanguage": "es-ES",
-  "publisher": { "@id": "https://tamborradata.com#organization" },
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://tamborradata.com/search?name={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-```
+`StructuredData.tsx` se incluye en el `<head>` del layout raíz y declara una sola vez:
 
-**Ventaja:** Google puede mostrar un cuadro de búsqueda en los resultados.
+- `Organization` (`@id`: `https://tamborradata.com#organization`) con `logo`, `image` y `sameAs` (X y GitHub)
+- `WebSite` (`@id`: `https://tamborradata.com#website`) con `inLanguage`, `publisher` y descripción con el año de inicio cuando existe
 
-### **Dataset Schema**
+El `WebSite` **no** incluye `SearchAction`. Las páginas referencian ambas entidades por `@id` en lugar de repetirlas.
 
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "Dataset",
-  "@id": "https://tamborradata.com#dataset",
-  "name": "Tamborradata - Estadísticas Históricas de la Tamborrada Infantil",
-  "description": "Dataset completo con estadísticas desde 2018: participación, colegios, nombres, tendencias.",
-  "url": "https://tamborradata.com",
-  "creator": { "@id": "https://tamborradata.com#organization" },
-  "publisher": { "@id": "https://tamborradata.com#organization" },
-  "datePublished": "2018-01-20T00:00:00.000Z",
-  "dateModified": "2025-01-20T00:00:00.000Z",
-  "temporalCoverage": "2018-01-20/2025-01-20",
-  "spatialCoverage": {
-    "@type": "Place",
-    "name": "San Sebastián, Gipuzkoa, País Vasco, España",
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 43.3183,
-      "longitude": -1.9812
-    }
-  },
-  "keywords": [
-    "Tamborrada Infantil",
-    "estadísticas",
-    "datos históricos",
-    "Donostia",
-    "San Sebastián"
-  ]
-}
-```
+### **Grafo por página**
 
-**Ventaja:** Google Dataset Search puede indexar Tamborradata como fuente de datos oficial.
+Cada página emite un único `@graph` con nodos enlazados por `@id`:
 
-### **BreadcrumbList Schema**
+| Página                  | Nodos del grafo                                                                              |
+| ----------------------- | -------------------------------------------------------------------------------------------- |
+| Landing                 | `WebPage` + `CollectionPage`, `Dataset`, `BreadcrumbList`, `FAQPage` y `ItemList` de menciones de prensa |
+| Buscador                | `WebPage`, `WebApplication`, `EventSeries`, `BreadcrumbList` y `FAQPage` (sin `Dataset`: los participantes solo se pueden buscar, no descargar) |
+| Periodo anual           | `WebPage`, `BreadcrumbList`, `Dataset` y el `Event` de esa edición                           |
+| Periodo global          | Igual que el anual, pero con un `EventSeries` en lugar de un `Event`                         |
+| Política de privacidad  | `WebPage` y `BreadcrumbList`                                                                 |
 
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Inicio",
-      "item": "https://tamborradata.com"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Estadísticas",
-      "item": "https://tamborradata.com/statistics"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "2024",
-      "item": "https://tamborradata.com/statistics/2024"
-    }
-  ]
-}
-```
+Detalles verificados en el código:
 
-**Ventaja:** Google muestra breadcrumbs en resultados de búsqueda.
+- El `Dataset` de los periodos declara `license` (CC BY-SA 4.0), `temporalCoverage` y `variableMeasured`; solo se listan las variables que tienen valor.
+- La `FAQPage` sale de las mismas funciones que la FAQ visible (`buildLandingFaqs`, `buildFaqs`).
+- El `BreadcrumbList` de un periodo tiene tres niveles: inicio, estadísticas y el periodo.
+- El `inLanguage` de cada nodo sigue el idioma de la página.
+
+Para el detalle de cada grafo, consulta los componentes de `config/structured-data/` (`LandingStructuredData`, `SearchParticipantsStructuredData`, `PeriodStructuredData` y `period/`).
 
 ---
 
 ## Sitemap y Robots.txt
 
-### **Sitemap Dinámico**
+### **Sitemap dinámico**
 
-```typescript
-// app/sitemap.ts
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://tamborradata.com';
-  const currentYear = new Date().getFullYear();
+`app/sitemap.ts` se construye a partir de los datos publicados, no de un rango de años fijo:
 
-  const yearUrls = [];
-  for (let i = 0; i <= currentYear - 2018; i++) {
-    const year = 2018 + i;
-    if (year === 2021) continue; // Sin datos
+- Las páginas de estadísticas salen de `getPeriods()`: una edición nueva (o una antigua que aparezca después) entra sola en el sitemap.
+- Cada URL se emite una vez por idioma, con `alternates.languages` (incluido `x-default`).
+- `lastModified` es real:
+  - Periodos → `lastPublishedAt` del periodo.
+  - Landing y buscador → la más reciente entre `PAGES_UPDATED` y la última publicación del periodo global.
+  - Política de privacidad → `PRIVACY_POLICY_UPDATED`.
+  - Si la fecha no se conoce, se omite.
 
-    yearUrls.push({
-      url: `${baseUrl}/statistics/${year}`,
-      lastModified: year === currentYear ? new Date() : new Date(`${year}-01-20`),
-      changeFrequency: 'yearly',
-      priority: year === currentYear ? 0.9 : 0.7,
-    });
-  }
+| Página                       | `changeFrequency` | `priority`                                      |
+| ---------------------------- | ----------------- | ----------------------------------------------- |
+| `/`                          | `monthly`         | 1.0                                             |
+| `/search-participants`       | `monthly`         | 0.9                                             |
+| `/statistics/[period]`       | `yearly`          | 0.9 (periodo global y año actual), 0.7 el resto |
+| `/privacy-policy`            | `yearly`          | 0.4                                             |
 
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1.0,
-    },
-    {
-      url: `${baseUrl}/statistics/global`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/search`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    ...yearUrls,
-  ];
-}
-```
+Si la llamada a `getPeriods()` falla, el sitemap se genera sin páginas de periodo en lugar de romperse.
 
-**Características:**
+### **robots.txt**
 
-- ✅ Generación automática de URLs
-- ✅ Excluye años sin datos (2021)
-- ✅ Prioridades diferenciadas
-- ✅ `lastModified` dinámico
-
-### **robots.txt Optimizado**
+Es un archivo estático en `public/robots.txt`:
 
 ```txt
 User-agent: *
 Allow: /
 
-# Block API endpoints
 Disallow: /api/
-Disallow: /_next/
 Disallow: /_vercel/
 
-# Block sensitive files
-Disallow: /*.json$
-Disallow: /*.xml$
+# Bloqueados: AhrefsBot, MJ12bot, DotBot, SemrushBot, BLEXBot
+User-agent: AhrefsBot
+Disallow: /
+# ... (un bloque por cada bot)
 
-# SEO directives
 Sitemap: https://tamborradata.com/sitemap.xml
-
-# AI Crawlers (allow)
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
 ```
 
-**Estrategia:**
+Criterios:
 
-- ✅ Permite todos los bots
-- ✅ Bloquea solo rutas internas
-- ✅ Explicita permiso para AI crawlers
-- ✅ Sitemap visible
-
----
-
-## Canonical URLs
-
-Todas las páginas incluyen **canonical URLs** para evitar contenido duplicado.
-
-### **Implementación**
-
-```typescript
-export const metadata: Metadata = {
-  alternates: {
-    canonical: 'https://tamborradata.com/statistics/2024',
-  },
-};
-```
-
-### **Reglas**
-
-| Condición              | Canonical          |
-| ---------------------- | ------------------ |
-| URL con trailing slash | Sin trailing slash |
-| URL con query params   | Sin query params   |
-| Múltiples dominios     | Solo `.com`        |
-| HTTP/HTTPS             | Siempre HTTPS      |
-
-**Ejemplo:**
-
-```
-https://tamborradata.com/statistics/2024/
-→ https://tamborradata.com/statistics/2024
-```
+- Todos los bots pueden rastrear el sitio, salvo `/api/` (devuelve JSON para la propia web) y `/_vercel/` (analítica de Vercel).
+- Los bots con bloque propio ignorarían el bloque `*`, por eso las reglas generales viven en `*` y los bloques con nombre existen solo para los bots rechazados (los que rastrean para herramientas SEO).
+- No hay reglas específicas para crawlers de IA: se rigen por el bloque `*`.
 
 ---
 
 ## Open Graph y Twitter Cards
 
-### **Open Graph**
-
-```typescript
-openGraph: {
-  title: 'Tamborradata | Datos de la Tamborrada Infantil',
-  description: 'Explorar estadísticas desde 2018',
-  url: 'https://tamborradata.com',
-  siteName: 'Tamborradata',
-  images: [{
-    url: 'https://tamborradata.com/og-image.webp',
-    width: 1200,
-    height: 630,
-    alt: 'Tamborradata - Estadísticas Tamborrada Infantil',
-  }],
-  locale: 'es_ES',
-  type: 'website',
-}
-```
-
-### **Twitter Cards**
-
-```typescript
-twitter: {
-  card: 'summary_large_image',
-  title: 'Tamborradata | Datos de la Tamborrada Infantil',
-  description: 'Explorar estadísticas desde 2018',
-  images: [{
-    url: 'https://tamborradata.com/og-image.webp',
-    alt: 'Tamborradata - Estadísticas',
-  }],
-  site: '@tamborradata',
-  creator: '@tamborradata',
-}
-```
-
-### **Dimensiones de Imágenes OG**
-
-| Plataforma | Tamaño Recomendado | Formato   |
-| ---------- | ------------------ | --------- |
-| Facebook   | 1200×630px         | WebP/JPEG |
-| Twitter    | 1200×628px         | WebP/JPEG |
-| LinkedIn   | 1200×627px         | WebP/JPEG |
-
-**Imagen actual:** `og-image.webp` → 1200×630px, 45KB, WebP
+- El layout raíz declara `openGraph` y `twitter` por defecto; cada página define los suyos con su propio título y descripción.
+- Todas las páginas comparten la misma imagen: `https://tamborradata.com/og-image.webp` (`ogImageUrl` en `config/constants.ts`), con `alt` igual al título de la página.
+- Tipo de `og:type`: `website` para la landing y el buscador; `article` para los periodos y la política de privacidad (con `publishedTime` y `modifiedTime`).
+- `og:locale` y `og:locale:alternate` salen de `getOpenGraphLocales` (`es_ES`, `eu_ES`, `en_US`).
+- Twitter: `card: 'summary_large_image'`, `site` y `creator` = `@tamborradata`.
 
 ---
 
-## Optimización para AI Overviews
+## Iconos y manifest
 
-Tamborradata está optimizada para ser fuente de información en **AI Overviews** (ChatGPT, Gemini, Perplexity).
+Se declaran una sola vez en el layout raíz y se sirven desde `public/`:
 
-### **Estrategias Implementadas**
+| Elemento                 | Archivos                                                             |
+| ------------------------ | -------------------------------------------------------------------- |
+| Favicon                  | `favicon.ico`, `favicon.svg`, `favicon-96x96.png`                    |
+| Icono Apple              | `apple-touch-icon.png` (180x180)                                     |
+| Web app manifest         | `site.webmanifest` (iconos de 192 y 512 px, `any` y `maskable`)      |
+| Imagen para compartir    | `og-image.webp`                                                      |
+| Logo (JSON-LD)           | `logo-512x512.png`                                                   |
 
-#### **1. Permitir AI Crawlers**
-
-```txt
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-```
-
-#### **2. Estructura Semántica**
-
-```html
-<h1>Estadísticas de la Tamborrada Infantil 2024</h1>
-
-<section aria-label="Participación Total">
-  <h2>Participación Total</h2>
-  <p>En 2024, participaron <strong>3,245 niños y niñas</strong>...</p>
-</section>
-```
-
-**Razón:** Los AI parsean mejor contenido con headings jerárquicos.
-
-#### **3. Dataset Schema**
-
-El schema `Dataset` permite que AI identifiquen Tamborradata como **fuente de datos oficial**.
-
-#### **4. Contenido Estructurado**
-
-```markdown
-# Estadísticas 2024
-
-## Participación
-
-- Total: 3,245 participantes
-- Incremento: +5.2% vs 2023
-
-## Colegios
-
-Top 3:
-
-1. Colegio A - 450 participantes
-2. Colegio B - 380 participantes
-3. Colegio C - 320 participantes
-```
-
-**Razón:** Listas, tablas y números son fácilmente parseables por AI.
+`themeColor` se define en `viewport` y sigue el fondo de cada tema (claro `#f6f8fc`, oscuro `#060912`).
 
 ---
 
-## Core Web Vitals
+## Política de privacidad
 
-Tamborradata optimiza las métricas de rendimiento de Google.
-
-### **Métricas Objetivo**
-
-| Métrica                            | Objetivo | Actual |
-| ---------------------------------- | -------- | ------ |
-| **LCP** (Largest Contentful Paint) | < 2.5s   | ~1.8s  |
-| **FID** (First Input Delay)        | < 100ms  | ~50ms  |
-| **CLS** (Cumulative Layout Shift)  | < 0.1    | ~0.05  |
-| **FCP** (First Contentful Paint)   | < 1.8s   | ~1.2s  |
-| **TTI** (Time to Interactive)      | < 3.8s   | ~2.5s  |
-
-### **Optimizaciones Aplicadas**
-
-#### **1. Server Components (SSR)**
-
-```typescript
-// Server Component → contenido renderizado en servidor
-export default async function StatisticsPage({ params }) {
-  const data = await fetchStatistics(params.year);
-  return <StatisticsContent data={data} />;
-}
-```
-
-**Ventaja:** FCP y LCP mejoran drásticamente.
-
-#### **2. Imágenes Optimizadas**
-
-```typescript
-import Image from 'next/image';
-
-<Image
-  src="/logo.webp"
-  alt="Tamborradata"
-  width={200}
-  height={50}
-  loading="lazy"
-  placeholder="blur"
-/>
-```
-
-**Optimizaciones:**
-
-- Formato WebP
-- Lazy loading
-- Placeholder blur
-- Tamaños responsivos
-
-#### **3. Fonts Optimizadas**
-
-```typescript
-import { Inter } from 'next/font/google';
-
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  preload: true,
-});
-```
-
-**Ventaja:** `font-display: swap` evita FOIT (Flash of Invisible Text).
-
-#### **4. Prefetching**
-
-```typescript
-<Link href="/statistics/2024" prefetch={true}>
-  Ver estadísticas 2024
-</Link>
-```
-
-**Ventaja:** Siguiente página carga instantáneamente.
-
----
-
-## Herramientas de Validación
-
-### **Google Search Console**
-
-- ✅ Todas las páginas indexadas
-- ✅ Sin errores de crawling
-- ✅ Core Web Vitals en verde
-- ✅ Mobile-first index activo
-
-### **Lighthouse**
-
-- ✅ Performance: 95+
-- ✅ Accessibility: 100
-- ✅ Best Practices: 100
-- ✅ SEO: 100
-
-### **Rich Results Test**
-
-- ✅ Organization schema válido
-- ✅ Dataset schema válido
-- ✅ BreadcrumbList schema válido
+La página `/privacy-policy` está indexable y sigue el mismo patrón que el resto: metadata propia, `alternates` por idioma, Open Graph de tipo `article` y un grafo JSON-LD (`PolicyPrivacyStructuredData`) con `WebPage` y `BreadcrumbList`. Está incluida en el sitemap y enlazada desde el pie de página. Sus textos están en `es`, `en` y `eu`.
 
 ---
 
@@ -578,5 +230,5 @@ const inter = Inter({
 
 - [Google Search Central](https://developers.google.com/search)
 - [Schema.org Documentation](https://schema.org/)
-- [Next.js SEO](https://nextjs.org/learn/seo/introduction-to-seo)
+- [Next.js Metadata API](https://nextjs.org/docs/app/getting-started/metadata-and-og-images)
 - [Core Web Vitals](https://web.dev/vitals/)

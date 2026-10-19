@@ -17,7 +17,11 @@ export function Hero({ overview }: { overview: OverviewResponse | null }) {
   const globalPeriod = overviewMetrics?.globalPeriod;
 
   return (
-    <section className="w-full min-h-[calc(100dvh-var(--header-h)-1px)] flex flex-col items-start justify-center gap-4 pt-10 lg:pt-10">
+    <section className="relative isolate w-full min-h-[calc(100dvh-var(--header-h)-1px)] flex flex-col items-start justify-center gap-4 pt-10 lg:pt-10">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-[20%] sm:top-[30%] left-1/2 -z-10 h-96 lg:h-136 w-full max-w-5xl -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(closest-side,var(--accent-glow),transparent)] "
+      />
       <div className="flex flex-col items-start gap-4 lg:gap-6">
         <div className="flex flex-col items-start justify-between gap-2 sm:gap-3 lg:gap-4">
           <h1 className="text-[40px] sm:text-7xl lg:text-9xl font-extrabold">{siteName}</h1>

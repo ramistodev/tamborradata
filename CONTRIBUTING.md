@@ -15,7 +15,6 @@ Se aceptan contribuciones en las siguientes áreas:
 - **Mejoras de accesibilidad y rendimiento**: Optimizaciones de UX/UI y performance
 - **Nuevas visualizaciones**: Gráficos o estadísticas basadas en los datos públicos disponibles
 - **Documentación**: Mejoras en README, comentarios en código o guías adicionales
-- **Testing**: Nuevos tests o mejora de la cobertura existente
 
 ### ⚠️ Restricciones
 
@@ -56,38 +55,67 @@ Si es una corrección menor, puedes enviar el Pull Request sin necesidad de disc
 
 ## 🔧 Cómo enviar un Pull Request
 
-### 1. Crea una rama descriptiva
+### 1. Prepara el entorno
 
-Usa nombres claros y semánticos:
+El proyecto usa **pnpm** (versión fijada en `packageManager` de `package.json`). La configuración completa está en el `README.md`.
+
+```bash
+pnpm install
+pnpm dev
+```
+
+### 2. Crea una rama descriptiva
+
+Parte de `main` actualizada y usa un prefijo que indique el tipo de cambio, seguido de un nombre corto en minúsculas y con guiones:
 
 ```bash
 feature/nueva-visualizacion-colegios
-fix/error-calculo-estadisticas-2025
+fix/error-calculo-estadisticas
 refactor/simplificar-year-context
-docs/mejorar-readme-testing
+docs/mejorar-guia-contribucion
+chore/actualizar-dependencias
 ```
 
-### 2. Haz commits claros y atómicos
+### 3. Haz commits claros y atómicos
 
-Sigue el formato de **Conventional Commits**:
+Sigue el formato de **Conventional Commits**: `tipo(ámbito opcional): descripción`, en minúsculas, en modo imperativo y sin punto final. Los tipos que usa el repositorio son `feat`, `fix`, `refactor`, `style`, `chore` y `docs`:
 
 ```bash
-feat: añade componente de ranking por colegio
-fix: corrige cálculo de participación en 2025
-refactor: simplifica lógica de YearContext
-docs: actualiza guía de contribución
-test: añade tests para TopNames component
+feat(statistics): add the ranking by school
+fix(api): skip unknown categories in the statistics
+refactor(search): move the search page to its own route
+style(contact): truncate the email on small screens
+chore(deps): update dependencies
+docs: update the contributing guide
 ```
 
-### 3. Asegúrate de que tu código cumple con:
+Cada commit debe tener sentido por sí solo y dejar el proyecto en un estado que compile.
+
+### 4. Verifica tu código antes de abrir el PR
+
+```bash
+pnpm types   # Comprobación de tipos (tsc --noEmit)
+pnpm lint    # ESLint
+pnpm build   # Build de producción
+```
+
+Comprueba además que:
 
 - ✅ No rompe funcionalidades existentes
 - ✅ Mantiene la coherencia con el estilo del proyecto
 - ✅ Está correctamente tipado con TypeScript
-- ✅ Pasa todos los tests (`pnpm test` y `pnpm test:e2e`)
 - ✅ Es legible y está bien documentado
 
-### 4. Abre el Pull Request con una descripción clara
+### 5. Actualiza tu rama y abre el Pull Request
+
+Antes de abrir el PR, pon tu rama al día con `main` haciendo **rebase** (evita commits de merge y facilita el squash):
+
+```bash
+git fetch origin
+git rebase origin/main
+```
+
+Los PRs se integran con **squash merge**: el título del PR se convierte en el mensaje final, así que escríbelo también en formato Conventional Commits (por ejemplo, `feat(statistics): add the ranking by school`).
 
 Incluye en la descripción:
 
@@ -95,6 +123,7 @@ Incluye en la descripción:
 - **¿Qué cambio introduces?** → Explicación técnica
 - **¿Hay efectos secundarios?** → Posibles impactos en otras partes del código
 - **¿Cómo probarlo?** → Pasos para verificar que funciona correctamente
+- **Capturas** → Si el cambio es visual, antes y después
 
 ---
 
