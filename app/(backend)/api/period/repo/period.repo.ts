@@ -7,7 +7,8 @@ export async function getAllPublishedPeriods(): Promise<PublishedPeriodRaw[]> {
     .from(tables.statsPeriods)
     .select('internal_key, public_slug, kind, last_published_at')
     .order('public_slug', { ascending: false })
-    .eq('is_ready', true);
+    .eq('is_ready', true)
+    .not('published_run_id', 'is', null);
 
   if (error) {
     throw new Error(error.message);
