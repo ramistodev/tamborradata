@@ -24,7 +24,7 @@ Esta documentación explica **cómo llegan los datos nuevos a Tamborradata cada 
 | Aspecto                  | Comportamiento actual                                                       |
 | ------------------------ | --------------------------------------------------------------------------- |
 | Quién genera los datos   | Un **pipeline privado** (repositorio aparte, ver [CONTRIBUTING](../CONTRIBUTING.md)) |
-| Cómo se "activa" un año  | Un periodo solo es visible cuando tiene un run publicado (`published_run_id`) |
+| Cómo se "activa" un año  | Un periodo solo es visible cuando está listo (`is_ready`) y tiene un run publicado (`published_run_id`) |
 | Aviso de "actualizando"  | **No existe**: la web no muestra banner ni hace polling                     |
 | Cuándo se ven los datos  | Al caducar la cache (hasta 1 hora) tras la publicación                      |
 | Límite de peticiones     | Más permisivo entre el 17 y el 24 de enero (ver [Rate limit](#rate-limit-estacional)) |
@@ -50,8 +50,8 @@ El backend **solo lee** datos ya publicados. La forma en que se ven en la web se
 
 | Columna            | Quién la usa                                                                 |
 | ------------------ | ---------------------------------------------------------------------------- |
-| `published_run_id` | `GET /api/overview` y `GET /api/statistics`: solo periodos con valor no nulo |
-| `is_ready`         | `GET /api/period`: solo periodos con `is_ready = true`                       |
+| `published_run_id` | `GET /api/overview`, `GET /api/statistics` y `GET /api/period`: solo periodos con valor no nulo |
+| `is_ready`         | Los tres endpoints: además, solo periodos con `is_ready = true`              |
 
 Ejemplo real, el filtro de un periodo publicado:
 

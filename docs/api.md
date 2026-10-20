@@ -98,7 +98,7 @@ Devuelve las cifras clave que usan la landing y la búsqueda: el periodo global 
 
 ## GET /api/period
 
-Lista los periodos marcados como listos (`is_ready`), ordenados por `public_slug` descendente. No recibe parámetros.
+Lista los periodos marcados como listos (`is_ready`) y con un run publicado (`published_run_id` no nulo), ordenados por `public_slug` descendente. No recibe parámetros.
 
 **Respuesta `200`** (`PeriodResponse[]`)
 

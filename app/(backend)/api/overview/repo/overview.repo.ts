@@ -20,6 +20,7 @@ export async function getPublishedPeriods(): Promise<OverviewPeriodRow[]> {
   const { data: periods, error: periodsError } = await supabaseClient
     .from(tables.statsPeriods)
     .select('published_run_id, kind, public_slug, start_year, end_year, last_published_at')
+    .eq('is_ready', true)
     .not('published_run_id', 'is', null)
     .returns<OverviewPeriodRow[]>();
 

@@ -9,6 +9,7 @@ export async function getPublishedPeriod(publicSlug: string): Promise<PublishedP
     .from(tables.statsPeriods)
     .select('id, published_run_id, kind, public_slug, last_published_at, updated_at')
     .eq('public_slug', publicSlug)
+    .eq('is_ready', true)
     .not('published_run_id', 'is', null)
     .single();
 
