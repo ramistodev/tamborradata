@@ -75,7 +75,7 @@ Tamborradata sigue una **arquitectura en capas** con separación de responsabili
 ### **Ventajas de esta Arquitectura**
 
 1. **Separación de responsabilidades** → Cada capa tiene un propósito claro
-2. **Testabilidad** → Cada capa se puede testear independientemente
+2. **Testabilidad** → Cada capa se puede testear independientemente (ver [Tests](./testing.md))
 3. **Mantenibilidad** → Cambios en una capa no afectan a otras
 4. **Reutilización** → El mismo servicio sirve a la ruta HTTP y a las páginas de servidor
 
@@ -225,7 +225,7 @@ El repository **lanza errores de dominio** (`ServerError`) en vez de devolver `{
 ### **Ventajas del Patrón Repository**
 
 1. **Abstracción de BD** → Las queries viven en un solo sitio por feature
-2. **Testing** → Los repositories se pueden mockear
+2. **Testing** → Los repositories se pueden mockear: los tests unitarios sustituyen el cliente de Supabase por un mock encadenable
 3. **Reutilización** → Un repository usado por múltiples services
 4. **Claridad** → Separación entre lógica de negocio y acceso a datos
 
@@ -632,6 +632,7 @@ Cada capa tiene una responsabilidad:
 - [Data fetching](./data-fetching.md)
 - [i18n](./i18n.md)
 - [SEO](./seo.md)
+- [Tests](./testing.md)
 - [Actualización anual de datos](./publishing.md)
 - [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 - [Repository Pattern](https://martinfowler.com/eaaCatalog/repository.html)

@@ -94,10 +94,14 @@ Cada commit debe tener sentido por sí solo y dejar el proyecto en un estado que
 ### 4. Verifica tu código antes de abrir el PR
 
 ```bash
-pnpm types   # Comprobación de tipos (tsc --noEmit)
-pnpm lint    # ESLint
-pnpm build   # Build de producción
+pnpm types        # Comprobación de tipos de la aplicación (tsc --noEmit)
+pnpm types:test   # Tipos de la aplicación y de los tests
+pnpm lint         # ESLint
+pnpm test:unit    # Tests unitarios
+pnpm build        # Build de producción
 ```
+
+Si cambias lógica, añade o actualiza su test: el test de un archivo vive en `test/unit/` con la misma ruta que el archivo (sin `app/`). Los tests deben comprobar el comportamiento correcto; no se aceptan `it.skip`, `it.fails` ni snapshots. Los e2e (`pnpm test:e2e`) son opcionales en un PR, pero conviene lanzarlos si tocas navegación, i18n o la API. Guía completa: [docs/testing.md](docs/testing.md).
 
 Comprueba además que:
 
