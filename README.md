@@ -24,6 +24,7 @@ _Proyecto de ingeniería desarrollado por **RamistoDev**._
 - [🔧 Tecnologías Utilizadas](#-tecnologías-utilizadas)
 - [🌍 Internacionalización](#-internacionalización)
 - [🚀 Puesta en Marcha](#-puesta-en-marcha)
+- [🧪 Tests](#-tests)
 - [📚 Documentación Extendida](#-documentación-extendida)
 - [📄 Licencia](#-licencia)
 - [👨‍💻 Autor](#-autor)
@@ -96,7 +97,10 @@ tamborradata/
 │   └── types/               # Tipos compartidos entre frontend y backend
 ├── docs/                    # Documentación extendida
 ├── public/                  # Recursos estáticos
-└── proxy.ts                 # i18n en páginas y protección de /api
+├── test/                    # Tests unitarios (unit), end-to-end (e2e) y sus utilidades
+├── proxy.ts                 # i18n en páginas y protección de /api
+├── vitest.config.ts         # Configuración de tests unitarios y cobertura
+└── playwright.config.ts     # Configuración de tests end-to-end
 ```
 
 ### **Páginas**
@@ -145,7 +149,8 @@ La aplicación expone endpoints REST internos bajo `/api`. Resumen:
 | Animación  | GSAP                                                                   |
 | Contenido  | react-markdown + rehype-sanitize                                       |
 | Analítica  | Vercel Analytics y Speed Insights                                      |
-| Calidad    | ESLint 9, Prettier 3                                                   |
+| Calidad    | ESLint 10, Prettier 3                                                  |
+| Tests      | Vitest 5, Testing Library, Playwright                                  |
 | Gestor     | pnpm                                                                   |
 | Despliegue | Vercel                                                                 |
 
@@ -201,12 +206,40 @@ Las lee `app/(backend)/core/config/env.ts`:
 ### **Comandos disponibles**
 
 ```bash
-pnpm dev        # Desarrollo
-pnpm build      # Build de producción
-pnpm start      # Servidor de producción
-pnpm types      # Comprobación de tipos (tsc --noEmit)
-pnpm lint       # Linter (ESLint)
+pnpm dev            # Desarrollo
+pnpm build          # Build de producción
+pnpm start          # Servidor de producción
+pnpm types          # Comprobación de tipos de la aplicación (tsc --noEmit)
+pnpm types:test     # Comprobación de tipos de la aplicación y de los tests
+pnpm lint           # Linter (ESLint)
+pnpm test:unit      # Tests unitarios
+pnpm test:coverage  # Tests unitarios con cobertura y umbrales
+pnpm test:e2e       # Tests end-to-end (Playwright)
 ```
+
+---
+
+## 🧪 Tests
+
+El proyecto tiene **tests unitarios** (Vitest + Testing Library) y **tests end-to-end** (Playwright). Viven en `test/`, y los unitarios reflejan la estructura de `app/`.
+
+| Capa       | Comando              | Qué comprueba                                                          |
+| ---------- | -------------------- | ---------------------------------------------------------------------- |
+| Unitarios  | `pnpm test:unit`     | Lógica, servicios, repositorios (Supabase simulado), rutas API, hooks y componentes |
+| Cobertura  | `pnpm test:coverage` | Lo anterior con umbrales: global ≥ 95 % y backend entre 98 % y 100 %   |
+| End-to-end | `pnpm test:e2e`      | La web de producción real: API, páginas, navegación, i18n, SEO y límite de peticiones |
+
+Los unitarios no necesitan red ni base de datos. Los e2e construyen y arrancan la app en el puerto 3100, usan las variables de `.env` y requieren instalar el navegador una vez:
+
+```bash
+pnpm exec playwright install chromium
+pnpm test:e2e
+```
+
+> [!WARNING]
+> `pnpm test:e2e` ejecuta `pnpm build`, que escribe en `.next/` como `pnpm dev`. Detén el servidor de desarrollo antes de lanzarlo.
+
+📘 **Estructura, helpers, cobertura y reglas:** [docs/testing.md](docs/testing.md)
 
 ---
 
@@ -219,6 +252,7 @@ Para información detallada sobre arquitectura, decisiones técnicas y funcionam
 - 🌍 **[Internacionalización](docs/i18n.md)** → Idiomas, rutas y traducciones
 - 📗 **[SEO Técnico](docs/seo.md)** → Metadatos, datos estructurados, sitemap y robots
 - 📙 **[Publicación de datos](docs/publishing.md)** → Cómo llegan los datos nuevos cada año
+- 🧪 **[Tests](docs/testing.md)** → Tests unitarios y end-to-end, cobertura y cómo escribir tests
 - 📕 **[Decisiones de Diseño](docs/design-decisions.md)** → Arquitectura y patrones
 
 ---
