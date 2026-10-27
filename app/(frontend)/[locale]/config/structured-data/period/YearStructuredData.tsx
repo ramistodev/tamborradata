@@ -55,6 +55,7 @@ export async function YearStructuredData({ stats, periods }: PeriodStructuredDat
         price: 0,
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
+        validFrom: publishedAt,
       },
       eventStatus: 'https://schema.org/EventScheduled',
       eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
