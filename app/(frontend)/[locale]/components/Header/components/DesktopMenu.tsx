@@ -1,12 +1,10 @@
 'use client';
-import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/app/(frontend)/i18n/navigation';
 import { PeriodResponse } from '../../../../../types/api/period.types';
 import { StatisticsMenu } from './StatisticsMenu';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
 export function DesktopMenu({ periods }: { periods: PeriodResponse[] }) {
-  const t = useTranslations('Header');
   const pathname = usePathname();
 
   return (
