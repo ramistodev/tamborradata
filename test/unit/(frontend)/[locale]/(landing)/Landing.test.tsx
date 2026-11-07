@@ -9,10 +9,15 @@ vi.mock('@/app/(frontend)/[locale]/(landing)/components/search-participants/Sear
   SearchParticipantsSection: () => <div data-testid="search-section" />,
 }));
 
+vi.mock('@/app/(frontend)/[locale]/(landing)/components/articles/ArticlesSection', () => ({
+  ArticlesSection: () => <div data-testid="articles-section" />,
+}));
+
 const m = messagesByLocale.es;
 const sectionNames = [
   m.Landing.sections.stats,
   m.Landing.sections.searchParticipants,
+  m.Landing.sections.articles,
   m.Landing.sections.press,
   m.Landing.sections.openSource,
   m.Landing.sections.buyMeACoffee,
@@ -27,16 +32,25 @@ describe('Landing', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Tamborradata' })).toBeInTheDocument();
   });
 
-  it('renders the seven sections as regions in order', () => {
+  it('renders the eight sections as regions in order', () => {
     renderWithIntl(<Landing overview={makeOverviewResponse()} />);
 
     const names = screen.getAllByRole('region').map((region) => region.getAttribute('aria-label'));
 
     expect(names).toEqual(sectionNames);
-    expect(names).toEqual(['Estadísticas', 'Buscador', 'Prensa', 'Código abierto', 'Apoyo', 'Contacto', 'Preguntas']);
+    expect(names).toEqual([
+      'Estadísticas',
+      'Buscador',
+      'Artículos',
+      'Prensa',
+      'Código abierto',
+      'Apoyo',
+      'Contacto',
+      'Preguntas',
+    ]);
   });
 
-  it('numbers the sections from 01 to 07', () => {
+  it('numbers the sections from 01 to 08', () => {
     renderWithIntl(<Landing overview={makeOverviewResponse()} />);
 
     const regions = screen.getAllByRole('region');
@@ -52,6 +66,14 @@ describe('Landing', () => {
     const second = screen.getAllByRole('region')[1];
 
     expect(within(second).getByTestId('search-section')).toBeInTheDocument();
+  });
+
+  it('places the articles section inside the third region', () => {
+    renderWithIntl(<Landing overview={makeOverviewResponse()} />);
+
+    const third = screen.getAllByRole('region')[2];
+
+    expect(within(third).getByTestId('articles-section')).toBeInTheDocument();
   });
 
   it('lists the 15 FAQ questions in the last region', () => {

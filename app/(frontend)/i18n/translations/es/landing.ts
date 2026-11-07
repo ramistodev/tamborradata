@@ -20,10 +20,12 @@ const landing = {
     faqDescription:
       'Preguntas frecuentes sobre Tamborradata y los datos de la Tamborrada Infantil.',
     pressName: 'Mencionado en medios',
+    articlesName: 'Artículos de Tamborradata',
   },
   sections: {
     stats: 'Estadísticas',
     searchParticipants: 'Buscador',
+    articles: 'Artículos',
     press: 'Prensa',
     openSource: 'Código abierto',
     buyMeACoffee: 'Apoyo',
@@ -87,6 +89,12 @@ const landing = {
       },
       cta: 'Ver estadísticas',
     },
+  },
+  articles: {
+    title: 'Historias que cuentan los datos',
+    description:
+      'Detrás de cada cifra hay una historia: cómo cambian los nombres, qué guardan los apellidos y qué recuerda un archivo imperfecto.',
+    cta: 'Explorar todos los artículos',
   },
   searchParticipants: {
     title: '¿En qué años salió tu hijo o hija en la Tamborrada?',
