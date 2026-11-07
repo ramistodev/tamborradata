@@ -4,6 +4,8 @@ import { PAGES_UPDATED } from '@/app/(frontend)/[locale]/config/contentDates';
 import { PRIVACY_POLICY_UPDATED } from '@/app/(frontend)/[locale]/(pages)/privacy-policy/data/constants';
 import { getOverview } from '@/app/(frontend)/[locale]/services/getOverview';
 import { getPeriods } from '@/app/(frontend)/[locale]/services/getPeriods';
+import { articles } from '@/app/(frontend)/[locale]/(pages)/articles/data/articles';
+import { getSlugs } from '@/app/(frontend)/[locale]/(pages)/articles/data/slugs';
 import { makeGlobalOverview, makeOverviewResponse } from '@/test/fixtures/overview';
 import { makePeriod, makePeriodList } from '@/test/fixtures/period';
 
@@ -11,6 +13,9 @@ vi.mock('@/app/(frontend)/[locale]/services/getPeriods', () => ({ getPeriods: vi
 vi.mock('@/app/(frontend)/[locale]/services/getOverview', () => ({ getOverview: vi.fn() }));
 
 const BASE = 'https://tamborradata.com';
+const LOCALES = 3;
+const PAGES_WITH_PERIODS = 8;
+const PAGES_WITHOUT_PERIODS = 4;
 
 type Entries = Awaited<ReturnType<typeof sitemap>>;
 
@@ -39,22 +44,37 @@ describe('sitemap', () => {
       expect(getOverview).toHaveBeenCalledWith('global', true);
     });
 
-    it('creates (3 static pages + 4 periods) x 3 locales entries in page order', async () => {
+    it('creates one entry per locale for every page and article, in page order', async () => {
       const entries = await sitemap();
 
-      expect(entries).toHaveLength(21);
-      const pathOrder = [
+      expect(entries).toHaveLength((PAGES_WITH_PERIODS + articles.length) * LOCALES);
+      const pathOrder: Record<'en' | 'es' | 'eu', string>[] = [
         '/',
         '/search-participants',
         '/statistics/global',
         '/statistics/2025',
         '/statistics/2024',
         '/statistics/2023',
-        '/privacy-policy',
-      ];
-      const expectedUrls = pathOrder.flatMap((path) => {
-        const suffix = path === '/' ? '' : path;
-        return [`${BASE}/en${suffix}`, `${BASE}${suffix}`, `${BASE}/eu${suffix}`];
+        '/articles',
+      ].map((path) => ({ en: path, es: path, eu: path }));
+      pathOrder.push(
+        ...articles.map(({ id }) => {
+          const slugs = getSlugs(id);
+          return {
+            en: `/articles/${slugs.en}`,
+            es: `/articles/${slugs.es}`,
+            eu: `/articles/${slugs.eu}`,
+          };
+        }),
+        { en: '/privacy-policy', es: '/privacy-policy', eu: '/privacy-policy' }
+      );
+      const expectedUrls = pathOrder.flatMap((paths) => {
+        const suffix = (path: string) => (path === '/' ? '' : path);
+        return [
+          `${BASE}/en${suffix(paths.en)}`,
+          `${BASE}${suffix(paths.es)}`,
+          `${BASE}/eu${suffix(paths.eu)}`,
+        ];
       });
       expect(entries.map((entry) => entry.url)).toEqual(expectedUrls);
     });
@@ -209,14 +229,14 @@ describe('sitemap', () => {
 
       const entries = await sitemap();
 
-      expect(entries).toHaveLength(9);
+      expect(entries).toHaveLength((PAGES_WITHOUT_PERIODS + articles.length) * LOCALES);
       expect(entries.some((entry) => entry.url.includes('/statistics/'))).toBe(false);
     });
 
     it('does not throw when the overview is null', async () => {
       vi.mocked(getOverview).mockResolvedValue(null);
 
-      await expect(sitemap()).resolves.toHaveLength(21);
+      await expect(sitemap()).resolves.toHaveLength((PAGES_WITH_PERIODS + articles.length) * LOCALES);
     });
   });
 });
