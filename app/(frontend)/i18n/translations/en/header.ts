@@ -4,6 +4,7 @@ export default {
   navLabel: 'Main navigation',
   statistics: 'Statistics',
   search: 'Search participant',
+  articles: 'Articles',
   global: 'Global',
   openMenu: 'Open navigation menu',
   closeMenu: 'Close navigation menu',

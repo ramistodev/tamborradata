@@ -14,13 +14,15 @@ function localizedUrl(locale: Locale, href: string) {
   return pathname === '/' ? siteUrl : `${siteUrl}${pathname}`;
 }
 
-/** Canonical + hreflang (including x-default) for a page, given its unprefixed pathname. */
-export function getAlternates(locale: Locale, href: string) {
+/** Canonical + hreflang (including x-default) for a page, given its unprefixed pathname (one for all locales, or one per locale). */
+export function getAlternates(locale: Locale, href: string | Record<Locale, string>) {
+  const hrefOf = (l: Locale) => (typeof href === 'string' ? href : href[l]);
+
   return {
-    canonical: localizedUrl(locale, href),
+    canonical: localizedUrl(locale, hrefOf(locale)),
     languages: {
-      ...Object.fromEntries(routing.locales.map((l) => [l, localizedUrl(l, href)])),
-      'x-default': localizedUrl(routing.defaultLocale, href),
+      ...Object.fromEntries(routing.locales.map((l) => [l, localizedUrl(l, hrefOf(l))])),
+      'x-default': localizedUrl(routing.defaultLocale, hrefOf(routing.defaultLocale)),
     },
   };
 }

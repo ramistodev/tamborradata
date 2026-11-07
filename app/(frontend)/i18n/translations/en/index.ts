@@ -7,6 +7,7 @@ import PrivacyPolicy from './policy-privacy';
 import Search from './search';
 import Site from './site';
 import Statistics from './statistics';
+import Articles from './articles';
 
 export default {
   ErrorPage,
@@ -18,4 +19,5 @@ export default {
   Search,
   Site,
   Statistics,
+  Articles,
 };

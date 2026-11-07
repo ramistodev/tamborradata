@@ -22,10 +22,12 @@ export default {
     faqDescription:
       "Frequently asked questions about Tamborradata and the Children's Tamborrada data.",
     pressName: 'Featured in the media',
+    articlesName: 'Tamborradata articles',
   },
   sections: {
     stats: 'Statistics',
     searchParticipants: 'Search',
+    articles: 'Articles',
     press: 'Press',
     openSource: 'Open source',
     buyMeACoffee: 'Support',
@@ -89,6 +91,12 @@ export default {
       },
       cta: 'See the statistics',
     },
+  },
+  articles: {
+    title: 'Stories the data tell',
+    description:
+      'Behind every figure there is a story: how names change, what surnames keep and what an imperfect archive remembers.',
+    cta: 'Explore all articles',
   },
   searchParticipants: {
     title: 'In which years did your son or daughter take part in the Tamborrada?',

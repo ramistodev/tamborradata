@@ -2,6 +2,7 @@ const header = {
   navLabel: 'Navegación principal',
   statistics: 'Estadísticas',
   search: 'Buscar participante',
+  articles: 'Artículos',
   global: 'Global',
   openMenu: 'Abrir menú de navegación',
   closeMenu: 'Cerrar menú de navegación',

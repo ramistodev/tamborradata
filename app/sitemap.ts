@@ -4,13 +4,16 @@ import { PAGES_UPDATED, latestDate } from '@/app/(frontend)/[locale]/config/cont
 import { getOverview } from '@/app/(frontend)/[locale]/services/getOverview';
 import { getPeriods } from '@/app/(frontend)/[locale]/services/getPeriods';
 import { PRIVACY_POLICY_UPDATED } from '@/app/(frontend)/[locale]/(pages)/privacy-policy/data/constants';
+import { articles } from '@/app/(frontend)/[locale]/(pages)/articles/data/articles';
+import { getArticleHrefs } from '@/app/(frontend)/[locale]/(pages)/articles/data/slugs';
 import { getAlternates } from '@/app/(frontend)/i18n/seo';
 import { routing } from '@/app/(frontend)/i18n/routing';
+import type { Locale } from '@/app/types/locale';
 import { overviewScope } from '@/app/types/api/overview.types';
 import { periodKind } from '@/app/types/period.types';
 
 type Page = {
-  href: string;
+  href: string | Record<Locale, string>;
   /** Real modification date. Left out when it is not known: a made-up one is worse than none. */
   lastModified?: Date;
   changeFrequency: 'monthly' | 'yearly';
@@ -58,6 +61,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     ...statisticsPages,
+    {
+      href: '/articles',
+      lastModified: toDate(latestDate(...articles.map(({ modifiedAt }) => modifiedAt))),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    ...articles.map(
+      ({ id, modifiedAt }): Page => ({
+        href: getArticleHrefs(id),
+        lastModified: toDate(modifiedAt),
+        changeFrequency: 'yearly',
+        priority: 0.7,
+      })
+    ),
     {
       href: '/privacy-policy',
       lastModified: toDate(PRIVACY_POLICY_UPDATED),
