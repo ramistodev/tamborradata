@@ -96,6 +96,15 @@ export function MobileMenu({ periods }: { periods: PeriodResponse[] }) {
           >
             {t('search')}
           </Link>
+          {/* Articles */}
+          <Link
+            href="/articles"
+            onClick={closeMenu}
+            aria-current={pathname.includes('/articles') ? 'page' : undefined}
+            className={`font-mono text-lg font-medium transition-colors ${pathname.includes('/articles') ? 'text-accent cursor-default' : 'hover:text-accent'}`}
+          >
+            {t('articles')}
+          </Link>
 
           {/* Statistics: accordion with the periods */}
           <div className="w-full">

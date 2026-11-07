@@ -11,7 +11,7 @@ export const SITE_PUBLISHED = '2025-11-18T00:00:00.000Z';
  * move to /search-participants). Change it when you change them again. It is the floor of their
  * modification date: when a newer edition is published, its date is later and takes over.
  */
-export const PAGES_UPDATED = '2026-10-17T00:00:00.000Z';
+export const PAGES_UPDATED = '2026-11-07T00:00:00.000Z';
 
 /** ISO strings of the same format sort as dates, so the latest one is the greatest. */
 export const latestDate = (...dates: (string | null | undefined)[]) =>

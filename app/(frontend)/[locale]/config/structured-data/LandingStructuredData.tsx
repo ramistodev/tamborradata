@@ -1,8 +1,11 @@
 import { getFormatter, getLocale, getTranslations } from 'next-intl/server';
 import type { OverviewResponse } from '../../../../types/api/overview.types';
 import { getAlternates, getLanguageTag } from '../../../i18n/seo';
+import { LANDING_ARTICLE_COUNT } from '../../(landing)/components/articles/constants';
 import { buildLandingFaqs } from '../../(landing)/components/faq/faqs';
 import { pressArticle } from '../../(landing)/components/press-mentions/pressArticle';
+import { getArticles } from '../../(pages)/articles/data/getArticles';
+import { getArticleHrefs } from '../../(pages)/articles/data/slugs';
 import { licenseUrl, ogImageUrl, organizationId, siteUrl, webSiteId } from '../constants';
 import { PAGES_UPDATED, SITE_PUBLISHED, latestDate } from '../contentDates';
 import { JsonLd } from './JsonLd';
@@ -64,6 +67,7 @@ export async function LandingStructuredData({
     breadcrumb: `${url}#breadcrumb`,
     faq: `${url}#faq`,
     press: `${url}#press-mentions`,
+    articles: `${url}#articles`,
   };
 
   const webPage = {
@@ -87,7 +91,7 @@ export async function LandingStructuredData({
     ],
     mainEntity: { '@id': ids.dataset },
     breadcrumb: { '@id': ids.breadcrumb },
-    hasPart: [{ '@id': ids.faq }, { '@id': ids.press }],
+    hasPart: [{ '@id': ids.faq }, { '@id': ids.press }, { '@id': ids.articles }],
     datePublished: SITE_PUBLISHED,
     dateModified,
   };
@@ -172,12 +176,27 @@ export async function LandingStructuredData({
     ],
   };
 
+  const featuredArticles = getArticles(locale, LANDING_ARTICLE_COUNT);
+
+  const articleList = {
+    '@type': 'ItemList',
+    '@id': ids.articles,
+    name: t('articlesName'),
+    numberOfItems: featuredArticles.length,
+    itemListElement: featuredArticles.map((article, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: article.title,
+      url: getAlternates(locale, getArticleHrefs(article.id)).canonical,
+    })),
+  };
+
   return (
     <JsonLd
       id="landing-structured-data"
       data={{
         '@context': 'https://schema.org',
-        '@graph': [webPage, dataset, breadcrumb, faq, pressMentions],
+        '@graph': [webPage, dataset, breadcrumb, faq, pressMentions, articleList],
       }}
     />
   );

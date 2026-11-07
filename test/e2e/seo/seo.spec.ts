@@ -1,8 +1,12 @@
 import { test, expect } from '@playwright/test';
+import { articles } from '../../../app/(frontend)/[locale]/(pages)/articles/data/articles';
+import { getSlugs } from '../../../app/(frontend)/[locale]/(pages)/articles/data/slugs';
 import { API_HEADERS, discoverPeriods } from '../support/api';
 
 const SITE_URL = 'https://tamborradata.com';
 const LOCALE_PREFIXES = ['', '/en', '/eu'] as const;
+const LOCALE_BY_PREFIX = { '': 'es', '/en': 'en', '/eu': 'eu' } as const;
+const STATIC_PAGES_PER_LOCALE = 4;
 
 const SECURITY_HEADERS: Record<string, string> = {
   'x-dns-prefetch-control': 'on',
@@ -37,12 +41,20 @@ test.describe('sitemap.xml', () => {
     for (const prefix of LOCALE_PREFIXES) {
       expect(locs).toContain(`${SITE_URL}${prefix}/search-participants`);
       expect(locs).toContain(`${SITE_URL}${prefix}/privacy-policy`);
+      expect(locs).toContain(`${SITE_URL}${prefix}/articles`);
       for (const period of periods) {
         expect(locs).toContain(`${SITE_URL}${prefix}/statistics/${period.publicSlug}`);
       }
+      for (const { id } of articles) {
+        const slug = getSlugs(id)[LOCALE_BY_PREFIX[prefix]];
+        expect(locs).toContain(`${SITE_URL}${prefix}/articles/${slug}`);
+      }
     }
-    // Home, search, privacy policy and one page per period, each in three locales
-    expect(locs).toHaveLength((3 + periods.length) * 3);
+    // Home, search, articles index and privacy policy, plus one page per period and per article,
+    // each in three locales
+    expect(locs).toHaveLength(
+      (STATIC_PAGES_PER_LOCALE + periods.length + articles.length) * LOCALE_PREFIXES.length
+    );
   });
 
   test('declares the hreflang alternates on every URL', async ({ request }) => {

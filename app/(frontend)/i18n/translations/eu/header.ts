@@ -4,6 +4,7 @@ export default {
   navLabel: 'Nabigazio nagusia',
   statistics: 'Estatistikak',
   search: 'Parte-hartzailea bilatu',
+  articles: 'Artikuluak',
   global: 'Orokorra',
   openMenu: 'Nabigazio menua ireki',
   closeMenu: 'Nabigazio menua itxi',

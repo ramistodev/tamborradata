@@ -21,10 +21,12 @@ export default {
     faqName: 'Tamborradataren inguruko ohiko galderak',
     faqDescription: 'Tamborradataren eta Haur Danborradaren datuen inguruko ohiko galderak.',
     pressName: 'Hedabideetan aipatua',
+    articlesName: 'Tamborradataren artikuluak',
   },
   sections: {
     stats: 'Estatistikak',
     searchParticipants: 'Bilatzailea',
+    articles: 'Artikuluak',
     press: 'Prentsa',
     openSource: 'Kode irekia',
     buyMeACoffee: 'Laguntza',
@@ -87,6 +89,12 @@ export default {
       },
       cta: 'Ikusi estatistikak',
     },
+  },
+  articles: {
+    title: 'Datuek kontatzen dituzten istorioak',
+    description:
+      'Zifra bakoitzaren atzean istorio bat dago: izenak nola aldatzen diren, abizenek zer gordetzen duten eta artxibo inperfektu batek zer gogoratzen duen.',
+    cta: 'Artikulu guztiak arakatu',
   },
   searchParticipants: {
     title: 'Zein urtetan atera zen zure semea edo alaba Danborradan?',

@@ -28,7 +28,7 @@ export function StatisticsMenu({ periods }: { periods: PeriodResponse[] }) {
           aria-expanded={isOpen}
           aria-controls={panelId}
           onClick={toggle}
-          className={`flex items-center gap-1.5 rounded-sm font-mono text-base lg:text-lg transition-colors font-medium cursor-pointer hover:text-accent ${focusRing} ${isStatisticsPage || isOpen ? 'text-accent' : ''}`}
+          className={`flex items-center gap-1.5 rounded-sm font-mono text-xs md:text-sm lg:text-lg transition-colors font-medium cursor-pointer hover:text-accent ${focusRing} ${isStatisticsPage || isOpen ? 'text-accent' : ''}`}
         >
           {t('statistics')}
           {/* One chevron that turns upside down when open, so it reads as a dropdown */}
@@ -80,9 +80,17 @@ export function StatisticsMenu({ periods }: { periods: PeriodResponse[] }) {
       <Link
         href="/search-participants"
         aria-current={pathname.includes('/search-participants') ? 'page' : undefined}
-        className={`rounded-sm font-mono text-base lg:text-lg transition-colors font-medium ${focusRing} ${pathname.includes('/search-participants') ? 'text-accent cursor-default' : 'hover:text-accent'}`}
+        className={`rounded-sm font-mono text-xs md:text-sm lg:text-lg transition-colors font-medium ${focusRing} ${pathname.includes('/search-participants') ? 'text-accent cursor-default' : 'hover:text-accent'}`}
       >
         {t('search')}
+      </Link>
+      {/* Search */}
+      <Link
+        href="/articles"
+        aria-current={pathname.includes('/articles') ? 'page' : undefined}
+        className={`rounded-sm font-mono text-xs md:text-sm lg:text-lg transition-colors font-medium ${focusRing} ${pathname.includes('/articles') ? 'text-accent cursor-default' : 'hover:text-accent'}`}
+      >
+        {t('articles')}
       </Link>
     </div>
   );

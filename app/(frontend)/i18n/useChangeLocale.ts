@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import type { Locale } from '../../types/locale';
 import { getPathname, usePathname } from './navigation';
+import { translatePathname } from './translatePathname';
 
 const PENDING_HASH_KEY = 'pendingLocaleHash';
 
@@ -51,7 +52,8 @@ export function useChangeLocale() {
 
     // Read at click time so the hook doesn't need a Suspense boundary (useSearchParams would).
     const { search, hash } = window.location;
-    const href = `${getPathname({ href: pathname, locale: nextLocale })}${search}`;
+    const translated = translatePathname(pathname, locale, nextLocale);
+    const href = `${getPathname({ href: translated, locale: nextLocale })}${search}`;
 
     if (hash) savePendingHash(href, hash);
 

@@ -9,9 +9,17 @@ import { OpenSourceSection } from './components/open-source/OpenSourceSection';
 import { ContactSection } from './components/contact/ContactSection';
 import { FAQSection } from './components/faq/FAQSection';
 import { BuyMeACoffeeSection } from './components/buy-me-a-coffee/BuyMeACoffeeSection';
+import { ArticlesSection } from './components/articles/ArticlesSection';
 
 type SectionKey =
-  'stats' | 'searchParticipants' | 'press' | 'openSource' | 'buyMeACoffee' | 'contact' | 'faq';
+  | 'stats'
+  | 'searchParticipants'
+  | 'articles'
+  | 'press'
+  | 'openSource'
+  | 'buyMeACoffee'
+  | 'contact'
+  | 'faq';
 
 interface Section {
   id: string;
@@ -29,8 +37,12 @@ const sections: Section[] = [
   {
     id: 'search-participants',
     titleKey: 'searchParticipants',
-    secondaryBg: true,
     render: (overview) => <SearchParticipantsSection overview={overview} />,
+  },
+  {
+    id: 'articles',
+    titleKey: 'articles',
+    render: () => <ArticlesSection />,
   },
   {
     id: 'press-mention',
@@ -40,7 +52,6 @@ const sections: Section[] = [
   {
     id: 'open-source',
     titleKey: 'openSource',
-    secondaryBg: true,
     render: () => <OpenSourceSection />,
   },
   {
@@ -51,7 +62,6 @@ const sections: Section[] = [
   {
     id: 'contact',
     titleKey: 'contact',
-    secondaryBg: true,
     render: () => <ContactSection />,
   },
   {
@@ -69,16 +79,19 @@ export function Landing({ overview }: { overview: OverviewResponse | null }) {
       <div className="w-full max-w-6xl flex flex-col items-center justify-center px-4 sm:px-6">
         <Hero overview={overview} />
       </div>
-      {sections.map((section, index) => (
-        <SectionLayout
-          key={section.id}
-          index={index + 1}
-          title={t(section.titleKey)}
-          secondaryBg={section.secondaryBg}
-        >
-          {section.render(overview)}
-        </SectionLayout>
-      ))}
+      {sections.map((section, index) => {
+        const secondaryBg = index % 2 === 1;
+        return (
+          <SectionLayout
+            key={section.id}
+            index={index + 1}
+            title={t(section.titleKey)}
+            secondaryBg={secondaryBg}
+          >
+            {section.render(overview)}
+          </SectionLayout>
+        );
+      })}
     </div>
   );
 }

@@ -12,7 +12,9 @@ import { logMock } from '@/test/helpers/loggerMock';
 import { makeRequest, readJson, routeContext } from '@/test/helpers/route';
 import { makeCategoryDetail } from '@/test/fixtures/statistics';
 
-vi.mock('@/app/(backend)/core/logger', async () => (await import('@/test/helpers/loggerMock')).loggerModule());
+vi.mock('@/app/(backend)/core/logger', async () =>
+  (await import('@/test/helpers/loggerMock')).loggerModule()
+);
 vi.mock('@/app/(backend)/api/statistics/services/categoryDetail.service', () => ({
   categoryDetailService: vi.fn(),
 }));
@@ -130,7 +132,7 @@ describe('GET /api/statistics/[period]/categories/[category]', () => {
       expect(response.status).toBe(500);
       expect(logMock).toHaveBeenCalledWith(
         '[GET /api/statistics/[period]/categories/[category]] Unhandled error: boom',
-        'error',
+        'error'
       );
     });
   });
