@@ -21,14 +21,14 @@ Esta documentación describe cómo Tamborradata genera su metadata, sus datos es
 
 ## Resumen rápido
 
-| Aspecto            | Cómo se resuelve                                                                              |
-| ------------------ | --------------------------------------------------------------------------------------------- |
-| Metadata           | Next.js Metadata API (`generateMetadata`), heredada del layout raíz y sobrescrita por página   |
+| Aspecto             | Cómo se resuelve                                                                             |
+| ------------------- | -------------------------------------------------------------------------------------------- |
+| Metadata            | Next.js Metadata API (`generateMetadata`), heredada del layout raíz y sobrescrita por página |
 | Datos estructurados | JSON-LD (`@graph`) renderizado en el servidor                                                |
-| Años y cifras      | Salen de los datos publicados (periodos y _overview_), nunca de textos fijos                  |
-| Fechas             | Una sola fuente (`contentDates.ts` y fechas del periodo) para JSON-LD y sitemap               |
-| Idiomas            | `es` (sin prefijo), `en` y `eu` (con prefijo), con `hreflang` y `x-default`                   |
-| Dominio            | `siteUrl` en `config/constants.ts`: cambiarlo ahí cambia todas las URLs absolutas             |
+| Años y cifras       | Salen de los datos publicados (periodos y _overview_), nunca de textos fijos                 |
+| Fechas              | Una sola fuente (`contentDates.ts` y fechas del periodo) para JSON-LD y sitemap              |
+| Idiomas             | `es` (sin prefijo), `en` y `eu` (con prefijo), con `hreflang` y `x-default`                  |
+| Dominio             | `siteUrl` en `config/constants.ts`: cambiarlo ahí cambia todas las URLs absolutas            |
 
 ---
 
@@ -49,12 +49,12 @@ Cada página sobrescribe solo lo que declara. Las páginas no repiten `metadataB
 
 ### **Metadata por página**
 
-| Página                       | Archivo                                                   | Title y description                                                                                      |
-| ---------------------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Landing `/`                  | `(landing)/page.tsx`                                      | Dinámicos: `buildLandingTexts` inserta el rango de años publicado (con texto de respaldo si no hay datos) |
-| Buscador `/search-participants` | `(pages)/search-participants/page.tsx`                 | Dinámicos: `buildSearchTexts` con el rango del periodo global                                             |
-| Periodo `/statistics/[period]` | `(pages)/statistics/[period]/page.tsx`                  | Dinámicos: `buildPeriodTexts` incluye cifras reales (participantes, nombres más comunes) cuando hay datos |
-| Privacidad `/privacy-policy` | `(pages)/privacy-policy/page.tsx`                         | Traducción `PrivacyPolicy.metadata` + ` \| Tamborradata`                                                  |
+| Página                          | Archivo                                | Title y description                                                                                       |
+| ------------------------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Landing `/`                     | `(landing)/page.tsx`                   | Dinámicos: `buildLandingTexts` inserta el rango de años publicado (con texto de respaldo si no hay datos) |
+| Buscador `/search-participants` | `(pages)/search-participants/page.tsx` | Dinámicos: `buildSearchTexts` con el rango del periodo global                                             |
+| Periodo `/statistics/[period]`  | `(pages)/statistics/[period]/page.tsx` | Dinámicos: `buildPeriodTexts` incluye cifras reales (participantes, nombres más comunes) cuando hay datos |
+| Privacidad `/privacy-policy`    | `(pages)/privacy-policy/page.tsx`      | Traducción `PrivacyPolicy.metadata` + ` \| Tamborradata`                                                  |
 
 Notas:
 
@@ -70,11 +70,11 @@ Notas:
 
 `app/(frontend)/[locale]/config/contentDates.ts` concentra las fechas que el sitio comunica a los buscadores:
 
-| Constante / helper | Significado                                                                                       |
-| ------------------ | ------------------------------------------------------------------------------------------------- |
-| `SITE_PUBLISHED`   | Primera versión pública del sitio                                                                 |
+| Constante / helper | Significado                                                                                        |
+| ------------------ | -------------------------------------------------------------------------------------------------- |
+| `SITE_PUBLISHED`   | Primera versión pública del sitio                                                                  |
 | `PAGES_UPDATED`    | Último cambio de diseño o contenido de la landing y el buscador. Se actualiza a mano al cambiarlos |
-| `latestDate(...)`  | Devuelve la fecha más reciente de una lista, ignorando las vacías                                 |
+| `latestDate(...)`  | Devuelve la fecha más reciente de una lista, ignorando las vacías                                  |
 
 Cómo se usan:
 
@@ -125,13 +125,13 @@ El `WebSite` **no** incluye `SearchAction`. Las páginas referencian ambas entid
 
 Cada página emite un único `@graph` con nodos enlazados por `@id`:
 
-| Página                  | Nodos del grafo                                                                              |
-| ----------------------- | -------------------------------------------------------------------------------------------- |
-| Landing                 | `WebPage` + `CollectionPage`, `Dataset`, `BreadcrumbList`, `FAQPage` y `ItemList` de menciones de prensa |
-| Buscador                | `WebPage`, `WebApplication`, `EventSeries`, `BreadcrumbList` y `FAQPage` (sin `Dataset`: los participantes solo se pueden buscar, no descargar) |
-| Periodo anual           | `WebPage`, `BreadcrumbList`, `Dataset` y el `Event` de esa edición                           |
-| Periodo global          | Igual que el anual, pero con un `EventSeries` en lugar de un `Event`                         |
-| Política de privacidad  | `WebPage` y `BreadcrumbList`                                                                 |
+| Página                 | Nodos del grafo                                                                                                                                 |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Landing                | `WebPage` + `CollectionPage`, `Dataset`, `BreadcrumbList`, `FAQPage` y `ItemList` de menciones de prensa                                        |
+| Buscador               | `WebPage`, `WebApplication`, `EventSeries`, `BreadcrumbList` y `FAQPage` (sin `Dataset`: los participantes solo se pueden buscar, no descargar) |
+| Periodo anual          | `WebPage`, `BreadcrumbList`, `Dataset` y el `Event` de esa edición                                                                              |
+| Periodo global         | Igual que el anual, pero con un `EventSeries` en lugar de un `Event`                                                                            |
+| Política de privacidad | `WebPage` y `BreadcrumbList`                                                                                                                    |
 
 Detalles verificados en el código:
 
@@ -158,12 +158,12 @@ Para el detalle de cada grafo, consulta los componentes de `config/structured-da
   - Política de privacidad → `PRIVACY_POLICY_UPDATED`.
   - Si la fecha no se conoce, se omite.
 
-| Página                       | `changeFrequency` | `priority`                                      |
-| ---------------------------- | ----------------- | ----------------------------------------------- |
-| `/`                          | `monthly`         | 1.0                                             |
-| `/search-participants`       | `monthly`         | 0.9                                             |
-| `/statistics/[period]`       | `yearly`          | 0.9 (periodo global y año actual), 0.7 el resto |
-| `/privacy-policy`            | `yearly`          | 0.4                                             |
+| Página                 | `changeFrequency` | `priority`                                      |
+| ---------------------- | ----------------- | ----------------------------------------------- |
+| `/`                    | `monthly`         | 1.0                                             |
+| `/search-participants` | `monthly`         | 0.9                                             |
+| `/statistics/[period]` | `yearly`          | 0.9 (periodo global y año actual), 0.7 el resto |
+| `/privacy-policy`      | `yearly`          | 0.4                                             |
 
 Si la llamada a `getPeriods()` falla, el sitemap se genera sin páginas de periodo en lugar de romperse.
 
@@ -208,13 +208,13 @@ Criterios:
 
 Se declaran una sola vez en el layout raíz y se sirven desde `public/`:
 
-| Elemento                 | Archivos                                                             |
-| ------------------------ | -------------------------------------------------------------------- |
-| Favicon                  | `favicon.ico`, `favicon.svg`, `favicon-96x96.png`                    |
-| Icono Apple              | `apple-touch-icon.png` (180x180)                                     |
-| Web app manifest         | `site.webmanifest` (iconos de 192 y 512 px, `any` y `maskable`)      |
-| Imagen para compartir    | `og-image.webp`                                                      |
-| Logo (JSON-LD)           | `logo-512x512.png`                                                   |
+| Elemento              | Archivos                                                        |
+| --------------------- | --------------------------------------------------------------- |
+| Favicon               | `favicon.ico`, `favicon.svg`, `favicon-96x96.png`               |
+| Icono Apple           | `apple-touch-icon.png` (180x180)                                |
+| Web app manifest      | `site.webmanifest` (iconos de 192 y 512 px, `any` y `maskable`) |
+| Imagen para compartir | `og-image.webp`                                                 |
+| Logo (JSON-LD)        | `logo-512x512.png`                                              |
 
 `themeColor` se define en `viewport` y sigue el fondo de cada tema (claro `#f6f8fc`, oscuro `#060912`).
 
