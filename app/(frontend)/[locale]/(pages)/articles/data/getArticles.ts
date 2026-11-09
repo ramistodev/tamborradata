@@ -1,6 +1,7 @@
 import type { Locale } from '@/app/types/locale';
 import type { Article, ArticleTexts } from '../types/article.types';
 import { articles } from './articles';
+import { texts as reliabilityTexts } from './content/como-de-fiables-son-los-datos-de-tamborradata';
 import { texts as namesTexts } from './content/cada-vez-es-mas-dificil-llamarse-como-los-demas';
 import { texts as noraTexts } from './content/del-puesto-73-al-primero-como-nora-se-extendio-por-la-tamborrada-infantil';
 import { texts as pipelineTexts } from './content/detras-de-cada-dato-hay-una-historia-y-un-problema-que-resolver';
@@ -13,6 +14,7 @@ const articleTexts: Record<ArticleId, Record<Locale, ArticleTexts>> = {
   'detras-de-cada-dato-hay-una-historia-y-un-problema-que-resolver': pipelineTexts,
   'donostia-cambia-de-nombres-pero-conserva-sus-apellidos': surnamesKeepTexts,
   'del-puesto-73-al-primero-como-nora-se-extendio-por-la-tamborrada-infantil': noraTexts,
+  'como-de-fiables-son-los-datos-de-tamborradata': reliabilityTexts,
 };
 
 export function getArticleSlugs(locale: Locale): string[] {
