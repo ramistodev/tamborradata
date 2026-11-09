@@ -4,19 +4,25 @@ export const articles: ArticleBase[] = [
   {
     id: 'cada-vez-es-mas-dificil-llamarse-como-los-demas',
     publishedAt: '2026-11-07',
-    modifiedAt: '2026-11-07',
+    modifiedAt: '2026-11-09',
     hilighted: true,
-  },
-  {
-    id: 'unai-garcia-lo-que-nuestros-nombres-y-apellidos-cuentan-sobre-donostia',
-    publishedAt: '2026-11-07',
-    modifiedAt: '2026-11-07',
-    hilighted: false,
   },
   {
     id: 'detras-de-cada-dato-hay-una-historia-y-un-problema-que-resolver',
     publishedAt: '2026-11-07',
     modifiedAt: '2026-11-07',
+    hilighted: false,
+  },
+  {
+    id: 'donostia-cambia-de-nombres-pero-conserva-sus-apellidos',
+    publishedAt: '2026-11-09',
+    modifiedAt: '2026-11-09',
+    hilighted: true,
+  },
+  {
+    id: 'del-puesto-73-al-primero-como-nora-se-extendio-por-la-tamborrada-infantil',
+    publishedAt: '2026-11-09',
+    modifiedAt: '2026-11-09',
     hilighted: false,
   },
 ];

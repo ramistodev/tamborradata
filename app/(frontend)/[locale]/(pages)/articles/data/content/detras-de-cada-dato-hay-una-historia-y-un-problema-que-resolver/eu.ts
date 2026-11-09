@@ -280,7 +280,7 @@ const copy: ArticleCopy = {
 };
 
 const texts: ArticleTexts = {
-  title: 'Datu bakoitzaren atzean istorio bat dago. Eta konpondu beharreko arazo bat.',
+  title: 'Datu bakoitzaren atzean istorio bat dago. Eta konpondu beharreko arazo bat',
   description:
     'Urteetan argitaratutako izen milaka, mila modutan idatziak, nola bihurtzen diren fidatzeko moduko estatistika. Eta oraindik zer ezin den bermatu.',
   category: 'Nola egiten den',

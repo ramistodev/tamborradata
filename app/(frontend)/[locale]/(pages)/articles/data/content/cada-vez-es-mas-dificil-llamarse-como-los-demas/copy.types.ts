@@ -2,105 +2,52 @@ import type { Formatter } from './format';
 
 type Text = (f: Formatter) => string;
 
+export type StoryKind = 'heading' | 'text' | 'highlight';
+
+export interface StoryItem {
+  kind: StoryKind;
+  text: Text;
+}
+
+interface CompareSideCopy {
+  value: Text;
+  description: Text;
+}
+
 export interface ArticleCopy {
-  intro: {
-    lead: string;
-    moreNames: string;
-    topWeighs: string;
-    classics: string;
-    newNames: string;
-    stable: string;
-    summaryLabel: string;
-    summary: string;
-  };
+  story: StoryItem[];
   data: {
     heading: string;
-    coverage: Text;
-    caveats: Text;
-    partial: Text;
+    ranking: {
+      lede: Text;
+      seriesLabel2008: string;
+      seriesLabel2026: string;
+      columns: [string, string, string, string, string, string];
+      totalLabel: string;
+    };
+    topTen: { lede: Text; seriesLabel: string };
+    pairs: { lede: Text; seriesLabel: string };
+    distinct: {
+      lede: Text;
+      seriesLabel: string;
+      compareCaption: Text;
+      left: CompareSideCopy;
+      right: CompareSideCopy;
+    };
+    uncommon: {
+      lede: Text;
+      left: CompareSideCopy;
+      right: CompareSideCopy;
+    };
+    classics: {
+      lede: Text;
+      columns: [string, string, string];
+      lessThanFive: string;
+    };
+    unseen: { lede: Text; waffleLabel: Text };
   };
-  concentration: {
+  used: {
     heading: string;
-    question: Text;
-    pairValue: (f: Formatter, oneIn: number) => string;
-    pairDescription: string;
-    pairCaption: string;
-    conclusion: Text;
-  };
-  variety: {
-    heading: string;
-    trap: Text;
-    sample: Text;
-    chartLabel: string;
-    chartCaption: Text;
-    panel: Text;
-    conclusion: string;
-  };
-  top: {
-    heading: string;
-    lead: Text;
-    chartLabel: string;
-    chartCaption: string;
-    paradoxLabel: string;
-    paradox: Text;
-  };
-  classics: {
-    heading: string;
-    fading: Text;
-    oldLabel: string;
-    currentLabel: string;
-    chartCaption: string;
-    spread: Text;
-    individual: Text;
-    trajectoriesCaption: string;
-    conclusion: string;
-  };
-  arrivals: {
-    heading: string;
-    intro: Text;
-    nameColumn: string;
-    tableCaption: Text;
-    renewal: Text;
-    waffleLabel: string;
-    waffleCaption: Text;
-    conclusion: string;
-  };
-  repertoire: {
-    heading: string;
-    core: Text;
-    chartLabel: string;
-    chartCaption: Text;
-    tail: Text;
-    conclusion: string;
-  };
-  staying: {
-    heading: string;
-    top: Text;
-    chipsCaption: Text;
-    overlap: Text;
-  };
-  nora: {
-    heading: string;
-    opening: Text;
-    chartCaption: Text;
-    rise: Text;
-    editionColumn: string;
-    participantsColumn: string;
-    shareColumn: string;
-    positionColumn: string;
-    tableCaption: string;
-    nuance: Text;
-    conclusion: string;
-  };
-  limits: {
-    heading: string;
-    shows: Text;
-    doesNot: Text;
-  };
-  conclusion: {
-    heading: string;
-    summary: Text;
-    synthesis: string;
-    closing: string;
+    blocks: Text[];
   };
 }

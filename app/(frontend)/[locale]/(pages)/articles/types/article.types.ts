@@ -14,6 +14,7 @@ export const blockType = {
   tokenBreakdown: 'tokenBreakdown',
   variantGroups: 'variantGroups',
   steps: 'steps',
+  sources: 'sources',
 } as const;
 
 export type BlockType = (typeof blockType)[keyof typeof blockType];
@@ -130,6 +131,19 @@ export interface StepsBlock extends BaseBlock {
   steps: { title: string; description?: string; status?: StepStatus; statusLabel?: string }[];
 }
 
+export interface SourceItem {
+  title: string;
+  publisher?: string;
+  year?: string;
+  url?: string;
+  note?: string;
+}
+
+export interface SourcesBlock extends BaseBlock {
+  blockType: typeof blockType.sources;
+  items: SourceItem[];
+}
+
 export type ArticleContent =
   | HeadingBlock
   | TextBlock
@@ -143,7 +157,8 @@ export type ArticleContent =
   | CompareBlock
   | TokenBreakdownBlock
   | VariantGroupsBlock
-  | StepsBlock;
+  | StepsBlock
+  | SourcesBlock;
 
 export interface ArticleBase {
   id: ArticleId;

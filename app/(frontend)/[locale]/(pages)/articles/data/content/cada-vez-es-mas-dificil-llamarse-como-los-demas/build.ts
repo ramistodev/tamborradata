@@ -1,232 +1,173 @@
 import type { Locale } from '@/app/types/locale';
-import { blockType, chipTone, type ArticleContent } from '../../../types/article.types';
-import type { ArticleCopy } from './copy.types';
+import { blockType, type ArticleContent } from '../../../types/article.types';
+import type { ArticleCopy, StoryKind } from './copy.types';
 import {
-  aneShare,
   arrivals,
   chartEditions,
-  coreShare,
-  currentTopTwentyShare,
+  expectedDistinctNames,
   figures,
-  jonShare,
-  nameCounts,
-  namedParticipants,
-  noraHistory,
-  noraShare,
-  oldTopTwentyShare,
-  sampledDistinctNames,
+  pairOneIn,
+  topNames2008,
+  topNames2026,
   topTenShare,
-  topTenStaying,
-  type ByEdition,
+  topTenTotal,
 } from './figures';
 import { createFormatter } from './format';
 
-function shareToPoints(values: ByEdition) {
-  return chartEditions.map((year) => ({ x: year, y: values[year] }));
-}
+const storyBlockType = {
+  heading: blockType.heading,
+  text: blockType.text,
+  highlight: blockType.hilightedText,
+} as const satisfies Record<StoryKind, string>;
 
-function perThousandPoints(counts: ByEdition) {
-  return chartEditions.map((year) => ({
-    x: year,
-    y: Math.round((counts[year] * 10000) / namedParticipants[year]) / 10,
-  }));
-}
+const evolution = (id: string, label: string, values: readonly number[]) => ({
+  id,
+  label,
+  points: chartEditions.map((x, index) => ({ x, y: values[index] })),
+});
+
+const signed = (value: number) => `${value < 0 ? '−' : value > 0 ? '+' : ''}${Math.abs(value)}`;
 
 export function buildArticleContent(locale: Locale, copy: ArticleCopy): ArticleContent[] {
   const f = createFormatter(locale);
+  const { data, used } = copy;
+  // Each data piece opens with a bold title and a plain sentence (a `text` block, so no extra H2).
+  const pieceTitle = (content: string): ArticleContent => ({ blockType: blockType.text, content });
+
+  const rankingRows = topNames2008.map((early, index) => {
+    const recent = topNames2026[index];
+    return [
+      String(index + 1),
+      early.name,
+      early.count,
+      recent.name,
+      recent.count,
+      signed(recent.count - early.count),
+    ];
+  });
 
   return [
-    { blockType: blockType.text, content: copy.intro.lead },
-    { blockType: blockType.text, content: copy.intro.moreNames },
-    { blockType: blockType.text, content: copy.intro.topWeighs },
-    { blockType: blockType.text, content: copy.intro.classics },
-    { blockType: blockType.text, content: copy.intro.newNames },
-    { blockType: blockType.text, content: copy.intro.stable },
+    // Layer 1: the story, in full and with no charts, tables or methodology.
+    ...copy.story.map(
+      ({ kind, text }): ArticleContent => ({
+        blockType: storyBlockType[kind],
+        content: text(f),
+      })
+    ),
+
+    // Layer 2: the story in data.
+    { blockType: blockType.heading, content: data.heading },
+
+    // 1. The Top 10 gathers fewer participants than in 2008, in a bigger edition.
+    pieceTitle(data.ranking.lede(f)),
     {
-      blockType: blockType.hilightedText,
-      caption: copy.intro.summaryLabel,
-      content: copy.intro.summary,
+      blockType: blockType.seriesChart,
+      series: [
+        {
+          id: 'ranking2008',
+          label: data.ranking.seriesLabel2008,
+          points: topNames2008.map(({ count }, index) => ({ x: index + 1, y: count })),
+        },
+        {
+          id: 'ranking2026',
+          label: data.ranking.seriesLabel2026,
+          points: topNames2026.map(({ count }, index) => ({ x: index + 1, y: count })),
+        },
+      ],
+    },
+    {
+      blockType: blockType.dataTable,
+      columns: [...data.ranking.columns],
+      rows: [
+        ...rankingRows,
+        [
+          data.ranking.totalLabel,
+          '',
+          topTenTotal.y2008,
+          '',
+          topTenTotal.y2026,
+          signed(topTenTotal.y2026 - topTenTotal.y2008),
+        ],
+      ],
     },
 
-    { blockType: blockType.heading, content: copy.data.heading },
-    { blockType: blockType.text, content: copy.data.coverage(f) },
-    { blockType: blockType.text, content: copy.data.caveats(f) },
-    { blockType: blockType.text, content: copy.data.partial(f) },
+    // 2. Weight of the Top 10 over time.
+    pieceTitle(data.topTen.lede(f)),
+    {
+      blockType: blockType.seriesChart,
+      series: [evolution('topTenShare', data.topTen.seriesLabel, topTenShare)],
+    },
 
-    { blockType: blockType.heading, content: copy.concentration.heading },
-    { blockType: blockType.text, content: copy.concentration.question(f) },
+    // 3. Probability of sharing a first name.
+    pieceTitle(data.pairs.lede(f)),
+    {
+      blockType: blockType.seriesChart,
+      series: [evolution('pairOneIn', data.pairs.seriesLabel, pairOneIn)],
+    },
+
+    // 4. Same sample size, more distinct names; same 35 schools, more distinct names.
+    pieceTitle(data.distinct.lede(f)),
+    {
+      blockType: blockType.seriesChart,
+      series: [evolution('expectedDistinct', data.distinct.seriesLabel, expectedDistinctNames)],
+    },
     {
       blockType: blockType.compare,
-      caption: copy.concentration.pairCaption,
+      caption: data.distinct.compareCaption(f),
       left: {
-        label: String(figures.firstEdition),
-        value: copy.concentration.pairValue(f, figures.pairOneIn2008),
-        description: copy.concentration.pairDescription,
+        label: '2023',
+        value: data.distinct.left.value(f),
+        description: data.distinct.left.description(f),
       },
       right: {
-        label: String(figures.lastEdition),
-        value: copy.concentration.pairValue(f, figures.pairOneIn2026),
-        description: copy.concentration.pairDescription,
+        label: '2026',
+        value: data.distinct.right.value(f),
+        description: data.distinct.right.description(f),
         highlighted: true,
       },
     },
-    { blockType: blockType.text, content: copy.concentration.conclusion(f) },
 
-    { blockType: blockType.heading, content: copy.variety.heading },
-    { blockType: blockType.text, content: copy.variety.trap(f) },
-    { blockType: blockType.text, content: copy.variety.sample(f) },
+    // 5. Uncommon names.
+    pieceTitle(data.uncommon.lede(f)),
     {
-      blockType: blockType.seriesChart,
-      caption: copy.variety.chartCaption(f),
-      series: [
-        {
-          id: 'sampled-distinct',
-          label: copy.variety.chartLabel,
-          points: shareToPoints(sampledDistinctNames),
-        },
-      ],
-    },
-    { blockType: blockType.text, content: copy.variety.panel(f) },
-    { blockType: blockType.text, content: copy.variety.conclusion },
-
-    { blockType: blockType.heading, content: copy.top.heading },
-    { blockType: blockType.text, content: copy.top.lead(f) },
-    {
-      blockType: blockType.seriesChart,
-      caption: copy.top.chartCaption,
-      series: [
-        {
-          id: 'top-ten',
-          label: copy.top.chartLabel,
-          points: shareToPoints(topTenShare),
-        },
-      ],
-    },
-    {
-      blockType: blockType.hilightedText,
-      caption: copy.top.paradoxLabel,
-      content: copy.top.paradox(f),
+      blockType: blockType.compare,
+      left: {
+        label: '2008',
+        value: data.uncommon.left.value(f),
+        description: data.uncommon.left.description(f),
+      },
+      right: {
+        label: '2026',
+        value: data.uncommon.right.value(f),
+        description: data.uncommon.right.description(f),
+        highlighted: true,
+      },
     },
 
-    { blockType: blockType.heading, content: copy.classics.heading },
-    { blockType: blockType.text, content: copy.classics.fading(f) },
-    {
-      blockType: blockType.seriesChart,
-      caption: copy.classics.chartCaption,
-      series: [
-        {
-          id: 'old-top-twenty',
-          label: copy.classics.oldLabel,
-          points: shareToPoints(oldTopTwentyShare),
-        },
-        {
-          id: 'current-top-twenty',
-          label: copy.classics.currentLabel,
-          points: shareToPoints(currentTopTwentyShare),
-        },
-      ],
-    },
-    { blockType: blockType.text, content: copy.classics.spread(f) },
-    { blockType: blockType.text, content: copy.classics.individual(f) },
-    {
-      blockType: blockType.seriesChart,
-      caption: copy.classics.trajectoriesCaption,
-      series: [
-        { id: 'maria', label: 'María', points: perThousandPoints(nameCounts.maria) },
-        { id: 'leire', label: 'Leire', points: perThousandPoints(nameCounts.leire) },
-        { id: 'inaki', label: 'Iñaki', points: perThousandPoints(nameCounts.inaki) },
-        { id: 'martina', label: 'Martina', points: perThousandPoints(nameCounts.martina) },
-        { id: 'laia', label: 'Laia', points: perThousandPoints(nameCounts.laia) },
-      ],
-    },
-    { blockType: blockType.text, content: copy.classics.conclusion },
-
-    { blockType: blockType.heading, content: copy.arrivals.heading },
-    { blockType: blockType.text, content: copy.arrivals.intro(f) },
+    // 6. Classics and newcomers.
+    pieceTitle(data.classics.lede(f)),
     {
       blockType: blockType.dataTable,
-      caption: copy.arrivals.tableCaption(f),
-      columns: [copy.arrivals.nameColumn, '2013', '2026'],
-      rows: arrivals.map(({ name, in2013, in2026 }) => [name, in2013, in2026]),
+      columns: [...data.classics.columns],
+      rows: [
+        ['María', figures.counts.maria.y2008, figures.counts.maria.y2026],
+        ['Leire', figures.counts.leire.y2008, figures.counts.leire.y2026],
+        ...arrivals.map(({ name, count2026 }) => [name, data.classics.lessThanFive, count2026]),
+      ],
     },
-    { blockType: blockType.text, content: copy.arrivals.renewal(f) },
+
+    // 7. Names that were not in any published edition between 2008 and 2016.
+    pieceTitle(data.unseen.lede(f)),
     {
       blockType: blockType.waffleChart,
-      caption: copy.arrivals.waffleCaption(f),
-      filled: Math.round(figures.unseenShare2026),
+      filled: Math.round(figures.unseen2026.share),
       total: 100,
       columns: 10,
-      label: copy.arrivals.waffleLabel,
+      label: data.unseen.waffleLabel(f),
     },
-    { blockType: blockType.text, content: copy.arrivals.conclusion },
 
-    { blockType: blockType.heading, content: copy.repertoire.heading },
-    { blockType: blockType.text, content: copy.repertoire.core(f) },
-    {
-      blockType: blockType.seriesChart,
-      caption: copy.repertoire.chartCaption(f),
-      series: [
-        {
-          id: 'core-names',
-          label: copy.repertoire.chartLabel,
-          points: shareToPoints(coreShare),
-        },
-      ],
-    },
-    { blockType: blockType.text, content: copy.repertoire.tail(f) },
-    { blockType: blockType.text, content: copy.repertoire.conclusion },
-
-    { blockType: blockType.heading, content: copy.staying.heading },
-    { blockType: blockType.text, content: copy.staying.top(f) },
-    {
-      blockType: blockType.chipList,
-      caption: copy.staying.chipsCaption(f),
-      tone: chipTone.neutral,
-      items: topTenStaying.map(({ name, editions }) => ({
-        label: name,
-        value: `${editions}/${figures.editionCount}`,
-      })),
-    },
-    { blockType: blockType.text, content: copy.staying.overlap(f) },
-
-    { blockType: blockType.heading, content: copy.nora.heading },
-    { blockType: blockType.text, content: copy.nora.opening(f) },
-    {
-      blockType: blockType.seriesChart,
-      caption: copy.nora.chartCaption(f),
-      series: [
-        { id: 'nora', label: 'Nora', points: shareToPoints(noraShare) },
-        { id: 'ane', label: 'Ane', points: shareToPoints(aneShare) },
-        { id: 'jon', label: 'Jon', points: shareToPoints(jonShare) },
-      ],
-    },
-    { blockType: blockType.text, content: copy.nora.rise(f) },
-    {
-      blockType: blockType.dataTable,
-      caption: copy.nora.tableCaption,
-      columns: [
-        copy.nora.editionColumn,
-        copy.nora.participantsColumn,
-        copy.nora.shareColumn,
-        copy.nora.positionColumn,
-      ],
-      rows: noraHistory.map(({ year, count, share, position }) => [
-        String(year),
-        count,
-        f.percent(share, 2),
-        position,
-      ]),
-    },
-    { blockType: blockType.text, content: copy.nora.nuance(f) },
-    { blockType: blockType.text, content: copy.nora.conclusion },
-
-    { blockType: blockType.heading, content: copy.limits.heading },
-    { blockType: blockType.text, content: copy.limits.shows(f) },
-    { blockType: blockType.text, content: copy.limits.doesNot(f) },
-
-    { blockType: blockType.heading, content: copy.conclusion.heading },
-    { blockType: blockType.text, content: copy.conclusion.summary(f) },
-    { blockType: blockType.text, content: copy.conclusion.synthesis },
-    { blockType: blockType.hilightedText, content: copy.conclusion.closing },
+    // Last section of the article. No external sources, so no `sources` block.
+    { blockType: blockType.heading, content: used.heading },
+    ...used.blocks.map((text): ArticleContent => ({ blockType: blockType.text, content: text(f) })),
   ];
 }

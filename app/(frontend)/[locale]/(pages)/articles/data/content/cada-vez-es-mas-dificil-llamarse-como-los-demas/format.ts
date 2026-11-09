@@ -8,7 +8,12 @@ export interface Formatter {
 
 export function createFormatter(locale: Locale): Formatter {
   return {
-    int: (value) => new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(value),
+    // `useGrouping: 'always'`: Spanish omits the separator in four-digit numbers (4012), but this
+    // article writes thousands the same way in every language (4.012 / 4,012).
+    int: (value) =>
+      new Intl.NumberFormat(locale, { maximumFractionDigits: 0, useGrouping: 'always' }).format(
+        value
+      ),
     decimal: (value, digits = 1) =>
       new Intl.NumberFormat(locale, {
         minimumFractionDigits: digits,

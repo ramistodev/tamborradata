@@ -20,6 +20,7 @@ const articles = {
     readTime: '{time} irakurtzeko',
     published: 'Argitaratua: {date}',
     keepReading: 'Jarraitu irakurtzen',
+    sourceOpensInNewTab: '(fitxa berri batean irekitzen da)',
   },
 };
 
