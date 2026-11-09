@@ -7,6 +7,7 @@ import { HeadingRender } from './blocks/HeadingRender';
 import { HilightedTextRender } from './blocks/HilightedTextRender';
 import { HorizontalBarChartRender } from './blocks/HorizontalBarChartRender';
 import { SeriesChartRender } from './blocks/SeriesChartRender';
+import { SourcesRender } from './blocks/SourcesRender';
 import { StepsRender } from './blocks/StepsRender';
 import { TextRender } from './blocks/TextRender';
 import { TokenBreakdownRender } from './blocks/TokenBreakdownRender';
@@ -57,6 +58,8 @@ function renderBlock(block: ArticleContent) {
       return <VariantGroupsRender block={block} />;
     case blockType.steps:
       return <StepsRender block={block} />;
+    case blockType.sources:
+      return <SourcesRender block={block} />;
     default: {
       const unreachable: never = block;
       return unreachable;

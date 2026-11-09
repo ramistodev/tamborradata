@@ -1,14 +1,18 @@
 import { getLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/app/(frontend)/i18n/navigation';
+import { excludedRelated } from '../data/excludedRelated';
 import { getArticles } from '../data/getArticles';
 import type { Article } from '../types/article.types';
 
 const RELATED_COUNT = 2;
 const TITLE_ID = 'related-articles-title';
 
-function pickRelated(articles: Article[], currentId: string) {
-  const index = articles.findIndex((article) => article.id === currentId);
-  const others = [...articles.slice(index + 1), ...articles.slice(0, Math.max(index, 0))];
+function pickRelated(articles: Article[], current: Article) {
+  const index = articles.findIndex((article) => article.id === current.id);
+  const excluded = excludedRelated[current.id] ?? [];
+  const others = [...articles.slice(index + 1), ...articles.slice(0, Math.max(index, 0))].filter(
+    (article) => !excluded.includes(article.id)
+  );
 
   return others.slice(0, RELATED_COUNT);
 }
@@ -16,7 +20,7 @@ function pickRelated(articles: Article[], currentId: string) {
 export async function RelatedArticles({ current }: { current: Article }) {
   const locale = await getLocale();
   const t = await getTranslations('Articles.article');
-  const related = pickRelated(getArticles(locale), current.id);
+  const related = pickRelated(getArticles(locale), current);
 
   if (related.length === 0) return null;
 

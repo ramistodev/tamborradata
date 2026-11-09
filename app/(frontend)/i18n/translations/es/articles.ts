@@ -20,6 +20,7 @@ const articles = {
     readTime: '{time} de lectura',
     published: 'Publicado el {date}',
     keepReading: 'Seguir leyendo',
+    sourceOpensInNewTab: '(se abre en una pestaña nueva)',
   },
 };
 

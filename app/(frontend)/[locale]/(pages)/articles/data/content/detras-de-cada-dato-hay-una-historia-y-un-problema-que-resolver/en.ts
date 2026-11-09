@@ -280,7 +280,7 @@ const copy: ArticleCopy = {
 };
 
 const texts: ArticleTexts = {
-  title: 'Behind every piece of data there is a story. And a problem to solve.',
+  title: 'Behind every piece of data there is a story. And a problem to solve',
   description:
     'How thousands of names published over the years, written in countless ways, become statistics that can be trusted. And what still cannot be guaranteed.',
   category: 'How it is made',
