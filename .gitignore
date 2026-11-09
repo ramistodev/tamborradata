@@ -54,3 +54,4 @@ next-env.d.ts
 .no-public/
 # AI tooling
 .atl/
+/.claude/skills/tamborradata-journalist/

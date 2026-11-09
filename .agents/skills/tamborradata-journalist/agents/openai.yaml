@@ -1,0 +1,6 @@
+interface:
+  display_name: "Periodista de Tamborradata"
+  short_description: "Investiga la Tamborrada Infantil y escribe artículos de periodismo de datos."
+  default_prompt: "Usa $tamborradata-journalist para investigar y escribir un artículo basado en datos reales de Tamborradata."
+policy:
+  allow_implicit_invocation: true
