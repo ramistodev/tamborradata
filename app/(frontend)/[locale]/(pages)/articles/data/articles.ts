@@ -25,4 +25,10 @@ export const articles: ArticleBase[] = [
     modifiedAt: '2026-11-09',
     hilighted: false,
   },
+  {
+    id: 'como-de-fiables-son-los-datos-de-tamborradata',
+    publishedAt: '2026-11-09',
+    modifiedAt: '2026-11-09',
+    hilighted: false,
+  },
 ];

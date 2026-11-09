@@ -21,6 +21,11 @@ export const articleSlugs = {
     en: 'from-73rd-place-to-first-how-nora-spread-across-the-tamborrada-infantil',
     eu: '73-postutik-lehenengora-nora-nola-zabaldu-zen-haurren-danborradan',
   },
+  'como-de-fiables-son-los-datos-de-tamborradata': {
+    es: 'como-de-fiables-son-los-datos-de-tamborradata',
+    en: 'how-reliable-is-tamborradata-data',
+    eu: 'zein-fidagarriak-dira-tamborradataren-datuak',
+  },
 } as const satisfies Record<string, Record<Locale, string>>;
 
 export type ArticleId = keyof typeof articleSlugs;
