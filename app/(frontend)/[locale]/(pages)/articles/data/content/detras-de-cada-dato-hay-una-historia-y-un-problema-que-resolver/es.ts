@@ -278,7 +278,7 @@ const copy: ArticleCopy = {
 };
 
 const texts: ArticleTexts = {
-  title: 'Detrás de cada dato hay una historia. Y un problema que resolver.',
+  title: 'Detrás de cada dato hay una historia. Y un problema que resolver',
   description:
     'Cómo se convierten miles de nombres publicados durante años, escritos de mil maneras, en estadísticas en las que se puede confiar. Y qué sigue sin poder garantizarse.',
   category: 'Cómo se hace',

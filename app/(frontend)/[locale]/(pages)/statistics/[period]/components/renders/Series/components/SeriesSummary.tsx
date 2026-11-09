@@ -1,9 +1,11 @@
 import { useTranslations } from 'next-intl';
 import { useNumberFormatter } from '../../../../../../../../i18n/useNumberFormatter';
-import { lineStats } from '../lib/stats';
+import { lineStats, type PointStat } from '../lib/stats';
 import type { Dimension, Line } from '../types';
 
 type SeriesSummaryProps = { line: Line; dimensions: Dimension[] };
+
+type SummaryEntry = { label: string; point: PointStat; marker: React.ReactNode };
 
 /** Key figures of a lone line, so the main reading does not depend on hovering the chart. */
 export function SeriesSummary({ line, dimensions }: SeriesSummaryProps) {
@@ -17,23 +19,39 @@ export function SeriesSummary({ line, dimensions }: SeriesSummaryProps) {
 
   const { latest, peak } = stats;
 
+  const entries: SummaryEntry[] = [
+    {
+      label: t('seriesLatest'),
+      point: latest,
+      marker: <span className="size-2 rounded-full" style={{ backgroundColor: line.color }} />,
+    },
+    {
+      label: t('seriesPeak'),
+      point: peak,
+      marker: (
+        <span className="size-2.5 rounded-full border-2" style={{ borderColor: line.color }} />
+      ),
+    },
+  ];
+
+  // Read left to right like the chart: the earlier edition goes first. When the peak is the
+  // latest edition itself there is nothing to reorder.
+  if (peak.index < latest.index) {
+    entries.reverse();
+  }
+
   return (
     <dl className="flex items-start justify-between gap-4 px-1">
-      <Stat
-        label={t('seriesLatest')}
-        value={format.format(latest.value)}
-        hint={latest.dimensionKey}
-        marker={<span className="size-2 rounded-full" style={{ backgroundColor: line.color }} />}
-      />
-      <Stat
-        label={t('seriesPeak')}
-        value={format.format(peak.value)}
-        hint={peak.dimensionKey}
-        marker={
-          <span className="size-2.5 rounded-full border-2" style={{ borderColor: line.color }} />
-        }
-        alignEnd
-      />
+      {entries.map(({ label, point, marker }, position) => (
+        <Stat
+          key={label}
+          label={label}
+          value={format.format(point.value)}
+          hint={point.dimensionKey}
+          marker={marker}
+          alignEnd={position === entries.length - 1}
+        />
+      ))}
     </dl>
   );
 }

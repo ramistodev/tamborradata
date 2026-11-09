@@ -39,12 +39,30 @@ describe('SeriesSummary', () => {
     expect(value).toHaveTextContent('2023');
   });
 
-  it('renders the latest and the peak as terms of a description list in that order', () => {
+  it('puts the earlier edition first, so the peak comes before the latest when it is older', () => {
     const { container } = renderWithIntl(<SeriesSummary line={lineA} dimensions={chart.dimensions} />);
 
     const terms = [...container.querySelectorAll('dt')].map((term) => term.textContent);
 
+    expect(terms).toEqual([m.seriesPeak, m.seriesLatest]);
+  });
+
+  it('keeps the latest first when the peak is the latest edition', () => {
+    const lineB = chart.lines.find((line) => line.key === 'b') as Line;
+    const { container } = renderWithIntl(<SeriesSummary line={lineB} dimensions={chart.dimensions} />);
+
+    const terms = [...container.querySelectorAll('dt')].map((term) => term.textContent);
+
     expect(terms).toEqual([m.seriesLatest, m.seriesPeak]);
+  });
+
+  it('right-aligns only the last figure', () => {
+    const { container } = renderWithIntl(<SeriesSummary line={lineA} dimensions={chart.dimensions} />);
+
+    const [first, second] = [...container.querySelectorAll('dl > div')];
+
+    expect(first).not.toHaveClass('items-end');
+    expect(second).toHaveClass('items-end');
   });
 
   it('renders nothing for a line without values', () => {

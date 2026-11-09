@@ -1,181 +1,217 @@
 import type { ArticleTexts } from '../../../types/article.types';
 import { buildArticleContent } from './build';
-import type { ArticleCopy } from './copy.types';
+import type { ArticleCopy, StoryItem } from './copy.types';
 import {
-  arrivals,
-  coreShareOfAll,
-  currentTopTwentyShare,
+  derived,
+  expectedDistinctNames,
   figures,
-  nameCounts,
-  namedParticipants,
-  noraHistory,
-  noraShare,
-  oldTopTwentyShare,
-  pairDropPercent,
-  sampledIncrease,
-  sampledIncreasePercent,
-  singleEditionShareOfNames,
+  pairOneIn,
+  participants,
+  sampleSize,
+  topNames2008,
+  topNames2026,
   topTenShare,
-  topTenStaying,
+  topTenTotal,
+  totalParticipations,
 } from './figures';
 
-const [martina, noa, laia, luka, leo] = arrivals;
+const heading = (content: string): StoryItem => ({ kind: 'heading', text: () => content });
+const text = (content: string): StoryItem => ({ kind: 'text', text: () => content });
+const highlight = (content: string): StoryItem => ({ kind: 'highlight', text: () => content });
+
+const last = <T>(values: readonly T[]) => values[values.length - 1];
+const noData = '(sin 2009, 2010, 2012, 2021 ni 2022)';
 
 const copy: ArticleCopy = {
-  intro: {
-    lead: 'Cada año es un poco más difícil encontrar a otro participante de la Tamborrada Infantil que se llame como tú. Los nombres de siempre no han desaparecido: lo que ha cambiado es que ahora se reparten entre muchos más.',
-    moreNames:
-      'La razón más simple es que hay más nombres distintos. Cuando los participantes se reparten entre más opciones, es menos probable que dos de ellos coincidan, y eso ocurre aunque las listas tengan el mismo tamaño.',
-    topWeighs:
-      'Otra razón está en lo más alto de la lista. El nombre más repetido de cada edición reúne hoy a una parte más pequeña de los participantes que al comienzo de nuestros datos, y lo mismo le ocurre al grupo de nombres que encabeza la lista. Ser el nombre más popular sigue existiendo, pero ya no significa lo mismo: hay menos niños detrás de cada nombre.',
-    classics:
-      'Además, los clásicos pierden peso y nadie ocupa del todo su lugar. Algunos de los nombres más habituales de antes son hoy mucho menos frecuentes, y los que suben no llegan a reunir a tantos niños como reunían ellos.',
-    newNames:
-      'Y cada año entran nombres nuevos. Una parte creciente de los participantes lleva un nombre que antes no figuraba en las listas, y cada nombre nuevo se queda con una parte de los niños que antes tenían los demás.',
-    stable:
-      'Todo esto convive con una cima muy estable. Unos pocos nombres se mantienen arriba edición tras edición, y el cambio no es una revolución, sino un movimiento lento y constante. Por eso cuesta notarlo de un año para otro, y se ve con claridad al compararlo a lo largo del tiempo.',
-    summaryLabel: 'En resumen',
-    summary:
-      'Llamarse como los demás sigue siendo posible, pero cada año lo es un poco menos: hay más nombres, los más populares pesan menos y los clásicos se diluyen. Lo que sigue es la prueba, con los datos de la Tamborrada Infantil.',
-  },
+  story: [
+    text('Imagina dos patios de colegio separados por dieciocho años.'),
+    {
+      kind: 'text',
+      text: (f) =>
+        `En el primero, en 2008, hay unos 4.000 participantes de la Tamborrada Infantil. El nombre más frecuente es ${topNames2008[0].name}, que se repite ${f.int(topNames2008[0].count)} veces. El segundo es ${topNames2008[1].name}, con ${f.int(topNames2008[1].count)}.`,
+    },
+    {
+      kind: 'text',
+      text: (f) =>
+        `Ahora viajamos a 2026. Hay casi un tercio más de niños: más de 5.200. Sin embargo, el nombre más repetido, ${topNames2026[0].name}, aparece ${f.int(topNames2026[0].count)} veces, y el segundo, ${topNames2026[1].name}, ${f.int(topNames2026[1].count)}.`,
+    },
+    {
+      kind: 'text',
+      text: (f) =>
+        `Y no ocurre solo con los dos primeros. Si seguimos bajando por la clasificación, del primer puesto al décimo, descubrimos que cada uno de los diez nombres más populares reúne menos participantes que su equivalente de 2008. El cuarto de aquella edición tenía ${f.int(topNames2008[3].count)}; el de 2026, ${f.int(topNames2026[3].count)}.`,
+    },
+    text('¿Cómo es posible que haya más participantes, pero los nombres más populares se repitan menos?'),
+    text(
+      'La respuesta está en un cambio que ha ido produciéndose durante casi dos décadas y que resulta difícil apreciar de un año para otro. Para encontrarla hemos recorrido las listas de las dieciséis ediciones publicadas en Tamborradata, de 2008 a 2026.'
+    ),
+
+    heading('Los diez primeros, puesto por puesto'),
+    {
+      kind: 'text',
+      text: (f) =>
+        `Los diez nombres más repetidos de 2008 sumaban ${f.int(topTenTotal.y2008)} participantes. Los diez de 2026 suman ${f.int(topTenTotal.y2026)}, aunque la edición tiene más de 1.200 participantes más. Puesto por puesto, el resultado es el mismo: todos reúnen menos que su equivalente de hace dieciocho años, por poco en la cabeza y por bastante más a mitad de la clasificación.`,
+    },
+    {
+      kind: 'text',
+      text: (f) =>
+        `Dicho en proporciones, hace dieciocho años uno de cada cinco participantes llevaba uno de esos diez nombres: el ${f.percent(topTenShare[0])}. Hoy es uno de cada siete: el ${f.percent(last(topTenShare))}.`,
+    },
+    highlight('Ser el nombre más popular sigue existiendo, pero ya no significa lo mismo.'),
+
+    heading('¿Dónde han ido a parar los demás?'),
+    {
+      kind: 'text',
+      text: (f) =>
+        `Los participantes no han desaparecido: sus nombres se reparten entre muchas más opciones. En 2008 se registraron ${f.int(figures.distinct2008)} nombres distintos; en 2026, ${f.int(figures.distinct2026)}.`,
+    },
+    {
+      kind: 'text',
+      text: (f) =>
+        `Pero esa comparación sería injusta, porque cuantos más participantes hay, más nombres distintos aparecen aunque los gustos no cambien. Para compararlas en igualdad de condiciones, hemos medido cuántos nombres distintos cabe esperar al elegir al azar a ${f.int(sampleSize)} participantes de cada edición, que es el tamaño de la lista más pequeña. En 2008 serían unos ${f.int(expectedDistinctNames[0])}; en 2026, unos ${f.int(last(expectedDistinctNames))}: un ${f.int(derived.expectedIncreasePercent)} % más.`,
+    },
+    {
+      kind: 'text',
+      text: (f) =>
+        `Tampoco parece deberse solo a qué colegios participan. En los ${f.int(figures.panelSchools)} colegios que han estado en todas las ediciones completas había ${f.int(figures.panel2023.participants)} participantes en 2023 y ${f.int(figures.panel2026.participants)} en 2026: casi el mismo número de niños. Sus nombres distintos pasaron de ${f.int(figures.panel2023.distinctNames)} a ${f.int(figures.panel2026.distinctNames)}.`,
+    },
+    text(
+      'Con tantos nombres entre los que repartirse, coincidir es más difícil. Basta imaginar que se elige a dos participantes al azar de una misma edición y se pregunta cuál es la probabilidad de que se llamen igual.'
+    ),
+    {
+      kind: 'highlight',
+      text: (f) =>
+        `En 2008, una de cada ${f.int(pairOneIn[0])} parejas de participantes compartía primer nombre; en 2026, solo una de cada ${f.int(last(pairOneIn))}.`,
+    },
+    {
+      kind: 'text',
+      text: (f) =>
+        `La diferencia se nota sobre todo en la cola de la lista. Hoy casi uno de cada cuatro participantes (el ${f.percent(figures.uncommon2026.share, 0)}) lleva un nombre poco habitual, de los que no llegan a cinco participantes en la edición; en 2008 era uno de cada cinco (el ${f.percent(figures.uncommon2008.share, 0)}). Y los nombres que lleva un único participante han pasado de ${f.int(figures.uncommon2008.singleBearerNames)} a ${f.int(figures.uncommon2026.singleBearerNames)}.`,
+    },
+
+    heading('¿Qué ha pasado con los favoritos de antes?'),
+    {
+      kind: 'text',
+      text: (f) =>
+        `Los clásicos pierden participantes. María pasó de ${f.int(figures.counts.maria.y2008)} en 2008 a ${f.int(figures.counts.maria.y2026)} en 2026, y Leire, de ${f.int(figures.counts.leire.y2008)} a ${f.int(figures.counts.leire.y2026)}. Siguen presentes, pero ya no están en la cima.`,
+    },
+    {
+      kind: 'text',
+      text: (f) =>
+        `A la vez suben otros que en 2008 casi no se oían. Martina, Noa y Laia tenían menos de cinco participantes cada una en 2008; en 2026 son ${f.int(figures.counts.martina.y2026)}, ${f.int(figures.counts.noa.y2026)} y ${f.int(figures.counts.laia.y2026)}. Pero ninguna llega a los ${f.int(figures.counts.maria.y2008)} y los ${f.int(figures.counts.leire.y2008)} con los que María y Leire estaban entre los cinco primeros. La popularidad ya no se concentra en unos pocos nombres: pasa de unos a otros y se reparte entre más.`,
+    },
+    {
+      kind: 'text',
+      text: (f) =>
+        `Cada año llegan, además, nombres que no se habían visto antes. En 2026, uno de cada diez participantes lleva un nombre que no figuraba en ninguna de las ediciones publicadas entre 2008 y 2016. En 2017, eran poco más del ${f.percent(figures.unseen2017.share, 0)}.`,
+    },
+
+    heading('¿Ha ocurrido de repente?'),
+    // Q10: the Top 10 keeps between 7 and 9 names from one published edition to the next.
+    text(
+      'No. Si se comparan las ediciones una a una, lo que se ve son pasos pequeños. De una edición a la siguiente suelen mantenerse entre siete y nueve de los diez nombres más repetidos, y Ane y Jon han estado entre los cinco primeros en las dieciséis ediciones.'
+    ),
+    {
+      kind: 'text',
+      text: (f) =>
+        `El reparto se ha ido ampliando durante años, con altibajos. La probabilidad de coincidir en nombre con otro participante pasó de una entre ${f.int(pairOneIn[0])} en 2008 a una entre ${f.int(pairOneIn[2])} en 2013, una entre ${f.int(pairOneIn[8])} en 2019 y una entre ${f.int(last(pairOneIn))} en 2026. Hubo ediciones en las que retrocedió, como 2020. Y lo mismo ocurre con la cima: el peso de los diez primeros nombres ha bajado de forma irregular, con repuntes como los de 2018 y 2020. Son cambios pequeños que, sumados, transforman el conjunto.`,
+    },
+
+    heading('Volver a los dos patios'),
+    {
+      kind: 'text',
+      text: (f) =>
+        `Volvamos a los dos patios. En el de 2008, uno de cada ${f.int(derived.leaderOneIn2008)} participantes se llamaba ${topNames2008[0].name}, el nombre más repetido. En el de 2026, el nombre más repetido, ${topNames2026[0].name}, lo lleva uno de cada ${f.int(derived.leaderOneIn2026)}.`,
+    },
+    text('Ane y Jon siguen ahí, entre los tres primeros. Los nombres conocidos no han desaparecido.'),
+    highlight('Lo que ha cambiado es todo lo que hay a su alrededor: cientos de nombres más, cada uno con unos pocos niños.'),
+    text(
+      'La Tamborrada Infantil sigue reuniendo a miles de participantes. Lo que ya no es tan probable es encontrarse, entre todos ellos, con alguien que se llame como tú.'
+    ),
+  ],
   data: {
-    heading: 'Qué datos hemos usado',
-    coverage: (f) =>
-      `Aquí usamos las listas de ${f.int(figures.editionCount)} ediciones, de ${figures.firstEdition} a ${figures.lastEdition}; no hay datos de 2009, 2010 ni 2021. En total son ${f.int(figures.namedParticipations)} participaciones con el nombre identificado. De cada participante contamos solo el primer nombre: Jon Ander cuenta como Jon.`,
-    caveats: () =>
-      'Dos matices importantes. Contamos participaciones, no personas: un niño que desfila varios años aparece en cada edición, y en las últimas ediciones alrededor de la mitad de la lista ya figuraba en la anterior. Además, cada lista es una instantánea de niños de edades distintas, así que comparar ediciones sirve para ver cómo cambia esa instantánea, no para seguir a una generación concreta.',
-    partial: (f) =>
-      `Las listas de 2012 y 2022 incluyen unos ${f.int(figures.partialEditionSchools)} colegios, frente a ${f.int(figures.regularEditionSchoolsMin)} o más en las demás. Las usamos en los recuentos globales, pero no aparecen en las gráficas de evolución porque no son comparables con el resto. Tampoco aparecen 2009, 2010 y 2021, de los que no hay datos.`,
+    heading: 'La historia en datos',
+    ranking: {
+      lede: (f) =>
+        `**Los diez nombres más repetidos reúnen hoy menos participantes que en 2008, con una edición mayor.** Participantes en cada puesto de la clasificación, en una edición de ${f.int(participants.y2008)} participantes con nombre identificado (2008) y otra de ${f.int(participants.y2026)} (2026).`,
+      seriesLabel2008: '2008',
+      seriesLabel2026: '2026',
+      columns: ['Puesto', 'Nombre 2008', 'Participantes 2008', 'Nombre 2026', 'Participantes 2026', 'Diferencia'],
+      totalLabel: 'Total',
+    },
+    topTen: {
+      lede: (f) =>
+        `**Los diez nombres más repetidos reúnen hoy a una parte menor que en 2008: del ${f.percent(topTenShare[0])} al ${f.percent(last(topTenShare))}.** Porcentaje de los participantes de cada edición que llevan uno de los diez nombres más repetidos de esa edición ${noData}.`,
+      seriesLabel: 'Porcentaje de participantes',
+    },
+    pairs: {
+      lede: (f) =>
+        `**Con tantos nombres, coincidir es más difícil: de 1 entre ${f.int(pairOneIn[0])} a 1 entre ${f.int(last(pairOneIn))}.** Si se eligen dos participantes al azar de la misma edición, una de cada tantas parejas tiene el mismo primer nombre ${noData}.`,
+      seriesLabel: 'Una de cada…',
+    },
+    distinct: {
+      lede: (f) =>
+        `**Con el mismo número de participantes, hoy hay más nombres distintos.** Nombres distintos que cabe esperar al elegir al azar a ${f.int(sampleSize)} participantes de cada edición ${noData}.`,
+      seriesLabel: 'Nombres distintos esperables',
+      compareCaption: (f) =>
+        `En los mismos ${f.int(figures.panelSchools)} colegios y con casi el mismo número de niños, hay ${f.int(derived.panelExtraNames)} nombres más.`,
+      left: {
+        value: (f) => `${f.int(figures.panel2023.distinctNames)} nombres distintos`,
+        description: (f) =>
+          `${f.int(figures.panel2023.participants)} participantes de ${f.int(figures.panelSchools)} colegios`,
+      },
+      right: {
+        value: (f) => `${f.int(figures.panel2026.distinctNames)} nombres distintos`,
+        description: (f) =>
+          `${f.int(figures.panel2026.participants)} participantes de los mismos ${f.int(figures.panelSchools)} colegios`,
+      },
+    },
+    uncommon: {
+      lede: () => '**Hoy más participantes que en 2008 llevan un nombre poco habitual.**',
+      left: {
+        value: (f) => f.percent(figures.uncommon2008.share, 0),
+        description: (f) =>
+          `de los participantes llevan un nombre que no llega a cinco participantes (${f.int(figures.uncommon2008.participants)} de ${f.int(participants.y2008)}). ${f.int(figures.uncommon2008.singleBearerNames)} nombres los lleva un único participante.`,
+      },
+      right: {
+        value: (f) => f.percent(figures.uncommon2026.share, 0),
+        description: (f) =>
+          `(${f.int(figures.uncommon2026.participants)} de ${f.int(participants.y2026)}). ${f.int(figures.uncommon2026.singleBearerNames)} nombres los lleva un único participante.`,
+      },
+    },
+    classics: {
+      lede: () =>
+        '**María y Leire pierden participantes; Martina, Noa y Laia los ganan.** Participantes con cada nombre.',
+      columns: ['Nombre', '2008', '2026'],
+      lessThanFive: 'menos de 5',
+    },
+    unseen: {
+      lede: (f) =>
+        `**Uno de cada diez participantes de 2026 lleva un nombre que no figuraba entre 2008 y 2016.** En 2017 eran el ${f.percent(figures.unseen2017.share)}. No hay datos de 2009 ni 2010: algún nombre podría haber aparecido en esos años.`,
+      waffleLabel: (f) =>
+        `${f.int(figures.unseen2026.participants)} de ${f.int(participants.y2026)} participantes (${f.percent(figures.unseen2026.share)})`,
+    },
   },
-  concentration: {
-    heading: 'Compartir nombre es cada vez menos probable',
-    question: () =>
-      'Una forma sencilla de medir cuánto se repiten los nombres es elegir a dos participantes al azar de la misma edición y preguntarse si se llaman igual.',
-    pairValue: (f, oneIn) => `1 de cada ${f.int(oneIn)}`,
-    pairDescription: 'parejas de participantes con el mismo nombre',
-    pairCaption:
-      'Probabilidad de que dos participantes elegidos al azar de la misma edición tengan el mismo primer nombre.',
-    conclusion: (f) =>
-      `Dicho de otro modo, coincidir en nombre con otro participante es hoy un ${f.percent(pairDropPercent, 0)} menos probable que en ${figures.firstEdition}. Lo que sigue explica por qué.`,
-  },
-  variety: {
-    heading: 'Hay más nombres entre los que repartirse',
-    trap: (f) =>
-      `Podría bastar con contar nombres distintos: fueron ${f.int(figures.distinct2008)} en ${figures.firstEdition} y ${f.int(figures.distinct2026)} en ${figures.lastEdition}. Pero esa comparación es injusta. En ${figures.lastEdition} hubo más participantes (${f.int(namedParticipants[2026])} frente a ${f.int(namedParticipants[2008])}), y cuantos más participantes hay, más nombres distintos aparecen aunque los gustos no cambien.`,
-    sample: (f) =>
-      `Para compararlas en igualdad de condiciones hemos hecho un sorteo. De cada edición hemos elegido al azar ${f.int(figures.sampleSize)} participantes, que es el tamaño de la lista más pequeña; hemos repetido el sorteo ${f.int(figures.sampleDraws)} veces y nos hemos quedado con la media. Con esa vara de medir, en ${figures.firstEdition} aparecen unos ${f.int(figures.sampledDistinct2008)} nombres distintos y en ${figures.lastEdition}, unos ${f.int(figures.sampledDistinct2026)}: ${f.int(sampledIncrease)} más, un ${f.int(sampledIncreasePercent)} % de aumento.`,
-    chartLabel: 'Nombres distintos esperables',
-    chartCaption: (f) =>
-      `Nombres distintos que cabe esperar en un sorteo de ${f.int(figures.sampleSize)} participantes de cada edición (media de ${f.int(figures.sampleDraws)} sorteos).`,
-    panel: (f) =>
-      `El resultado no depende de la forma de medir. Si solo se miran los ${f.int(figures.panelSchools)} colegios presentes en las ${f.int(figures.completeEditionCount)} ediciones completas, el aumento se mantiene: entre 2023 y ${figures.lastEdition}, con casi el mismo número de participantes (de ${f.int(figures.panelMinParticipants)} a ${f.int(figures.panelMaxParticipants)} cada año), los nombres distintos pasan de ${f.int(figures.panelDistinct2023)} a ${f.int(figures.panelDistinct2026)}.`,
-    conclusion:
-      'Es decir: hay más nombres entre los que repartirse, y esa variedad no se debe al tamaño de las listas.',
-  },
-  top: {
-    heading: 'Los nombres más populares pesan menos',
-    lead: (f) =>
-      `Lo primero que cambia es la cima. Los diez nombres más repetidos de ${figures.firstEdition} reunían al ${f.percent(topTenShare[2008])} de los participantes; en ${figures.lastEdition}, al ${f.percent(topTenShare[2026])}. Detrás de cada nombre popular hay menos niños.`,
-    chartLabel: 'Los diez nombres más repetidos',
-    chartCaption:
-      'Porcentaje de los participantes de cada edición que llevan uno de los diez nombres más repetidos de esa edición.',
-    paradoxLabel: 'La paradoja',
-    paradox: (f) =>
-      `Ser el nombre más repetido significa cada vez menos: Nora en ${figures.lastEdition} es el **${f.percent(figures.leaderShare2026)}** de los participantes; Ane, que lideraba en ${figures.firstEdition}, era el **${f.percent(figures.leaderShare2008)}**.`,
-  },
-  classics: {
-    heading: 'Los clásicos pierden peso',
-    fading: (f) =>
-      `Los veinte nombres más repetidos de ${figures.firstEdition} (entre ellos Ane, Jon, Iñigo, Leire, María, Ander, Mikel o Asier) reunían al ${f.percent(oldTopTwentyShare[2008])} de los participantes. En ${figures.lastEdition}, esos mismos veinte nombres reúnen al ${f.percent(oldTopTwentyShare[2026])}.`,
-    oldLabel: 'Los veinte nombres más repetidos de 2008',
-    currentLabel: 'Los veinte nombres más repetidos de 2026',
-    chartCaption:
-      'Porcentaje de los participantes de cada edición que llevan alguno de los veinte nombres más repetidos de 2008 y de 2026.',
-    spread: (f) =>
-      `Los veinte favoritos de ${figures.lastEdition} (Nora, Ane, Jon, Sara, Maddi, Telmo, June…) suman el ${f.percent(currentTopTwentyShare[2026])}: menos de lo que sumaban los de ${figures.firstEdition}.`,
-    individual: (f) =>
-      `Los casos concretos lo muestran. María pasó de ${f.int(nameCounts.maria[2008])} participantes en ${figures.firstEdition} (el puesto ${f.int(figures.mariaPosition2008)}) a ${f.int(nameCounts.maria[2026])} en ${figures.lastEdition} (el puesto ${f.int(figures.mariaPosition2026)}). Leire, de ${f.int(nameCounts.leire[2008])} a ${f.int(nameCounts.leire[2026])}. Iñaki, de ${f.int(nameCounts.inaki[2008])} a ${f.int(nameCounts.inaki[2026])}. Y a la vez suben otros: Martina y Laia ya superan a todos ellos.`,
-    trajectoriesCaption: 'Participantes con cada nombre por cada mil participantes de la edición.',
-    conclusion:
-      'Los clásicos pierden niños a medida que otros nombres ganan, pero ninguno de los que suben concentra lo que concentraban ellos. Por eso el reparto es cada vez más amplio.',
-  },
-  arrivals: {
-    heading: 'Cada año llegan más nombres nuevos',
-    intro: (f) =>
-      `Hay nombres que apenas aparecían hace una década. En 2013 había ${f.int(martina.in2013)} participante llamado Martina; en ${figures.lastEdition}, ${f.int(martina.in2026)}. Luka pasó de ${f.int(luka.in2013)} a ${f.int(luka.in2026)}, Laia de ${f.int(laia.in2013)} a ${f.int(laia.in2026)} y Noa de ${f.int(noa.in2013)} a ${f.int(noa.in2026)}. Leo no figuraba entre los participantes de 2013; en ${figures.lastEdition} son ${f.int(leo.in2026)}.`,
-    nameColumn: 'Nombre',
-    tableCaption: (f) =>
-      `Participantes con cada nombre en las ediciones de 2013 y 2026, que reúnen ${f.int(namedParticipants[2013])} y ${f.int(namedParticipants[2026])} participantes con nombre identificado, respectivamente.`,
-    renewal: (f) =>
-      `La renovación se nota en el conjunto. De los ${f.int(namedParticipants[2026])} participantes de ${figures.lastEdition}, ${f.int(figures.unseenParticipants2026)} llevan un nombre que no aparece en ninguna de las ediciones de ${figures.firstEdition} a 2016: uno de cada diez. En 2017, el porcentaje era del ${f.percent(figures.unseenShare2017)}.`,
-    waffleLabel:
-      'Uno de cada diez participantes de 2026 lleva un nombre que no aparecía entre 2008 y 2016',
-    waffleCaption: (f) =>
-      `${f.int(figures.unseenParticipants2026)} de ${f.int(namedParticipants[2026])} participantes (${f.percent(figures.unseenShare2026, 2)}). No hay datos de 2009 y 2010, así que alguno de estos nombres podría haber aparecido en esos años.`,
-    conclusion:
-      'Cada nombre nuevo que entra en las listas se queda con una parte de los niños que antes tenían los demás. Por eso, aunque la cima apenas se mueva, cada nombre acaba reuniendo a menos participantes.',
-  },
-  repertoire: {
-    heading: 'El fondo común se estrecha',
-    core: (f) =>
-      `De todos los nombres que han aparecido en las listas, ${f.int(figures.coreNames)} han estado presentes en las ${f.int(figures.editionCount)} ediciones: son los nombres de siempre, el fondo común de la Tamborrada. Entre todos reúnen al ${f.percent(coreShareOfAll)} de las participaciones. Pero cada año reúnen a menos: del ${f.percent(figures.coreShare2008)} de los participantes en ${figures.firstEdition} al ${f.percent(figures.coreShare2026)} en ${figures.lastEdition}.`,
-    chartLabel: 'Participantes con un nombre de los de siempre',
-    chartCaption: (f) =>
-      `Porcentaje de los participantes de cada edición que llevan uno de los ${f.int(figures.coreNames)} nombres presentes en las ${f.int(figures.editionCount)} ediciones.`,
-    tail: (f) =>
-      `En el otro extremo, ${f.int(figures.singleEditionNames)} nombres, más de un tercio (${f.percent(singleEditionShareOfNames, 0)}) de todos los nombres distintos, solo han aparecido en una edición.`,
-    conclusion:
-      'El fondo común sigue siendo la mayoría, pero abarca a cada vez menos niños: cada vez más llevan nombres poco habituales.',
-  },
-  staying: {
-    heading: 'La cima cambia despacio',
-    top: (f) =>
-      `En medio de tanto cambio, hay nombres que no han salido nunca de lo más alto. Ane y Jon han estado entre los cinco más repetidos en las ${f.int(figures.editionCount)} ediciones. Ander, entre los diez primeros en ${f.int(topTenStaying[2].editions)} de ellas.`,
-    chipsCaption: (f) =>
-      `Ediciones, de las ${f.int(figures.editionCount)}, en las que cada nombre ha estado entre los diez más repetidos.`,
-    overlap: (f) =>
-      `Esa estabilidad explica por qué la cima cambia despacio: de una edición a la siguiente, entre ${f.int(figures.topTenOverlapMin)} y ${f.int(figures.topTenOverlapMax)} de los diez nombres más repetidos siguen en el top 10.`,
-  },
-  nora: {
-    heading: 'Nora: el relevo en lo más alto',
-    opening: (f) =>
-      `Nora es el mejor ejemplo de ese relevo. En ${figures.firstEdition}, de los ${f.int(namedParticipants[2008])} participantes con nombre identificado, solo ${f.int(figures.noraCount2008)} se llamaban **Nora**: era el puesto ${f.int(figures.noraPosition2008)} de la lista. En ${figures.lastEdition} es el nombre más repetido: *${f.int(figures.noraCount2026)} de ${f.int(namedParticipants[2026])}*.`,
-    chartCaption: (f) =>
-      `Porcentaje de los participantes de cada edición que se llaman Nora, Ane o Jon. Nora pasa del ${f.percent(noraShare[2008], 2)} al ${f.percent(noraShare[2026], 2)}.`,
-    rise: (f) =>
-      `Su ascenso es real, pero tiene matices. Fue el puesto ${f.int(noraHistory[2].position)} en 2013, el ${f.int(noraHistory[3].position)} en 2016 y el ${f.int(noraHistory[4].position)} en 2020. También encabezó la lista de 2022, pero esa edición está incompleta y no la tomamos como prueba.`,
-    editionColumn: 'Edición',
-    participantsColumn: 'Participantes',
-    shareColumn: '% de la edición',
-    positionColumn: 'Puesto',
-    tableCaption:
-      'Participantes llamados Nora, su porcentaje sobre la edición y su puesto en la lista de nombres más repetidos.',
-    nuance: (f) =>
-      `En las ediciones completas, Nora fue la segunda en 2020, 2023 y 2024, siempre por detrás de Ane, y la primera solo en 2025 y ${figures.lastEdition}: por ${f.int(figures.noraCount2025 - figures.aneCount2025)} participantes de diferencia en 2025 (${f.int(figures.noraCount2025)} frente a ${f.int(figures.aneCount2025)}) y por ${f.int(figures.noraCount2026 - figures.aneCount2026)} en ${figures.lastEdition} (${f.int(figures.noraCount2026)} frente a ${f.int(figures.aneCount2026)}). Desde 2020 su peso apenas se mueve: está entre el ${f.percent(figures.noraShareSince2020Min)} y el ${f.percent(figures.noraShareSince2020Max)} de los participantes. Nora ya no crece; se ha estabilizado arriba.`,
-    conclusion:
-      'Cambia quién lidera, pero no cuánto pesa: quien encabeza la lista reúne hoy a una parte menor de los participantes que quien la encabezaba antes.',
-  },
-  limits: {
-    heading: 'Lo que dicen los datos y lo que no',
-    shows: () =>
-      `Estos datos permiten afirmar que, entre ${figures.firstEdition} y ${figures.lastEdition}, los primeros nombres de los participantes se reparten de forma más variada: a igualdad de tamaño, cada edición reúne más nombres distintos, y los más repetidos pesan menos.`,
-    doesNot: () =>
-      `No permiten decir por qué. Las listas no incluyen la edad ni el año de nacimiento, así que no podemos hablar de generaciones ni atribuir los cambios a ninguna causa. Tampoco distinguen variantes de un mismo nombre (Xabier y Javier, Iñaki e Ignacio o Ane y Ana cuentan como nombres distintos), y las ediciones de ${figures.firstEdition} y 2011 pueden estar algo incompletas.`,
-  },
-  conclusion: {
-    heading: 'Elegir entre muchos',
-    summary: () =>
-      'Lo que muestran las listas de la Tamborrada Infantil no es la desaparición de los nombres de siempre, sino un reparto distinto. Ane y Jon siguen entre los cinco más repetidos, y de una edición a la siguiente casi todo el top 10 se mantiene. Pero a su alrededor aparecen cada vez más nombres, y los más populares reúnen a una parte menor de cada edición.',
-    synthesis:
-      'Esa es la explicación de fondo: más nombres, cimas que pesan menos, clásicos que se diluyen y novedades que no dejan de entrar. Cada una de esas piezas, por pequeña que sea, resta probabilidad de encontrar a otro niño con tu nombre.',
-    closing: 'Los nombres de siempre siguen ahí. Lo que ha cambiado es todo lo que hay a su alrededor.',
+  used: {
+    heading: 'Datos utilizados',
+    blocks: [
+      (f) =>
+        `**Qué datos.** Estadísticas publicadas de Tamborradata sobre ${f.int(figures.editions)} ediciones de la Tamborrada Infantil: 2008, 2011 a 2020 y 2022 a 2026 (no hay datos de 2009, 2010 ni 2021). Consulta del 9 de noviembre de 2026, sobre las versiones publicadas el 18 de octubre de 2026. Los gráficos de evolución usan 14 ediciones: no incluyen 2012 ni 2022, porque tienen unos 25 colegios, frente a 40 o más en las demás. Las de 2008 y 2011 pueden estar algo incompletas.`,
+      (f) =>
+        `**Qué cuenta cada cifra.** «Participantes» son participaciones con el primer nombre identificado sin ambigüedad: ${f.int(participants.y2008)} en 2008 y ${f.int(participants.y2026)} en 2026, de ${f.int(totalParticipations.y2008)} y ${f.int(totalParticipations.y2026)} participaciones totales (el resto son nombres ambiguos que no se cuentan). Contamos participaciones, no personas: quien desfila varios años aparece en cada edición. Solo se cuenta el primer nombre (Jon Ander cuenta como Jon), sin tildes ni eñes en el dato original, y las variantes (Xabier y Javier, Ane y Ana) cuentan como nombres distintos.`,
+      (f) =>
+        `**Cómo se calculan las medidas.** La probabilidad de coincidir es la proporción de parejas de participantes de una edición con el mismo primer nombre. Los nombres distintos «esperables» son el valor medio que resulta de elegir al azar ${f.int(sampleSize)} participantes de cada edición (el tamaño de la lista más pequeña), calculado de forma exacta. El panel reúne los ${f.int(figures.panelSchools)} colegios con participantes en las 12 ediciones completas (2013 a 2020 y 2023 a 2026). Los nombres «poco habituales» son los que llevan menos de cinco participantes en esa edición.`,
+      () =>
+        '**Límites.** Las listas no incluyen la edad ni el año de nacimiento, así que no se pueden atribuir los cambios a ninguna causa ni hablar de generaciones. Cada lista es una instantánea de niños de edades distintas.',
+      () =>
+        '**Privacidad.** Solo se publican agregados. Las cifras menores de cinco no se muestran.',
+    ],
   },
 };
 
 const texts: ArticleTexts = {
   title: 'Cada vez es más difícil llamarse como los demás',
   description:
-    'La Tamborrada Infantil conserva los nombres que siempre reconocemos. Pero, edición tras edición, deja sitio a muchos más.',
+    'Con más participantes, los nombres más populares de la Tamborrada Infantil se repiten menos que en 2008: hay más nombres distintos y coincidir es más raro. Así ha cambiado el reparto en dieciocho años.',
   category: 'Nombres',
   readTime: '8 min',
   articleContent: buildArticleContent('es', copy),

@@ -7,12 +7,8 @@ describe('translatePathname', () => {
       translatePathname('/articles/cada-vez-es-mas-dificil-llamarse-como-los-demas', 'es', 'en')
     ).toBe('/articles/it-is-getting-harder-to-share-a-name-with-anyone-else');
     expect(
-      translatePathname(
-        '/articles/unai-garcia-what-our-first-names-and-surnames-say-about-donostia',
-        'en',
-        'eu'
-      )
-    ).toBe('/articles/unai-garcia-gure-izen-abizenek-donostiari-buruz-zer-kontatzen-duten');
+      translatePathname('/articles/donostia-changes-its-names-but-keeps-its-surnames', 'en', 'eu')
+    ).toBe('/articles/donostiak-izenak-aldatzen-ditu-baina-abizenak-gordetzen-ditu');
   });
 
   it.each([
